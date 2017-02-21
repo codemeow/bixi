@@ -1,0 +1,55 @@
+# «bixi» - C89 basic types and functions library
+#
+#  Copyright (C) Alexey Shishkin 2017
+#
+#  This file is part of Project «bixi».
+#
+#  Project «bixi» is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU Lesser General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or
+#  (at your option) any later version.
+#
+#  Project «bixi» is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+#  GNU Lesser General Public License for more details.
+#
+#  You should have received a copy of the GNU Lesser General Public License
+#  along with Project «bixi». If not, see <http://www.gnu.org/licenses/>.
+
+# Scripts
+scripts/build.sh
+scripts/export.sh
+scripts/run.sh
+
+# Bixi
+code/libbixi/COPYING
+code/libbixi/COPYING.LESSER
+code/libbixi/definitions/bxiassert.h
+code/libbixi/definitions/bxiexport.h
+code/libbixi/definitions/bximacros.h
+code/libbixi/graph/bxicolour.h
+code/libbixi/hashes/bximd5.c
+code/libbixi/hashes/bximd5.h
+code/libbixi/math/bxigeotypes.h
+code/libbixi/project.config
+code/libbixi/serials/bxiserread.h
+code/libbixi/serials/bxiserwrite.h
+code/libbixi/strings/bxistring.c
+code/libbixi/strings/bxistring.h
+code/libbixi/types/bxiarrays.h
+code/libbixi/types/bxiboints.c
+code/libbixi/types/bxiboints.h
+code/libbixi/types/bxibools.h
+code/libbixi/types/bxifloats.h
+code/libbixi/types/bxiints.h
+code/libbixi/utils/bxibitutils.c
+code/libbixi/utils/bxibitutils.h
+code/libbixi/utils/bximemutils.c
+code/libbixi/utils/bximemutils.h
+
+bixi.creator
+bixi.subprojects
+COPYING
+COPYING.LESSER
+includes/libbixi.h
