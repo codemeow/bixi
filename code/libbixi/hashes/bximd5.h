@@ -25,7 +25,7 @@
 #include "../definitions/bxiexport.h"
 #include "../types/bxiints.h"
 
-typedef struct
+EXPORT typedef struct
 {
     u32 abcd[4];
     u32 leng;
