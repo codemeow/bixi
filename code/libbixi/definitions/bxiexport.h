@@ -26,5 +26,17 @@
 #define EXPORT_FROM
 #define EXPORT_TO
 
+EXPORT_FROM
+#ifndef   EXPORT
+#define   EXPORT
+#endif /* EXPORT */
+#ifndef   EXPORT_FROM
+#define   EXPORT_FROM
+#endif /* EXPORT_FROM */
+#ifndef   EXPORT_TO
+#define   EXPORT_TO
+#endif /* EXPORT_TO */
+EXPORT_TO
+
 #endif /* BXIEXPORT_H */
 
