@@ -25,26 +25,26 @@
 #include "../definitions/bxiexport.h"
 #include "../types/bxiboints.h"
 
-/* @todo EXPORT i8     readi8    (u8 * dst); */
-/* @todo EXPORT u8     readu8    (u8 * dst); */
-/* @todo EXPORT i16    readi16   (u8 * dst); */
-/* @todo EXPORT u16    readu16   (u8 * dst); */
-/* @todo EXPORT i32    readi32   (u8 * dst); */
-/* @todo EXPORT u32    readu32   (u8 * dst); */
+/* @todo EXPORT i8     read_i8    (u8 * dst); */
+/* @todo EXPORT u8     read_u8    (u8 * dst); */
+/* @todo EXPORT i16    read_i16   (u8 * dst); */
+/* @todo EXPORT u16    read_u16   (u8 * dst); */
+/* @todo EXPORT i32    read_i32   (u8 * dst); */
+/* @todo EXPORT u32    read_u32   (u8 * dst); */
 
-/* @todo EXPORT i8_be  readi8_be (u8 * dst); */
-/* @todo EXPORT u8_be  readu8_be (u8 * dst); */
-/* @todo EXPORT i16_be readi16_be(u8 * dst); */
-/* @todo EXPORT u16_be readu16_be(u8 * dst); */
-/* @todo EXPORT i32_be readi32_be(u8 * dst); */
-/* @todo EXPORT u32_be readu32_be(u8 * dst); */
+/* @todo EXPORT i8_be  read_i8_be (u8 * dst); */
+/* @todo EXPORT u8_be  read_u8_be (u8 * dst); */
+/* @todo EXPORT i16_be read_i16_be(u8 * dst); */
+/* @todo EXPORT u16_be read_u16_be(u8 * dst); */
+/* @todo EXPORT i32_be read_i32_be(u8 * dst); */
+/* @todo EXPORT u32_be read_u32_be(u8 * dst); */
 
-/* @todo EXPORT i8_le  readi8_le (u8 * dst); */
-/* @todo EXPORT u8_le  readu8_le (u8 * dst); */
-/* @todo EXPORT i16_le readi16_le(u8 * dst); */
-/* @todo EXPORT u16_le readu16_le(u8 * dst); */
-/* @todo EXPORT i32_le readi32_le(u8 * dst); */
-/* @todo EXPORT u32_le readu32_le(u8 * dst); */
+/* @todo EXPORT i8_le  read_i8_le (u8 * dst); */
+/* @todo EXPORT u8_le  read_u8_le (u8 * dst); */
+/* @todo EXPORT i16_le read_i16_le(u8 * dst); */
+/* @todo EXPORT u16_le read_u16_le(u8 * dst); */
+/* @todo EXPORT i32_le read_i32_le(u8 * dst); */
+/* @todo EXPORT u32_le read_u32_le(u8 * dst); */
 
 #endif /* BXISERREAD_H */
 
