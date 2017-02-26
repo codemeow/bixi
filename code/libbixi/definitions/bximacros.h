@@ -31,6 +31,12 @@ EXPORT_FROM
 EXPORT_TO
 
 EXPORT_FROM
+#ifndef   NULL
+#define   NULL ((void *)0)
+#endif /* NULL */
+EXPORT_TO
+
+EXPORT_FROM
 #define IN(    value, high, low) ((high >  value) && (value <  low))
 #define IN_INC(value, high, low) ((high >= value) && (value <= low))
 EXPORT_TO
