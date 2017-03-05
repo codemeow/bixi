@@ -47,6 +47,10 @@ code/libbixi/utils/bxibitutils.c
 code/libbixi/utils/bxibitutils.h
 code/libbixi/utils/bximemutils.c
 code/libbixi/utils/bximemutils.h
+code/libbixi/thread/bxithread.c
+code/libbixi/thread/bxithread.h
+code/libbixi/time/bxisleep.c
+code/libbixi/time/bxisleep.h
 
 bixi.creator
 bixi.subprojects
