@@ -19,29 +19,17 @@
  *  along with Project «Bixi». If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef BXISERWRITE_H
-#define BXISERWRITE_H
+#ifndef BXISLEEP_H
+#define BXISLEEP_H
 
 #include "../definitions/bxiexport.h"
 #include "../types/bxiints.h"
-#include "../types/bxiboints.h"
+#include "../types/bxifloats.h"
 
-EXPORT void write_i8    (i8     val, u8 * dst);
-EXPORT void write_u8    (u8     val, u8 * dst);
-EXPORT void write_i16   (i16    val, u8 * dst);
-EXPORT void write_u16   (u16    val, u8 * dst);
-EXPORT void write_i32   (i32    val, u8 * dst);
-EXPORT void write_u32   (u32    val, u8 * dst);
+EXPORT void bxi_sleep (u32  sec);
+EXPORT void bxi_msleep(u32 msec);
+EXPORT void bxi_usleep(u32 usec);
+EXPORT void bxi_nsleep(u32 nsec);
+EXPORT void bxi_fsleep(f64  sec);
 
-EXPORT void write_i16_be(i16_be val, u8 * dst);
-EXPORT void write_u16_be(u16_be val, u8 * dst);
-EXPORT void write_i32_be(i32_be val, u8 * dst);
-EXPORT void write_u32_be(u32_be val, u8 * dst);
-
-EXPORT void write_i16_le(i16_le val, u8 * dst);
-EXPORT void write_u16_le(u16_le val, u8 * dst);
-EXPORT void write_i32_le(i32_le val, u8 * dst);
-EXPORT void write_u32_le(u32_le val, u8 * dst);
-
-#endif /* BXISERWRITE_H */
-
+#endif /* BXISLEEP_H */

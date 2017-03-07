@@ -33,10 +33,16 @@ code/libbixi/hashes/bximd5.c
 code/libbixi/hashes/bximd5.h
 code/libbixi/math/bxigeotypes.h
 code/libbixi/project.config
+code/libbixi/serials/bxiserread.c
 code/libbixi/serials/bxiserread.h
+code/libbixi/serials/bxiserwrite.c
 code/libbixi/serials/bxiserwrite.h
 code/libbixi/strings/bxistring.c
 code/libbixi/strings/bxistring.h
+code/libbixi/thread/bxithread.c
+code/libbixi/thread/bxithread.h
+code/libbixi/time/bxisleep.c
+code/libbixi/time/bxisleep.h
 code/libbixi/types/bxiarrays.h
 code/libbixi/types/bxiboints.c
 code/libbixi/types/bxiboints.h

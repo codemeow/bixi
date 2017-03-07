@@ -29,11 +29,15 @@ EXPORT typedef u8   b8;
 EXPORT typedef u16  b16;
 EXPORT typedef u32  b32;
 
-EXPORT enum bool
+EXPORT_FROM
+#ifndef __cplusplus
+enum bool
 {
     false,
     true
 };
+#endif /* __cplusplus */
+EXPORT_TO
 
 #endif /* BXIBOOLS_H */
 
