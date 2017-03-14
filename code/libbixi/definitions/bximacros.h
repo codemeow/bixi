@@ -41,5 +41,9 @@ EXPORT_FROM
 #define IN_INC(value, high, low) ((high >= value) && (value <= low))
 EXPORT_TO
 
+EXPORT_FROM
+#define forever while(1)
+EXPORT_TO
+
 #endif /* BXIMACROS_H */
 
