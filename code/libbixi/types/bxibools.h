@@ -31,11 +31,11 @@ EXPORT typedef u32  b32;
 
 EXPORT_FROM
 #ifndef __cplusplus
-enum bool
+typedef enum
 {
     false,
     true
-};
+} bool;
 #endif /* __cplusplus */
 EXPORT_TO
 
