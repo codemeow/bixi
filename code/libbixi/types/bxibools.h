@@ -30,6 +30,12 @@ EXPORT typedef u16  b16;
 EXPORT typedef u32  b32;
 
 EXPORT_FROM
+#define BITS_IN_B8   ( 8)
+#define BITS_IN_B16  (16)
+#define BITS_IN_B32  (32)
+EXPORT_TO
+
+EXPORT_FROM
 #ifndef __cplusplus
 typedef enum
 {

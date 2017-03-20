@@ -29,6 +29,11 @@ EXPORT typedef float  f32;
 EXPORT typedef double f64;
 
 EXPORT_FROM
+#define BITS_IN_F32  (32)
+#define BITS_IN_F64  (64)
+EXPORT_TO
+
+EXPORT_FROM
 COMPILE_ASSERT(sizeof(f32) == 4);
 COMPILE_ASSERT(sizeof(f64) == 8);
 EXPORT_TO

@@ -24,10 +24,35 @@
 
 #include "../definitions/bxiexport.h"
 #include "../types/bxiints.h"
+#include "../types/bxibools.h"
+
+EXPORT_FROM
+#define BXI_IS_ASCII_MAX (127)
+EXPORT_TO
 
 EXPORT typedef u32 bxi_hash;
 
-EXPORT bxi_hash strhash(char * str);
+EXPORT bxi_hash strhash  (char * str);
+EXPORT char *   strtrim  (char * str);
+EXPORT char *   strshiftl(char * str, u32 count);
+EXPORT char *   strtriml (char * str);
+EXPORT char *   strtrimr (char * str);
+EXPORT char *   strtrim  (char * str);
+
+EXPORT u32  bxi_strlen(char * str);
+
+EXPORT bool isasciicntrl(u32 c);
+EXPORT bool isasciiprint(u32 c);
+EXPORT bool isasciispace(u32 c);
+EXPORT bool isasciiblank(u32 c);
+EXPORT bool isasciigraph(u32 c);
+EXPORT bool isasciipunct(u32 c);
+EXPORT bool isasciialnum(u32 c);
+EXPORT bool isasciialpha(u32 c);
+EXPORT bool isasciiupper(u32 c);
+EXPORT bool isasciilower(u32 c);
+EXPORT bool isasciidigit(u32 c);
+EXPORT bool isasciixdigit(u32 c);
 
 /* @todo EXPORT i8  str2i8 (char * str); */
 /* @todo EXPORT u8  str2u8 (char * str); */
@@ -43,6 +68,16 @@ EXPORT bxi_hash strhash(char * str);
 /* @todo EXPORT i32 hex2i32(char * str); */
 /* @todo EXPORT u32 hex2u32(char * str); */
 
+/* @todo EXPORT i16_le hex2i16_le(char * str); */
+/* @todo EXPORT u16_le hex2u16_le(char * str); */
+/* @todo EXPORT i32_le hex2i32_le(char * str); */
+/* @todo EXPORT u32_le hex2u32_le(char * str); */
+
+/* @todo EXPORT i16_be hex2i16_be(char * str); */
+/* @todo EXPORT u16_be hex2u16_be(char * str); */
+/* @todo EXPORT i32_be hex2i32_be(char * str); */
+/* @todo EXPORT u32_be hex2u32_be(char * str); */
+
 /* @todo EXPORT void i82str (char * str, i8 val); */
 /* @todo EXPORT void u82str (char * str, u8 val); */
 /* @todo EXPORT void i162str(char * str, i16 val); */
@@ -50,12 +85,32 @@ EXPORT bxi_hash strhash(char * str);
 /* @todo EXPORT void i322str(char * str, i32 val); */
 /* @todo EXPORT void u322str(char * str, u32 val); */
 
+/* @todo EXPORT void i16_le2str(char * str, i16_le val); */
+/* @todo EXPORT void u16_le2str(char * str, u16_le val); */
+/* @todo EXPORT void i32_le2str(char * str, i32_le val); */
+/* @todo EXPORT void u32_le2str(char * str, u32_le val); */
+
+/* @todo EXPORT void i16_be2str(char * str, i16_be val); */
+/* @todo EXPORT void u16_be2str(char * str, u16_be val); */
+/* @todo EXPORT void i32_be2str(char * str, i32_be val); */
+/* @todo EXPORT void u32_be2str(char * str, u32_be val); */
+
 /* @todo EXPORT void i82hex (char * str, i8  val); */
 /* @todo EXPORT void u82hex (char * str, u8  val); */
 /* @todo EXPORT void i162hex(char * str, i16 val); */
 /* @todo EXPORT void u162hex(char * str, u16 val); */
 /* @todo EXPORT void i322hex(char * str, i32 val); */
 /* @todo EXPORT void u322hex(char * str, u32 val); */
+
+/* @todo EXPORT void i16_le2hex(char * str, i16_le val); */
+/* @todo EXPORT void u16_le2hex(char * str, u16_le val); */
+/* @todo EXPORT void i32_le2hex(char * str, i32_le val); */
+/* @todo EXPORT void u32_le2hex(char * str, u32_le val); */
+
+/* @todo EXPORT void i16_be2hex(char * str, i16_be val); */
+/* @todo EXPORT void u16_be2hex(char * str, u16_be val); */
+/* @todo EXPORT void i32_be2hex(char * str, i32_be val); */
+/* @todo EXPORT void u32_be2hex(char * str, u32_be val); */
 
 #endif /* BXISTRING_H */
 

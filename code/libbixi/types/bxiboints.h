@@ -25,10 +25,6 @@
 #include "../definitions/bxiexport.h"
 #include "../types/bxiints.h"
 
-EXPORT typedef i8   i8_le;
-EXPORT typedef i8   i8_be;
-EXPORT typedef u8   u8_le;
-EXPORT typedef u8   u8_be;
 EXPORT typedef i16 i16_le;
 EXPORT typedef i16 i16_be;
 EXPORT typedef u16 u16_le;
@@ -37,6 +33,17 @@ EXPORT typedef i32 i32_le;
 EXPORT typedef i32 i32_be;
 EXPORT typedef u32 u32_le;
 EXPORT typedef u32 u32_be;
+
+EXPORT_FROM
+#define BITS_IN_U16_LE  (16)
+#define BITS_IN_U32_LE  (32)
+#define BITS_IN_I16_LE  (16)
+#define BITS_IN_I32_LE  (32)
+#define BITS_IN_U16_BE  (16)
+#define BITS_IN_U32_BE  (32)
+#define BITS_IN_I16_BE  (16)
+#define BITS_IN_I32_BE  (32)
+EXPORT_TO
 
 EXPORT_FROM
 #define  U8_LE_MIN ( U8_MIN)

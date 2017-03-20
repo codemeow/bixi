@@ -20,11 +20,64 @@
  */
 
 #include "../strings/bxistring.h"
+#include "../utils/bxibitutils.h"
+#include "../utils/bximemutils.h"
+
+#define FNV_VALUE_START (0x811c9dc5u)
+#define FNV_VALUE_STEP  (0x01000193u)
+
+typedef enum
+{
+    BXI_IS_ASCII_CNTRL,
+    BXI_IS_ASCII_PRINT,
+    BXI_IS_ASCII_SPACE,
+    BXI_IS_ASCII_BLANK,
+    BXI_IS_ASCII_GRAPH,
+    BXI_IS_ASCII_PUNCT,
+    BXI_IS_ASCII_ALNUM,
+    BXI_IS_ASCII_ALPHA,
+    BXI_IS_ASCII_UPPER,
+    BXI_IS_ASCII_LOWER,
+    BXI_IS_ASCII_DIGIT,
+    BXI_IS_ASCII_XDIGIT,
+
+    BXI_IS_ASCII_COUNT
+} bxi_isasciifuncs;
+
+static const u32 bxi_isasciitable
+    [ BXI_IS_ASCII_COUNT                      ]
+    [(BXI_IS_ASCII_MAX + 1) / BITS_IN_U32] = {
+    {0xffffffffu, 0x00000000u, 0x00000000u, 0x80000000u}, /* CNTRL  */
+    {0x00000000u, 0xffffffffu, 0xffffffffu, 0x7fffffffu}, /* PRINT  */
+    {0x00003e00u, 0x00000001u, 0x00000000u, 0x00000000u}, /* SPACE  */
+    {0x00000200u, 0x00000001u, 0x00000000u, 0x00000000u}, /* BLANK  */
+    {0x00000000u, 0xfffffffeu, 0xffffffffu, 0x7fffffffu}, /* GRAPH  */
+    {0x00000000u, 0xfc00fffeu, 0xf8000001u, 0x78000001u}, /* PUNCT  */
+    {0x00000000u, 0x03ff0000u, 0x07fffffeu, 0x07fffffeu}, /* ALNUM  */
+    {0x00000000u, 0x00000000u, 0x07fffffeu, 0x07fffffeu}, /* ALPHA  */
+    {0x00000000u, 0x00000000u, 0x07fffffeu, 0x00000000u}, /* UPPER  */
+    {0x00000000u, 0x00000000u, 0x00000000u, 0x07fffffeu}, /* LOWER  */
+    {0x00000000u, 0x03ff0000u, 0x00000000u, 0x00000000u}, /* DIGIT  */
+    {0x00000000u, 0x03ff0000u, 0x0000007eu, 0x0000007eu}, /* XDIGIT */
+};
+
+u32 bxi_strlen(char * str)
+{
+    u32 res = 0;
+
+    if (!str)
+        return 0;
+
+    while (str[res])
+        res++;
+
+    return res;
+}
 
 bxi_hash strhash(char * str)
 {
     /* FNV */
-    bxi_hash hash = 0x811c9dc5u;
+    bxi_hash hash = FNV_VALUE_START;
 
     if (!str)
         return hash;
@@ -32,8 +85,120 @@ bxi_hash strhash(char * str)
     while (*str)
     {
         hash ^= (bxi_hash)*str++;
-        hash *= (bxi_hash)0x01000193u;
+        hash *= (bxi_hash)FNV_VALUE_STEP;
     }
 
     return hash;
+}
+
+char * strtriml(char * str)
+{
+    u32 first = 0;
+
+    if (!str)
+        return str;
+
+    while (isasciispace(str[first])) first++;
+
+    strshiftl(str, first);
+
+    return str;
+}
+
+char * strtrimr(char * str)
+{
+    u32 len = bxi_strlen(str);
+
+    if (!len)
+        return str;
+
+    while (isasciispace(str[len - 1])) len--;
+
+    str[len] = '\0';
+
+    return str;
+}
+
+char * strtrim(char * str)
+{
+    strtriml(str);
+    strtrimr(str);
+
+    return str;
+}
+
+char * strshiftl(char * str, u32 count)
+{
+    if (!str)
+        return str;
+    if (!count)
+        return str;
+
+    bxi_memmove(str, str + count, bxi_strlen(str) - count + 1);
+    return str;
+}
+
+bool isasciigeneric(u32 c, bxi_isasciifuncs type)
+{
+    return getbit(bxi_isasciitable[type][c / BITS_IN_U32] , c % BITS_IN_U32);
+}
+
+bool isasciicntrl(u32 c)
+{
+    return c <= BXI_IS_ASCII_MAX ? isasciigeneric(c, BXI_IS_ASCII_CNTRL) : 0;
+}
+
+bool isasciiprint(u32 c)
+{
+    return c <= BXI_IS_ASCII_MAX ? isasciigeneric(c, BXI_IS_ASCII_PRINT) : 0;
+}
+
+bool isasciispace(u32 c)
+{
+    return c <= BXI_IS_ASCII_MAX ? isasciigeneric(c, BXI_IS_ASCII_SPACE) : 0;
+}
+
+bool isasciiblank(u32 c)
+{
+    return c <= BXI_IS_ASCII_MAX ? isasciigeneric(c, BXI_IS_ASCII_BLANK) : 0;
+}
+
+bool isasciigraph(u32 c)
+{
+    return c <= BXI_IS_ASCII_MAX ? isasciigeneric(c, BXI_IS_ASCII_GRAPH) : 0;
+}
+
+bool isasciipunct(u32 c)
+{
+    return c <= BXI_IS_ASCII_MAX ? isasciigeneric(c, BXI_IS_ASCII_PUNCT) : 0;
+}
+
+bool isasciialnum(u32 c)
+{
+    return c <= BXI_IS_ASCII_MAX ? isasciigeneric(c, BXI_IS_ASCII_ALNUM) : 0;
+}
+
+bool isasciialpha(u32 c)
+{
+    return c <= BXI_IS_ASCII_MAX ? isasciigeneric(c, BXI_IS_ASCII_ALPHA) : 0;
+}
+
+bool isasciiupper(u32 c)
+{
+    return c <= BXI_IS_ASCII_MAX ? isasciigeneric(c, BXI_IS_ASCII_UPPER) : 0;
+}
+
+bool isasciilower(u32 c)
+{
+    return c <= BXI_IS_ASCII_MAX ? isasciigeneric(c, BXI_IS_ASCII_LOWER) : 0;
+}
+
+bool isasciidigit(u32 c)
+{
+    return c <= BXI_IS_ASCII_MAX ? isasciigeneric(c, BXI_IS_ASCII_DIGIT) : 0;
+}
+
+bool isasciixdigit(u32 c)
+{
+    return c <= BXI_IS_ASCII_MAX ? isasciigeneric(c, BXI_IS_ASCII_XDIGIT) : 0;
 }

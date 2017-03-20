@@ -33,6 +33,16 @@ EXPORT typedef   signed       int i32;
 EXPORT typedef unsigned       int u32;
 
 EXPORT_FROM
+#define BITS_IN_BYTE ( 8)
+#define BITS_IN_U8   ( 8)
+#define BITS_IN_U16  (16)
+#define BITS_IN_U32  (32)
+#define BITS_IN_I8   ( 8)
+#define BITS_IN_I16  (16)
+#define BITS_IN_I32  (32)
+EXPORT_TO
+
+EXPORT_FROM
 COMPILE_ASSERT(sizeof( i8) == 1);
 COMPILE_ASSERT(sizeof( u8) == 1);
 COMPILE_ASSERT(sizeof(i16) == 2);
