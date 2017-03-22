@@ -25,6 +25,8 @@ scripts/run.sh
 # Bixi
 code/libbixi/COPYING
 code/libbixi/COPYING.LESSER
+code/libbixi/definitions/bxiarch.c
+code/libbixi/definitions/bxiarch.h
 code/libbixi/definitions/bxiassert.h
 code/libbixi/definitions/bxiexport.h
 code/libbixi/definitions/bximacros.h
@@ -37,6 +39,8 @@ code/libbixi/serials/bxiserread.c
 code/libbixi/serials/bxiserread.h
 code/libbixi/serials/bxiserwrite.c
 code/libbixi/serials/bxiserwrite.h
+code/libbixi/strings/bxistrconv.c
+code/libbixi/strings/bxistrconv.h
 code/libbixi/strings/bxistring.c
 code/libbixi/strings/bxistring.h
 code/libbixi/thread/bxithread.c
@@ -53,10 +57,6 @@ code/libbixi/utils/bxibitutils.c
 code/libbixi/utils/bxibitutils.h
 code/libbixi/utils/bximemutils.c
 code/libbixi/utils/bximemutils.h
-code/libbixi/thread/bxithread.c
-code/libbixi/thread/bxithread.h
-code/libbixi/time/bxisleep.c
-code/libbixi/time/bxisleep.h
 
 bixi.creator
 bixi.subprojects
