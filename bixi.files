@@ -62,4 +62,3 @@ bixi.creator
 bixi.subprojects
 COPYING
 COPYING.LESSER
-includes/libbixi.h
