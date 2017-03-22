@@ -138,7 +138,7 @@ char * strshiftl(char * str, u32 count)
     return str;
 }
 
-bool isasciigeneric(u32 c, bxi_isasciifuncs type)
+static bool isasciigeneric(u32 c, bxi_isasciifuncs type)
 {
     return getbit(bxi_isasciitable[type][c / BITS_IN_U32] , c % BITS_IN_U32);
 }

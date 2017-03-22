@@ -19,20 +19,19 @@
  *  along with Project «Bixi». If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef BXITHREAD_H
-#define BXITHREAD_H
+#include "../definitions/bxiarch.h"
 
-#include "../definitions/bxiexport.h"
-#include "../types/bxiints.h"
+const char * bxi_arch(void)
+{
+    return BXI_ARCH;
+}
 
-EXPORT typedef u32 bxi_mutex;
+u8 bxi_bits(void)
+{
+    return BXI_BITS;
+}
 
-EXPORT_FROM
-#define BXI_MUTEX_INITIALIZER (0)
-EXPORT_TO
-
-EXPORT void bxi_mutex_init  (volatile bxi_mutex *mutex);
-EXPORT void bxi_mutex_lock  (volatile bxi_mutex * mutex);
-EXPORT void bxi_mutex_unlock(volatile bxi_mutex * mutex);
-
-#endif /* BXITHREAD_H */
+const char * bxi_os(void)
+{
+    return BXI_OS;
+}

@@ -20,44 +20,48 @@
  */
 
 #include "../time/bxisleep.h"
+#include "../definitions/bxiarch.h"
 
 #define BXI_MSEC_IN_SEC (1000)
 #define BXI_USEC_IN_SEC (1000 * BXI_MSEC_IN_SEC)
 #define BXI_NSEC_IN_SEC (1000 * BXI_USEC_IN_SEC)
 
-/* @todo arches to separate file */
-#if defined(linux) || defined(__linux) || defined(__linux__) || \
-    defined(unix)  || defined(__unix)  || defined(__unix__)
-#define _POSIX_C_SOURCE	199309L
-#include <time.h>
-static void nsleep(f64 sec)
-{
-    struct timespec ts;
-    ts.tv_sec  = (u32)sec;
-    ts.tv_nsec = (sec - (u32)sec) * BXI_NSEC_IN_SEC;
+#if defined(BXI_OS_GLX)
+#   define _POSIX_C_SOURCE	199309L
+#   include <time.h>
 
-    nanosleep(&ts, NULL);
-}
-#elif defined(WIN32) || defined(_WIN32)
-#include <time.h>
-#include <windows.h>
-/* @fixme needs tests */
-static void nsleep(f64 sec)
-{
-    HANDLE timer;
-    LARGE_INTEGER li;
-    if(!(timer = CreateWaitableTimer(NULL, true, NULL)))
-        return;
-
-    li.QuadPart = -(u32)(sec * BXI_NSEC_IN_SEC);
-    if(!SetWaitableTimer(timer, &li, 0, NULL, NULL, false))
+    static void nsleep(f64 sec)
     {
-        CloseHandle(timer);
-        return;
+        struct timespec ts;
+        ts.tv_sec  = (u32)sec;
+        ts.tv_nsec = (sec - (u32)sec) * BXI_NSEC_IN_SEC;
+
+        nanosleep(&ts, NULL);
     }
-    WaitForSingleObject(timer, INFINITE);
-    CloseHandle(timer);
-}
+
+#elif defined(BXI_OS_WIN)
+
+#   include <time.h>
+#   include <windows.h>
+/* @fixme needs tests */
+
+    static void nsleep(f64 sec)
+    {
+        HANDLE timer;
+        LARGE_INTEGER li;
+        if(!(timer = CreateWaitableTimer(NULL, true, NULL)))
+            return;
+
+        li.QuadPart = -(u32)(sec * BXI_NSEC_IN_SEC);
+        if(!SetWaitableTimer(timer, &li, 0, NULL, NULL, false))
+        {
+            CloseHandle(timer);
+            return;
+        }
+        WaitForSingleObject(timer, INFINITE);
+        CloseHandle(timer);
+    }
+
 #else
 #error unsupported architecture
 #endif
