@@ -30,28 +30,49 @@ EXPORT_FROM
 #define BXI_IS_ASCII_MAX (127)
 EXPORT_TO
 
+enum bxi_ascii_characters
+{
+    BXI_CHAR_NUL, BXI_CHAR_SOH, BXI_CHAR_STX, BXI_CHAR_ETX,
+    BXI_CHAR_EOT, BXI_CHAR_ENQ, BXI_CHAR_ACK, BXI_CHAR_BEL,
+    BXI_CHAR_BS , BXI_CHAR_TAB, BXI_CHAR_LF , BXI_CHAR_VT ,
+    BXI_CHAR_FF , BXI_CHAR_CR , BXI_CHAR_SO , BXI_CHAR_SI ,
+    BXI_CHAR_DLE, BXI_CHAR_DC1, BXI_CHAR_DC2, BXI_CHAR_DC3,
+    BXI_CHAR_DC4, BXI_CHAR_NAK, BXI_CHAR_SYN, BXI_CHAR_ETB,
+    BXI_CHAR_CAN, BXI_CHAR_EM , BXI_CHAR_SUB, BXI_CHAR_ESC,
+    BXI_CHAR_FS , BXI_CHAR_GS , BXI_CHAR_RS , BXI_CHAR_US ,
+    BXI_CHAR_DEL = (0x7F)
+};
+
+enum bxi_strerror
+{
+    BXI_STRERROR_NOSTRING     = (-1),
+    BXI_STRERROR_NOEND        = (-2),
+    BXI_STRERROR_CONVOVERFLOW = (-3),
+    BXI_STRERROR_BADSTRING    = (-4)
+};
+
 EXPORT typedef u32 bxi_hash;
 
-EXPORT bxi_hash strhash  (char * str);
-EXPORT char *   strtrim  (char * str);
-EXPORT char *   strshiftl(char * str, u32 count);
-EXPORT char *   strtriml (char * str);
-EXPORT char *   strtrimr (char * str);
-EXPORT char *   strtrim  (char * str);
+EXPORT bxi_hash     strhash  (const char * str);
+EXPORT       char * strshiftl(      char * str, u32 count);
+EXPORT       char * strtriml (      char * str);
+EXPORT       char * strtrimr (      char * str);
+EXPORT       char * strtrim  (      char * str);
+EXPORT const char * strparam (const char * str, i32 * len);
 
-EXPORT u32  bxi_strlen(char * str);
+EXPORT u32  bxi_strlen(const char * str);
 
-EXPORT bool isasciicntrl(u32 c);
-EXPORT bool isasciiprint(u32 c);
-EXPORT bool isasciispace(u32 c);
-EXPORT bool isasciiblank(u32 c);
-EXPORT bool isasciigraph(u32 c);
-EXPORT bool isasciipunct(u32 c);
-EXPORT bool isasciialnum(u32 c);
-EXPORT bool isasciialpha(u32 c);
-EXPORT bool isasciiupper(u32 c);
-EXPORT bool isasciilower(u32 c);
-EXPORT bool isasciidigit(u32 c);
+EXPORT bool isasciicntrl (u32 c);
+EXPORT bool isasciiprint (u32 c);
+EXPORT bool isasciispace (u32 c);
+EXPORT bool isasciiblank (u32 c);
+EXPORT bool isasciigraph (u32 c);
+EXPORT bool isasciipunct (u32 c);
+EXPORT bool isasciialnum (u32 c);
+EXPORT bool isasciialpha (u32 c);
+EXPORT bool isasciiupper (u32 c);
+EXPORT bool isasciilower (u32 c);
+EXPORT bool isasciidigit (u32 c);
 EXPORT bool isasciixdigit(u32 c);
 
 #endif /* BXISTRING_H */

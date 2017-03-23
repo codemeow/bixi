@@ -34,9 +34,10 @@ EXPORT typedef struct
     u8  hash[16];
 } md5_t;
 
-EXPORT void md5_init  (md5_t * md5);
-EXPORT void md5_append(md5_t * md5, u8 * data, u32 len);
-EXPORT void md5_final (md5_t * md5);
+EXPORT void md5_init      (md5_t * md5);
+EXPORT void md5_append    (md5_t * md5, const u8 * data, u32 len);
+EXPORT void md5_append_str(md5_t * md5, const char * str);
+EXPORT void md5_final     (md5_t * md5);
 
 #endif /* BXIMD5_H */
 

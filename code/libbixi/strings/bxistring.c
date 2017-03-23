@@ -45,7 +45,7 @@ typedef enum
 } bxi_isasciifuncs;
 
 static const u32 bxi_isasciitable
-    [ BXI_IS_ASCII_COUNT                      ]
+    [ BXI_IS_ASCII_COUNT                 ]
     [(BXI_IS_ASCII_MAX + 1) / BITS_IN_U32] = {
     {0xffffffffu, 0x00000000u, 0x00000000u, 0x80000000u}, /* CNTRL  */
     {0x00000000u, 0xffffffffu, 0xffffffffu, 0x7fffffffu}, /* PRINT  */
@@ -61,7 +61,7 @@ static const u32 bxi_isasciitable
     {0x00000000u, 0x03ff0000u, 0x0000007eu, 0x0000007eu}, /* XDIGIT */
 };
 
-u32 bxi_strlen(char * str)
+u32 bxi_strlen(const char * str)
 {
     u32 res = 0;
 
@@ -74,7 +74,7 @@ u32 bxi_strlen(char * str)
     return res;
 }
 
-bxi_hash strhash(char * str)
+bxi_hash strhash(const char * str)
 {
     /* FNV */
     bxi_hash hash = FNV_VALUE_START;
@@ -135,6 +135,50 @@ char * strshiftl(char * str, u32 count)
         return str;
 
     bxi_memmove(str, str + count, bxi_strlen(str) - count + 1);
+    return str;
+}
+
+const char * strparam(const char * str, i32 * len)
+{
+    u32 pos = 0;
+    u8  qut = 0;
+
+    if (!str)
+    {
+        if (len) *len = BXI_STRERROR_NOSTRING;
+        return str;
+    }
+
+    while (isasciispace(*str))
+    {
+        str++;
+    }
+
+    if ((*str == '\'') ||
+        (*str == '\"'))
+    {
+        qut = *str;
+        str++;
+    }
+
+    while (str[pos])
+    {
+        if ((!qut) && (isasciispace(str[pos])))
+            break;
+
+        if ((qut) && (pos) && (str[pos] == qut) && (str[pos - 1] != '\\'))
+            break;
+
+        pos++;
+    }
+
+    if ((qut) && (!str[pos]))
+    {
+        if (len) *len = BXI_STRERROR_NOEND;
+        return str;
+    }
+
+    if (len) *len = pos;
     return str;
 }
 

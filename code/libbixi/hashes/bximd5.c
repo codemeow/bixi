@@ -22,6 +22,7 @@
 #include "../hashes/bximd5.h"
 #include "../utils/bximemutils.h"
 #include "../utils/bxibitutils.h"
+#include "../strings/bxistring.h"
 
 static const u8 md5_shifts[64] = {
     7, 12, 17, 22,  7, 12, 17, 22,  7, 12, 17, 22,  7, 12, 17, 22,
@@ -106,7 +107,12 @@ void md5_init(md5_t * md5)
     bxi_memcpy(md5->abcd, md5_inits, 4 * sizeof(u32));
 }
 
-void md5_append(md5_t * md5, u8 * data, u32 length)
+void md5_append_str(md5_t * md5, const char * str)
+{
+    md5_append(md5, (const u8 *)str, bxi_strlen(str));
+}
+
+void md5_append(md5_t * md5, const u8 * data, u32 length)
 {
     u32 i;
     for (i = 0; i < length; i++)

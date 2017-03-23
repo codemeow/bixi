@@ -11,7 +11,7 @@ i32 str2i32(const char * str, i32 * len)
 
     if (!str)
     {
-       if (len) *len = -1;
+       if (len) *len = BXI_STRERROR_NOSTRING;
        return 0;
     }
 
@@ -38,14 +38,14 @@ i32 str2i32(const char * str, i32 * len)
         {
             if (ures > U32_MAX / 10)
             {
-                if (len) *len = -1;
+                if (len) *len = BXI_STRERROR_CONVOVERFLOW;
                 return 0;
             }
             ures *= 10;
 
             if ((u32)(ures + str[pos] - '0') < ures)
             {
-                if (len) *len = -1;
+                if (len) *len = BXI_STRERROR_CONVOVERFLOW;
                 return 0;
             }
             ures += str[pos] - '0';
@@ -55,7 +55,7 @@ i32 str2i32(const char * str, i32 * len)
             if (pos && !sign)
                 break;
 
-            if (len) *len = -1;
+            if (len) *len = BXI_STRERROR_BADSTRING;
             return 0;
         }
 
@@ -64,20 +64,14 @@ i32 str2i32(const char * str, i32 * len)
 
     if (!pos)
     {
-        if (len) *len = -1;
+        if (len) *len = BXI_STRERROR_BADSTRING;
         return 0;
     }
 
-    if (((ures > I32_MAX) && (!sign || (sign == 1))) ||
-        ((ures > (u32)I32_MAX + 1) && (sign == -1)))
+    if (((ures >      I32_MAX    )  && (!sign || (sign ==  1))) ||
+        ((ures > (u32)I32_MAX + 1)  && (sign == -1)))
     {
-        if (len) *len = -1;
-        return 0;
-    }
-
-    if ((ures > (u32)I32_MAX + 1) && (sign < 0))
-    {
-        if (len) *len = -1;
+        if (len) *len = BXI_STRERROR_CONVOVERFLOW;
         return 0;
     }
 
