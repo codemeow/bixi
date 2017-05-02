@@ -68,14 +68,15 @@ void bxi_mutex_unlock(volatile bxi_mutex * mutex)
 
 bxi_mutex_state bxi_mutex_test(volatile bxi_mutex * mutex)
 {
+    bxi_mutex_state state;
     if (!mutex)
         return BXI_MUTEX_UNDEFINED;
 
-    bxi_mutex_state state = *mutex;
+    state = *mutex;
 
     if ((state == BXI_MUTEX_LOCKED  ) ||
         (state == BXI_MUTEX_UNLOCKED))
         return state;
 
-    return BXI_MUTEX_UNDEFINED
+    return BXI_MUTEX_UNDEFINED;
 }
