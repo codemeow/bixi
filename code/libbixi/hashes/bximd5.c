@@ -24,14 +24,16 @@
 #include "../utils/bxibitutils.h"
 #include "../strings/bxistring.h"
 
-static const u8 md5_shifts[64] = {
+#define STEP_COUNT (4)
+
+static const u8 md5_shifts[MD5_SIZE * STEP_COUNT] = {
     7, 12, 17, 22,  7, 12, 17, 22,  7, 12, 17, 22,  7, 12, 17, 22,
     5,  9, 14, 20,  5,  9, 14, 20,  5,  9, 14, 20,  5,  9, 14, 20,
     4, 11, 16, 23,  4, 11, 16, 23,  4, 11, 16, 23,  4, 11, 16, 23,
     6, 10, 15, 21,  6, 10, 15, 21,  6, 10, 15, 21,  6, 10, 15, 21
 };
 
-static const u32 md5_sins[64] = {
+static const u32 md5_sins[MD5_SIZE * STEP_COUNT] = {
     0xd76aa478u, 0xe8c7b756u, 0x242070dbu, 0xc1bdceeeu,
     0xf57c0fafu, 0x4787c62au, 0xa8304613u, 0xfd469501u,
     0x698098d8u, 0x8b44f7afu, 0xffff5bb1u, 0x895cd7beu,
@@ -50,7 +52,7 @@ static const u32 md5_sins[64] = {
     0xf7537e82u, 0xbd3af235u, 0x2ad7d2bbu, 0xeb86d391u
 };
 
-static const u32 md5_inits[4] = {
+static const u32 md5_inits[STEP_COUNT] = {
     0x67452301u, 0xefcdab89u, 0x98badcfeu, 0x10325476u
 };
 
@@ -62,13 +64,13 @@ static u32 md5_G(u32 x, u32 y, u32 z) { return ((x & z) | (y & ~z)); }
 static u32 md5_H(u32 x, u32 y, u32 z) { return (x ^ y ^ z);          }
 static u32 md5_I(u32 x, u32 y, u32 z) { return (y ^ (x | ~z));       }
 
-static u32 md5_1(u32 i) { return      i          ; }
-static u32 md5_2(u32 i) { return (5 * i + 1) % 16; }
-static u32 md5_3(u32 i) { return (3 * i + 5) % 16; }
-static u32 md5_4(u32 i) { return (7 * i    ) % 16; }
+static u32 md5_1(u32 i) { return      i                ; }
+static u32 md5_2(u32 i) { return (5 * i + 1) % MD5_SIZE; }
+static u32 md5_3(u32 i) { return (3 * i + 5) % MD5_SIZE; }
+static u32 md5_4(u32 i) { return (7 * i    ) % MD5_SIZE; }
 
-static const md5_func_fghi md5_fghi[4] = { md5_F, md5_G, md5_H, md5_I };
-static const md5_func_1234 md5_1234[4] = { md5_1, md5_2, md5_3, md5_4 };
+static const md5_func_fghi md5_fghi[STEP_COUNT] = { md5_F, md5_G, md5_H, md5_I };
+static const md5_func_1234 md5_1234[STEP_COUNT] = { md5_1, md5_2, md5_3, md5_4 };
 
 static void md5_enlarge(md5_t * md5, u32 len)
 {
@@ -82,18 +84,18 @@ static void md5_process(md5_t * md5)
     u32 block[16];
     u32 i, dt, F;
 
-    bxi_memcpy(block, md5->data, 16 * sizeof(u32));
-    bxi_memcpy( abcd, md5->abcd,  4 * sizeof(u32));
+    bxi_memcpy(block, md5->data, MD5_SIZE * sizeof(u32));
+    bxi_memcpy( abcd, md5->abcd, MD5_SIZE);
 
-    for (i = 0; i < 64; i++)
+    for (i = 0; i < MD5_SIZE * STEP_COUNT; i++)
     {
-        F = md5_fghi[i / 16](abcd[1], abcd[2], abcd[3]);
+        F = md5_fghi[i / MD5_SIZE](abcd[1], abcd[2], abcd[3]);
 
         dt = abcd[3];
         abcd[3] = abcd[2];
         abcd[2] = abcd[1];
         abcd[1] = abcd[1] + rotl32(abcd[0] + F + md5_sins[i] +
-                  block[md5_1234[i / 16](i)], md5_shifts[i]);
+                  block[md5_1234[i / MD5_SIZE](i)], md5_shifts[i]);
         abcd[0] = dt;
     }
 
@@ -104,10 +106,10 @@ static void md5_process(md5_t * md5)
 void md5_init(md5_t * md5)
 {
     bxi_memset(md5, 0, sizeof(md5_t));
-    bxi_memcpy(md5->abcd, md5_inits, 4 * sizeof(u32));
+    bxi_memcpy(md5->abcd, md5_inits, STEP_COUNT * sizeof(u32));
 }
 
-void md5_append_str(md5_t * md5, const char * str)
+void md5_appendstr(md5_t * md5, const char * str)
 {
     md5_append(md5, (const u8 *)str, bxi_strlen(str));
 }
@@ -118,7 +120,7 @@ void md5_append(md5_t * md5, const u8 * data, u32 length)
     for (i = 0; i < length; i++)
     {
         md5->data[md5->leng++] = data[i];
-        if (md5->leng == (16 * sizeof(u32)))
+        if (md5->leng == (MD5_SIZE * sizeof(u32)))
         {
             md5_process(md5);
             md5_enlarge(md5, 0x200);
@@ -132,17 +134,20 @@ void md5_final(md5_t * md5)
     u32 i = md5->leng;
     md5->data[i++] = 0x80;
 
-    bxi_memset(md5->data + i, 0, (md5->leng < 56 ? 56 : 64) - i);
+    bxi_memset(md5->data + i, 0,
+               (md5->leng < (MD5_SIZE * 4 - sizeof(u32) * 2) ?
+                            (MD5_SIZE * 4 - sizeof(u32) * 2) :
+                            (MD5_SIZE * 4)) - i);
 
-    if (md5->leng >= 56)
+    if (md5->leng >= (MD5_SIZE * STEP_COUNT - sizeof(u32) * 2))
     {
         md5_process(md5);
-        bxi_memset(md5->data, 0, 56);
+        bxi_memset(md5->data, 0, (MD5_SIZE * STEP_COUNT - sizeof(u32) * 2));
     }
 
     md5_enlarge(md5, 8 * md5->leng);
-    bxi_memcpy(md5->data + 56, md5->totl, 8);
+    bxi_memcpy(md5->data + (MD5_SIZE * STEP_COUNT - sizeof(u32) * 2), md5->totl, 8);
     md5_process(md5);
 
-    bxi_memcpy(md5->hash, md5->abcd, 4 * sizeof(u32));
+    bxi_memcpy(md5->hash, md5->abcd, STEP_COUNT * sizeof(u32));
 }

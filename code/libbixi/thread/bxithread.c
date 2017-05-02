@@ -22,12 +22,11 @@
 #include "../thread/bxithread.h"
 #include "../time/bxisleep.h"
 
-#define BXI_MUTEX_LOCKED   (1)
-#define BXI_MUTEX_UNLOCKED (0)
 #define BXI_MUTEX_PERIOD  (10)
 
 static bxi_mutex atomic_xchg(volatile bxi_mutex * ptr, bxi_mutex val)
 {
+    /* @todo check under x64 */
     bxi_mutex tmp = val;
     __asm__(
         "xchgl %0, %1;\n"
@@ -65,4 +64,18 @@ void bxi_mutex_unlock(volatile bxi_mutex * mutex)
         return;
 
     *mutex = BXI_MUTEX_UNLOCKED;
+}
+
+bxi_mutex_state bxi_mutex_test(volatile bxi_mutex * mutex)
+{
+    if (!mutex)
+        return BXI_MUTEX_UNDEFINED;
+
+    bxi_mutex_state state = *mutex;
+
+    if ((state == BXI_MUTEX_LOCKED  ) ||
+        (state == BXI_MUTEX_UNLOCKED))
+        return state;
+
+    return BXI_MUTEX_UNDEFINED
 }

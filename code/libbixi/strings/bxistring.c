@@ -26,20 +26,14 @@
 #define FNV_VALUE_START (0x811c9dc5u)
 #define FNV_VALUE_STEP  (0x01000193u)
 
+#define ASCII_UPPERLOWER_DIFF ('A' - 'a')
+
 typedef enum
 {
-    BXI_IS_ASCII_CNTRL,
-    BXI_IS_ASCII_PRINT,
-    BXI_IS_ASCII_SPACE,
-    BXI_IS_ASCII_BLANK,
-    BXI_IS_ASCII_GRAPH,
-    BXI_IS_ASCII_PUNCT,
-    BXI_IS_ASCII_ALNUM,
-    BXI_IS_ASCII_ALPHA,
-    BXI_IS_ASCII_UPPER,
-    BXI_IS_ASCII_LOWER,
-    BXI_IS_ASCII_DIGIT,
-    BXI_IS_ASCII_XDIGIT,
+    BXI_IS_ASCII_CNTRL, BXI_IS_ASCII_PRINT, BXI_IS_ASCII_SPACE,
+    BXI_IS_ASCII_BLANK, BXI_IS_ASCII_GRAPH, BXI_IS_ASCII_PUNCT,
+    BXI_IS_ASCII_ALNUM, BXI_IS_ASCII_ALPHA, BXI_IS_ASCII_UPPER,
+    BXI_IS_ASCII_LOWER, BXI_IS_ASCII_DIGIT, BXI_IS_ASCII_XDIGIT,
 
     BXI_IS_ASCII_COUNT
 } bxi_isasciifuncs;
@@ -72,6 +66,27 @@ u32 bxi_strlen(const char * str)
         res++;
 
     return res;
+}
+
+i32 bxi_strcmp(const char * str1, const char * str2)
+{
+    u8 c1, c2;
+
+    if (!str1 && !str2) return 0;
+    if (!str1 &&  str2) return -(*str2);
+    if ( str1 && !str2) return +(*str1);
+
+    do
+    {
+        c1 = (u8)*str1;
+        c2 = (u8)*str2;
+
+        if (!c1)
+            return c1 - c2;
+    }
+    while (c1 == c2);
+
+    return c1 - c2;
 }
 
 bxi_hash strhash(const char * str)
@@ -245,4 +260,18 @@ bool isasciidigit(u32 c)
 bool isasciixdigit(u32 c)
 {
     return c <= BXI_IS_ASCII_MAX ? isasciigeneric(c, BXI_IS_ASCII_XDIGIT) : 0;
+}
+
+u32 toasciiupper(u32 c)
+{
+    if (isasciilower(c))
+         return c - ASCII_UPPERLOWER_DIFF;
+    else return c;
+}
+
+u32 toasciilower(u32 c)
+{
+    if (isasciilower(c))
+         return c + ASCII_UPPERLOWER_DIFF;
+    else return c;
 }

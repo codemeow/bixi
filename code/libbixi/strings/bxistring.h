@@ -30,7 +30,7 @@ EXPORT_FROM
 #define BXI_IS_ASCII_MAX (127)
 EXPORT_TO
 
-enum bxi_ascii_characters
+EXPORT enum bxi_ascii_characters
 {
     BXI_CHAR_NUL, BXI_CHAR_SOH, BXI_CHAR_STX, BXI_CHAR_ETX,
     BXI_CHAR_EOT, BXI_CHAR_ENQ, BXI_CHAR_ACK, BXI_CHAR_BEL,
@@ -43,8 +43,9 @@ enum bxi_ascii_characters
     BXI_CHAR_DEL = (0x7F)
 };
 
-enum bxi_strerror
+EXPORT enum bxi_strerror
 {
+    BXI_STRERROR_SUCCESS      = ( 0),
     BXI_STRERROR_NOSTRING     = (-1),
     BXI_STRERROR_NOEND        = (-2),
     BXI_STRERROR_CONVOVERFLOW = (-3),
@@ -61,6 +62,7 @@ EXPORT       char * strtrim  (      char * str);
 EXPORT const char * strparam (const char * str, i32 * len);
 
 EXPORT u32  bxi_strlen(const char * str);
+EXPORT i32  bxi_strcmp(const char * str1, const char * str2);
 
 EXPORT bool isasciicntrl (u32 c);
 EXPORT bool isasciiprint (u32 c);
@@ -74,6 +76,9 @@ EXPORT bool isasciiupper (u32 c);
 EXPORT bool isasciilower (u32 c);
 EXPORT bool isasciidigit (u32 c);
 EXPORT bool isasciixdigit(u32 c);
+
+EXPORT u32 toasciiupper(u32 c);
+EXPORT u32 toasciilower(u32 c);
 
 #endif /* BXISTRING_H */
 

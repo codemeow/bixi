@@ -25,6 +25,7 @@
 #include "../definitions/bxiexport.h"
 #include "../types/bxiints.h"
 
+/* @todo separate include-headers like "includes/libbixi.h" + "includes/libbixi/bximd5.h" */
 /* @todo 16 bit windows/unix */
 
 EXPORT const char * bxi_arch(void);
