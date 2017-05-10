@@ -76,8 +76,8 @@ EXPORT_FROM
 EXPORT_TO
 
 EXPORT_FROM
-#define IS_BE (*(unsigned short int *)"\0\xff" < 0x100)
-#define IS_LE (*(unsigned short int *)"\0\xff" > 0x100)
+#define IS_BE (*(u16 *)"\0\xff" < 0x100)
+#define IS_LE (*(u16 *)"\0\xff" > 0x100)
 EXPORT_TO
 
 EXPORT u16 chgend16(u16 val);
