@@ -83,6 +83,9 @@ i32 bxi_strcmp(const char * str1, const char * str2)
 
         if (!c1)
             return c1 - c2;
+
+        str1++;
+        str2++;
     }
     while (c1 == c2);
 
