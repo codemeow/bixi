@@ -26,7 +26,7 @@
 #define FNV_VALUE_START (0x811c9dc5u)
 #define FNV_VALUE_STEP  (0x01000193u)
 
-#define ASCII_UPPERLOWER_DIFF ('A' - 'a')
+#define ASCII_UPPERLOWER_DIFF ('a' - 'A')
 
 typedef enum
 {
