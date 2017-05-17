@@ -22,6 +22,7 @@
 #include "../hashes/bxiuuid.h"
 #include "../hashes/bximd5.h"
 #include "../random/bxirand.h"
+#include "../utils/bximemutils.h"
 
 typedef enum
 {
@@ -57,8 +58,11 @@ void uuidv3(uuid_t out, uuid_t ns, const char * data)
 void uuidv4(uuid_t out)
 {
     u32 i;
-    for (i = 0; i < UUID_SIZE; i++)
-        out[i] = bxi_randu8();
+    for (i = 0; i < UUID_SIZE; i += sizeof(u32))
+    {
+        u32 r = bxi_randu32();
+        bxi_memcpy(&out[i], &r, sizeof(u32));
+    }
 
     uuidversionset(out, UUID_V4);
 }
@@ -116,4 +120,9 @@ void uuid2str(uuid_t uuid, char * out, uuid_format format)
     }
 
     out[strpos] = '\0';
+}
+
+bool uuidscmp(uuid_t u1, uuid_t u2)
+{
+    return !bxi_memcmp(u1, u2, sizeof(uuid_t));
 }

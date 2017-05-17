@@ -25,9 +25,14 @@
 #include "../definitions/bxiexport.h"
 #include "../types/bxiints.h"
 
-EXPORT void * bxi_memset (void * ptr,        i32   val, u32 cnt); /* @todo 4-bytes blocks */
-EXPORT void * bxi_memcpy (void * dst, const void * src, u32 cnt); /* @todo 4-bytes blocks */
-EXPORT void * bxi_memmove(void * dst,       void * src, u32 cnt); /* @todo 4-bytes blocks */
+/* @todo 4-bytes blocks bxi_memset */
+EXPORT void * bxi_memset (      void * ptr,        i32   val, u32 cnt);
+/* @todo 4-bytes blocks bxi_memcpy */
+EXPORT void * bxi_memcpy (      void * dst, const void * src, u32 cnt);
+/* @todo 4-bytes blocks bxi_memmove */
+EXPORT void * bxi_memmove(      void * dst, const void * src, u32 cnt);
+/* @todo 4-bytes blocks bxi_memcmp */
+EXPORT i32    bxi_memcmp (const void * p1,  const void * p2,  u32 cnt);
 /* @todo memfrob with selected byte */
 /* @todo memcmp */ /* @todo null check */
 /* @todo memchr with 4-byte bo-dependent loop */

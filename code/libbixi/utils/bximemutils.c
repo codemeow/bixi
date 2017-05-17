@@ -19,12 +19,13 @@
  *  along with Project «Bixi». If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "../definitions/bximacros.h"
 #include "../utils/bximemutils.h"
 
-void * bxi_memmove(void * dst, void * src, u32 cnt)
+void * bxi_memmove(void * dst, const void * src, u32 cnt)
 {
-    u8 * dst_u8 = dst;
-    u8 * src_u8 = src;
+          u8 * dst_u8 = dst;
+    const u8 * src_u8 = src;
 
     if (dst == src)
         return dst;
@@ -65,13 +66,20 @@ void * bxi_memcpy(void * dst, const void * src, u32 cnt)
     return dst;
 }
 
-i32 bxi_memcmp(const void * p1, const void * p2, u32 n)
+i32 bxi_memcmp(const void * p1, const void * p2, u32 cnt)
 {
   u32 i;
   const u8 * p1u8 = (const u8 *) p1;
   const u8 * p2u8 = (const u8 *) p2;
 
-  for (i = 0; i < n; i++, p1u8++, p2u8++)
+  if (p1u8 == p2u8)
+      return 0;
+  if (p1u8 == NULL)
+      return *p2u8;
+  if (p2u8 == NULL)
+      return *p1u8;
+
+  for (i = 0; i < cnt; i++, p1u8++, p2u8++)
   {
       if      (*p1u8 < *p2u8) return -1;
       else if (*p1u8 > *p2u8) return  1;
@@ -79,4 +87,3 @@ i32 bxi_memcmp(const void * p1, const void * p2, u32 n)
 
   return 0;
 }
-
