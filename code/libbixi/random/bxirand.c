@@ -39,43 +39,35 @@ void bxi_srand(u32 seed)
 u32 bxi_randu32(void)
 {
     nextrand();
-
     return global_next;
 }
 
 u16 bxi_randu16(void)
 {
     nextrand();
-
-    return global_next % (U16_MAX + 1);
+    return (global_next >> BITS_IN_U16) % (U16_MAX + 1);
 }
 
 u8 bxi_randu8 (void)
 {
     nextrand();
-
-    return global_next % (U8_MAX + 1);
+    return (global_next >> BITS_IN_U8) % (U8_MAX + 1);
 }
 
 i32 bxi_randi32(void)
 {
     nextrand();
-
-    if (global_next > I32_MAX)
-         return (i32)(global_next & I32_MAX) * (-1) - 1;
-    else return (i32) global_next;
+    return (i32)global_next;
 }
 
 i16 bxi_randi16(void)
 {
     nextrand();
-
-    return global_next % (U16_MAX + 1) + I16_MIN;
+    return (i16)((global_next >> BITS_IN_U16) % (U16_MAX + 1));
 }
 
 i8 bxi_randi8 (void)
 {
     nextrand();
-
-    return global_next % (U8_MAX + 1) + I8_MIN;
+    return (i8)((global_next >> BITS_IN_U8) % (U8_MAX + 1));
 }
