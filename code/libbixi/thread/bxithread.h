@@ -34,7 +34,7 @@ EXPORT typedef enum
 } bxi_mutex_state;
 
 EXPORT_FROM
-#define BXI_MUTEX_INITIALIZER (0)
+#define BXI_MUTEX_INITIALIZER (BXI_MUTEX_UNLOCKED)
 EXPORT_TO
 
 EXPORT void            bxi_mutex_init  (volatile bxi_mutex * mutex);
