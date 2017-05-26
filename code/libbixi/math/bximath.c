@@ -19,23 +19,9 @@
  *  along with Project «Bixi». If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef BXIARRAYS_H
-#define BXIARRAYS_H
+#include "../math/bximath.h"
 
-#include "../definitions/bxiexport.h"
-#include "../types/bxiints.h"
-#include "../strings/bxistrconv.h"
-
-EXPORT typedef struct
+u32 bxi_abs(i32 val)
 {
-    u8 * byte;
-    u32  size;
-} bxi_bytes;
-
-/* @todo array control functions */
-/* @todo assigning *alloc/free functions */
-
-EXPORT u32 bytes2hex(char * buffer, bxi_bytes * bytes, bxi_hex_format fmt);
-
-#endif /* BXIARRAYS_H */
-
+    return val < 0 ? -val : val;
+}

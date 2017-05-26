@@ -81,9 +81,37 @@ i32 bxi_memcmp(const void * p1, const void * p2, u32 cnt)
 
   for (i = 0; i < cnt; i++, p1u8++, p2u8++)
   {
-      if      (*p1u8 < *p2u8) return -1;
-      else if (*p1u8 > *p2u8) return  1;
+      if      (*p1u8 < *p2u8) return -(*p2u8 - *p1u8);
+      else if (*p1u8 > *p2u8) return  (*p1u8 - *p2u8);
   }
 
   return 0;
+}
+
+void bxi_memfrob(void * ptr, u8 val, u32 cnt)
+{
+    u32 i;
+    u8 * ptru8 = (u8 *)ptr;
+    for (i = 0; i < cnt; i++)
+        ptru8[i] ^= val;
+}
+
+void * bxi_memchr (const void * ptr, u8 val, u32 cnt)
+{
+    u32 i;
+    const u8 * ptru8 = (const u8 *)ptr;
+    for (i = 0; i < cnt; i++)
+        if (ptru8[i] == val)
+            return (void *)(ptru8 + i);
+    return NULL;
+}
+
+void * bxi_memrchr(const void * ptr, u8 val, u32 cnt)
+{
+    i32 i;
+    const u8 * ptru8 = (const u8 *)ptr;
+    for (i = cnt - 1; i >= 0; i--)
+        if (ptru8[i] == val)
+            return (void *)(ptru8 + i);
+    return NULL;
 }

@@ -33,9 +33,10 @@ EXPORT void * bxi_memcpy (      void * dst, const void * src, u32 cnt);
 EXPORT void * bxi_memmove(      void * dst, const void * src, u32 cnt);
 /* @todo 4-bytes blocks bxi_memcmp */
 EXPORT i32    bxi_memcmp (const void * p1,  const void * p2,  u32 cnt);
-/* @todo memfrob with selected byte */
-/* @todo memcmp */ /* @todo null check */
-/* @todo memchr with 4-byte bo-dependent loop */
+/* @todo 4-bytes blocks bxi_memfrob */
+EXPORT void   bxi_memfrob(      void * ptr,         u8   val, u32 cnt);
+EXPORT void * bxi_memchr (const void * ptr,         u8   val, u32 cnt);
+EXPORT void * bxi_memrchr(const void * ptr,         u8   val, u32 cnt);
 
 #endif /* BXIMEMUTILS_H */
 

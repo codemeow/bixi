@@ -26,7 +26,6 @@
 
 static bxi_mutex atomic_xchg(volatile bxi_mutex * ptr, bxi_mutex val)
 {
-    /* @todo check under x64 */
     bxi_mutex tmp = val;
     __asm__(
         "xchgl %0, %1;\n"
