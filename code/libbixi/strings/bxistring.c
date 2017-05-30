@@ -317,7 +317,7 @@ u32 bxi_strparse(char * str, u32 * count, char ** output)
     }
 
     *count = 1;
-    output[0] = input + i;
+    output[0] = str + i;
 
     for (; i < l; i++)
     {
