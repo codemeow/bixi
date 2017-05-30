@@ -308,7 +308,7 @@ u32 bxi_strparse(char * str, u32 * count, char ** output)
     if (!output)
         return 0;
 
-    while (isasciispace(input[i]))
+    while (isasciispace(str[i]))
         i++;
     if (i == l)
     {
