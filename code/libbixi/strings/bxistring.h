@@ -63,6 +63,7 @@ EXPORT const char * strparam (const char * str, i32 * len);
 
 EXPORT u32  bxi_strlen(const char * str);
 EXPORT i32  bxi_strcmp(const char * str1, const char * str2);
+EXPORT u32  bxi_strparse(    char * str, u32 * count, char ** output);
 
 EXPORT bool isasciicntrl (u32 c);
 EXPORT bool isasciiprint (u32 c);

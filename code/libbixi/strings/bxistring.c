@@ -278,3 +278,87 @@ u32 toasciilower(u32 c)
          return c + ASCII_UPPERLOWER_DIFF;
     else return c;
 }
+
+/* Parses input string and fills output array by
+ * substrings, separating by ' '. Escaping and quoting
+ * is accepted. The original string is being changed */
+/* Ex.:
+ * Input:
+ * str = aaa "b b b" ccc \'ddd eee\'
+ * Output:
+ * count = 5
+ * output[0] = aaa
+ * output[1] = "b b b"
+ * output[2] = ccc
+ * output[3] = 'ddd
+ * output[4] = eee'
+ */
+u32 bxi_strparse(char * str, u32 * count, char ** output)
+{
+    u32 i = 0;
+    u32 l = bxi_strlen(str);
+    u32 escaped = 0;
+    u32 quoted  = 0;
+    char quote = ' ';
+
+    if (!str)
+        return 0;
+    if (!count)
+        return 0;
+    if (!output)
+        return 0;
+
+    *count = 1;
+    while (str[i] == ' ')
+        i++;
+    output[0] = str + i;
+
+    for (; i < l; i++)
+    {
+        switch (str[i])
+        {
+        case '\\':
+            if (!escaped)
+                escaped = 1;
+            else
+                escaped = 0;
+            break;
+        case '\'':
+        case '\"':
+            if (!escaped)
+            {
+                if (!quoted)
+                {
+                    quoted = 1;
+                    quote  = str[i];
+                }
+                else if (quote == str[i])
+                    quoted = 0;
+            }
+            else
+                escaped = 0;
+            break;
+        case ' ':
+            if (!escaped)
+            {
+                if (!quoted)
+                {
+                    str[i] = '\0';
+                    if ((str[i + 1] != ' ') &&
+                        (str[i + 1] != '\0'))
+                    {
+                        output[*count] = str + i + 1;
+                        *count = *count + 1;
+                    }
+                }
+            }
+            else
+                escaped = 0;
+            break;
+        default:
+            escaped = 0;
+        }
+    }
+
+    return *count;
+}
