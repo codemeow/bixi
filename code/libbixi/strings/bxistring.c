@@ -308,20 +308,24 @@ u32 bxi_strparse(char * str, u32 * count, char ** output)
     if (!output)
         return 0;
 
-    *count = 1;
-    while (str[i] == ' ')
+    while (isasciispace(input[i]))
         i++;
-    output[0] = str + i;
+    if (i == l)
+    {
+        *count = 0;
+        return 0;
+    }
+
+    *count = 1;
+    output[0] = input + i;
 
     for (; i < l; i++)
     {
         switch (str[i])
         {
         case '\\':
-            if (!escaped)
-                escaped = 1;
-            else
-                escaped = 0;
+            if (!escaped) escaped = 1;
+                     else escaped = 0;
             break;
         case '\'':
         case '\"':
@@ -344,8 +348,7 @@ u32 bxi_strparse(char * str, u32 * count, char ** output)
                 if (!quoted)
                 {
                     str[i] = '\0';
-                    if ((str[i + 1] != ' ') &&
-                        (str[i + 1] != '\0'))
+                    if ((isasciispace(str[i + 1])) && (str[i + 1] != '\0'))
                     {
                         output[*count] = str + i + 1;
                         *count = *count + 1;
