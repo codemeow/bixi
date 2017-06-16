@@ -82,13 +82,14 @@ static void md5_process(md5_t * md5)
 {
     u32 abcd[4];
     u32 block[16];
-    u32 i, dt, F;
+    u32 i;
 
     bxi_memcpy(block, md5->data, MD5_SIZE * sizeof(u32));
     bxi_memcpy( abcd, md5->abcd, MD5_SIZE);
 
     for (i = 0; i < MD5_SIZE * STEP_COUNT; i++)
     {
+        u32 dt, F;
         F = md5_fghi[i / MD5_SIZE](abcd[1], abcd[2], abcd[3]);
 
         dt = abcd[3];

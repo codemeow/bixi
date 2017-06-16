@@ -274,9 +274,35 @@ u32 toasciiupper(u32 c)
 
 u32 toasciilower(u32 c)
 {
-    if (isasciilower(c))
+    if (isasciiupper(c))
          return c + ASCII_UPPERLOWER_DIFF;
     else return c;
+}
+
+void strtoasciiupper(char * str)
+{
+    u32 i;
+    u32 l;
+
+    if (!str)
+        return;
+
+    l = bxi_strlen(str);
+    for (i = 0; i < l; i++)
+        str[i] = (char)toasciiupper(str[i]);
+}
+
+void strtoasciilower(char * str)
+{
+    u32 i;
+    u32 l;
+
+    if (!str)
+        return;
+
+    l = bxi_strlen(str);
+    for (i = 0; i < l; i++)
+        str[i] = (char)toasciilower(str[i]);
 }
 
 /* Parses input string and fills output array by
@@ -348,7 +374,7 @@ u32 bxi_strparse(char * str, u32 * count, char ** output)
                 if (!quoted)
                 {
                     str[i] = '\0';
-                    if ((isasciispace(str[i + 1])) && (str[i + 1] != '\0'))
+                    if ((!isasciispace(str[i + 1])) && (str[i + 1] != '\0'))
                     {
                         output[*count] = str + i + 1;
                         *count = *count + 1;

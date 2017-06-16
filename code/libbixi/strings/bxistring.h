@@ -81,5 +81,8 @@ EXPORT bool isasciixdigit(u32 c);
 EXPORT u32 toasciiupper(u32 c);
 EXPORT u32 toasciilower(u32 c);
 
+EXPORT void strtoasciiupper(char * str);
+EXPORT void strtoasciilower(char * str);
+
 #endif /* BXISTRING_H */
 

@@ -84,6 +84,37 @@ i32 str2i32(const char * str, i32 * len)
     return (i32)ures * (sign ? sign : 1);
 }
 
+u32 hex2raw(const char * hex, u8 * raw)
+{
+    u8 c = 0;
+    u32 pos = 0;
+
+    if (!hex)
+        return 0;
+    if (!raw)
+        return 0;
+
+    while (hex[pos])
+    {
+        if ((hex[pos] >= '0') && (hex[pos] <= '9'))
+           c += (hex[pos] - '0') << (4 * (1 - (pos % 2)));
+        if ((hex[pos] >= 'A') && (hex[pos] <= 'F'))
+           c += (hex[pos] - 'A' + 10) << (4 * (1 - (pos % 2)));
+        if ((hex[pos] >= 'a') && (hex[pos] <= 'f'))
+           c += (hex[pos] - 'a' + 10) << (4 * (1 - (pos % 2)));
+
+        if (pos % 2)
+        {
+            raw[pos / 2] = c;
+            c = 0;
+        }
+
+        pos++;
+    }
+
+    return pos / 2;
+}
+
 u32 i2str(char * str, i32 val)
 {
     u32 pos = 0;

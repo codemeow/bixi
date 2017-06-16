@@ -25,6 +25,10 @@
 #include "../definitions/bxiexport.h"
 #include "../types/bxiints.h"
 
+EXPORT_FROM
+#define MM_PER_INCH (25.4)
+EXPORT_TO
+
 EXPORT typedef struct
 {
     i32 x;

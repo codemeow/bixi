@@ -67,6 +67,8 @@ EXPORT i32 str2i32(const char * str, i32 * len);
 /* @todo EXPORT i32_be hex2i32_be(char * str); */
 /* @todo EXPORT u32_be hex2u32_be(char * str); */
 
+EXPORT u32 hex2raw(const char * hex, u8 * raw);
+
 EXPORT u32    i82hex (char * str, i8     val);
 EXPORT u32    i82str (char * str, i8     val);
 EXPORT u32    i162hex(char * str, i16    val);
