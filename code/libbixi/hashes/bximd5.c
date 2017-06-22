@@ -152,3 +152,11 @@ void md5_final(md5_t * md5)
 
     bxi_memcpy(md5->hash, md5->abcd, STEP_COUNT * sizeof(u32));
 }
+
+void md5_copy(md5_t * md5, u8 * out)
+{
+    if ((!md5) || (!out))
+        return;
+
+    bxi_memcpy(out, md5->abcd, MD5_SIZE);
+}
