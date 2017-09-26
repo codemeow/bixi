@@ -6,6 +6,8 @@
 const char bxi_hexes_high[] = "0123456789ABCDEF";
 const char bxi_hexes_low [] = "0123456789abcdef";
 
+/* @todo bxi_strcpy */
+
 i32 str2i32(const char * str, i32 * len)
 {
     i32 sign = 0;
@@ -34,6 +36,25 @@ i32 str2i32(const char * str, i32 * len)
     {
         str++;
         skp++;
+    }
+
+    if (!sign)
+    {
+        if (*str == '-')
+        {
+            sign = -1;
+            str++;
+        }
+        else if (*str == '+')
+        {
+            sign = +1;
+            str++;
+        }
+    }
+    else
+    {
+        if (len) *len = BXI_STRERROR_CONVOVERFLOW;
+        return 0;
     }
 
     while (str[pos])
@@ -84,6 +105,147 @@ i32 str2i32(const char * str, i32 * len)
     return (i32)ures * (sign ? sign : 1);
 }
 
+i8 str2i8(const char * str, i32 * len)
+{
+    i32 lloc = 0;
+    i32 res32 = str2i32(str, &lloc);
+    if (lloc)
+    {
+        if (len) *len = lloc;
+        return 0;
+    }
+
+    if ((res32 > I8_MAX) || (res32 < I8_MIN))
+    {
+        if (len) *len = BXI_STRERROR_CONVOVERFLOW;
+        return 0;
+    }
+
+    if (len) *len = lloc;
+    return res32;
+}
+
+i16 str2i16(const char * str, i32 * len)
+{
+    i32 lloc = 0;
+    i32 res32 = str2i32(str, &lloc);
+    if (lloc)
+    {
+        if (len) *len = lloc;
+        return 0;
+    }
+
+    if ((res32 > I16_MAX) || (res32 < I16_MIN))
+    {
+        if (len) *len = BXI_STRERROR_CONVOVERFLOW;
+        return 0;
+    }
+
+    if (len) *len = lloc;
+    return res32;
+}
+
+u32 str2u32(const char * str, i32 * len)
+{
+    u32 ures = 0;
+    i32 pos  = 0;
+    u32 skp  = 0;
+
+    if (!str)
+    {
+       if (len) *len = BXI_STRERROR_NOSTRING;
+       return 0;
+    }
+
+    while(isasciispace(str[pos]))
+    {
+        str++;
+        skp++;
+    }
+
+    if (*str == '+')
+    {
+        str++;
+        skp++;
+    }
+
+    while (str[pos])
+    {
+        if ((str[pos] >= '0') && (str[pos] <= '9'))
+        {
+            if (ures > U32_MAX / 10)
+            {
+                if (len) *len = BXI_STRERROR_CONVOVERFLOW;
+                return 0;
+            }
+            ures *= 10;
+
+            if ((u32)(ures + str[pos] - '0') < ures)
+            {
+                if (len) *len = BXI_STRERROR_CONVOVERFLOW;
+                return 0;
+            }
+            ures += str[pos] - '0';
+        }
+        else
+        {
+            if (len) *len = BXI_STRERROR_BADSTRING;
+            return 0;
+        }
+
+        pos++;
+    }
+
+    if (!pos)
+    {
+        if (len) *len = BXI_STRERROR_BADSTRING;
+        return 0;
+    }
+
+    if (len) *len = pos + skp;
+    return ures;
+}
+
+u8 str2u8(const char * str, i32 * len)
+{
+    i32 lloc = 0;
+    u32 res32 = str2u32(str, &lloc);
+    if (lloc)
+    {
+        if (len) *len = lloc;
+        return 0;
+    }
+
+    if (res32 > U8_MAX)
+    {
+        if (len) *len = BXI_STRERROR_CONVOVERFLOW;
+        return 0;
+    }
+
+    if (len) *len = lloc;
+    return res32;
+}
+
+u16 str2u16(const char * str, i32 * len)
+{
+    i32 lloc = 0;
+    u32 res32 = str2u32(str, &lloc);
+    if (lloc)
+    {
+        if (len) *len = lloc;
+        return 0;
+    }
+
+    if (res32 > U16_MAX)
+    {
+        if (len) *len = BXI_STRERROR_CONVOVERFLOW;
+        return 0;
+    }
+
+    if (len) *len = lloc;
+    return res32;
+}
+
 u32 hex2raw(const char * hex, u8 * raw)
 {
     u8 c = 0;
@@ -96,12 +258,16 @@ u32 hex2raw(const char * hex, u8 * raw)
 
     while (hex[pos])
     {
-        if ((hex[pos] >= '0') && (hex[pos] <= '9'))
-           c += (hex[pos] - '0') << (4 * (1 - (pos % 2)));
-        if ((hex[pos] >= 'A') && (hex[pos] <= 'F'))
-           c += (hex[pos] - 'A' + 10) << (4 * (1 - (pos % 2)));
-        if ((hex[pos] >= 'a') && (hex[pos] <= 'f'))
-           c += (hex[pos] - 'a' + 10) << (4 * (1 - (pos % 2)));
+        if      ((hex[pos] >= '0') && (hex[pos] <= '9'))
+           c += ( hex[pos] -  '0') << (4 * (1 - (pos % 2)));
+        else if ((hex[pos] >= 'A') && (hex[pos] <= 'F'))
+           c += ( hex[pos] -  'A' + 10) << (4 * (1 - (pos % 2)));
+        else if ((hex[pos] >= 'a') && (hex[pos] <= 'f'))
+           c += ( hex[pos] -  'a' + 10) << (4 * (1 - (pos % 2)));
+        else
+        {
+            return 0;
+        }
 
         if (pos % 2)
         {
@@ -112,7 +278,153 @@ u32 hex2raw(const char * hex, u8 * raw)
         pos++;
     }
 
+    /* @todo what if FFF */
+
     return pos / 2;
+}
+
+u32 hex2u32end(char * str, i32 * len, bxi_ends end)
+{
+    i32 llen = 0;
+    i32 i;
+    u8 raw[sizeof(u32)];
+    u32 result = 0;
+
+    if (!str)
+        return 0;
+
+    if (bxi_strlen(str) > bxi_strlen("0xffffffff"))
+    {
+        if (len) *len = BXI_STRERROR_CONVOVERFLOW;
+        return 0;
+    }
+
+    if ((bxi_strlen(str) > 2) &&
+        ((str[0] == '0') && (str[1] == 'x')))
+    {
+        str += 2;
+        /* @todo bxi_strstr */
+    }
+
+    llen = hex2raw(str, raw);
+    if (llen == 0)
+    {
+        if (len) *len = BXI_STRERROR_BADSTRING;
+        return 0;
+    }
+
+    if (llen > (i32)sizeof(u32))
+    {
+        if (len) *len = BXI_STRERROR_CONVOVERFLOW;
+        return 0;
+    }
+
+    if (end == BXI_ENDIANNESS_LE)
+    {
+        for (i = 0; i < llen; i++)
+        {
+            result <<= BITS_IN_BYTE;
+            result += raw[i];
+        }
+    }
+    else
+    {
+        for (i = llen - 1; i >= 0; i--)
+        {
+            result <<= 8;
+            result += raw[i];
+        }
+    }
+
+    if (len) *len = llen;
+    return result;
+}
+
+u32 hex2u32(char * str, i32 * len)
+{
+    return hex2u32end(str, len, IS_BE ? BXI_ENDIANNESS_BE : BXI_ENDIANNESS_LE);
+}
+
+u16 hex2u16(char * str, i32 * len)
+{
+    i32 llen = 0;
+    u32 result = hex2u32end(str, &llen, IS_BE ? BXI_ENDIANNESS_BE : BXI_ENDIANNESS_LE);
+    if (llen < BXI_STRERROR_SUCCESS)
+    {
+        if (len) *len = llen;
+    }
+
+    if (result > U16_MAX)
+    {
+        if (len) *len = BXI_STRERROR_CONVOVERFLOW;
+        return 0;
+    }
+
+    return result;
+}
+
+u8 hex2u8(char * str, i32 * len)
+{
+    i32 llen = 0;
+    u32 result = hex2u32end(str, &llen, IS_BE ? BXI_ENDIANNESS_BE : BXI_ENDIANNESS_LE);
+    if (llen < BXI_STRERROR_SUCCESS)
+    {
+        if (len) *len = llen;
+    }
+
+    if (result > U8_MAX)
+    {
+        if (len) *len = BXI_STRERROR_CONVOVERFLOW;
+        return 0;
+    }
+
+    return result;
+}
+
+u16_le hex2u16_le(char * str, i32 * len)
+{
+    i32 llen = 0;
+    u32 result = hex2u32end(str, &llen, BXI_ENDIANNESS_LE);
+    if (llen < BXI_STRERROR_SUCCESS)
+    {
+        if (len) *len = llen;
+    }
+
+    if (result > U16_LE_MAX)
+    {
+        if (len) *len = BXI_STRERROR_CONVOVERFLOW;
+        return 0;
+    }
+
+    return result;
+}
+
+u32_le hex2u32_le(char * str, i32 * len)
+{
+    return hex2u32end(str, len, BXI_ENDIANNESS_LE);
+}
+
+u16_be hex2u16_be(char * str, i32 * len)
+{
+    i32 llen = 0;
+    u32 result = hex2u32end(str, &llen, BXI_ENDIANNESS_BE);
+    if (llen < BXI_STRERROR_SUCCESS)
+    {
+        if (len) *len = llen;
+    }
+
+    if (result > U16_BE_MAX)
+    {
+        if (len) *len = BXI_STRERROR_CONVOVERFLOW;
+        return 0;
+    }
+
+    return result;
+}
+
+u32_be hex2u32_be(char * str, i32 * len)
+{
+    return hex2u32end(str, len, BXI_ENDIANNESS_BE);
 }
 
 u32 i2str(char * str, i32 val)

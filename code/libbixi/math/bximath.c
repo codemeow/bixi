@@ -25,3 +25,8 @@ u32 bxi_abs(i32 val)
 {
     return val < 0 ? -val : val;
 }
+
+i32 bxi_sign(i32 val)
+{
+    return val < 0 ? -1 : val > 0 ? 1 : 0;
+}

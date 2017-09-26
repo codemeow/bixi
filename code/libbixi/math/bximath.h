@@ -25,6 +25,7 @@
 #include "../types/bxiints.h"
 
 EXPORT u32 bxi_abs(i32 val);
+EXPORT i32 bxi_sign(i32 val);
 
 #endif /* BXI_MATH_H */
 

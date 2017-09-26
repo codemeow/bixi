@@ -25,6 +25,12 @@
 #include "../definitions/bxiexport.h"
 #include "../types/bxiints.h"
 
+EXPORT typedef enum
+{
+    BXI_ENDIANNESS_BE,
+    BXI_ENDIANNESS_LE
+} bxi_ends;
+
 EXPORT typedef i16 i16_le;
 EXPORT typedef i16 i16_be;
 EXPORT typedef u16 u16_le;

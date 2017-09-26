@@ -43,29 +43,31 @@ EXPORT typedef enum
 
 #define BXI_HEX_DEFAULT (BXI_HEX_DOUBLELOWHEX)
 
-/* @todo EXPORT i8  str2i8 (char * str); */
-/* @todo EXPORT u8  str2u8 (char * str); */
-/* @todo EXPORT i16 str2i16(char * str); */
-/* @todo EXPORT u16 str2u16(char * str); */
+/* @todo test converters */
+
+EXPORT i8  str2i8 (const char * str, i32 * len);
+EXPORT u8  str2u8 (const char * str, i32 * len);
+EXPORT i16 str2i16(const char * str, i32 * len);
+EXPORT u16 str2u16(const char * str, i32 * len);
 EXPORT i32 str2i32(const char * str, i32 * len);
-/* @todo EXPORT u32 str2u32(char * str); */
+EXPORT u32 str2u32(const char * str, i32 * len);
 
-/* @todo EXPORT i8  hex2i8 (char * str); */
-/* @todo EXPORT u8  hex2u8 (char * str); */
-/* @todo EXPORT i16 hex2i16(char * str); */
-/* @todo EXPORT u16 hex2u16(char * str); */
-/* @todo EXPORT i32 hex2i32(char * str); */
-/* @todo EXPORT u32 hex2u32(char * str); */
+/* @todo EXPORT i8  hex2i8 (char * str, i32 * len); */
+EXPORT u8  hex2u8 (char * str, i32 * len);
+/* @todo EXPORT i16 hex2i16(char * str, i32 * len); */
+EXPORT u16 hex2u16(char * str, i32 * len);
+/* @todo EXPORT i32 hex2i32(char * str, i32 * len); */
+EXPORT u32 hex2u32(char * str, i32 * len);
 
-/* @todo EXPORT i16_le hex2i16_le(char * str); */
-/* @todo EXPORT u16_le hex2u16_le(char * str); */
-/* @todo EXPORT i32_le hex2i32_le(char * str); */
-/* @todo EXPORT u32_le hex2u32_le(char * str); */
+/* @todo EXPORT i16_le hex2i16_le(char * str, i32 * len); */
+EXPORT u16_le hex2u16_le(char * str, i32 * len);
+/* @todo EXPORT i32_le hex2i32_le(char * str, i32 * len); */
+EXPORT u32_le hex2u32_le(char * str, i32 * len);
 
-/* @todo EXPORT i16_be hex2i16_be(char * str); */
-/* @todo EXPORT u16_be hex2u16_be(char * str); */
-/* @todo EXPORT i32_be hex2i32_be(char * str); */
-/* @todo EXPORT u32_be hex2u32_be(char * str); */
+/* @todo EXPORT i16_be hex2i16_be(char * str, i32 * len); */
+EXPORT u16_be hex2u16_be(char * str, i32 * len);
+/* @todo EXPORT i32_be hex2i32_be(char * str, i32 * len); */
+EXPORT u32_be hex2u32_be(char * str, i32 * len);
 
 EXPORT u32 hex2raw(const char * hex, u8 * raw);
 
