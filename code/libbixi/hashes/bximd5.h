@@ -41,6 +41,12 @@ EXPORT typedef struct
 EXPORT void md5_init     (md5_t * md5);
 EXPORT void md5_append   (md5_t * md5, const u8 * data, u32 len);
 EXPORT void md5_appendstr(md5_t * md5, const char * str);
+EXPORT void md5_appendi8 (md5_t * md5, i8 num);
+EXPORT void md5_appendu8 (md5_t * md5, u8 num);
+EXPORT void md5_appendi16(md5_t * md5, i16 num);
+EXPORT void md5_appendu16(md5_t * md5, u16 num);
+EXPORT void md5_appendi32(md5_t * md5, i32 num);
+EXPORT void md5_appendu32(md5_t * md5, u32 num);
 EXPORT void md5_final    (md5_t * md5);
 EXPORT void md5_copy     (md5_t * md5, u8 * out);
 

@@ -115,6 +115,36 @@ void md5_appendstr(md5_t * md5, const char * str)
     md5_append(md5, (const u8 *)str, bxi_strlen(str));
 }
 
+void md5_appendi8(md5_t * md5, i8 num)
+{
+    md5_append(md5, (const u8 *)&num, sizeof(num));
+}
+
+void md5_appendu8(md5_t * md5, u8 num)
+{
+    md5_append(md5, (const u8 *)&num, sizeof(num));
+}
+
+void md5_appendi16(md5_t * md5, i16 num)
+{
+    md5_append(md5, (const u8 *)&num, sizeof(num));
+}
+
+void md5_appendu16(md5_t * md5, u16 num)
+{
+    md5_append(md5, (const u8 *)&num, sizeof(num));
+}
+
+void md5_appendi32(md5_t * md5, i32 num)
+{
+    md5_append(md5, (const u8 *)&num, sizeof(num));
+}
+
+void md5_appendu32(md5_t * md5, u32 num)
+{
+    md5_append(md5, (const u8 *)&num, sizeof(num));
+}
+
 void md5_append(md5_t * md5, const u8 * data, u32 length)
 {
     u32 i;

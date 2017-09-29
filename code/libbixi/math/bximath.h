@@ -27,5 +27,10 @@
 EXPORT u32 bxi_abs(i32 val);
 EXPORT i32 bxi_sign(i32 val);
 
+EXPORT_FROM
+#define BXI_MAX(a, b) (a > b ? a : b)
+#define BXI_MIN(a, b) (a > b ? b : a)
+EXPORT_TO
+
 #endif /* BXI_MATH_H */
 
