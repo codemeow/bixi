@@ -1,4 +1,5 @@
 # Bixi
+![Logo](images/logosmall.png)\
 C89 basic types and functions library
 
 # Origins of the name
