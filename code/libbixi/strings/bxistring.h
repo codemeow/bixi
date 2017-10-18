@@ -61,9 +61,12 @@ EXPORT       char * strtrimr (      char * str);
 EXPORT       char * strtrim  (      char * str);
 EXPORT const char * strparam (const char * str, i32 * len);
 
-EXPORT u32  bxi_strlen(const char * str);
-EXPORT i32  bxi_strcmp(const char * str1, const char * str2);
-EXPORT u32  bxi_strparse(    char * str, u32 * count, char ** output);
+EXPORT u32    bxi_strlen(const char * str);
+EXPORT i32    bxi_strcmp(const char * str1, const char * str2);
+EXPORT u32    bxi_strparse(    char * str, u32 * count, char ** output);
+EXPORT char * bxi_strchr(const char * s, i32 c);
+EXPORT char * bxi_strcpy(char * dst, const char * src);
+EXPORT char * bxi_strstr(const char * str, const char * sub);
 
 EXPORT bool isasciicntrl (u32 c);
 EXPORT bool isasciiprint (u32 c);

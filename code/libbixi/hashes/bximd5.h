@@ -24,6 +24,7 @@
 
 #include "../definitions/bxiexport.h"
 #include "../types/bxiints.h"
+#include "../hashes/bxihash.h"
 
 EXPORT_FROM
 #define MD5_SIZE (16)
@@ -31,11 +32,11 @@ EXPORT_TO
 
 EXPORT typedef struct
 {
-    u32 abcd[MD5_SIZE / sizeof(u32)];
-    u32 leng;
-    u32 totl[2];
-    u8  data[MD5_SIZE * 4];
-    u8  hash[MD5_SIZE];
+    u32     abcd[MD5_SIZE / sizeof(u32)];
+    u32     leng;
+    u32     totl[2];
+    u8      data[MD5_SIZE * 4];
+    hash_16 hash;
 } md5_t;
 
 EXPORT void md5_init     (md5_t * md5);

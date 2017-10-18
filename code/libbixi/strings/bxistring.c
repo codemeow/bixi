@@ -22,6 +22,7 @@
 #include "../strings/bxistring.h"
 #include "../utils/bxibitutils.h"
 #include "../utils/bximemutils.h"
+#include "../definitions/bximacros.h"
 
 #define FNV_VALUE_START (0x811c9dc5u)
 #define FNV_VALUE_STEP  (0x01000193u)
@@ -90,6 +91,39 @@ i32 bxi_strcmp(const char * str1, const char * str2)
     while (c1 == c2);
 
     return c1 - c2;
+}
+
+char * bxi_strcpy(char * dst, const char * src)
+{
+    if (!dst)
+        return NULL;
+    if (!src)
+        return dst;
+
+    while (*src)
+    {
+        *dst = *src;
+        src++;
+        dst++;
+    }
+
+    return dst;
+}
+
+char * bxi_strchr(const char * s, i32 c)
+{
+    if (!s)
+        return NULL;
+
+    while (*s)
+    {
+        if (*s == c)
+            return (char *)s;
+
+        s++;
+    }
+
+    return NULL;
 }
 
 bxi_hash strhash(const char * str)
@@ -390,4 +424,30 @@ u32 bxi_strparse(char * str, u32 * count, char ** output)
     }
 
     return *count;
+}
+
+char * bxi_strstr(const char * str, const char * sub)
+{
+    if (!str)
+        return NULL;
+    if (!sub)
+        return NULL;
+
+    while (*str)
+    {
+        const char * beg = str;
+        const char * pat = sub;
+
+        while (*str && *pat && *str == *pat)
+        {
+            str++;
+            pat++;
+        }
+
+        if (!*pat)
+            return (char *)beg;
+
+        str = beg + 1;
+    }
+    return NULL;
 }

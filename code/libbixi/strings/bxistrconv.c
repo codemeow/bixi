@@ -6,8 +6,6 @@
 const char bxi_hexes_high[] = "0123456789ABCDEF";
 const char bxi_hexes_low [] = "0123456789abcdef";
 
-/* @todo bxi_strcpy */
-
 i32 str2i32(const char * str, i32 * len)
 {
     i32 sign = 0;
@@ -303,7 +301,6 @@ u32 hex2u32end(char * str, i32 * len, bxi_ends end)
         ((str[0] == '0') && (str[1] == 'x')))
     {
         str += 2;
-        /* @todo bxi_strstr */
     }
 
     llen = hex2raw(str, raw);

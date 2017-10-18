@@ -25,12 +25,13 @@
 #include "../definitions/bxiexport.h"
 #include "../types/bxiints.h"
 #include "../types/bxibools.h"
+#include "../hashes/bxihash.h"
 
 EXPORT_FROM
 #define UUID_SIZE     (16)
 #define UUID_STR_SIZE (45 + 1)
 EXPORT_TO
-EXPORT typedef u8 uuid_t[UUID_SIZE];
+EXPORT typedef hash_16 uuid_t;
 
 EXPORT typedef enum
 {

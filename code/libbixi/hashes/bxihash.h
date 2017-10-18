@@ -19,31 +19,20 @@
  *  along with Project «Bixi». If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef BXISERWRITE_H
-#define BXISERWRITE_H
+#ifndef BXIHASH_H
+#define BXIHASH_H
 
 #include "../definitions/bxiexport.h"
 #include "../types/bxiints.h"
-#include "../types/bxiboints.h"
 
-EXPORT void write_i8    (i8     val, u8 * dst);
-EXPORT void write_u8    (u8     val, u8 * dst);
-EXPORT void write_i16   (i16    val, u8 * dst);
-EXPORT void write_u16   (u16    val, u8 * dst);
-EXPORT void write_i32   (i32    val, u8 * dst);
-EXPORT void write_u32   (u32    val, u8 * dst);
+EXPORT typedef u8 hash_4[4];
+EXPORT typedef u8 hash_8[8];
+EXPORT typedef u8 hash_16[16];
+EXPORT typedef u8 hash_32[32];
+EXPORT typedef u8 hash_64[64];
+EXPORT typedef u8 hash_128[128];
+EXPORT typedef u8 hash_256[256];
+EXPORT typedef u8 hash_512[512];
 
-EXPORT void write_i16_be(i16_be val, u8 * dst);
-EXPORT void write_u16_be(u16_be val, u8 * dst);
-EXPORT void write_i32_be(i32_be val, u8 * dst);
-EXPORT void write_u32_be(u32_be val, u8 * dst);
-
-EXPORT void write_i16_le(i16_le val, u8 * dst);
-EXPORT void write_u16_le(u16_le val, u8 * dst);
-EXPORT void write_i32_le(i32_le val, u8 * dst);
-EXPORT void write_u32_le(u32_le val, u8 * dst);
-
-/* @todo write_str */
-
-#endif /* BXISERWRITE_H */
+#endif /* BXIHASH_H */
 

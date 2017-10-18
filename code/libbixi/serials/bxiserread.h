@@ -42,5 +42,7 @@ EXPORT u16_le read_u16_le(u8 * src);
 EXPORT i32_le read_i32_le(u8 * src);
 EXPORT u32_le read_u32_le(u8 * src);
 
+/* @todo read_str. till \n, till \0 and N characters */
+
 #endif /* BXISERREAD_H */
 

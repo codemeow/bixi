@@ -100,7 +100,6 @@ EXPORT u32 u32_be2str(char * str, u32_be val);
 EXPORT u32 u32_le2hex(char * str, u32_le val);
 EXPORT u32 u32_le2str(char * str, u32_le val);
 
-
 /* @todo padded versions + format */
 
 #endif /* BXISTRCONV_H */
