@@ -24,17 +24,62 @@
 
 #include "../definitions/bxiexport.h"
 
-EXPORT enum bxi_colours_ansi
-{
-    BXI_COLOUR_ANSI_BLACK   = (0),
-    BXI_COLOUR_ANSI_RED     = (1),
-    BXI_COLOUR_ANSI_GREEN   = (2),
-    BXI_COLOUR_ANSI_YELLOW  = (3),
-    BXI_COLOUR_ANSI_BLUE    = (4),
-    BXI_COLOUR_ANSI_MAGENTA = (5),
-    BXI_COLOUR_ANSI_CYAN    = (6),
-    BXI_COLOUR_ANSI_WHITE   = (7),
+/* Not widely supported */
+/* @todo colors */
+/*  #include <stdio.h>
+    int main()
+    {
+        int r, g, b;
+        for (r = 0; r < 6; r++)
+        for (g = 0; g < 6; g++)
+        {
+            for (b = 0; b < 6; b++)
+            {
+                int c = 16 + r * 36 + g * 6 + b;
+                printf("\x1b[48;5;%dm %3d \x1b[0m", c, c);
+            }
+            printf("\n");
+        }
+        printf("\n");
+        return 0;
+    } */
 
+EXPORT enum bxi_colours_ansi8
+{
+    BXI_COLOUR_A8_BLACK   = (0),
+    BXI_COLOUR_A8_RED     = (1),
+    BXI_COLOUR_A8_GREEN   = (2),
+    BXI_COLOUR_A8_YELLOW  = (3),
+    BXI_COLOUR_A8_BLUE    = (4),
+    BXI_COLOUR_A8_MAGENTA = (5),
+    BXI_COLOUR_A8_CYAN    = (6),
+    BXI_COLOUR_A8_WHITE   = (7)
+};
+
+EXPORT enum bxi_colours_ansi256
+{
+    /* Widely supported */
+    BXI_COLOUR_A256_BLACK     = ( 0),
+    BXI_COLOUR_A256_RED       = ( 1),
+    BXI_COLOUR_A256_GREEN     = ( 2),
+    BXI_COLOUR_A256_YELLOW    = ( 3),
+    BXI_COLOUR_A256_BLUE      = ( 4),
+    BXI_COLOUR_A256_MAGENTA   = ( 5),
+    BXI_COLOUR_A256_CYAN      = ( 6),
+    BXI_COLOUR_A256_WHITE     = ( 7),
+    BXI_COLOUR_A256_B_BLACK   = ( 8),
+    BXI_COLOUR_A256_B_RED     = ( 9),
+    BXI_COLOUR_A256_B_GREEN   = (10),
+    BXI_COLOUR_A256_B_YELLOW  = (11),
+    BXI_COLOUR_A256_B_BLUE    = (12),
+    BXI_COLOUR_A256_B_MAGENTA = (13),
+    BXI_COLOUR_A256_B_CYAN    = (14),
+    BXI_COLOUR_A256_B_WHITE   = (15)
+    /* Not widely supported */
+};
+
+EXPORT enum bxi_colours_controls
+{
     BXI_COLOUR_ANSI_FOREGROUND = (30),
     BXI_COLOUR_ANSI_BACKGROUND = (40)
 };

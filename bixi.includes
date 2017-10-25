@@ -18,3 +18,13 @@
 #  along with Project «bixi». If not, see <http://www.gnu.org/licenses/>.
 
 includes
+scripts
+code/test
+code/test/tests
+code/test/definitions
+code/test/graph
+code/test/hashes
+code/test/math
+code/test/random
+code/test/serials
+code/test/strings

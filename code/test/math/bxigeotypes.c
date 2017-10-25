@@ -19,36 +19,21 @@
  *  along with Project «Bixi». If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef BXITIME_H
-#define BXITIME_H
+#include <stdio.h>
+#include <libbixi.h>
+#include "../test.h"
+#include "../math/bxigeotypes.h"
 
-#include "../definitions/bxiexport.h"
-
-EXPORT_FROM
-#define SEC_PER_MIN (60L)
-#define MIN_PER_HRS (60L)
-#define HRS_PER_DAY (24L)
-
-#define DAYS_PER_WEEK (7L)
-
-#define SEC_PER_HRS (SEC_PER_MIN * MIN_PER_HRS)
-#define SEC_PER_DAY (SEC_PER_HRS * HRS_PER_DAY)
-#define MIN_PER_DAY (MIN_PER_HRS * HRS_PER_DAY)
-EXPORT_TO
-
-EXPORT typedef enum
-/* days are numbered by the order
- * they've appeared in unixtime
- * to simplify unixtime date math */
+void test_math_bxigeotypes(void)
 {
-    BXI_MONDAY    = (4),
-    BXI_TUESDAY   = (5),
-    BXI_WEDNESDAY = (6),
-    BXI_THURSDAY  = (0),
-    BXI_FRIDAY    = (1),
-    BXI_SATURDAY  = (2),
-    BXI_SUNDAY    = (3)
-} bxi_weekdays;
+    print_info;
 
-#endif /* BXITIME_H */
+#   if defined(UUID_SIZE)
+        printf("        defined: MM_PER_INCH    (%f)\n", MM_PER_INCH);
+#   else
+        print_failed();
+        return;
+#   endif
 
+    print_passed();
+}

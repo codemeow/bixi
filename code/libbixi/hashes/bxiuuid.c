@@ -41,16 +41,14 @@ static void uuidversionset(uuid_t out, uuid_version ver)
 
 void uuidv3(uuid_t out, uuid_t ns, const char * data)
 {
-    u32 i;
+ /*   u32 i;*/
     md5_t md5;
     md5_init     (&md5);
     md5_append   (&md5, ns, UUID_SIZE);
     md5_appendstr(&md5, data);
     md5_final    (&md5);
 
-    /* to avoid BE/LE problems */
-    for (i = 0; i < UUID_SIZE; i++)
-        out[i] = ((md5.abcd[i / sizeof(u32)] >> (i / 4 * 8)) & 0xFF);
+    md5_copy(&md5, out);
 
     uuidversionset(out, UUID_V3);
 }
@@ -122,7 +120,7 @@ void uuid2str(uuid_t uuid, char * out, uuid_format format)
     out[strpos] = '\0';
 }
 
-bool uuidscmp(uuid_t u1, uuid_t u2)
+i32 uuidscmp(uuid_t u1, uuid_t u2)
 {
-    return !bxi_memcmp(u1, u2, sizeof(uuid_t));
+    return bxi_memcmp(u1, u2, sizeof(uuid_t));
 }

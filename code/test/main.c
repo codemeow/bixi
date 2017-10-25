@@ -19,36 +19,32 @@
  *  along with Project «Bixi». If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef BXITIME_H
-#define BXITIME_H
+#include <stdio.h>
+#include <libbixi.h>
+#include "test.h"
 
-#include "../definitions/bxiexport.h"
-
-EXPORT_FROM
-#define SEC_PER_MIN (60L)
-#define MIN_PER_HRS (60L)
-#define HRS_PER_DAY (24L)
-
-#define DAYS_PER_WEEK (7L)
-
-#define SEC_PER_HRS (SEC_PER_MIN * MIN_PER_HRS)
-#define SEC_PER_DAY (SEC_PER_HRS * HRS_PER_DAY)
-#define MIN_PER_DAY (MIN_PER_HRS * HRS_PER_DAY)
-EXPORT_TO
-
-EXPORT typedef enum
-/* days are numbered by the order
- * they've appeared in unixtime
- * to simplify unixtime date math */
+i32 main(void)
 {
-    BXI_MONDAY    = (4),
-    BXI_TUESDAY   = (5),
-    BXI_WEDNESDAY = (6),
-    BXI_THURSDAY  = (0),
-    BXI_FRIDAY    = (1),
-    BXI_SATURDAY  = (2),
-    BXI_SUNDAY    = (3)
-} bxi_weekdays;
+    test_definitions_bxiexport();
+    test_definitions_bxiarch();
+    test_definitions_bxiassert();
+    test_definitions_bximacros();
 
-#endif /* BXITIME_H */
+    test_graph_bxicolour();
 
+    test_hashes_bxihash();
+    test_hashes_bximd5();
+    test_hashes_bxiuuid();
+
+    test_math_bxigeotypes();
+    test_math_bximath();
+
+    test_random_bxirand();
+
+    test_serials_bxiserread();
+    test_serials_bxiserwrite();
+
+    test_strings_bxistrconv();
+
+    return 0;
+}

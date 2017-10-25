@@ -19,29 +19,37 @@
  *  along with Project «Bixi». If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef BXISERWRITE_H
-#define BXISERWRITE_H
-
+#include <stdio.h>
+#include <libbixi.h>
+#include "../test.h"
 #include "../definitions/bxiexport.h"
-#include "../types/bxiints.h"
-#include "../types/bxiboints.h"
 
-EXPORT void bxi_write_i8    (i8     val, u8 * dst);
-EXPORT void bxi_write_u8    (u8     val, u8 * dst);
-EXPORT void bxi_write_i16   (i16    val, u8 * dst);
-EXPORT void bxi_write_u16   (u16    val, u8 * dst);
-EXPORT void bxi_write_i32   (i32    val, u8 * dst);
-EXPORT void bxi_write_u32   (u32    val, u8 * dst);
+void test_definitions_bxiexport(void)
+{
+    print_info;
 
-EXPORT void bxi_write_i16_be(i16_be val, u8 * dst);
-EXPORT void bxi_write_u16_be(u16_be val, u8 * dst);
-EXPORT void bxi_write_i32_be(i32_be val, u8 * dst);
-EXPORT void bxi_write_u32_be(u32_be val, u8 * dst);
+    printf("    defines:\n");
 
-EXPORT void bxi_write_i16_le(i16_le val, u8 * dst);
-EXPORT void bxi_write_u16_le(u16_le val, u8 * dst);
-EXPORT void bxi_write_i32_le(i32_le val, u8 * dst);
-EXPORT void bxi_write_u32_le(u32_le val, u8 * dst);
+#   if defined(EXPORT)
+        printf("        defined : EXPORT\n");
+#   else
+        print_failed();
+        return;
+#   endif
 
-#endif /* BXISERWRITE_H */
+#   if defined(EXPORT_FROM)
+        printf("        defined : EXPORT_FROM\n");
+#   else
+        print_failed();
+        return;
+#   endif
 
+#   if defined(EXPORT_TO)
+        printf("        defined : EXPORT_TO\n");
+#   else
+        print_failed();
+        return;
+#   endif
+
+    print_passed();
+}

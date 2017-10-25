@@ -45,14 +45,14 @@ EXPORT_FROM
 
 EXPORT_TO
 
-/* EXPORT void uuidv1 */
+/* EXPORT @todo void uuidv1 */
 /* EXPORT void uuidv2 */
 EXPORT void uuidv3(uuid_t out, uuid_t ns, const char * data);
 EXPORT void uuidv4(uuid_t out);
 /* EXPORT void uuidv5 */
 
 EXPORT void uuid2str(uuid_t uuid, char * out, uuid_format format);
-EXPORT bool uuidscmp(uuid_t u1, uuid_t u2);
+EXPORT i32 uuidscmp(uuid_t u1, uuid_t u2);
 
 #endif /* BXIUUID_H */
 

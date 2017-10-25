@@ -25,24 +25,22 @@
 #include "../definitions/bxiexport.h"
 #include "../types/bxiboints.h"
 
-EXPORT i8     read_i8    (u8 * src);
-EXPORT u8     read_u8    (u8 * src);
-EXPORT i16    read_i16   (u8 * src);
-EXPORT u16    read_u16   (u8 * src);
-EXPORT i32    read_i32   (u8 * src);
-EXPORT u32    read_u32   (u8 * src);
+EXPORT i8     bxi_read_i8    (u8 * src);
+EXPORT u8     bxi_read_u8    (u8 * src);
+EXPORT i16    bxi_read_i16   (u8 * src);
+EXPORT u16    bxi_read_u16   (u8 * src);
+EXPORT i32    bxi_read_i32   (u8 * src);
+EXPORT u32    bxi_read_u32   (u8 * src);
 
-EXPORT i16_be read_i16_be(u8 * src);
-EXPORT u16_be read_u16_be(u8 * src);
-EXPORT i32_be read_i32_be(u8 * src);
-EXPORT u32_be read_u32_be(u8 * src);
+EXPORT i16_be bxi_read_i16_be(u8 * src);
+EXPORT u16_be bxi_read_u16_be(u8 * src);
+EXPORT i32_be bxi_read_i32_be(u8 * src);
+EXPORT u32_be bxi_read_u32_be(u8 * src);
 
-EXPORT i16_le read_i16_le(u8 * src);
-EXPORT u16_le read_u16_le(u8 * src);
-EXPORT i32_le read_i32_le(u8 * src);
-EXPORT u32_le read_u32_le(u8 * src);
-
-/* @todo read_str. till \n, till \0 and N characters */
+EXPORT i16_le bxi_read_i16_le(u8 * src);
+EXPORT u16_le bxi_read_u16_le(u8 * src);
+EXPORT i32_le bxi_read_i32_le(u8 * src);
+EXPORT u32_le bxi_read_u32_le(u8 * src);
 
 #endif /* BXISERREAD_H */
 

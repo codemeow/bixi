@@ -26,9 +26,9 @@
 #include "../types/bxiints.h"
 
 EXPORT_FROM
-#define     BXI_RAND32_MAX (U32_MAX)
-#define     BXI_RAND16_MAX (U16_MAX)
-#define     BXI_RAND8_MAX  (U8_MAX )
+#define     BXI_RAND32_MAX ((u32)U32_MAX)
+#define     BXI_RAND16_MAX ((u32)U16_MAX)
+#define     BXI_RAND8_MAX  ((u32)U8_MAX )
 EXPORT_TO
 
 EXPORT void bxi_srand(u32 seed);

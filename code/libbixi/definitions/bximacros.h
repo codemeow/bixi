@@ -37,8 +37,8 @@ EXPORT_FROM
 EXPORT_TO
 
 EXPORT_FROM
-#define IN(    value, high, low) ((high >  value) && (value <  low))
-#define IN_INC(value, high, low) ((high >= value) && (value <= low))
+#define IN(    value, high, low) ((high >  value) && (value >  low))
+#define IN_INC(value, high, low) ((high >= value) && (value >= low))
 EXPORT_TO
 
 EXPORT_FROM
@@ -46,7 +46,7 @@ EXPORT_FROM
 EXPORT_TO
 
 EXPORT_FROM
-#define BXI_ARRAY_SIZE(static_arr) (sizeof(static_arr) / sizeof(static_arr[0]))
+#define BXI_ARRAY_SIZE(static_arr) ((u32)(sizeof(static_arr) / sizeof(static_arr[0])))
 EXPORT_TO
 
 #endif /* BXIMACROS_H */

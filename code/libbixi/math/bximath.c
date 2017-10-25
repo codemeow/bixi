@@ -30,3 +30,46 @@ i32 bxi_sign(i32 val)
 {
     return val < 0 ? -1 : val > 0 ? 1 : 0;
 }
+
+/*
+--- This version is actually faster by 17%-24%, but
+--- recursion is unsafe. This bxi_gcd can do
+--- 20 000 000+ calls/sec on i5-6200U CPU @ 2.30GHz (-O1)
+
+i32 bxi_gcd(i32 a, i32 b)
+{
+    a = bxi_abs(a);
+    b = bxi_abs(b);
+    return b == 0 ? a : bxi_gcd(b, a % b);
+}
+
+---
+---
+---
+*/
+
+i32 bxi_gcd(i32 a, i32 b)
+{
+    a = bxi_abs(a);
+    b = bxi_abs(b);
+
+    for (;;)
+    {
+        if (a == 0) return b;
+        b %= a;
+        if (b == 0) return a;
+        a %= b;
+    }
+
+    return 0;
+}
+
+i32 bxi_lcm(i32 a, i32 b)
+{
+    i32 g = bxi_gcd(a, b);
+    if (g == 0)
+        return 0;
+
+    return a / g * b;
+}
+
