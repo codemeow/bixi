@@ -54,38 +54,37 @@ EXPORT enum bxi_strerror
 
 EXPORT typedef u32 bxi_hash;
 
-EXPORT bxi_hash     strhash  (const char * str);
-EXPORT       char * strshiftl(      char * str, u32 count);
-EXPORT       char * strtriml (      char * str);
-EXPORT       char * strtrimr (      char * str);
-EXPORT       char * strtrim  (      char * str);
-EXPORT const char * strparam (const char * str, i32 * len);
+EXPORT bxi_hash     bxi_strhash  (const char * str);
+EXPORT       char * bxi_strshiftl(      char * str, u32 count);
+EXPORT       char * bxi_strtriml (      char * str);
+EXPORT       char * bxi_strtrimr (      char * str);
+EXPORT       char * bxi_strtrim  (      char * str);
 
-EXPORT u32    bxi_strlen(const char * str);
-EXPORT i32    bxi_strcmp(const char * str1, const char * str2);
-EXPORT u32    bxi_strparse(    char * str, u32 * count, char ** output);
-EXPORT char * bxi_strchr(const char * s, i32 c);
-EXPORT char * bxi_strcpy(char * dst, const char * src);
-EXPORT char * bxi_strstr(const char * str, const char * sub);
+EXPORT u32    bxi_strlen  (const char * str);
+EXPORT i32    bxi_strcmp  (const char * str1, const char * str2);
+EXPORT u32    bxi_strparse(      char * str, u32 * count, char ** output);
+EXPORT char * bxi_strchr  (const char * s, i32 c);
+EXPORT char * bxi_strcpy  (char * dst, const char * src);
+EXPORT char * bxi_strstr  (const char * str, const char * sub);
 
-EXPORT bool isasciicntrl (u32 c);
-EXPORT bool isasciiprint (u32 c);
-EXPORT bool isasciispace (u32 c);
-EXPORT bool isasciiblank (u32 c);
-EXPORT bool isasciigraph (u32 c);
-EXPORT bool isasciipunct (u32 c);
-EXPORT bool isasciialnum (u32 c);
-EXPORT bool isasciialpha (u32 c);
-EXPORT bool isasciiupper (u32 c);
-EXPORT bool isasciilower (u32 c);
-EXPORT bool isasciidigit (u32 c);
-EXPORT bool isasciixdigit(u32 c);
+EXPORT bool bxi_iscntrl (u32 c);
+EXPORT bool bxi_isprint (u32 c);
+EXPORT bool bxi_isspace (u32 c);
+EXPORT bool bxi_isblank (u32 c);
+EXPORT bool bxi_isgraph (u32 c);
+EXPORT bool bxi_ispunct (u32 c);
+EXPORT bool bxi_isalnum (u32 c);
+EXPORT bool bxi_isalpha (u32 c);
+EXPORT bool bxi_isupper (u32 c);
+EXPORT bool bxi_islower (u32 c);
+EXPORT bool bxi_isdigit (u32 c);
+EXPORT bool bxi_isxdigit(u32 c);
 
-EXPORT u32 toasciiupper(u32 c);
-EXPORT u32 toasciilower(u32 c);
+EXPORT u32 bxi_2upper(u32 c);
+EXPORT u32 bxi_2lower(u32 c);
 
-EXPORT void strtoasciiupper(char * str);
-EXPORT void strtoasciilower(char * str);
+EXPORT void bxi_str2upper(char * str);
+EXPORT void bxi_str2lower(char * str);
 
 #endif /* BXISTRING_H */
 

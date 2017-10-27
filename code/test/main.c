@@ -45,6 +45,7 @@ i32 main(void)
     test_serials_bxiserwrite();
 
     test_strings_bxistrconv();
+    test_strings_bxistring();
 
     return 0;
 }

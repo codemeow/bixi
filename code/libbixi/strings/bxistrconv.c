@@ -31,7 +31,7 @@ i32 str2i32(const char * str, i32 * len)
         str++;
     }
 
-    while(isasciispace(str[pos]))
+    while(bxi_isspace(str[pos]))
     {
         str++;
         skp++;
@@ -151,7 +151,7 @@ u32 str2u32(const char * str, i32 * len)
        return 0;
     }
 
-    while(isasciispace(str[pos]))
+    while(bxi_isspace(str[pos]))
     {
         str++;
         skp++;

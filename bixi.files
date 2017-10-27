@@ -21,6 +21,7 @@
 scripts/build.sh
 scripts/export.sh
 scripts/run.sh
+scripts/testgen.sh
 
 # Bixi
 code/libbixi/COPYING
@@ -69,11 +70,15 @@ code/libbixi/utils/bximemutils.h
 
 bixi.creator
 bixi.subprojects
+
 COPYING
 COPYING.LESSER
+README.md
+
+includes/libbixi.h
+
 code/test/main.c
 code/test/project.config
-includes/libbixi.h
 code/test/test.h
 code/test/definitions/bxiexport.h
 code/test/definitions/bxiexport.c
@@ -94,7 +99,6 @@ code/test/hashes/bxiuuid.h
 code/test/hashes/bxiuuid.c
 code/test/math/bxigeotypes.h
 code/test/math/bxigeotypes.c
-scripts/testgen.sh
 code/test/math/bximath.c
 code/test/math/bximath.h
 code/test/random/bxirand.c
@@ -105,3 +109,5 @@ code/test/serials/bxiserwrite.c
 code/test/serials/bxiserwrite.h
 code/test/strings/bxistrconv.c
 code/test/strings/bxistrconv.h
+code/test/strings/bxistring.c
+code/test/strings/bxistring.h

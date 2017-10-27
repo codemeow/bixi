@@ -126,7 +126,7 @@ char * bxi_strchr(const char * s, i32 c)
     return NULL;
 }
 
-bxi_hash strhash(const char * str)
+bxi_hash bxi_strhash(const char * str)
 {
     /* FNV */
     bxi_hash hash = FNV_VALUE_START;
@@ -143,43 +143,43 @@ bxi_hash strhash(const char * str)
     return hash;
 }
 
-char * strtriml(char * str)
+char * bxi_strtriml(char * str)
 {
     u32 first = 0;
 
     if (!str)
         return str;
 
-    while (isasciispace(str[first])) first++;
+    while (bxi_isspace(str[first])) first++;
 
-    strshiftl(str, first);
+    bxi_strshiftl(str, first);
 
     return str;
 }
 
-char * strtrimr(char * str)
+char * bxi_strtrimr(char * str)
 {
     u32 len = bxi_strlen(str);
 
     if (!len)
         return str;
 
-    while (isasciispace(str[len - 1])) len--;
+    while (bxi_isspace(str[len - 1])) len--;
 
     str[len] = '\0';
 
     return str;
 }
 
-char * strtrim(char * str)
+char * bxi_strtrim(char * str)
 {
-    strtriml(str);
-    strtrimr(str);
+    bxi_strtriml(str);
+    bxi_strtrimr(str);
 
     return str;
 }
 
-char * strshiftl(char * str, u32 count)
+char * bxi_strshiftl(char * str, u32 count)
 {
     if (!str)
         return str;
@@ -190,153 +190,107 @@ char * strshiftl(char * str, u32 count)
     return str;
 }
 
-const char * strparam(const char * str, i32 * len)
-{
-    u32 pos = 0;
-    u8  qut = 0;
-
-    if (!str)
-    {
-        if (len) *len = BXI_STRERROR_NOSTRING;
-        return str;
-    }
-
-    while (isasciispace(*str))
-    {
-        str++;
-    }
-
-    if ((*str == '\'') ||
-        (*str == '\"'))
-    {
-        qut = *str;
-        str++;
-    }
-
-    while (str[pos])
-    {
-        if ((!qut) && (isasciispace(str[pos])))
-            break;
-
-        if ((qut) && (pos) && (str[pos] == qut) && (str[pos - 1] != '\\'))
-            break;
-
-        pos++;
-    }
-
-    if ((qut) && (!str[pos]))
-    {
-        if (len) *len = BXI_STRERROR_NOEND;
-        return str;
-    }
-
-    if (len) *len = pos;
-    return str;
-}
-
 static bool isasciigeneric(u32 c, bxi_isasciifuncs type)
 {
     return getbit(bxi_isasciitable[type][c / BITS_IN_U32] , c % BITS_IN_U32);
 }
 
-bool isasciicntrl(u32 c)
+bool bxi_iscntrl(u32 c)
 {
     return c <= BXI_IS_ASCII_MAX ? isasciigeneric(c, BXI_IS_ASCII_CNTRL) : 0;
 }
 
-bool isasciiprint(u32 c)
+bool bxi_isprint(u32 c)
 {
     return c <= BXI_IS_ASCII_MAX ? isasciigeneric(c, BXI_IS_ASCII_PRINT) : 0;
 }
 
-bool isasciispace(u32 c)
+bool bxi_isspace(u32 c)
 {
     return c <= BXI_IS_ASCII_MAX ? isasciigeneric(c, BXI_IS_ASCII_SPACE) : 0;
 }
 
-bool isasciiblank(u32 c)
+bool bxi_isblank(u32 c)
 {
     return c <= BXI_IS_ASCII_MAX ? isasciigeneric(c, BXI_IS_ASCII_BLANK) : 0;
 }
 
-bool isasciigraph(u32 c)
+bool bxi_isgraph(u32 c)
 {
     return c <= BXI_IS_ASCII_MAX ? isasciigeneric(c, BXI_IS_ASCII_GRAPH) : 0;
 }
 
-bool isasciipunct(u32 c)
+bool bxi_ispunct(u32 c)
 {
     return c <= BXI_IS_ASCII_MAX ? isasciigeneric(c, BXI_IS_ASCII_PUNCT) : 0;
 }
 
-bool isasciialnum(u32 c)
+bool bxi_isalnum(u32 c)
 {
     return c <= BXI_IS_ASCII_MAX ? isasciigeneric(c, BXI_IS_ASCII_ALNUM) : 0;
 }
 
-bool isasciialpha(u32 c)
+bool bxi_isalpha(u32 c)
 {
     return c <= BXI_IS_ASCII_MAX ? isasciigeneric(c, BXI_IS_ASCII_ALPHA) : 0;
 }
 
-bool isasciiupper(u32 c)
+bool bxi_isupper(u32 c)
 {
     return c <= BXI_IS_ASCII_MAX ? isasciigeneric(c, BXI_IS_ASCII_UPPER) : 0;
 }
 
-bool isasciilower(u32 c)
+bool bxi_islower(u32 c)
 {
     return c <= BXI_IS_ASCII_MAX ? isasciigeneric(c, BXI_IS_ASCII_LOWER) : 0;
 }
 
-bool isasciidigit(u32 c)
+bool bxi_isdigit(u32 c)
 {
     return c <= BXI_IS_ASCII_MAX ? isasciigeneric(c, BXI_IS_ASCII_DIGIT) : 0;
 }
 
-bool isasciixdigit(u32 c)
+bool bxi_isxdigit(u32 c)
 {
     return c <= BXI_IS_ASCII_MAX ? isasciigeneric(c, BXI_IS_ASCII_XDIGIT) : 0;
 }
 
-u32 toasciiupper(u32 c)
+u32 bxi_2upper(u32 c)
 {
-    if (isasciilower(c))
+    if (bxi_islower(c))
          return c - ASCII_UPPERLOWER_DIFF;
     else return c;
 }
 
-u32 toasciilower(u32 c)
+u32 bxi_2lower(u32 c)
 {
-    if (isasciiupper(c))
+    if (bxi_isupper(c))
          return c + ASCII_UPPERLOWER_DIFF;
     else return c;
 }
 
-void strtoasciiupper(char * str)
+void bxi_str2upper(char * str)
 {
-    u32 i;
-    u32 l;
-
     if (!str)
         return;
 
-    l = bxi_strlen(str);
-    for (i = 0; i < l; i++)
-        str[i] = (char)toasciiupper(str[i]);
+    while (*str)
+    {
+        *str = (char)bxi_2upper(*str);
+        str++;
+    }
 }
 
-void strtoasciilower(char * str)
+void bxi_str2lower(char * str)
 {
-    u32 i;
-    u32 l;
-
     if (!str)
         return;
 
-    l = bxi_strlen(str);
-    for (i = 0; i < l; i++)
-        str[i] = (char)toasciilower(str[i]);
+    while (*str)
+    {
+        *str = (char)bxi_2lower(*str);
+        str++;
+    }
 }
 
 /* Parses input string and fills output array by
@@ -365,10 +319,8 @@ u32 bxi_strparse(char * str, u32 * count, char ** output)
         return 0;
     if (!count)
         return 0;
-    if (!output)
-        return 0;
 
-    while (isasciispace(str[i]))
+    while (bxi_isspace(str[i]))
         i++;
     if (i == l)
     {
@@ -377,7 +329,7 @@ u32 bxi_strparse(char * str, u32 * count, char ** output)
     }
 
     *count = 1;
-    output[0] = str + i;
+    if (output) output[0] = str + i;
 
     for (; i < l; i++)
     {
@@ -408,9 +360,9 @@ u32 bxi_strparse(char * str, u32 * count, char ** output)
                 if (!quoted)
                 {
                     str[i] = '\0';
-                    if ((!isasciispace(str[i + 1])) && (str[i + 1] != '\0'))
+                    if ((!bxi_isspace(str[i + 1])) && (str[i + 1] != '\0'))
                     {
-                        output[*count] = str + i + 1;
+                        if (output) output[*count] = str + i + 1;
                         *count = *count + 1;
                     }
                 }

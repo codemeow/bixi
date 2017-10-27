@@ -28,17 +28,10 @@ void test_definitions_bxiarch(void)
 {
     print_info;
 
-    printf("    functions:\n");
-    printf("        bxi_arch: %s\n", bxi_arch());
-    printf("        bxi_bits: %d\n", bxi_bits());
-    printf("        bxi_os  : %s\n", bxi_os());
-
-    printf("    macro:\n");
-    printf("        BXI_OS  : %s\n", BXI_OS);
-    printf("        BXI_BITS: %d\n", BXI_BITS);
-    printf("        BXI_ARCH: %s\n", BXI_ARCH);
-
     printf("    defines:\n");
+    printf("        defined : BXI_OS  : \"%s\"\n", BXI_OS);
+    printf("        defined : BXI_BITS: %d\n",     BXI_BITS);
+    printf("        defined : BXI_ARCH: \"%s\"\n", BXI_ARCH);
 #   if defined(BXI_OS_AIX)
     printf("        defined : BXI_OS_AIX\n");
 #   endif
@@ -161,6 +154,11 @@ void test_definitions_bxiarch(void)
 #   if defined(BXI_ARCH_I64)
     printf("        defined : BXI_ARCH_I64\n");
 #   endif
+
+    printf("    functions:\n");
+    printf("        checking: bxi_arch: %s\n", bxi_arch());
+    printf("        checking: bxi_bits: %d\n", bxi_bits());
+    printf("        checking: bxi_os  : %s\n", bxi_os());
 
     print_passed();
 }
