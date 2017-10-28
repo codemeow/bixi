@@ -25,6 +25,10 @@
 #include "../definitions/bxiexport.h"
 #include "../types/bxiints.h"
 
+EXPORT_FROM
+#define BXI_MUTEX_PERIOD  (1) /* us */
+EXPORT_TO
+
 EXPORT typedef u32 bxi_mutex;
 EXPORT typedef enum
 {

@@ -22,12 +22,10 @@
 #include "../thread/bxithread.h"
 #include "../time/bxisleep.h"
 
-#define BXI_MUTEX_PERIOD  (10)
-
 static bxi_mutex atomic_xchg(volatile bxi_mutex * ptr, bxi_mutex val)
 {
     bxi_mutex tmp = val;
-    __asm__(
+    __asm__ __volatile__ (
         "xchgl %0, %1;\n"
         : "=r"(tmp), "+m"(*ptr)
         : "0"(tmp)
@@ -35,7 +33,7 @@ static bxi_mutex atomic_xchg(volatile bxi_mutex * ptr, bxi_mutex val)
     return tmp;
 }
 
-bxi_mutex bxi_test_and_set(volatile bxi_mutex * val)
+static bxi_mutex bxi_test_and_set(volatile bxi_mutex * val)
 {
     return atomic_xchg(val, BXI_MUTEX_LOCKED);
 }

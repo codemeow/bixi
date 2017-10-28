@@ -111,3 +111,7 @@ code/test/strings/bxistrconv.c
 code/test/strings/bxistrconv.h
 code/test/strings/bxistring.c
 code/test/strings/bxistring.h
+code/test/thread/bxithread.c
+code/test/thread/bxithread.h
+code/test/time/bxisleep.c
+code/test/time/bxisleep.h

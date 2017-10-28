@@ -47,5 +47,9 @@ i32 main(void)
     test_strings_bxistrconv();
     test_strings_bxistring();
 
+    test_thread_bxithread();
+
+    test_time_bxisleep();
+
     return 0;
 }
