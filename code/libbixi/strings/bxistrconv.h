@@ -28,21 +28,6 @@
 extern const char bxi_hexes_high[];
 extern const char bxi_hexes_low [];
 
-EXPORT typedef enum
-{
-    BXI_HEX_DOUBLEHEX,
-    BXI_HEX_DOUBLEHEXWITHSPACE,
-    BXI_HEX_DOUBLEHEXWITHCOMMAANDSPACE,
-    BXI_HEX_DOUBLELOWHEX,
-    BXI_HEX_DOUBLELOWHEXWITHSPACE,
-    BXI_HEX_DOUBLELOWHEXWITHCOMMAANDSPACE,
-    BXI_HEX_ASCII,
-
-    BXI_HEX_COUNT
-} bxi_hex_format;
-
-#define BXI_HEX_DEFAULT (BXI_HEX_DOUBLELOWHEX)
-
 EXPORT i8  str2i8 (const char * str, i32 * len);
 EXPORT u8  str2u8 (const char * str, i32 * len);
 EXPORT i16 str2i16(const char * str, i32 * len);

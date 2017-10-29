@@ -35,7 +35,7 @@ void test_random_bxirand(void)
 
     print_info;
 
-    printf("    defined:\n");
+    printf("    defines:\n");
 
     /* BXI_RAND8_MAX */
 #   if defined(BXI_RAND8_MAX)

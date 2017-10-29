@@ -115,3 +115,7 @@ code/test/thread/bxithread.c
 code/test/thread/bxithread.h
 code/test/time/bxisleep.c
 code/test/time/bxisleep.h
+code/test/time/bxitime.c
+code/test/time/bxitime.h
+code/test/types/bxiarrays.c
+code/test/types/bxiarrays.h

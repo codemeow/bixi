@@ -50,6 +50,9 @@ i32 main(void)
     test_thread_bxithread();
 
     test_time_bxisleep();
+    test_time_bxitime();
+
+    test_types_bxiarrays();
 
     return 0;
 }
