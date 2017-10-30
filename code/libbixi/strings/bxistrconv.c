@@ -7,7 +7,7 @@
 const char bxi_hexes_high[] = "0123456789ABCDEF";
 const char bxi_hexes_low [] = "0123456789abcdef";
 
-i32 str2i32(const char * str, i32 * len)
+i32 bxi_str2i32(const char * str, i32 * len)
 {
     i32 sign = 0;
     u32 ures = 0;
@@ -99,10 +99,10 @@ i32 str2i32(const char * str, i32 * len)
     return (i32)ures * (sign ? sign : 1);
 }
 
-i8 str2i8(const char * str, i32 * len)
+i8 bxi_str2i8(const char * str, i32 * len)
 {
     i32 lloc = 0;
-    i32 res32 = str2i32(str, &lloc);
+    i32 res32 = bxi_str2i32(str, &lloc);
     if (lloc < BXI_STRERROR_SUCCESS)
     {
         if (len) *len = lloc;
@@ -119,10 +119,10 @@ i8 str2i8(const char * str, i32 * len)
     return res32;
 }
 
-i16 str2i16(const char * str, i32 * len)
+i16 bxi_str2i16(const char * str, i32 * len)
 {
     i32 lloc = 0;
-    i32 res32 = str2i32(str, &lloc);
+    i32 res32 = bxi_str2i32(str, &lloc);
     if (lloc < BXI_STRERROR_SUCCESS)
     {
         if (len) *len = lloc;
@@ -139,7 +139,7 @@ i16 str2i16(const char * str, i32 * len)
     return res32;
 }
 
-u32 str2u32(const char * str, i32 * len)
+u32 bxi_str2u32(const char * str, i32 * len)
 {
     u32 ures = 0;
     i32 pos  = 0;
@@ -200,10 +200,10 @@ u32 str2u32(const char * str, i32 * len)
     return ures;
 }
 
-u8 str2u8(const char * str, i32 * len)
+u8 bxi_str2u8(const char * str, i32 * len)
 {
     i32 lloc = 0;
-    u32 res32 = str2u32(str, &lloc);
+    u32 res32 = bxi_str2u32(str, &lloc);
     if (lloc < BXI_STRERROR_SUCCESS)
     {
         if (len) *len = lloc;
@@ -220,10 +220,10 @@ u8 str2u8(const char * str, i32 * len)
     return res32;
 }
 
-u16 str2u16(const char * str, i32 * len)
+u16 bxi_str2u16(const char * str, i32 * len)
 {
     i32 lloc = 0;
-    u32 res32 = str2u32(str, &lloc);
+    u32 res32 = bxi_str2u32(str, &lloc);
     if (lloc < BXI_STRERROR_SUCCESS)
     {
         if (len) *len = lloc;
@@ -240,7 +240,7 @@ u16 str2u16(const char * str, i32 * len)
     return res32;
 }
 
-u32 hex2raw(const char * hex, u8 * raw)
+u32 bxi_hex2raw(const char * hex, u8 * raw)
 {
     u8 c = 0;
     u32 pos = 0;
@@ -279,7 +279,7 @@ u32 hex2raw(const char * hex, u8 * raw)
     return pos >> 1;
 }
 
-u32 hex2u32end(const char * str, i32 * len, bxi_ends end)
+u32 bxi_hex2u32end(const char * str, i32 * len, bxi_ends end)
 {
     i32 llen = 0;
     i32 i;
@@ -303,7 +303,7 @@ u32 hex2u32end(const char * str, i32 * len, bxi_ends end)
         str += 2;
     }
 
-    llen = hex2raw(str, raw);
+    llen = bxi_hex2raw(str, raw);
     if (llen == 0)
     {
         if (len) *len = BXI_STRERROR_BADSTRING;
@@ -337,15 +337,15 @@ u32 hex2u32end(const char * str, i32 * len, bxi_ends end)
     return result;
 }
 
-u32 hex2u32(const char * str, i32 * len)
+u32 bxi_hex2u32(const char * str, i32 * len)
 {
-    return hex2u32end(str, len, IS_BE ? BXI_ENDIANNESS_BE : BXI_ENDIANNESS_LE);
+    return bxi_hex2u32end(str, len, IS_BE ? BXI_ENDIANNESS_BE : BXI_ENDIANNESS_LE);
 }
 
-u16 hex2u16(const char * str, i32 * len)
+u16 bxi_hex2u16(const char * str, i32 * len)
 {
     i32 llen = 0;
-    u32 result = hex2u32end(str, &llen, IS_BE ? BXI_ENDIANNESS_BE : BXI_ENDIANNESS_LE);
+    u32 result = bxi_hex2u32end(str, &llen, IS_BE ? BXI_ENDIANNESS_BE : BXI_ENDIANNESS_LE);
     if (llen < BXI_STRERROR_SUCCESS)
     {
         if (len) *len = llen;
@@ -362,10 +362,10 @@ u16 hex2u16(const char * str, i32 * len)
     return result;
 }
 
-u8 hex2u8(const char * str, i32 * len)
+u8 bxi_hex2u8(const char * str, i32 * len)
 {
     i32 llen = 0;
-    u32 result = hex2u32end(str, &llen, IS_BE ? BXI_ENDIANNESS_BE : BXI_ENDIANNESS_LE);
+    u32 result = bxi_hex2u32end(str, &llen, IS_BE ? BXI_ENDIANNESS_BE : BXI_ENDIANNESS_LE);
     if (llen < BXI_STRERROR_SUCCESS)
     {
         if (len) *len = llen;
@@ -382,11 +382,11 @@ u8 hex2u8(const char * str, i32 * len)
     return result;
 }
 
-i8 hex2i8(const char * str, i32 * len)
+i8 bxi_hex2i8(const char * str, i32 * len)
 {
     i32 llen = 0;
     i8 res;
-    u8 buf = hex2u8(str, &llen);
+    u8 buf = bxi_hex2u8(str, &llen);
     if (llen < BXI_STRERROR_SUCCESS)
     {
         if (len) *len = llen;
@@ -399,11 +399,11 @@ i8 hex2i8(const char * str, i32 * len)
     return res;
 }
 
-i16 hex2i16(const char * str, i32 * len)
+i16 bxi_hex2i16(const char * str, i32 * len)
 {
     i32 llen = 0;
     i16 res;
-    u16 buf = hex2u16(str, &llen);
+    u16 buf = bxi_hex2u16(str, &llen);
     if (llen < BXI_STRERROR_SUCCESS)
     {
         if (len) *len = llen;
@@ -416,11 +416,11 @@ i16 hex2i16(const char * str, i32 * len)
     return res;
 }
 
-i32 hex2i32(const char * str, i32 * len)
+i32 bxi_hex2i32(const char * str, i32 * len)
 {
     i32 llen = 0;
     i32 res;
-    u32 buf = hex2u32(str, &llen);
+    u32 buf = bxi_hex2u32(str, &llen);
     if (llen < BXI_STRERROR_SUCCESS)
     {
         if (len) *len = llen;
@@ -433,10 +433,10 @@ i32 hex2i32(const char * str, i32 * len)
     return res;
 }
 
-u16_le hex2u16_le(const char * str, i32 * len)
+u16_le bxi_hex2u16_le(const char * str, i32 * len)
 {
     i32 llen = 0;
-    u32 result = hex2u32end(str, &llen, BXI_ENDIANNESS_LE);
+    u32 result = bxi_hex2u32end(str, &llen, BXI_ENDIANNESS_LE);
     if (llen < BXI_STRERROR_SUCCESS)
     {
         if (len) *len = llen;
@@ -453,11 +453,11 @@ u16_le hex2u16_le(const char * str, i32 * len)
     return result;
 }
 
-i16_le hex2i16_le(const char * str, i32 * len)
+i16_le bxi_hex2i16_le(const char * str, i32 * len)
 {
     i32 llen = 0;
     i16_le res;
-    u16_le buf = hex2u16_le(str, &llen);
+    u16_le buf = bxi_hex2u16_le(str, &llen);
     if (llen < BXI_STRERROR_SUCCESS)
     {
         if (len) *len = llen;
@@ -470,16 +470,16 @@ i16_le hex2i16_le(const char * str, i32 * len)
     return res;
 }
 
-u32_le hex2u32_le(const char * str, i32 * len)
+u32_le bxi_hex2u32_le(const char * str, i32 * len)
 {
-    return hex2u32end(str, len, BXI_ENDIANNESS_LE);
+    return bxi_hex2u32end(str, len, BXI_ENDIANNESS_LE);
 }
 
-i32_le hex2i32_le(const char * str, i32 * len)
+i32_le bxi_hex2i32_le(const char * str, i32 * len)
 {
     i32 llen = 0;
     i32_le res;
-    u32_le buf = hex2u32_le(str, &llen);
+    u32_le buf = bxi_hex2u32_le(str, &llen);
     if (llen < BXI_STRERROR_SUCCESS)
     {
         if (len) *len = llen;
@@ -492,10 +492,10 @@ i32_le hex2i32_le(const char * str, i32 * len)
     return res;
 }
 
-u16_be hex2u16_be(const char * str, i32 * len)
+u16_be bxi_hex2u16_be(const char * str, i32 * len)
 {
     i32 llen = 0;
-    u32 result = hex2u32end(str, &llen, BXI_ENDIANNESS_BE);
+    u32 result = bxi_hex2u32end(str, &llen, BXI_ENDIANNESS_BE);
     if (llen < BXI_STRERROR_SUCCESS)
     {
         if (len) *len = llen;
@@ -512,11 +512,11 @@ u16_be hex2u16_be(const char * str, i32 * len)
     return result;
 }
 
-i16_be hex2i16_be(const char * str, i32 * len)
+i16_be bxi_hex2i16_be(const char * str, i32 * len)
 {
     i32 llen = 0;
     i16_be res;
-    u16_be buf = hex2u16_be(str, &llen);
+    u16_be buf = bxi_hex2u16_be(str, &llen);
     if (llen < BXI_STRERROR_SUCCESS)
     {
         if (len) *len = llen;
@@ -529,16 +529,16 @@ i16_be hex2i16_be(const char * str, i32 * len)
     return res;
 }
 
-u32_be hex2u32_be(const char * str, i32 * len)
+u32_be bxi_hex2u32_be(const char * str, i32 * len)
 {
-    return hex2u32end(str, len, BXI_ENDIANNESS_BE);
+    return bxi_hex2u32end(str, len, BXI_ENDIANNESS_BE);
 }
 
-i32_be hex2i32_be(const char * str, i32 * len)
+i32_be bxi_hex2i32_be(const char * str, i32 * len)
 {
     i32 llen = 0;
     i32_be res;
-    u32_be buf = hex2u32_be(str, &llen);
+    u32_be buf = bxi_hex2u32_be(str, &llen);
     if (llen < BXI_STRERROR_SUCCESS)
     {
         if (len) *len = llen;
@@ -653,142 +653,212 @@ static u32 i2hex(char * str, i32 val, u32 size)
     return u2hex(str, uval);
 }
 
-u32 i82str(char * str, i8 val)
+u32 bxi_i82str(char * out, i8 val)
 {
-    return i2str(str, val);
+    return i2str(out, val);
 }
 
-u32 u82str (char * str, u8 val)
+u32 bxi_u82str (char * out, u8 val)
 {
-    return u2str(str, val);
+    return u2str(out, val);
 }
 
-u32 i162str(char * str, i16 val)
+u32 bxi_i162str(char * out, i16 val)
 {
-    return i2str(str, val);
+    return i2str(out, val);
 }
 
-u32 u162str(char * str, u16 val)
+u32 bxi_u162str(char * out, u16 val)
 {
-    return u2str(str, val);
+    return u2str(out, val);
 }
 
-u32 i322str(char * str, i32 val)
+u32 bxi_i322str(char * out, i32 val)
 {
-    return i2str(str, val);
+    return i2str(out, val);
 }
 
-u32 u322str(char * str, u32 val)
+u32 bxi_u322str(char * out, u32 val)
 {
-    return u2str(str, val);
+    return u2str(out, val);
 }
 
-u32 i16_le2str(char * str, i16_le val)
+u32 bxi_i16_le2str(char * out, i16_le val)
 {
-    return i2str(str, IS_LE ? val : (i16)chgend16(val));
+    return i2str(out, IS_LE ? val : (i16)chgend16(val));
 }
 
-u32 u16_le2str(char * str, u16_le val)
+u32 bxi_u16_le2str(char * out, u16_le val)
 {
-    return u2str(str, IS_LE ? val : (u16)chgend16(val));
+    return u2str(out, IS_LE ? val : (u16)chgend16(val));
 }
 
-u32 i32_le2str(char * str, i32_le val)
+u32 bxi_i32_le2str(char * out, i32_le val)
 {
-    return i2str(str, IS_LE ? val : (i32)chgend32(val));
+    return i2str(out, IS_LE ? val : (i32)chgend32(val));
 }
 
-u32 u32_le2str(char * str, u32_le val)
+u32 bxi_u32_le2str(char * out, u32_le val)
 {
-    return u2str(str, IS_LE ? val : (u32)chgend32(val));
+    return u2str(out, IS_LE ? val : (u32)chgend32(val));
 }
 
-u32 i16_be2str(char * str, i16_be val)
+u32 bxi_i16_be2str(char * out, i16_be val)
 {
-    return i2str(str, IS_BE ? val : (i16)chgend16(val));
+    return i2str(out, IS_BE ? val : (i16)chgend16(val));
 }
 
-u32 u16_be2str(char * str, u16_be val)
+u32 bxi_u16_be2str(char * out, u16_be val)
 {
-    return u2str(str, IS_BE ? val : (u16)chgend16(val));
+    return u2str(out, IS_BE ? val : (u16)chgend16(val));
 }
 
-u32 i32_be2str(char * str, i32_be val)
+u32 bxi_i32_be2str(char * out, i32_be val)
 {
-    return i2str(str, IS_BE ? val : (i32)chgend32(val));
+    return i2str(out, IS_BE ? val : (i32)chgend32(val));
 }
 
-u32 u32_be2str(char * str, u32_be val)
+u32 bxi_u32_be2str(char * out, u32_be val)
 {
-    return u2str(str, IS_BE ? val : (u32)chgend32(val));
+    return u2str(out, IS_BE ? val : (u32)chgend32(val));
 }
 
-u32 i82hex (char * str, i8  val)
+u32 bxi_i82hex (char * out, i8  val)
 {
-    return i2hex(str, val, sizeof(i8));
+    return i2hex(out, val, sizeof(i8));
 }
 
-u32 u82hex (char * str, u8 val)
+u32 bxi_u82hex (char * out, u8 val)
 {
-    return u2hex(str, val);
+    return u2hex(out, val);
 }
 
-u32 i162hex(char * str, i16 val)
+u32 bxi_i162hex(char * out, i16 val)
 {
-    return i2hex(str, val, sizeof(i16));
+    return i2hex(out, val, sizeof(i16));
 }
 
-u32 u162hex(char * str, u16 val)
+u32 bxi_u162hex(char * out, u16 val)
 {
-    return u2hex(str, val);
+    return u2hex(out, val);
 }
 
-u32 i322hex(char * str, i32 val)
+u32 bxi_i322hex(char * out, i32 val)
 {
-    return i2hex(str, val, sizeof(i32));
+    return i2hex(out, val, sizeof(i32));
 }
 
-u32 u322hex(char * str, u32 val)
+u32 bxi_u322hex(char * out, u32 val)
 {
-    return u2hex(str, val);
+    return u2hex(out, val);
 }
 
-u32 i16_le2hex(char * str, i16_le val)
+u32 bxi_i16_le2hex(char * out, i16_le val)
 {
-    return i2hex(str, IS_LE ? val : (i16)chgend16(val), sizeof(i16_le));
+    return i2hex(out, IS_LE ? val : (i16)chgend16(val), sizeof(i16_le));
 }
 
-u32 u16_le2hex(char * str, u16_le val)
+u32 bxi_u16_le2hex(char * out, u16_le val)
 {
-    return u2hex(str, IS_LE ? val : (u16)chgend16(val));
+    return u2hex(out, IS_LE ? val : (u16)chgend16(val));
 }
 
-u32 i32_le2hex(char * str, i32_le val)
+u32 bxi_i32_le2hex(char * out, i32_le val)
 {
-    return i2hex(str, IS_LE ? val : (i32)chgend32(val), sizeof(i32_le));
+    return i2hex(out, IS_LE ? val : (i32)chgend32(val), sizeof(i32_le));
 }
 
-u32 u32_le2hex(char * str, u32_le val)
+u32 bxi_u32_le2hex(char * out, u32_le val)
 {
-    return u2hex(str, IS_LE ? val : (u32)chgend32(val));
+    return u2hex(out, IS_LE ? val : (u32)chgend32(val));
 }
 
-u32 i16_be2hex(char * str, i16_be val)
+u32 bxi_i16_be2hex(char * out, i16_be val)
 {
-    return i2hex(str, IS_BE ? val : (i16)chgend16(val), sizeof(i16_be));
+    return i2hex(out, IS_BE ? val : (i16)chgend16(val), sizeof(i16_be));
 }
 
-u32 u16_be2hex(char * str, u16_be val)
+u32 bxi_u16_be2hex(char * out, u16_be val)
 {
-    return u2hex(str, IS_BE ? val : (u16)chgend16(val));
+    return u2hex(out, IS_BE ? val : (u16)chgend16(val));
 }
 
-u32 i32_be2hex(char * str, i32_be val)
+u32 bxi_i32_be2hex(char * out, i32_be val)
 {
-    return i2hex(str, IS_BE ? val : (i32)chgend32(val), sizeof(i32_be));
+    return i2hex(out, IS_BE ? val : (i32)chgend32(val), sizeof(i32_be));
 }
 
-u32 u32_be2hex(char * str, u32_be val)
+u32 bxi_u32_be2hex(char * out, u32_be val)
 {
-    return u2hex(str, IS_BE ? val : (u32)chgend32(val));
+    return u2hex(out, IS_BE ? val : (u32)chgend32(val));
+}
+
+u32 bxi_raw2hex(char * out, u8 * raw, u32 count, bxi_hex_format format)
+{
+    u32 i = 0;
+    u32 pos = 0;
+    u32 group = 0;
+
+    if (!out)
+        return 0;
+    if (!raw)
+        return 0;
+
+    if (((bxi_sign(format & BXI_HEX_CASE_LOW)) +
+         (bxi_sign(format & BXI_HEX_CASE_UP ))) != 1)
+        return 0;
+
+    if (((bxi_sign(format & BXI_HEX_GROUP_2)) +
+         (bxi_sign(format & BXI_HEX_GROUP_3)) +
+         (bxi_sign(format & BXI_HEX_GROUP_4)) +
+         (bxi_sign(format & BXI_HEX_GROUP_8))) > 1)
+        return 0;
+
+    group = (format & BXI_HEX_GROUP_2) ? 2 :
+            (format & BXI_HEX_GROUP_3) ? 3 :
+            (format & BXI_HEX_GROUP_4) ? 4 :
+            (format & BXI_HEX_GROUP_8) ? 8 : 1;
+
+    for (i = 0; i < count; i++)
+    {
+        if (i % group == 0)
+        {
+            if (format & BXI_HEX_PREFIX_AMP ) out[pos++] = '&';
+            if (format & BXI_HEX_PREFIX_HASH) out[pos++] = '#';
+            if (format & BXI_HEX_PREFIX_DOL ) out[pos++] = '$';
+            if (format & BXI_HEX_PREFIX_0   ) out[pos++] = '0';
+            if (format & BXI_HEX_PREFIX_x   ) out[pos++] = 'x';
+        }
+
+        if (format & BXI_HEX_CASE_UP)
+        {
+            out[pos++] = bxi_hexes_high[(raw[i] >> 4) & 0xf];
+            out[pos++] = bxi_hexes_high[(raw[i]     ) & 0xf];
+        }
+        else if (format & BXI_HEX_CASE_LOW)
+        {
+            out[pos++] = bxi_hexes_low[(raw[i] >> 4) & 0xf];
+            out[pos++] = bxi_hexes_low[(raw[i]     ) & 0xf];
+        }
+
+
+        if (i % group == (group - 1))
+        {
+            if (format & BXI_HEX_SUFFIX_h   ) out[pos++] = 'h';
+            if (format & BXI_HEX_SUFFIX_u   ) out[pos++] = 'u';
+            if (format & BXI_HEX_SUFFIX_l   ) out[pos++] = 'l';
+        }
+
+        if ((i % group == (group - 1)) &&
+            (!((format & BXI_HEX_END_CLOSED) && (i == count - 1))))
+        {
+            if (format & BXI_HEX_DELIM_COMMA) out[pos++] = ',';
+            if (format & BXI_HEX_DELIM_SEMIC) out[pos++] = ';';
+            if (format & BXI_HEX_DELIM_COLON) out[pos++] = ':';
+            if (format & BXI_HEX_DELIM_SPACE) out[pos++] = ' ';
+        }
+    }
+
+    out[pos] = '\0';
+    return pos;
 }

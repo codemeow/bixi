@@ -25,65 +25,121 @@
 #include "../definitions/bxiexport.h"
 #include "../types/bxiboints.h"
 
+EXPORT_FROM
+#define BXI_HEX_CASE_LOW    (1 << 0x00)
+#define BXI_HEX_CASE_UP     (1 << 0x01)
+#define BXI_HEX_PREFIX_AMP  (1 << 0x02)
+#define BXI_HEX_PREFIX_HASH (1 << 0x03)
+#define BXI_HEX_PREFIX_DOL  (1 << 0x04)
+#define BXI_HEX_PREFIX_0    (1 << 0x05)
+#define BXI_HEX_PREFIX_x    (1 << 0x06)
+#define BXI_HEX_SUFFIX_h    (1 << 0x07)
+#define BXI_HEX_SUFFIX_u    (1 << 0x08)
+#define BXI_HEX_SUFFIX_l    (1 << 0x09)
+#define BXI_HEX_DELIM_COMMA (1 << 0x0a)
+#define BXI_HEX_DELIM_SEMIC (1 << 0x0b)
+#define BXI_HEX_DELIM_COLON (1 << 0x0c)
+#define BXI_HEX_DELIM_SPACE (1 << 0x0d)
+#define BXI_HEX_GROUP_2     (1 << 0x0e)
+#define BXI_HEX_GROUP_3     (1 << 0x0f)
+#define BXI_HEX_GROUP_4     (1 << 0x10)
+#define BXI_HEX_GROUP_8     (1 << 0x11)
+#define BXI_HEX_END_CLOSED  (1 << 0x12)
+
+#define BXI_HEX_COMBO_C      (BXI_HEX_PREFIX_0    | \
+                              BXI_HEX_PREFIX_x    | \
+                              BXI_HEX_CASE_LOW    | \
+                              BXI_HEX_DELIM_COMMA | \
+                              BXI_HEX_DELIM_SPACE )
+#define BXI_HEX_COMBO_XML    (BXI_HEX_PREFIX_AMP  | \
+                              BXI_HEX_PREFIX_HASH | \
+                              BXI_HEX_PREFIX_x    | \
+                              BXI_HEX_CASE_LOW    | \
+                              BXI_HEX_DELIM_SEMIC )
+#define BXI_HEX_COMBO_PASCAL (BXI_HEX_PREFIX_DOL  | \
+                              BXI_HEX_CASE_LOW    | \
+                              BXI_HEX_DELIM_COMMA | \
+                              BXI_HEX_DELIM_SPACE )
+#define BXI_HEX_COMBO_INTEL  (BXI_HEX_PREFIX_0    | \
+                              BXI_HEX_CASE_UP     | \
+                              BXI_HEX_SUFFIX_h    | \
+                              BXI_HEX_DELIM_COMMA | \
+                              BXI_HEX_DELIM_SPACE )
+#define BXI_HEX_COMBO_IPv6   (BXI_HEX_CASE_LOW    | \
+                              BXI_HEX_DELIM_COLON | \
+                              BXI_HEX_GROUP_2     )
+#define BXI_HEX_COMBO_CSS    (BXI_HEX_PREFIX_HASH | \
+                              BXI_HEX_CASE_UP     | \
+                              BXI_HEX_DELIM_COMMA | \
+                              BXI_HEX_DELIM_SPACE | \
+                              BXI_HEX_GROUP_3     )
+
+EXPORT_TO
+EXPORT typedef u32 bxi_hex_format;
+
 extern const char bxi_hexes_high[];
 extern const char bxi_hexes_low [];
 
-EXPORT i8  str2i8 (const char * str, i32 * len);
-EXPORT u8  str2u8 (const char * str, i32 * len);
-EXPORT i16 str2i16(const char * str, i32 * len);
-EXPORT u16 str2u16(const char * str, i32 * len);
-EXPORT i32 str2i32(const char * str, i32 * len);
-EXPORT u32 str2u32(const char * str, i32 * len);
+EXPORT u32 bxi_hex2u32end(const char * str, i32 * len, bxi_ends end);
 
-EXPORT u32 hex2u32end(const char * str, i32 * len, bxi_ends end);
+EXPORT i8     bxi_str2i8    (const char * str, i32 * len);
+EXPORT u8     bxi_str2u8    (const char * str, i32 * len);
+EXPORT i16    bxi_str2i16   (const char * str, i32 * len);
+EXPORT u16    bxi_str2u16   (const char * str, i32 * len);
+EXPORT i32    bxi_str2i32   (const char * str, i32 * len);
+EXPORT u32    bxi_str2u32   (const char * str, i32 * len);
 
-EXPORT i8  hex2i8 (const char * str, i32 * len);
-EXPORT u8  hex2u8 (const char * str, i32 * len);
-EXPORT i16 hex2i16(const char * str, i32 * len);
-EXPORT u16 hex2u16(const char * str, i32 * len);
-EXPORT i32 hex2i32(const char * str, i32 * len);
-EXPORT u32 hex2u32(const char * str, i32 * len);
+EXPORT i8     bxi_hex2i8    (const char * str, i32 * len);
+EXPORT u8     bxi_hex2u8    (const char * str, i32 * len);
+EXPORT i16    bxi_hex2i16   (const char * str, i32 * len);
+EXPORT u16    bxi_hex2u16   (const char * str, i32 * len);
+EXPORT i32    bxi_hex2i32   (const char * str, i32 * len);
+EXPORT u32    bxi_hex2u32   (const char * str, i32 * len);
 
-EXPORT i16_le hex2i16_le(const char * str, i32 * len);
-EXPORT u16_le hex2u16_le(const char * str, i32 * len);
-EXPORT i32_le hex2i32_le(const char * str, i32 * len);
-EXPORT u32_le hex2u32_le(const char * str, i32 * len);
+EXPORT i16_le bxi_hex2i16_le(const char * str, i32 * len);
+EXPORT u16_le bxi_hex2u16_le(const char * str, i32 * len);
+EXPORT i32_le bxi_hex2i32_le(const char * str, i32 * len);
+EXPORT u32_le bxi_hex2u32_le(const char * str, i32 * len);
 
-EXPORT i16_be hex2i16_be(const char * str, i32 * len);
-EXPORT u16_be hex2u16_be(const char * str, i32 * len);
-EXPORT i32_be hex2i32_be(const char * str, i32 * len);
-EXPORT u32_be hex2u32_be(const char * str, i32 * len);
+EXPORT i16_be bxi_hex2i16_be(const char * str, i32 * len);
+EXPORT u16_be bxi_hex2u16_be(const char * str, i32 * len);
+EXPORT i32_be bxi_hex2i32_be(const char * str, i32 * len);
+EXPORT u32_be bxi_hex2u32_be(const char * str, i32 * len);
 
-EXPORT u32 hex2raw(const char * hex, u8 * raw);
+EXPORT u32 bxi_hex2raw(const char * hex, u8 * raw);
+EXPORT u32 bxi_raw2hex(      char * out, u8 * raw, u32 count, bxi_hex_format format);
 
-EXPORT u32    i82hex (char * str, i8     val);
-EXPORT u32    i82str (char * str, i8     val);
-EXPORT u32    i162hex(char * str, i16    val);
-EXPORT u32    i162str(char * str, i16    val);
-EXPORT u32 i16_be2hex(char * str, i16_be val);
-EXPORT u32 i16_be2str(char * str, i16_be val);
-EXPORT u32 i16_le2hex(char * str, i16_le val);
-EXPORT u32 i16_le2str(char * str, i16_le val);
-EXPORT u32    i322hex(char * str, i32    val);
-EXPORT u32    i322str(char * str, i32    val);
-EXPORT u32 i32_be2hex(char * str, i32_be val);
-EXPORT u32 i32_be2str(char * str, i32_be val);
-EXPORT u32 i32_le2hex(char * str, i32_le val);
-EXPORT u32 i32_le2str(char * str, i32_le val);
-EXPORT u32    u82hex (char * str, u8     val);
-EXPORT u32    u82str (char * str, u8     val);
-EXPORT u32    u162hex(char * str, u16    val);
-EXPORT u32    u162str(char * str, u16    val);
-EXPORT u32 u16_be2hex(char * str, u16_be val);
-EXPORT u32 u16_be2str(char * str, u16_be val);
-EXPORT u32 u16_le2hex(char * str, u16_le val);
-EXPORT u32 u16_le2str(char * str, u16_le val);
-EXPORT u32    u322hex(char * str, u32    val);
-EXPORT u32    u322str(char * str, u32    val);
-EXPORT u32 u32_be2hex(char * str, u32_be val);
-EXPORT u32 u32_be2str(char * str, u32_be val);
-EXPORT u32 u32_le2hex(char * str, u32_le val);
-EXPORT u32 u32_le2str(char * str, u32_le val);
+/* @todo ixx[_xe], uxx[_xe] to raw */
+
+EXPORT u32 bxi_i82hex    (char * out, i8     val);
+EXPORT u32 bxi_i82str    (char * out, i8     val);
+EXPORT u32 bxi_i162hex   (char * out, i16    val);
+EXPORT u32 bxi_i162str   (char * out, i16    val);
+EXPORT u32 bxi_i16_be2hex(char * out, i16_be val);
+EXPORT u32 bxi_i16_be2str(char * out, i16_be val);
+EXPORT u32 bxi_i16_le2hex(char * out, i16_le val);
+EXPORT u32 bxi_i16_le2str(char * out, i16_le val);
+EXPORT u32 bxi_i322hex   (char * out, i32    val);
+EXPORT u32 bxi_i322str   (char * out, i32    val);
+EXPORT u32 bxi_i32_be2hex(char * out, i32_be val);
+EXPORT u32 bxi_i32_be2str(char * out, i32_be val);
+EXPORT u32 bxi_i32_le2hex(char * out, i32_le val);
+EXPORT u32 bxi_i32_le2str(char * out, i32_le val);
+
+EXPORT u32 bxi_u82hex    (char * out, u8     val);
+EXPORT u32 bxi_u82str    (char * out, u8     val);
+EXPORT u32 bxi_u162hex   (char * out, u16    val);
+EXPORT u32 bxi_u162str   (char * out, u16    val);
+EXPORT u32 bxi_u16_be2hex(char * out, u16_be val);
+EXPORT u32 bxi_u16_be2str(char * out, u16_be val);
+EXPORT u32 bxi_u16_le2hex(char * out, u16_le val);
+EXPORT u32 bxi_u16_le2str(char * out, u16_le val);
+EXPORT u32 bxi_u322hex   (char * out, u32    val);
+EXPORT u32 bxi_u322str   (char * out, u32    val);
+EXPORT u32 bxi_u32_be2hex(char * out, u32_be val);
+EXPORT u32 bxi_u32_be2str(char * out, u32_be val);
+EXPORT u32 bxi_u32_le2hex(char * out, u32_le val);
+EXPORT u32 bxi_u32_le2str(char * out, u32_le val);
 
 /* @todo padded versions + format */
 
