@@ -25,6 +25,43 @@
 #include "../definitions/bxiexport.h"
 #include "../types/bxiints.h"
 
+EXPORT_FROM
+#define BXI_MEM_NONE (0 << 0)
+#define BXI_MEM_ZERO (1 << 0)
+EXPORT_TO
+
+EXPORT typedef u32 bxi_memopt_t;
+
+extern bxi_memopt_t bxi_memopt_val;
+
+EXPORT typedef void * (* bxi_malloc_t )(u32 size);
+EXPORT typedef void   (* bxi_free_t   )(void * ptr);
+EXPORT typedef void * (* bxi_realloc_t)(void * ptr, u32 size);
+EXPORT typedef void   (* bxi_memerr_t )(u32 req, const char * file, u32 line);
+
+EXPORT void   bxi_memopt_set (bxi_memopt_t memopt);
+
+EXPORT void   bxi_malloc_set (bxi_malloc_t  func);
+EXPORT void   bxi_free_set   (bxi_free_t    func);
+EXPORT void   bxi_realloc_set(bxi_realloc_t func);
+EXPORT void   bxi_memerr_set (bxi_memerr_t  func);
+
+void * bxi_malloc_call (            u32 size, const char * file, u32 line);
+void   bxi_free_call   (void * ptr);
+void * bxi_realloc_call(void * ptr, u32 size, const char * file, u32 line);
+
+EXPORT_FROM
+#if defined(__FILE__) && defined(__LINE__)
+#define bxi_malloc(size)       bxi_malloc_call (     size, __FILE__, __LINE__)
+#define bxi_realloc(ptr, size) bxi_realloc_call(ptr, size, __FILE__, __LINE__)
+#else
+#define bxi_malloc(size)       bxi_malloc_call (     size,       "",        0)
+#define bxi_realloc(ptr, size) bxi_realloc_call(ptr, size, __FILE__, __LINE__)
+#endif
+
+#define bxi_free(ptr)     bxi_free_call(ptr);
+EXPORT_TO
+
 /* @todo 4-bytes blocks bxi_memset */
 EXPORT void * bxi_memset (      void * ptr,        i32   val, u32 cnt);
 /* @todo 4-bytes blocks bxi_memcpy */

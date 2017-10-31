@@ -49,5 +49,11 @@ EXPORT_FROM
 #define BXI_ARRAY_SIZE(static_arr) ((u32)(sizeof(static_arr) / sizeof(static_arr[0])))
 EXPORT_TO
 
+EXPORT_FROM
+#define BXI_KB(b) ( (u32)(b) * 1024ul)
+#define BXI_MB(b) (BXI_KB(b) * 1024ul)
+#define BXI_GB(b) (BXI_MB(b) * 1024ul)
+EXPORT_TO
+
 #endif /* BXIMACROS_H */
 

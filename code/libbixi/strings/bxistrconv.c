@@ -802,17 +802,26 @@ u32 bxi_raw2hex(char * out, u8 * raw, u32 count, bxi_hex_format format)
     if (!out)
         return 0;
     if (!raw)
+    {
+        out[pos] = '\0';
         return 0;
+    }
 
     if (((bxi_sign(format & BXI_HEX_CASE_LOW)) +
          (bxi_sign(format & BXI_HEX_CASE_UP ))) != 1)
+    {
+        out[pos] = '\0';
         return 0;
+    }
 
     if (((bxi_sign(format & BXI_HEX_GROUP_2)) +
          (bxi_sign(format & BXI_HEX_GROUP_3)) +
          (bxi_sign(format & BXI_HEX_GROUP_4)) +
          (bxi_sign(format & BXI_HEX_GROUP_8))) > 1)
+    {
+        out[pos] = '\0';
         return 0;
+    }
 
     group = (format & BXI_HEX_GROUP_2) ? 2 :
             (format & BXI_HEX_GROUP_3) ? 3 :

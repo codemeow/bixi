@@ -24,11 +24,16 @@ GLOBAL_DEBUG_MODE=$1
 # Grep fix
 GREP_OPTIONS='--color=never'
 
+# Error holder
+ERROR_HOLDER="/tmp/build-holder.log"
+> "$ERROR_HOLDER"
+
 # Functions section
 Die()
 {
-    echo "$@" 1>&2
-    exit 1
+    echo "$@" 1>&2 
+    ShowErrors
+    kill -SIGPIPE $$
 }
 
 Initialise()
@@ -47,7 +52,7 @@ Initialise()
 Include()
 {
     echo "┌─── Including"
-    FILE_CONFIG=`find . -name *.config -print -quit`    
+    FILE_CONFIG=`find . -maxdepth 1 -name "*.config" -print -quit`
     echo "├ $FILE_CONFIG"
     if [ ! -f "$FILE_CONFIG" ]
     then
@@ -200,16 +205,20 @@ Compile()
     find $DIRECTORY_PROJECT -name "*.c" -o -name "*.cpp" | while read -r file_c ;
     do
         echo "├ $file_c"
-        file_o=$(basename "${file_c%.*}.o")
+
+        file_o=$(md5sum "$file_c" | awk '{ printf "%s%s", $1, ".o"; }')
 
         $COMPILER_NAME \
             $COMPILER_OPTIONS \
             $COMPILER_DEBUG \
             $COMPILER_STD \
+            -DPROJECT_VERSION_MAJOR="$PROJECT_VERSION_MAJOR" \
+            -DPROJECT_VERSION_MINOR="$PROJECT_VERSION_MINOR" \
+            -DPROJECT_VERSION_BUILD="$PROJECT_VERSION_BUILD" \
             -L"$DIRECTORY_BIN" \
             -I"$DIRECTORY_INCLUDES" \
             -c "$file_c" \
-            -o "./$DIRECTORY_BUILD/$file_o"
+            -o "./$DIRECTORY_BUILD/$file_o" >>"$ERROR_HOLDER" 2>&1
 
         if [ $? -ne 0 ]
         then
@@ -240,7 +249,7 @@ Link()
             ./$DIRECTORY_BUILD/*.o \
         -o "./$DIRECTORY_BIN/$PROJECT_BINARY$OUTPUT_EXTENSION$VERSION_MMB" \
            -L"$DIRECTORY_BIN" \
-              $DEPENDENCY_PATH $DEPENDENCY_LIST
+              $DEPENDENCY_PATH $DEPENDENCY_LIST >>"$ERROR_HOLDER" 2>&1
 
         if [ $? -ne 0 ]
         then
@@ -294,12 +303,23 @@ Export()
     echo "└───"
     if [ ! -z "$RUN_AFTER_EXPORT" ]
     then
-      echo "┌─── Running after exporting"
+       echo "┌─── Running after exporting"
        source "$RUN_AFTER_EXPORT"
        echo "└───"
     fi
 }
 
+ShowErrors()
+{
+    echo "┌─── Errors" >&2
+
+    while IFS= read -r line
+    do
+        echo -e "$line" >&2
+    done < "$ERROR_HOLDER"
+
+    echo "└───" >&2
+}
 
 # Run section
 Initialise
@@ -316,3 +336,5 @@ do
     Symlink
     Export
 done
+
+ShowErrors

@@ -19,6 +19,99 @@
  *  along with Project «Bixi». If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "../math/bximath.h"
 #include "../types/bxiarrays.h"
-#include "../strings/bxistrconv.h"
+#include "../utils/bximemutils.h"
+#include "../definitions/bximacros.h"
+
+bxi_bts * bxi_bts_create(u32 size)
+{
+    bxi_bts * res = bxi_malloc(sizeof(bxi_bts));
+    if (!res)
+        return NULL;
+    res->data = bxi_malloc(size);
+    res->size = size;
+
+    return res;
+}
+
+bxi_bts * bxi_bts_resize(bxi_bts * bts, u32 size)
+{
+    if (!bts)
+        return NULL;
+
+    bts->data = bxi_realloc(bts->data, size);
+    if (bts->size < size)
+        bxi_memset(bts->data + bts->size, 0, size - bts->size);
+    bts->size = size;
+    return bts;
+}
+
+void bxi_bts_free(bxi_bts * bts)
+{
+    if (!bts)
+        return;
+
+    bxi_free(bts->data);
+    bts->size = 0;
+    bxi_free(bts);
+}
+
+bxi_bts * bxi_bts_append(bxi_bts * dst, bxi_bts * src)
+{
+    return bxi_bts_insert(dst, src, dst->size);
+}
+
+bxi_bts * bxi_bts_walk(bxi_bts * bts, bxi_bts_trav_t func)
+{
+    u32 i;
+    if (!bts)
+        return NULL;
+
+    for (i = 0; i < bts->size; i++)
+        func(bts, i, &bts->data[i]);
+
+    return bts;
+}
+
+i32 bxi_bts_search(bxi_bts * bts, u8 value)
+{
+    u32 i;
+
+    if (!bts)
+        return -1;
+
+    for (i = 0; i < bts->size; i++)
+        if (bts->data[i] == value)
+            return i;
+
+    return -1;
+}
+
+bxi_bts * bxi_bts_insert(bxi_bts * dst, bxi_bts * src, u32 pos)
+{
+    if (!dst)
+        return NULL;
+    if (!src)
+        return dst;
+
+    /* [0][1][2][3][4][5]
+             [6][7][8]
+
+       [0][1][2][3][4][5][ ][ ][ ]
+             [6][7][8]
+
+       [0][1][ ][ ][ ][2][3][4][5]
+             [6][7][8]
+
+       [0][1][6][7][8][2][3][4][5] */
+
+    if (dst->size < pos)
+        bxi_bts_resize(dst, pos + src->size);
+    else
+        bxi_bts_resize(dst, dst->size + src->size);
+
+    bxi_memmove(dst->data + pos + src->size, dst->data + pos, src->size);
+    bxi_memcpy (dst->data + pos, src->data, src->size);
+
+    return dst;
+}

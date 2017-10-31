@@ -56,6 +56,18 @@ void test_definitions_bximacros(void)
     printf("        defined : BXI_ARRAY_SIZE\n");
 #   endif
 
+#   if defined(BXI_KB)
+    printf("        defined : BXI_KB : 3 KB = %lu B\n", BXI_KB(3));
+#   endif
+
+#   if defined(BXI_MB)
+    printf("        defined : BXI_MB : 3 MB = %lu B\n", BXI_MB(3));
+#   endif
+
+#   if defined(BXI_GB)
+    printf("        defined : BXI_GB : 3 GB = %lu B\n", BXI_GB(3));
+#   endif
+
     printf("    functions:\n");
     printf("        checking: %s\n", "IN");
     for (i = 0;  i < 10; i++)

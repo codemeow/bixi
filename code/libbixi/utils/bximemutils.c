@@ -22,10 +22,86 @@
 #include "../definitions/bximacros.h"
 #include "../utils/bximemutils.h"
 
+bxi_memopt_t bxi_memopt_val = BXI_MEM_NONE;
+
+static void * bxi_malloc_dummy (            u32 size);
+static void   bxi_free_dummy   (void * ptr          );
+static void * bxi_realloc_dummy(void * ptr, u32 size);
+static void   bxi_memerr_dummy (u32 req, const char * file, u32 line);
+
+bxi_malloc_t  bxi_malloc_func  = bxi_malloc_dummy;
+bxi_free_t    bxi_free_func    = bxi_free_dummy;
+bxi_realloc_t bxi_realloc_func = bxi_realloc_dummy;
+bxi_memerr_t  bxi_memerr_func  = bxi_memerr_dummy;
+
+static void * bxi_malloc_dummy(u32 size)
+{
+    UNUSED(size);
+    return NULL;
+}
+
+static void bxi_free_dummy(void * ptr)
+{
+    UNUSED(ptr);
+}
+
+static void * bxi_realloc_dummy(void * ptr, u32 size)
+{
+    UNUSED(ptr);
+    UNUSED(size);
+    return NULL;
+}
+
+static void bxi_memerr_dummy(u32 req, const char * file, u32 line)
+{
+    UNUSED(req);
+    UNUSED(file);
+    UNUSED(line);
+}
+
+void bxi_malloc_set (bxi_malloc_t   func) { bxi_malloc_func  = func;   }
+void bxi_free_set   (bxi_free_t     func) { bxi_free_func    = func;   }
+void bxi_realloc_set(bxi_realloc_t  func) { bxi_realloc_func = func;   }
+void bxi_memerr_set (bxi_memerr_t   func) { bxi_memerr_func  = func;   }
+void bxi_memopt_set (bxi_memopt_t memopt) { bxi_memopt_val   = memopt; }
+
+void * bxi_malloc_call(u32 size, const char * file, u32 line)
+{
+    void * mem = bxi_malloc_func(size);
+
+    if (!mem)
+        bxi_memerr_func(size, file, line);
+
+    if (bxi_memopt_val & BXI_MEM_ZERO)
+        bxi_memset(mem, 0, size);
+
+    return mem;
+}
+
+void bxi_free_call(void * ptr)
+{
+    bxi_free_func(ptr);
+}
+
+void * bxi_realloc_call(void * ptr, u32 size, const char * file, u32 line)
+{
+    void * mem = bxi_realloc_func(ptr, size);
+    if (!mem && size)
+        bxi_memerr_func(size, file, line);
+    else
+        ptr = mem;
+    return ptr;
+}
+
 void * bxi_memmove(void * dst, const void * src, u32 cnt)
 {
           u8 * dst_u8 = dst;
     const u8 * src_u8 = src;
+
+    if (!dst)
+        return NULL;
+    if (!src)
+        return dst;
 
     if (dst == src)
         return dst;
@@ -45,9 +121,14 @@ void * bxi_memmove(void * dst, const void * src, u32 cnt)
     return dst;
 }
 
+/* @todo 4-bytes memset via asm */
+
 void * bxi_memset(void * ptr, i32 val, u32 cnt)
 {
     u8 * ptr_u8 = ptr;
+
+    if (!ptr)
+        return NULL;
 
     while (cnt--)
         ptr_u8[cnt] = (val & 0xff);
@@ -59,6 +140,11 @@ void * bxi_memcpy(void * dst, const void * src, u32 cnt)
 {
           u8 * dst_u8 = dst;
     const u8 * src_u8 = src;
+
+    if (!dst)
+        return NULL;
+    if (!src)
+        return dst;
 
     while (cnt--)
         dst_u8[cnt] = src_u8[cnt];
@@ -92,6 +178,9 @@ void bxi_memfrob(void * ptr, u8 val, u32 cnt)
 {
     u32 i;
     u8 * ptru8 = (u8 *)ptr;
+    if (!ptr)
+        return;
+
     for (i = 0; i < cnt; i++)
         ptru8[i] ^= val;
 }
@@ -100,6 +189,9 @@ void * bxi_memchr (const void * ptr, u8 val, u32 cnt)
 {
     u32 i;
     const u8 * ptru8 = (const u8 *)ptr;
+    if (!ptr)
+        return NULL;
+
     for (i = 0; i < cnt; i++)
         if (ptru8[i] == val)
             return (void *)(ptru8 + i);
@@ -110,6 +202,9 @@ void * bxi_memrchr(const void * ptr, u8 val, u32 cnt)
 {
     i32 i;
     const u8 * ptru8 = (const u8 *)ptr;
+    if (!ptr)
+        return NULL;
+
     for (i = cnt - 1; i >= 0; i--)
         if (ptru8[i] == val)
             return (void *)(ptru8 + i);
