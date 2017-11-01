@@ -107,7 +107,7 @@ void test_types_bxiarrays(void)
     bxi_raw2hex(buffer, b1->data, b1->size, BXI_HEX_COMBO_C | BXI_HEX_END_CLOSED);
     printf("(b1)[%s]\n", buffer);
 
-    printf("        checking: bxi_bts_travers:");
+    printf("        checking: bxi_bts_walk  :");
     bxi_bts_walk(b1, traverser);
     bxi_raw2hex(buffer, b1->data, b1->size, BXI_HEX_COMBO_C | BXI_HEX_END_CLOSED);
     printf("(b1)[%s]\n", buffer);
@@ -117,7 +117,7 @@ void test_types_bxiarrays(void)
     printf("                                  0x%02x at %d\n",
            0x05, bxi_bts_search(b1, 0x05));
 
-    printf("        checking: bxi_bts_insert: ");
+    printf("        checking: bxi_bts_insert:");
     bxi_bts_resize(b1, 5);
     bxi_bts_resize(b2, 5);
     for (i = 0; i < 5; i++)
@@ -129,6 +129,14 @@ void test_types_bxiarrays(void)
     bxi_bts_insert(b1, b2, 12);
     bxi_raw2hex(buffer, b1->data, b1->size, BXI_HEX_COMBO_C | BXI_HEX_END_CLOSED);
     printf("(b1)[%s]\n", buffer);
+
+    printf("        checking: bxi_bts_delete:");
+    bxi_bts_delete(b1, 2, 2);
+    bxi_raw2hex(buffer, b1->data, b1->size, BXI_HEX_COMBO_C | BXI_HEX_END_CLOSED);
+    printf("(b1)[%s]\n", buffer);
+    bxi_bts_delete(b1, 5, 11);
+    bxi_raw2hex(buffer, b1->data, b1->size, BXI_HEX_COMBO_C | BXI_HEX_END_CLOSED);
+    printf("                                 (b1)[%s]\n", buffer);
 
     printf("        checking: bxi_bts_resize:");
     bxi_bts_resize(b1, 0);
@@ -159,7 +167,6 @@ void test_types_bxiarrays(void)
     b2 = bxi_bts_create(BXI_GB(4) - 1);
     b3 = bxi_bts_create(BXI_GB(4) - 1);
     b4 = bxi_bts_create(BXI_GB(4) - 1);
-
     bxi_bts_free(b1);
     bxi_bts_free(b2);
     bxi_bts_free(b3);

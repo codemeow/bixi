@@ -115,3 +115,41 @@ bxi_bts * bxi_bts_insert(bxi_bts * dst, bxi_bts * src, u32 pos)
 
     return dst;
 }
+
+bxi_bts * bxi_bts_delete(bxi_bts * dst, u32 pos, u32 cnt)
+{
+    if (!dst)
+        return NULL;
+
+    if (!cnt)
+        return dst;
+    if (pos > dst->size)
+        return dst;
+
+    if (pos + cnt > dst->size)
+    {
+        bxi_bts_resize(dst, pos);
+    }
+    else
+    {
+        bxi_memmove(dst->data + pos, dst->data + pos + cnt, dst->size - pos - cnt);
+        bxi_bts_resize(dst, dst->size - cnt);
+    }
+
+    /* [0][1][2][3][4][5][6][7][8]
+                [<--  ---  ]
+
+       [0][1][2][7][8][5][6][7][8]
+
+       [0][1][2][7][8]
+
+
+       [0][1][2][3][4][5][6][7][8]
+                         [<--  ---  ]
+
+       [0][1][2][3][4][5]
+
+        */
+
+    return dst;
+}
