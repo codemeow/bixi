@@ -54,6 +54,9 @@ i32 main(void)
 
     test_types_bxiarrays();
     test_types_bxiboints();
+    test_types_bxibools();
+    test_types_bxifloats();
+    test_types_bxiints();
 
     return 0;
 }

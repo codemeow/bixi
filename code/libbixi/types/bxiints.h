@@ -52,21 +52,21 @@ COMPILE_ASSERT(sizeof(u32) == 4);
 EXPORT_TO
 
 EXPORT_FROM
-#define  U8_MIN (0)
-#define U16_MIN (0)
-#define U32_MIN (0)
+#define  U8_MIN ((u8 )(0))
+#define U16_MIN ((u16)(0))
+#define U32_MIN ((u32)(0))
 
-#define  U8_MAX (0xffu)
-#define U16_MAX (0xffffu)
-#define U32_MAX (0xffffffffu)
+#define  U8_MAX ((u8 )(0xffu))
+#define U16_MAX ((u16)(0xffffu))
+#define U32_MAX ((u32)(0xffffffffu))
 
-#define  I8_MIN (-128)
-#define I16_MIN (-32768)
-#define I32_MIN (-2147483648)
+#define  I8_MIN ((i8 )(-128))
+#define I16_MIN ((i16)(-32768))
+#define I32_MIN ((i32)(-2147483648))
 
-#define  I8_MAX (+127)
-#define I16_MAX (+32767)
-#define I32_MAX (+2147483647)
+#define  I8_MAX ((u8 )(+127))
+#define I16_MAX ((u16)(+32767))
+#define I32_MAX ((u32)(+2147483647))
 EXPORT_TO
 
 #endif /* BXIINTS_H */

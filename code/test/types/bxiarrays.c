@@ -65,8 +65,6 @@ void test_types_bxiarrays(void)
     i32       i;
     bxi_bts * b1 = NULL;
     bxi_bts * b2 = NULL;
-    bxi_bts * b3 = NULL;
-    bxi_bts * b4 = NULL;
     char      buffer[TEST_ARRAY_SIZE * 32];
 
     print_info;
@@ -163,16 +161,6 @@ void test_types_bxiarrays(void)
     bxi_bts_free(b2);
     bxi_raw2hex(buffer, b2->data, b2->size, BXI_HEX_COMBO_C | BXI_HEX_END_CLOSED);
     printf("                                 (b2)[%s]\n", buffer);
-
-    printf("        checking: bxi_memerr\n");
-    b1 = bxi_bts_create(BXI_GB(4) - 1);
-    b2 = bxi_bts_create(BXI_GB(4) - 1);
-    b3 = bxi_bts_create(BXI_GB(4) - 1);
-    b4 = bxi_bts_create(BXI_GB(4) - 1);
-    bxi_bts_free(b1);
-    bxi_bts_free(b2);
-    bxi_bts_free(b3);
-    bxi_bts_free(b4);
 
     print_passed();
 }

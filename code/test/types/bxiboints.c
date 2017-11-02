@@ -157,14 +157,14 @@ void test_types_bxiboints(void)
 #   endif
 
 #   if defined(I32_LE_MIN)
-        printf("        defined:     I32_LE_MIN : %ld\n", I32_LE_MIN);
+        printf("        defined:     I32_LE_MIN : %d\n", I32_LE_MIN);
 #   else
         print_failed();
         return;
 #   endif
 
 #   if defined(I32_BE_MIN)
-        printf("        defined:     I32_BE_MIN : %ld\n", I32_BE_MIN);
+        printf("        defined:     I32_BE_MIN : %d\n", I32_BE_MIN);
 #   else
         print_failed();
         return;
@@ -278,6 +278,174 @@ void test_types_bxiboints(void)
     }
     printf("        checking: chgend32\n");
     if (chgend32(0x78563412ul) != 0x12345678ul)
+    {
+        print_failed();
+        return;
+    }
+
+    printf("        checking: i16_le2i16\n");
+    if (i16_le2i16(0x1234) != 0x1234)
+    {
+        print_failed();
+        return;
+    }
+
+    printf("        checking: i16_be2i16\n");
+    if (i16_be2i16(0x1234) != 0x3412)
+    {
+        print_failed();
+        return;
+    }
+
+    printf("        checking: i16_le2i16_be\n");
+    if (i16_le2i16_be(0x1234) != 0x3412)
+    {
+        print_failed();
+        return;
+    }
+
+    printf("        checking: i16_be2i16_le\n");
+    if (i16_be2i16_le(0x1234) != 0x3412)
+    {
+        print_failed();
+        return;
+    }
+
+    printf("        checking: i162i16_be\n");
+    if (i162i16_be(0x1234) != 0x3412)
+    {
+        print_failed();
+        return;
+    }
+
+    printf("        checking: i162i16_le\n");
+    if (i162i16_le(0x1234) != 0x1234)
+    {
+        print_failed();
+        return;
+    }
+
+    printf("        checking: i32_le2i32\n");
+    if (i32_le2i32(0x12345678) != 0x12345678)
+    {
+        print_failed();
+        return;
+    }
+
+    printf("        checking: i32_be2i32\n");
+    if (i32_be2i32(0x12345678) != 0x78563412)
+    {
+        print_failed();
+        return;
+    }
+
+    printf("        checking: i32_le2i32_be\n");
+    if (i32_le2i32_be(0x12345678) != 0x78563412)
+    {
+        print_failed();
+        return;
+    }
+
+    printf("        checking: i32_be2i32_le\n");
+    if (i32_be2i32_le(0x12345678) != 0x78563412)
+    {
+        print_failed();
+        return;
+    }
+
+    printf("        checking: i322i32_be\n");
+    if (i322i32_be(0x12345678) != 0x78563412)
+    {
+        print_failed();
+        return;
+    }
+
+    printf("        checking: i322i32_le\n");
+    if (i322i32_le(0x12345678) != 0x12345678)
+    {
+        print_failed();
+        return;
+    }
+
+    printf("        checking: u16_le2u16\n");
+    if (u16_le2u16(0x1234u) != 0x1234u)
+    {
+        print_failed();
+        return;
+    }
+
+    printf("        checking: u16_be2u16\n");
+    if (u16_be2u16(0x1234u) != 0x3412u)
+    {
+        print_failed();
+        return;
+    }
+
+    printf("        checking: u16_le2u16_be\n");
+    if (u16_le2u16_be(0x1234u) != 0x3412u)
+    {
+        print_failed();
+        return;
+    }
+
+    printf("        checking: u16_be2u16_le\n");
+    if (u16_be2u16_le(0x1234u) != 0x3412u)
+    {
+        print_failed();
+        return;
+    }
+
+    printf("        checking: u162u16_be\n");
+    if (u162u16_be(0x1234u) != 0x3412u)
+    {
+        print_failed();
+        return;
+    }
+
+    printf("        checking: u162u16_le\n");
+    if (u162u16_le(0x1234u) != 0x1234u)
+    {
+        print_failed();
+        return;
+    }
+
+    printf("        checking: u32_le2u32\n");
+    if (u32_le2u32(0x12345678u) != 0x12345678u)
+    {
+        print_failed();
+        return;
+    }
+
+    printf("        checking: u32_be2u32\n");
+    if (u32_be2u32(0x12345678u) != 0x78563412u)
+    {
+        print_failed();
+        return;
+    }
+
+    printf("        checking: u32_le2u32_be\n");
+    if (u32_le2u32_be(0x12345678u) != 0x78563412u)
+    {
+        print_failed();
+        return;
+    }
+
+    printf("        checking: u32_be2u32_le\n");
+    if (u32_be2u32_le(0x12345678u) != 0x78563412u)
+    {
+        print_failed();
+        return;
+    }
+
+    printf("        checking: u322u32_be\n");
+    if (u322u32_be(0x12345678u) != 0x78563412u)
+    {
+        print_failed();
+        return;
+    }
+
+    printf("        checking: u322u32_le\n");
+    if (u322u32_le(0x12345678u) != 0x12345678u)
     {
         print_failed();
         return;

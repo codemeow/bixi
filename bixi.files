@@ -121,3 +121,9 @@ code/test/types/bxiarrays.c
 code/test/types/bxiarrays.h
 code/test/types/bxiboints.c
 code/test/types/bxiboints.h
+code/test/types/bxibools.c
+code/test/types/bxibools.h
+code/test/types/bxifloats.c
+code/test/types/bxifloats.h
+code/test/types/bxiints.c
+code/test/types/bxiints.h
