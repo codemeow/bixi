@@ -60,6 +60,8 @@ static void traverser(bxi_bts * bts, u32 pos, u8 * val)
 
 void test_types_bxiarrays(void)
 {
+    /* @todo do good tests */
+
     i32       i;
     bxi_bts * b1 = NULL;
     bxi_bts * b2 = NULL;

@@ -22,7 +22,7 @@
 #include "../definitions/bximacros.h"
 #include "../utils/bximemutils.h"
 
-bxi_memopt_t bxi_memopt_val = BXI_MEM_NONE;
+bxi_memopt_t bxi_memopt_val = BXI_MEM_ZERO;
 
 static void * bxi_malloc_dummy (            u32 size);
 static void   bxi_free_dummy   (void * ptr          );

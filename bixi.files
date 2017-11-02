@@ -119,3 +119,5 @@ code/test/time/bxitime.c
 code/test/time/bxitime.h
 code/test/types/bxiarrays.c
 code/test/types/bxiarrays.h
+code/test/types/bxiboints.c
+code/test/types/bxiboints.h

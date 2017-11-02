@@ -53,6 +53,7 @@ i32 main(void)
     test_time_bxitime();
 
     test_types_bxiarrays();
+    test_types_bxiboints();
 
     return 0;
 }
