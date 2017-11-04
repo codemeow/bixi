@@ -34,21 +34,18 @@ void test_definitions_bxiexport(void)
         printf("        defined : EXPORT\n");
 #   else
         print_failed();
-        return;
 #   endif
 
 #   if defined(EXPORT_FROM)
         printf("        defined : EXPORT_FROM\n");
 #   else
         print_failed();
-        return;
 #   endif
 
 #   if defined(EXPORT_TO)
         printf("        defined : EXPORT_TO\n");
 #   else
         print_failed();
-        return;
 #   endif
 
     print_passed();

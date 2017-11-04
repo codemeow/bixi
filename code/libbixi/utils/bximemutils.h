@@ -46,11 +46,15 @@ EXPORT void   bxi_free_set   (bxi_free_t    func);
 EXPORT void   bxi_realloc_set(bxi_realloc_t func);
 EXPORT void   bxi_memerr_set (bxi_memerr_t  func);
 
-void * bxi_malloc_call (            u32 size, const char * file, u32 line);
-void   bxi_free_call   (void * ptr);
-void * bxi_realloc_call(void * ptr, u32 size, const char * file, u32 line);
+EXPORT void * bxi_malloc_call (            u32 size, const char * file, u32 line);
+EXPORT void   bxi_free_call   (void * ptr                                       );
+EXPORT void * bxi_realloc_call(void * ptr, u32 size, const char * file, u32 line);
 
 EXPORT_FROM
+/* As linux systems use overcommit tech by default
+ * we only can receive trusted block of memory by
+ * manually zerofying the received block. That is
+ * why BXI_MEM_ZERO is enabled by default       */
 #if defined(__FILE__) && defined(__LINE__)
 #define bxi_malloc(size)       bxi_malloc_call (     size, __FILE__, __LINE__)
 #define bxi_realloc(ptr, size) bxi_realloc_call(ptr, size, __FILE__, __LINE__)

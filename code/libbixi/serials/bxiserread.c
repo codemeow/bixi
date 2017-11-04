@@ -73,54 +73,54 @@ i16_be bxi_read_i16_be(u8 * src)
 {
     i16 res = 0;
     read_generic(&res, src, sizeof(i16));
-    return i162i16_be(res);
+    return bxi_i162i16_be(res);
 }
 
 u16_be bxi_read_u16_be(u8 * src)
 {
     u16 res = 0;
     read_generic(&res, src, sizeof(u16));
-    return u162u16_be(res);
+    return bxi_u162u16_be(res);
 }
 
 i32_be bxi_read_i32_be(u8 * src)
 {
     i32 res = 0;
     read_generic(&res, src, sizeof(i32));
-    return i322i32_be(res);
+    return bxi_i322i32_be(res);
 }
 
 u32_be bxi_read_u32_be(u8 * src)
 {
     u32 res = 0;
     read_generic(&res, src, sizeof(u32));
-    return u322u32_be(res);
+    return bxi_u322u32_be(res);
 }
 
 i16_le bxi_read_i16_le(u8 * src)
 {
     i16 res = 0;
     read_generic(&res, src, sizeof(i16));
-    return i162i16_le(res);
+    return bxi_i162i16_le(res);
 }
 
 u16_le bxi_read_u16_le(u8 * src)
 {
     u16 res = 0;
     read_generic(&res, src, sizeof(u16));
-    return u162u16_le(res);
+    return bxi_u162u16_le(res);
 }
 
 i32_le bxi_read_i32_le(u8 * src)
 {
     i32 res = 0;
     read_generic(&res, src, sizeof(i32));
-    return i322i32_le(res);
+    return bxi_i322i32_le(res);
 }
 
 u32_le bxi_read_u32_le(u8 * src)
 {
     u32 res = 0;
     read_generic(&res, src, sizeof(u32));
-    return u322u32_le(res);
+    return bxi_u322u32_le(res);
 }

@@ -127,3 +127,7 @@ code/test/types/bxifloats.c
 code/test/types/bxifloats.h
 code/test/types/bxiints.c
 code/test/types/bxiints.h
+code/test/utils/bxibitutils.c
+code/test/utils/bxibitutils.h
+code/test/utils/bximemutils.c
+code/test/utils/bximemutils.h

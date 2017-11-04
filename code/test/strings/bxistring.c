@@ -32,10 +32,7 @@
                                                  \
     for (i = 0; i < 128; i++);                   \
     if (stdfunc(i) != bxifunc(i))                \
-    {                                            \
         print_failed();                          \
-        return;                                  \
-    }                                            \
 }
 
 #define TEST_STR2(func, src, trg)                \
@@ -45,10 +42,7 @@
     printf("        checking: %s\n", #func);     \
     func(buffer);                                \
     if (bxi_strcmp(buffer, trg))                 \
-    {                                            \
         print_failed();                          \
-        return;                                  \
-    }                                            \
 }
 
 void test_strings_bxistring(void)
@@ -71,52 +65,31 @@ void test_strings_bxistring(void)
 
     printf("        checking: bxi_strhash\n");
     if (bxi_strhash("FNV") != 0xf5cfe2b9)
-    {
         print_failed();
-        return;
-    }
 
     printf("        checking: bxi_strshiftl\n");
     if (bxi_strcmp(bxi_strshiftl(shift, 3), "def"))
-    {
         print_failed();
-        return;
-    }
 
     printf("        checking: bxi_strtriml\n");
     if (bxi_strcmp(bxi_strtriml(triml), "def"))
-    {
         print_failed();
-        return;
-    }
 
     printf("        checking: bxi_strtrimr\n");
     if (bxi_strcmp(bxi_strtrimr(trimr), "abc"))
-    {
         print_failed();
-        return;
-    }
 
     printf("        checking: bxi_strtrim\n");
     if (bxi_strcmp(bxi_strtrim(trimc), "cd"))
-    {
         print_failed();
-        return;
-    }
 
     printf("        checking: bxi_strlen\n");
     if (bxi_strlen("abcdef") != 6)
-    {
         print_failed();
-        return;
-    }
 
     printf("        checking: bxi_strcmp\n");
     if (bxi_strcmp("abc", "abc"))
-    {
         print_failed();
-        return;
-    }
 
     printf("        checking: bxi_strparse\n");
     bxi_strparse(parsed, &count, output);
@@ -124,32 +97,20 @@ void test_strings_bxistring(void)
         (bxi_strcmp(output[1], "param2")) ||
         (bxi_strcmp(output[2], "\"param 3\"")) ||
         (bxi_strcmp(output[3], "\'param \"\\\' 4 \'")))
-    {
         print_failed();
-        return;
-    }
 
     printf("        checking: bxi_strchr\n");
     if (bxi_strcmp(bxi_strchr("abcdef", 'c'), "cdef"))
-    {
         print_failed();
-        return;
-    }
 
     printf("        checking: bxi_strcpy\n");
     bxi_strcpy(dst, src);
     if (bxi_strcmp(dst, src))
-    {
         print_failed();
-        return;
-    }
 
     printf("        checking: bxi_strstr\n");
     if (bxi_strcmp(bxi_strstr(str, sub), "cdef"))
-    {
         print_failed();
-        return;
-    }
 
     TEST_ISCHAR(bxi_iscntrl , iscntrl );
     TEST_ISCHAR(bxi_isprint , isprint );

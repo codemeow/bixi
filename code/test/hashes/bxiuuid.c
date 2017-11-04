@@ -43,14 +43,12 @@ void test_hashes_bxiuuid(void)
         printf("        defined : UUID_SIZE     (%d)\n", UUID_SIZE);
 #   else
         print_failed();
-        return;
 #   endif
 
 #   if defined(UUID_STR_SIZE)
         printf("        defined : UUID_STR_SIZE (%d)\n", UUID_STR_SIZE);
 #   else
         print_failed();
-        return;
 #   endif
 
     printf("    functions:\n");
@@ -61,10 +59,7 @@ void test_hashes_bxiuuid(void)
     uuid2str(res, buffer, UUID_HYPHEN);
     printf("%s\n", buffer);
     if (bxi_strcmp(buffer, "fa0d83ce-44b3-3ee9-9e0b-277cf025bb5f"))
-    {
         print_failed();
-        return;
-    }
 
     /*  uuidv4 */
     printf("        checking: uuidv4 - ");
@@ -75,16 +70,11 @@ void test_hashes_bxiuuid(void)
     /* uuidscmp */
     printf("        checking: uuidscmp\n");
     if (uuidscmp(cm1, cm2) == 0)
-    {
         print_failed();
-        return;
-    }
+
     bxi_memcpy(cm1, cm2, sizeof(uuid_t));
     if (uuidscmp(cm1, cm2) != 0)
-    {
         print_failed();
-        return;
-    }
 
     print_passed();
 }

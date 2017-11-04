@@ -58,5 +58,8 @@ i32 main(void)
     test_types_bxifloats();
     test_types_bxiints();
 
+    test_utils_bxibitutils();
+    test_utils_bximemutils();
+
     return 0;
 }

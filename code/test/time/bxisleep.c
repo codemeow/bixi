@@ -64,7 +64,6 @@ void test_time_bxisleep(void)
         TEST_SLEEP(bxi_fsleep, TEST_SLEEP_F, 1e9);
 #   else
         print_failed();
-        return;
 #   endif
 
     print_passed();

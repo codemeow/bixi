@@ -121,7 +121,7 @@ void * bxi_memmove(void * dst, const void * src, u32 cnt)
     return dst;
 }
 
-/* @todo 4-bytes memset via asm */
+/* @todo 4-bytes memset via asm like in smilo ъ*/
 
 void * bxi_memset(void * ptr, i32 val, u32 cnt)
 {

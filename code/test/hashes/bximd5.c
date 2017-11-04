@@ -46,10 +46,7 @@ void test_hashes_bximd5(void)
     printf("%s)\n", outp);
 
     if (bxi_strcmp(outp, "d41d8cd98f00b204e9800998ecf8427e"))
-    {
         print_failed();
-        return;
-    }
 
     printf("        checking: phrase (");
     md5_init(&md5);
@@ -59,10 +56,7 @@ void test_hashes_bximd5(void)
     printf("%s)\n", outp);
 
     if (bxi_strcmp(outp, "9e107d9d372bb6826bd81d3542a419d6"))
-    {
         print_failed();
-        return;
-    }
 
     printf("        checking: u8     (");
     md5_init(&md5);
@@ -73,10 +67,7 @@ void test_hashes_bximd5(void)
     printf("%s)\n", outp);
 
     if (bxi_strcmp(outp, "1ac1ef01e96caf1be0d329331a4fc2a8"))
-    {
         print_failed();
-        return;
-    }
 
     printf("        checking: u16    (");
     md5_init(&md5);
@@ -87,10 +78,7 @@ void test_hashes_bximd5(void)
     printf("%s)\n", outp);
 
     if (bxi_strcmp(outp, "84011483e9df3fbe3a6efc9bc5503707"))
-    {
         print_failed();
-        return;
-    }
 
     printf("        checking: u32    (");
     md5_init(&md5);
@@ -101,10 +89,7 @@ void test_hashes_bximd5(void)
     printf("%s)\n", outp);
 
     if (bxi_strcmp(outp, "77c0d5ed7c6f1535e08a8a3176c98ea9"))
-    {
         print_failed();
-        return;
-    }
 
     print_passed();
 }

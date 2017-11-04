@@ -19,28 +19,9 @@
 *  along with Project «Bixi». If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <stdio.h>
-#include <libbixi.h>
-#include "../test.h"
-#include "../types/bxifloats.h"
+#ifndef BXIMEMUTILS_H
+#define BXIMEMUTILS_H
 
-void test_types_bxifloats(void)
-{
-    print_info;
+void test_utils_bximemutils(void);
 
-    printf("    defines\n");
-
-#   if defined(BITS_IN_F32)
-        printf("        defined: BITS_IN_F32: %d\n", BITS_IN_F32);
-#   else
-        print_failed();
-#   endif
-
-#   if defined(BITS_IN_F64)
-        printf("        defined: BITS_IN_F64: %d\n", BITS_IN_F64);
-#   else
-        print_failed();
-#   endif
-
-    print_passed();
-}
+#endif /* BXIMEMUTILS_H */

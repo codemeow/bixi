@@ -685,42 +685,42 @@ u32 bxi_u322str(char * out, u32 val)
 
 u32 bxi_i16_le2str(char * out, i16_le val)
 {
-    return i2str(out, IS_LE ? val : (i16)chgend16(val));
+    return i2str(out, IS_LE ? val : (i16)bxi_chgend16(val));
 }
 
 u32 bxi_u16_le2str(char * out, u16_le val)
 {
-    return u2str(out, IS_LE ? val : (u16)chgend16(val));
+    return u2str(out, IS_LE ? val : (u16)bxi_chgend16(val));
 }
 
 u32 bxi_i32_le2str(char * out, i32_le val)
 {
-    return i2str(out, IS_LE ? val : (i32)chgend32(val));
+    return i2str(out, IS_LE ? val : (i32)bxi_chgend32(val));
 }
 
 u32 bxi_u32_le2str(char * out, u32_le val)
 {
-    return u2str(out, IS_LE ? val : (u32)chgend32(val));
+    return u2str(out, IS_LE ? val : (u32)bxi_chgend32(val));
 }
 
 u32 bxi_i16_be2str(char * out, i16_be val)
 {
-    return i2str(out, IS_BE ? val : (i16)chgend16(val));
+    return i2str(out, IS_BE ? val : (i16)bxi_chgend16(val));
 }
 
 u32 bxi_u16_be2str(char * out, u16_be val)
 {
-    return u2str(out, IS_BE ? val : (u16)chgend16(val));
+    return u2str(out, IS_BE ? val : (u16)bxi_chgend16(val));
 }
 
 u32 bxi_i32_be2str(char * out, i32_be val)
 {
-    return i2str(out, IS_BE ? val : (i32)chgend32(val));
+    return i2str(out, IS_BE ? val : (i32)bxi_chgend32(val));
 }
 
 u32 bxi_u32_be2str(char * out, u32_be val)
 {
-    return u2str(out, IS_BE ? val : (u32)chgend32(val));
+    return u2str(out, IS_BE ? val : (u32)bxi_chgend32(val));
 }
 
 u32 bxi_i82hex (char * out, i8  val)
@@ -755,42 +755,42 @@ u32 bxi_u322hex(char * out, u32 val)
 
 u32 bxi_i16_le2hex(char * out, i16_le val)
 {
-    return i2hex(out, IS_LE ? val : (i16)chgend16(val), sizeof(i16_le));
+    return i2hex(out, IS_LE ? val : (i16)bxi_chgend16(val), sizeof(i16_le));
 }
 
 u32 bxi_u16_le2hex(char * out, u16_le val)
 {
-    return u2hex(out, IS_LE ? val : (u16)chgend16(val));
+    return u2hex(out, IS_LE ? val : (u16)bxi_chgend16(val));
 }
 
 u32 bxi_i32_le2hex(char * out, i32_le val)
 {
-    return i2hex(out, IS_LE ? val : (i32)chgend32(val), sizeof(i32_le));
+    return i2hex(out, IS_LE ? val : (i32)bxi_chgend32(val), sizeof(i32_le));
 }
 
 u32 bxi_u32_le2hex(char * out, u32_le val)
 {
-    return u2hex(out, IS_LE ? val : (u32)chgend32(val));
+    return u2hex(out, IS_LE ? val : (u32)bxi_chgend32(val));
 }
 
 u32 bxi_i16_be2hex(char * out, i16_be val)
 {
-    return i2hex(out, IS_BE ? val : (i16)chgend16(val), sizeof(i16_be));
+    return i2hex(out, IS_BE ? val : (i16)bxi_chgend16(val), sizeof(i16_be));
 }
 
 u32 bxi_u16_be2hex(char * out, u16_be val)
 {
-    return u2hex(out, IS_BE ? val : (u16)chgend16(val));
+    return u2hex(out, IS_BE ? val : (u16)bxi_chgend16(val));
 }
 
 u32 bxi_i32_be2hex(char * out, i32_be val)
 {
-    return i2hex(out, IS_BE ? val : (i32)chgend32(val), sizeof(i32_be));
+    return i2hex(out, IS_BE ? val : (i32)bxi_chgend32(val), sizeof(i32_be));
 }
 
 u32 bxi_u32_be2hex(char * out, u32_be val)
 {
-    return u2hex(out, IS_BE ? val : (u32)chgend32(val));
+    return u2hex(out, IS_BE ? val : (u32)bxi_chgend32(val));
 }
 
 u32 bxi_raw2hex(char * out, u8 * raw, u32 count, bxi_hex_format format)
@@ -870,4 +870,128 @@ u32 bxi_raw2hex(char * out, u8 * raw, u32 count, bxi_hex_format format)
 
     out[pos] = '\0';
     return pos;
+}
+
+static u32 generic2raw(void * val, u8 * raw, u32 size)
+{
+    bxi_memcpy(raw, val, size);
+    return size;
+}
+
+u32 bxi_i82raw(i8 val, u8 * raw)
+{
+    return generic2raw(&val, raw, sizeof(i8));
+}
+
+u32 bxi_u82raw(u8 val, u8 * raw)
+{
+    return generic2raw(&val, raw, sizeof(u8));
+}
+
+u32 bxi_i162raw(i16 val, u8 * raw)
+{
+    return generic2raw(&val, raw, sizeof(i16));
+}
+
+u32 bxi_i16_le2raw(i16_le val, u8 * raw)
+{
+    if (IS_LE)
+        return generic2raw(&val, raw, sizeof(i16_le));
+    else
+    {
+        val = (i16_le)bxi_chgend16((u16)val);
+        return generic2raw(&val, raw, sizeof(i16_le));
+    }
+}
+
+u32 bxi_i16_be2raw(i16_be val, u8 * raw)
+{
+    if (IS_BE)
+        return generic2raw(&val, raw, sizeof(i16_be));
+    else
+    {
+        val = (i16_be)bxi_chgend16((u16)val);
+        return generic2raw(&val, raw, sizeof(i16_be));
+    }
+}
+
+u32 bxi_u162raw(u16 val, u8 * raw)
+{
+    return generic2raw(&val, raw, sizeof(u16));
+}
+
+u32 bxi_u16_le2raw(u16_le val, u8 * raw)
+{
+    if (IS_LE)
+        return generic2raw(&val, raw, sizeof(u16_le));
+    else
+    {
+        val = bxi_chgend16(val);
+        return generic2raw(&val, raw, sizeof(u16_le));
+    }
+}
+
+u32 bxi_u16_be2raw(u16_be val, u8 * raw)
+{
+    if (IS_BE)
+        return generic2raw(&val, raw, sizeof(u16_be));
+    else
+    {
+        val = bxi_chgend16(val);
+        return generic2raw(&val, raw, sizeof(u16_be));
+    }
+}
+
+u32 bxi_i322raw(i32 val, u8 * raw)
+{
+    return generic2raw(&val, raw, sizeof(i32));
+}
+
+u32 bxi_i32_le2raw(i32_le val, u8 * raw)
+{
+    if (IS_LE)
+        return generic2raw(&val, raw, sizeof(i32_le));
+    else
+    {
+        val = (i32_le)bxi_chgend32((u32)val);
+        return generic2raw(&val, raw, sizeof(i32_le));
+    }
+}
+
+u32 bxi_i32_be2raw(i32_be val, u8 * raw)
+{
+    if (IS_BE)
+        return generic2raw(&val, raw, sizeof(i32_be));
+    else
+    {
+        val = (i32_be)bxi_chgend32((u32)val);
+        return generic2raw(&val, raw, sizeof(i32_be));
+    }
+}
+
+u32 bxi_u322raw(u32 val, u8 * raw)
+{
+    return generic2raw(&val, raw, sizeof(u32));
+}
+
+u32 bxi_u32_le2raw(u32_le val, u8 * raw)
+{
+    if (IS_LE)
+        return generic2raw(&val, raw, sizeof(u32_le));
+    else
+    {
+        val = bxi_chgend32(val);
+        return generic2raw(&val, raw, sizeof(u32_le));
+    }
+}
+
+u32 bxi_u32_be2raw(u32_be val, u8 * raw)
+{
+    if (IS_BE)
+        return generic2raw(&val, raw, sizeof(u32_be));
+    else
+    {
+        val = bxi_chgend32(val);
+        return generic2raw(&val, raw, sizeof(u32_be));
+    }
 }

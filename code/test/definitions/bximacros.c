@@ -33,64 +33,73 @@ void test_definitions_bximacros(void)
 
     printf("    defines:\n");
 #   if defined(UNUSED)
-    printf("        defined : UNUSED\n");
+        printf("        defined : UNUSED\n");
+#   else
+        print_failed();
 #   endif
 
 #   if defined(NULL)
-    printf("        defined : NULL\n");
+        printf("        defined : NULL\n");
+#   else
+        print_failed();
 #   endif
 
 #   if defined(IN)
-    printf("        defined : IN\n");
+        printf("        defined : IN\n");
+#   else
+        print_failed();
 #   endif
 
 #   if defined(IN_INC)
-    printf("        defined : IN_INC\n");
+        printf("        defined : IN_INC\n");
+#   else
+        print_failed();
 #   endif
 
 #   if defined(forever)
-    printf("        defined : forever\n");
+        printf("        defined : forever\n");
+#   else
+        print_failed();
 #   endif
 
 #   if defined(BXI_ARRAY_SIZE)
-    printf("        defined : BXI_ARRAY_SIZE\n");
+        printf("        defined : BXI_ARRAY_SIZE\n");
+#   else
+        print_failed();
 #   endif
 
 #   if defined(BXI_KB)
-    printf("        defined : BXI_KB : 3 KB = %lu B\n", BXI_KB(3));
+        printf("        defined : BXI_KB : 3 KB = %lu B\n", BXI_KB(3));
+#   else
+        print_failed();
 #   endif
 
 #   if defined(BXI_MB)
-    printf("        defined : BXI_MB : 3 MB = %lu B\n", BXI_MB(3));
+        printf("        defined : BXI_MB : 3 MB = %lu B\n", BXI_MB(3));
+#   else
+        print_failed();
 #   endif
 
 #   if defined(BXI_GB)
-    printf("        defined : BXI_GB : 3 GB = %lu B\n", BXI_GB(3));
+        printf("        defined : BXI_GB : 3 GB = %lu B\n", BXI_GB(3));
+#   else
+        print_failed();
 #   endif
 
     printf("    functions:\n");
     printf("        checking: %s\n", "IN");
     for (i = 0;  i < 10; i++)
         if (IN(i, 8, 2) != ((8 > i) && (i > 2)))
-        {
             print_failed();
-            return;
-        }
 
     printf("        checking: %s\n", "IN_INC");
     for (i = 0;  i < 10; i++)
         if (IN_INC(i, 8, 2) != ((8 >= i) && (i >= 2)))
-        {
             print_failed();
-            return;
-        }
 
     printf("        checking: %s\n", "BXI_ARRAY_SIZE");
     if (BXI_ARRAY_SIZE(test_array) != (sizeof(test_array) / sizeof(test_array[0])))
-    {
         print_failed();
-        return;
-    }
 
     print_passed();
 }

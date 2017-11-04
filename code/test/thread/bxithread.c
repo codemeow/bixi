@@ -85,10 +85,8 @@ void test_thread_bxithread(void)
         *index = i;
         pthread_result = pthread_create(&pthread, NULL, thread_job, (void *)index);
         if (pthread_result != 0)
-        {
             print_failed();
-            return;
-        }
+
     }
 
     for (i = 0; i < 7; i++)
@@ -98,10 +96,7 @@ void test_thread_bxithread(void)
     }
 
     if (rainbow_results != 642)
-    {
         print_failed();
-        return;
-    }
 
     print_passed();
 }

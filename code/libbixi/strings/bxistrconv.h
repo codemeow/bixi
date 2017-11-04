@@ -109,7 +109,20 @@ EXPORT u32_be bxi_hex2u32_be(const char * str, i32 * len);
 EXPORT u32 bxi_hex2raw(const char * hex, u8 * raw);
 EXPORT u32 bxi_raw2hex(      char * out, u8 * raw, u32 count, bxi_hex_format format);
 
-/* @todo ixx[_xe], uxx[_xe] to raw */
+EXPORT u32 bxi_i82raw    (i8     val, u8 * raw);
+EXPORT u32 bxi_u82raw    (u8     val, u8 * raw);
+EXPORT u32 bxi_i162raw   (i16    val, u8 * raw);
+EXPORT u32 bxi_i16_le2raw(i16_le val, u8 * raw);
+EXPORT u32 bxi_i16_be2raw(i16_be val, u8 * raw);
+EXPORT u32 bxi_u162raw   (u16    val, u8 * raw);
+EXPORT u32 bxi_u16_le2raw(u16_le val, u8 * raw);
+EXPORT u32 bxi_u16_be2raw(u16_be val, u8 * raw);
+EXPORT u32 bxi_i322raw   (i32    val, u8 * raw);
+EXPORT u32 bxi_i32_le2raw(i32_le val, u8 * raw);
+EXPORT u32 bxi_i32_be2raw(i32_be val, u8 * raw);
+EXPORT u32 bxi_u322raw   (u32    val, u8 * raw);
+EXPORT u32 bxi_u32_le2raw(u32_le val, u8 * raw);
+EXPORT u32 bxi_u32_be2raw(u32_be val, u8 * raw);
 
 EXPORT u32 bxi_i82hex    (char * out, i8     val);
 EXPORT u32 bxi_i82str    (char * out, i8     val);
@@ -140,8 +153,6 @@ EXPORT u32 bxi_u32_be2hex(char * out, u32_be val);
 EXPORT u32 bxi_u32_be2str(char * out, u32_be val);
 EXPORT u32 bxi_u32_le2hex(char * out, u32_le val);
 EXPORT u32 bxi_u32_le2str(char * out, u32_le val);
-
-/* @todo padded versions + format */
 
 #endif /* BXISTRCONV_H */
 

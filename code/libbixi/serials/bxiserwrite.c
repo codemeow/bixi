@@ -59,48 +59,48 @@ void bxi_write_u32(u32 val, u8 * dst)
 
 void bxi_write_i16_be(i16_be val, u8 * dst)
 {
-    i16 t = i16_be2i16(val);
+    i16 t = bxi_i16_be2i16(val);
     write_generic(&t, dst, sizeof(i16));
 }
 
 void bxi_write_u16_be(u16_be val, u8 * dst)
 {
-    u16 t = u16_be2u16(val);
+    u16 t = bxi_u16_be2u16(val);
     write_generic(&t, dst, sizeof(u16));
 }
 
 void bxi_write_i32_be(i32_be val, u8 * dst)
 {
-    i32 t = i32_be2i32(val);
+    i32 t = bxi_i32_be2i32(val);
     write_generic(&t, dst, sizeof(i32));
 }
 
 void bxi_write_u32_be(u32_be val, u8 * dst)
 {
-    u32 t = u32_be2u32(val);
+    u32 t = bxi_u32_be2u32(val);
     write_generic(&t, dst, sizeof(u32));
 }
 
 void bxi_write_i16_le(i16_le val, u8 * dst)
 {
-    i16 t = i16_le2i16(val);
+    i16 t = bxi_i16_le2i16(val);
     write_generic(&t, dst, sizeof(i16));
 }
 
 void bxi_write_u16_le(u16_le val, u8 * dst)
 {
-    u16 t = u16_le2u16(val);
+    u16 t = bxi_u16_le2u16(val);
     write_generic(&t, dst, sizeof(u16));
 }
 
 void bxi_write_i32_le(i32_le val, u8 * dst)
 {
-    i32 t = i32_le2i32(val);
+    i32 t = bxi_i32_le2i32(val);
     write_generic(&t, dst, sizeof(i32));
 }
 
 void bxi_write_u32_le(u32_le val, u8 * dst)
 {
-    u32 t = u32_le2u32(val);
+    u32 t = bxi_u32_le2u32(val);
     write_generic(&t, dst, sizeof(u32));
 }

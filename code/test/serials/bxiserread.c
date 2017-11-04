@@ -36,114 +36,72 @@ void test_serials_bxiserread(void)
     /* bxi_read_i8 */
     printf("        checking: bxi_read_i8\n");
     if (bxi_read_i8(data + 8) != -16)
-    {
         print_failed();
-        return;
-    }
 
     /* bxi_read_u8 */
     printf("        checking: bxi_read_u8\n");
     if (bxi_read_u8(data + 0) != 0)
-    {
         print_failed();
-        return;
-    }
 
     /* bxi_read_i16 */
     printf("        checking: bxi_read_i16\n");
     if (bxi_read_i16(data + 8) != -3600)
-    {
         print_failed();
-        return;
-    }
 
     /* bxi_read_u16 */
     printf("        checking: bxi_read_u16\n");
     if (bxi_read_u16(data + 0) != 256)
-    {
         print_failed();
-        return;
-    }
 
     /* bxi_read_i32 */
     printf("        checking: bxi_read_i32\n");
     if (bxi_read_i32(data + 8) != -202182160)
-    {
         print_failed();
-        return;
-    }
 
     /* bxi_read_u32 */
     printf("        checking: bxi_read_u32\n");
     if (bxi_read_u32(data + 8) != 4092785136)
-    {
         print_failed();
-        return;
-    }
 
     /* bxi_read_i16_be */
     printf("        checking: bxi_read_i16_be\n");
     if (bxi_read_i16_be(data + 8) != -3855)
-    {
         print_failed();
-        return;
-    }
 
     /* bxi_read_u16_be */
     printf("        checking: bxi_read_u16_be\n");
     if (bxi_read_u16_be(data + 8) != 61681)
-    {
         print_failed();
-        return;
-    }
 
     /* bxi_read_i32_be */
     printf("        checking: bxi_read_i32_be\n");
     if (bxi_read_i32_be(data + 8) != -252579085)
-    {
         print_failed();
-        return;
-    }
 
     /* bxi_read_u32_be */
     printf("        checking: bxi_read_u32_be\n");
     if (bxi_read_u32_be(data + 8) != 4042388211)
-    {
         print_failed();
-        return;
-    }
 
     /* bxi_read_u16_le */
     printf("        checking: bxi_read_i16_le\n");
     if (bxi_read_i16_le(data + 8) != -3600)
-    {
         print_failed();
-        return;
-    }
 
     /* bxi_read_u16_le */
     printf("        checking: bxi_read_u16_le\n");
     if (bxi_read_u16_le(data + 8) != 61936)
-    {
         print_failed();
-        return;
-    }
 
     /* bxi_read_i32_le */
     printf("        checking: bxi_read_i32_le\n");
     if (bxi_read_i32_le(data + 8) != -202182160)
-    {
         print_failed();
-        return;
-    }
 
     /* bxi_read_u32_le */
     printf("        checking: bxi_read_u32_le\n");
     if (bxi_read_u32_le(data + 8) != 4092785136)
-    {
         print_failed();
-        return;
-    }
 
     print_passed();
 }

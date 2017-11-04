@@ -34,14 +34,12 @@ void test_types_bxibools(void)
         printf("        defined: BITS_IN_B8 : %d\n", BITS_IN_B8);
 #   else
         print_failed();
-        return;
 #   endif
 
 #   if defined(BITS_IN_B16)
         printf("        defined: BITS_IN_B16: %d\n", BITS_IN_B16);
 #   else
         print_failed();
-        return;
 #   endif
 
 
@@ -49,7 +47,6 @@ void test_types_bxibools(void)
         printf("        defined: BITS_IN_B32: %d\n", BITS_IN_B32);
 #   else
         print_failed();
-        return;
 #   endif
 
     print_passed();

@@ -42,7 +42,6 @@ void test_random_bxirand(void)
         printf("        defined : BXI_RAND8_MAX  (%u)\n", BXI_RAND8_MAX);
 #   else
         print_failed();
-        return;
 #   endif
 
     /* BXI_RAND16_MAX */
@@ -50,7 +49,6 @@ void test_random_bxirand(void)
         printf("        defined : BXI_RAND16_MAX (%u)\n", BXI_RAND16_MAX);
 #   else
         print_failed();
-        return;
 #   endif
 
     /* BXI_RAND8_MAX */
@@ -58,7 +56,6 @@ void test_random_bxirand(void)
         printf("        defined : BXI_RAND32_MAX (%u)\n", BXI_RAND32_MAX);
 #   else
         print_failed();
-        return;
 #   endif
 
     /* bxi_srand   */
@@ -81,40 +78,22 @@ void test_random_bxirand(void)
     bxi_srand(42);
     printf("        checking: bxi_randi8\n");
     if (mem_i8 == bxi_randi8())
-    {
         print_failed();
-        return;
-    }
     printf("        checking: bxi_randu8\n");
     if (mem_u8 == bxi_randu8())
-    {
         print_failed();
-        return;
-    }
     printf("        checking: bxi_randi16\n");
     if (mem_i16 == bxi_randi16())
-    {
         print_failed();
-        return;
-    }
     printf("        checking: bxi_randu16\n");
     if (mem_u16 == bxi_randu16())
-    {
         print_failed();
-        return;
-    }
     printf("        checking: bxi_randi32\n");
     if (mem_i32 == bxi_randi32())
-    {
         print_failed();
-        return;
-    }
     printf("        checking: bxi_randu32\n");
     if (mem_u32 == bxi_randu32())
-    {
         print_failed();
-        return;
-    }
 
     printf("        checking: bxi_srand\n");
     bxi_srand(23);
@@ -124,10 +103,7 @@ void test_random_bxirand(void)
         (mem_u16 != bxi_randu16()) ||
         (mem_i32 != bxi_randi32()) ||
         (mem_u32 != bxi_randu32()))
-    {
         print_failed();
-        return;
-    }
 
     print_passed();
 }

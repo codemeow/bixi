@@ -32,7 +32,6 @@ void test_math_bxigeotypes(void)
         printf("        defined: MM_PER_INCH    (%f)\n", MM_PER_INCH);
 #   else
         print_failed();
-        return;
 #   endif
 
     print_passed();

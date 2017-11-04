@@ -20,6 +20,7 @@
  */
 
 #include <stdio.h>
+#include <stdlib.h>
 
 void print_passed(void)
 {
@@ -29,4 +30,5 @@ void print_passed(void)
 void print_failed(void)
 {
     printf("\033[1;31mFAILED\033[0m\n\n");
+    exit(1);
 }

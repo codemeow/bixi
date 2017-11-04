@@ -22,69 +22,56 @@
 #include <stdio.h>
 #include <libbixi.h>
 #include "../test.h"
-#include "../math/bximath.h"
+#include "../utils/bxibitutils.h"
 
-void test_math_bximath(void)
+void test_utils_bxibitutils(void)
 {
     print_info;
 
-    printf("    defines:\n");
-
-    /* BXI_MAX */
-#   if defined(BXI_MAX)
-        printf("        defined : BXI_MAX\n");
-        if (BXI_MAX(5, 6) != 6)
-            print_failed();
-#   else
-        print_failed();
-#   endif
-
-    /* BXI_MIN */
-#   if defined(BXI_MIN)
-        printf("        defined : BXI_MIN\n");
-        if (BXI_MIN(6, 5) != 5)
-            print_failed();
-#   else
-        print_failed();
-        return;
-#   endif
-
     printf("    functions:\n");
 
-    /* bxi_abs */
-    printf("        checking: bxi_abs\n");
-    if (bxi_abs(-5) != 5)
-        print_failed();
-    if (bxi_abs(0) != 0)
-        print_failed();
-    if (bxi_abs(5) != 5)
+    printf("        checking: rotl8\n");
+    if (rotl8(0x4c, 5) != 0x89)
         print_failed();
 
-    /* bxi_sign */
-    printf("        checking: bxi_sign\n");
-    if (bxi_sign(-5) != -1)
-        print_failed();
-    if (bxi_sign(0) != 0)
-        print_failed();
-    if (bxi_sign(5) != 1)
+    printf("        checking: rotr8\n");
+    if (rotr8(0x89, 5) != 0x4c)
         print_failed();
 
-    /* bxi_gcd */
-    printf("        checking: bxi_gcd\n");
-    if (bxi_gcd(28, 17) != 1)
-        print_failed();
-    if (bxi_gcd(28, 34) != 2)
-        print_failed();
-    if (bxi_gcd(-17, 34) != 17)
+    printf("        checking: rotl16\n");
+    if (rotl16(0x1122, 4) != 0x1221)
         print_failed();
 
-    /* bxi_lcm */
-    printf("        checking: bxi_lcm\n");
-    if (bxi_lcm(65, 10) != 130)
+    printf("        checking: rotl16\n");
+    if (rotr16(0x1221, 4) != 0x1122)
         print_failed();
-    if (bxi_lcm(17, 34) != 34)
+
+    printf("        checking: rotl32\n");
+    if (rotl32(0x12345678, 8) != 0x34567812)
         print_failed();
-    if (bxi_lcm(12, 13) != 156)
+
+    printf("        checking: rotl32\n");
+    if (rotr32(0x34567812, 8) != 0x12345678)
+        print_failed();
+
+    printf("        checking: getbit\n");
+    if (getbit(0x12345678, 9) != 1)
+        print_failed();
+
+    printf("        checking: setbit\n");
+    if (setbit(0x12345678, 1) != 0x1234567A)
+        print_failed();
+
+    printf("        checking: tglbit\n");
+    if (tglbit(0x12345678, 9) != 0x12345478)
+        print_failed();
+
+    printf("        checking: clrbit\n");
+    if (clrbit(0x12345678, 9) != 0x12345478)
+        print_failed();
+
+    printf("        checking: chgbit\n");
+    if (chgbit(0x12345678, 9, 0) != 0x12345478)
         print_failed();
 
     print_passed();

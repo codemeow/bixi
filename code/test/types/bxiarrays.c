@@ -83,20 +83,16 @@ void test_types_bxiarrays(void)
     printf("        checking: bxi_bts_create:");
     b1 = bxi_bts_create(TEST_ARRAY_SIZE);
     if (!b1 || !(b1->data) || !(b1->size == TEST_ARRAY_SIZE))
-    {
         print_failed();
-        return;
-    }
+
     for (i = 0; i < TEST_ARRAY_SIZE; i++)
         b1->data[i] = i * TEST_ARRAY_SIZE;
     bxi_raw2hex(buffer, b1->data, b1->size, BXI_HEX_COMBO_C | BXI_HEX_END_CLOSED);
     printf("(b1)[%s]\n", buffer);
     b2 = bxi_bts_create(TEST_ARRAY_SIZE);
     if (!b2 || !(b2->data) || !(b2->size == TEST_ARRAY_SIZE))
-    {
         print_failed();
-        return;
-    }
+
     for (i = 0; i < TEST_ARRAY_SIZE; i++)
         b2->data[i] = i << 4 | i;
     bxi_raw2hex(buffer, b2->data, b2->size, BXI_HEX_COMBO_C | BXI_HEX_END_CLOSED);

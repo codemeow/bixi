@@ -34,49 +34,42 @@ void test_time_bxitime(void)
         printf("        defined : SEC_PER_MIN   (%ld)\n", SEC_PER_MIN);
 #   else
         print_failed();
-        return;
 #   endif
 
 #   if defined(MIN_PER_HRS)
         printf("        defined : MIN_PER_HRS   (%ld)\n", MIN_PER_HRS);
 #   else
         print_failed();
-        return;
 #   endif
 
 #   if defined(HRS_PER_DAY)
         printf("        defined : HRS_PER_DAY   (%ld)\n", HRS_PER_DAY);
 #   else
         print_failed();
-        return;
 #   endif
 
 #   if defined(DAYS_PER_WEEK)
         printf("        defined : DAYS_PER_WEEK (%ld)\n", DAYS_PER_WEEK);
 #   else
         print_failed();
-        return;
 #   endif
 
 #   if defined(SEC_PER_HRS)
         printf("        defined : SEC_PER_HRS   (%ld)\n", SEC_PER_HRS);
 #   else
         print_failed();
-        return;
 #   endif
 
 #   if defined(SEC_PER_DAY)
         printf("        defined : SEC_PER_DAY   (%ld)\n", SEC_PER_DAY);
 #   else
         print_failed();
-        return;
 #   endif
 
 #   if defined(MIN_PER_DAY)
         printf("        defined : MIN_PER_DAY   (%ld)\n", MIN_PER_DAY);
 #   else
         print_failed();
-        return;
 #   endif
 
     print_passed();
