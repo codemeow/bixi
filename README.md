@@ -1,6 +1,6 @@
 # Bixi
 ![Logo](images/logosmall.png)\
-C89 basic types and functions library
+C89 basic types and functions library for Linux and Minix operation systems.
 
 # Origins of the name
 ![bixi statue image](https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Minzu-zhengqi-haoran-changcun-Bixi-3565.jpg/220px-Minzu-zhengqi-haoran-changcun-Bixi-3565.jpg "bixi statue")\

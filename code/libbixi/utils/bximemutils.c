@@ -1,28 +1,28 @@
 /*
- * «Bixi» - Basic types management C89 library
+ * "Bixi" - Basic types management C89 library
  *
  *  Copyright (C) Alexey Shishkin 2017
  *
- *  This file is part of Project «Bixi».
+ *  This file is part of Project "Bixi".
  *
- *  Project «Bixi» is free software: you can redistribute it and/or modify
+ *  Project "Bixi" is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Lesser General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
  *
- *  Project «Bixi» is distributed in the hope that it will be useful,
+ *  Project "Bixi" is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU Lesser General Public License for more details.
  *
  *  You should have received a copy of the GNU Lesser General Public License
- *  along with Project «Bixi». If not, see <http://www.gnu.org/licenses/>.
+ *  along with Project "Bixi". If not, see <http://www.gnu.org/licenses/>.
  */
 
 #include "../definitions/bximacros.h"
 #include "../utils/bximemutils.h"
 #include "../math/bximath.h"
-#include "../definitions/bxiarch.h"
+#include "../definitions/bxienv.h"
 
 bxi_memopt_t bxi_memopt_val = BXI_MEM_ZERO;
 
@@ -114,13 +114,7 @@ void * bxi_memmove(void * dst, const void * src, u32 cnt)
     if (dst == src)
         return dst;
 
-#   if defined(BXI_ARCH_X64)
-        pre = BXI_MIN((4 - ((long unsigned int)dst & 3)) & 3, cnt);
-#   elif defined(BXI_ARCH_X32)
-#       pre = BXI_MIN((4 - ((u32)dst & 3)) & 3, cnt);
-#   else
-#       error "Unsuported architecture"
-#   endif
+    pre = BXI_MIN((4 - ((pu_t)dst & 3)) & 3, cnt);
     cen = (cnt - pre) >> 2;
     end = cnt - pre - (cen << 2);
 
@@ -197,13 +191,7 @@ void * bxi_memset(void * ptr, i32 val, u32 cnt)
     if (!ptr)
         return NULL;
 
-#   if defined(BXI_ARCH_X64)
-        pre = BXI_MIN((4 - ((long unsigned int)ptr & 3)) & 3, cnt);
-#   elif defined(BXI_ARCH_X32)
-#       pre = BXI_MIN((4 - ((u32)ptr & 3)) & 3, cnt);
-#   else
-#       error "Unsuported architecture"
-#   endif
+    pre = BXI_MIN((4 - ((pu_t)ptr & 3)) & 3, cnt);
     cen = (cnt - pre) >> 2;
     end = cnt - pre - (cen << 2);
 
@@ -276,13 +264,7 @@ void * bxi_memfrob(void * ptr, u8 val, u32 cnt)
     if (!cnt)
         return ptr;
 
-#   if defined(BXI_ARCH_X64)
-        pre = BXI_MIN((4 - ((long unsigned int)ptr & 3)) & 3, cnt);
-#   elif defined(BXI_ARCH_X32)
-#       pre = BXI_MIN((4 - ((u32)ptr & 3)) & 3, cnt);
-#   else
-#       error "Unsuported architecture"
-#   endif
+    pre = BXI_MIN((4 - ((pu_t)ptr & 3)) & 3, cnt);
     cen = (cnt - pre) >> 2;
     end = cnt - pre - (cen << 2);
 

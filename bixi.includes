@@ -18,6 +18,4 @@
 #  along with Project «bixi». If not, see <http://www.gnu.org/licenses/>.
 
 includes
-code/test/time
-code/test/types
-code/test/utils
+.

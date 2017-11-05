@@ -1,43 +1,43 @@
 #!/bin/bash
 
-# «Bixi» - Basic types management C89 library
+# "Bixi" - Basic types management C89 library
 #
 #  Copyright (C) Alexey Shishkin 2017
 #
-#  This file is part of Project «Bixi».
+#  This file is part of Project "Bixi".
 #
-#  Project «Bixi» is free software: you can redistribute it and/or modify
+#  Project "Bixi" is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU Lesser General Public License as published by
 #  the Free Software Foundation, either version 3 of the License, or
 #  (at your option) any later version.
 #
-#  Project «Bixi» is distributed in the hope that it will be useful,
+#  Project "Bixi" is distributed in the hope that it will be useful,
 #  but WITHOUT ANY WARRANTY; without even the implied warranty of
 #  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 #  GNU Lesser General Public License for more details.
 #
 #  You should have received a copy of the GNU Lesser General Public License
-#  along with Project «Bixi». If not, see <http://www.gnu.org/licenses/>.
+#  along with Project "Bixi". If not, see <http://www.gnu.org/licenses/>.
 
 license="/*\n"`
-`"* «Bixi» - Basic types management C89 library\n"`
+`"* "Bixi" - Basic types management C89 library\n"`
 `"*\n"`
 `"*  Copyright (C) Alexey Shishkin 2017\n"`
 `"*\n"`
-`"*  This file is part of Project «Bixi».\n"`
+`"*  This file is part of Project "Bixi".\n"`
 `"*\n"`
-`"*  Project «Bixi» is free software: you can redistribute it and/or modify\n"`
+`"*  Project "Bixi" is free software: you can redistribute it and/or modify\n"`
 `"*  it under the terms of the GNU Lesser General Public License as published by\n"`
 `"*  the Free Software Foundation, either version 3 of the License, or\n"`
 `"*  (at your option) any later version.\n"`
 `"*\n"`
-`"*  Project «Bixi» is distributed in the hope that it will be useful,\n"`
+`"*  Project "Bixi" is distributed in the hope that it will be useful,\n"`
 `"*  but WITHOUT ANY WARRANTY; without even the implied warranty of\n"`
 `"*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the\n"`
 `"*  GNU Lesser General Public License for more details.\n"`
 `"*\n"`
 `"*  You should have received a copy of the GNU Lesser General Public License\n"`
-`"*  along with Project «Bixi». If not, see <http://www.gnu.org/licenses/>.\n"`
+`"*  along with Project "Bixi". If not, see <http://www.gnu.org/licenses/>.\n"`
 `"*/"
 
 list=$(  find code/libbixi/ -type f -name "*.h" )

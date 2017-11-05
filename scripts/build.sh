@@ -1,28 +1,29 @@
 #!/bin/bash
 
-# «C-otter» - C/C++ projects manager
+# "C-otter" - C/C++ projects manager
 #
 #  Copyright (C) Alexey Shishkin 2016-2017
 #
-#  This file is part of Project «C-otter».
+#  This file is part of Project "C-otter".
 #
-#  Project «C-otter» is free software: you can redistribute it and/or modify
+#  Project "C-otter" is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU Lesser General Public License as published by
 #  the Free Software Foundation, either version 3 of the License, or
 #  (at your option) any later version.
 #
-#  Project «C-otter» is distributed in the hope that it will be useful,
+#  Project "C-otter" is distributed in the hope that it will be useful,
 #  but WITHOUT ANY WARRANTY; without even the implied warranty of
 #  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 #  GNU Lesser General Public License for more details.
 #
 #  You should have received a copy of the GNU Lesser General Public License
-#  along with Project «C-otter». If not, see <http://www.gnu.org/licenses/>.
+#  along with Project "C-otter". If not, see <http://www.gnu.org/licenses/>.
+
+set -e
 
 GLOBAL_DEBUG_MODE=$1
 
-# Grep fix
-GREP_OPTIONS='--color=never'
+# @todo support of +--- instead of ┌───
 
 # Error holder
 ERROR_HOLDER="/tmp/build-holder.log"
@@ -34,6 +35,32 @@ Die()
     echo "$@" 1>&2 
     ShowErrors
     kill -SIGPIPE $$
+}
+
+GrepValid()
+{
+    echo | grep $1 "" >/dev/null 2>&1
+}
+
+CompilerValid()
+{
+    local name="$1"
+    if [ -z "$name" ]
+    then
+        name="cc";
+    fi
+    ( command -v $name > /dev/null && echo "$1"   ) || \
+    ( command -v cc    > /dev/null && echo "cc"   ) || \
+    ( command -v gcc   > /dev/null && echo "gcc"  ) || \
+    ( command -v clang > /dev/null && echo "clang") || \
+    ( command -v icc   > /dev/null && echo "icc"  ) || \
+    ( Die "Can't find appropriate compiler"       )
+}
+
+Md5Calc()
+{
+    #          Linux                             || Minix
+    command -v md5sum > /dev/null && md5sum "$1" || md5 -n "$1"
 }
 
 Initialise()
@@ -51,13 +78,21 @@ Initialise()
 
 Include()
 {
+    GREP_OPTIONS=""
+
+    if GrepValid --color=never; then
+        echo "Setting grep to colored"
+        GREP_OPTIONS+=" --color=never"
+    fi
+
     echo "┌─── Including"
-    FILE_CONFIG=`find . -maxdepth 1 -name "*.config" -print -quit`
+    FILE_CONFIG=`find . -maxdepth 1 -name "*.config"`
     echo "├ $FILE_CONFIG"
     if [ ! -f "$FILE_CONFIG" ]
     then
         Die "Config file $FILE_CONFIG not found"
     fi
+
     source "$FILE_CONFIG"
 
     FILE_FILELIST="$GLOBAL_PROJECT_NAME.files"
@@ -142,7 +177,17 @@ Configure()
     RUN_AFTER_EXPORT=""
 
     DIRECTORY_PROJECT=$1
+
     source $DIRECTORY_PROJECT/$SUBPROJECT_FILE_CONFIG
+
+    COMPILER_NAME=$( CompilerValid $COMPILER_NAME )
+
+    # Clang's whining fix about unused args
+    if [ "$COMPILER_NAME" == "clang" ]
+    then
+        COMPILER_OPTIONS+=" -Wno-error=unused-command-line-argument"
+        COMPILER_OPTIONS+=" -Wno-unused-command-line-argument"
+    fi
 
     if [ ! -z "$DEPENDENCY_INCLUDE" ]
     then
@@ -176,15 +221,18 @@ IncrementBuild()
     if [ ! -z "$PROJECT_VERSION_BUILD" ]
     then
         BUILD_NUMBER_CURRENT=$(grep '^PROJECT_VERSION_BUILD' \
-                              --color=never \
                               ./$DIRECTORY_PROJECT/$SUBPROJECT_FILE_CONFIG | \
                               cut -f2- -d=)
         BUILD_NUMBER_NEXT=$BUILD_NUMBER_CURRENT
         ((BUILD_NUMBER_NEXT++))
         SED_BEFORE="PROJECT_VERSION_BUILD=$BUILD_NUMBER_CURRENT"
         SED_AFTER="PROJECT_VERSION_BUILD=$BUILD_NUMBER_NEXT"
-        sed -i "/^$SED_BEFORE/c\\$SED_AFTER" \
-            ./$DIRECTORY_PROJECT/$SUBPROJECT_FILE_CONFIG
+        # I'm aware of -i option. Unfortunately it is not
+        # supported on some systems like Minix or Mac OS
+        sed "s/^$SED_BEFORE/$SED_AFTER/" \
+            "./$DIRECTORY_PROJECT/$SUBPROJECT_FILE_CONFIG" > "./$DIRECTORY_PROJECT/$SUBPROJECT_FILE_CONFIG.bak"
+        rm "./$DIRECTORY_PROJECT/$SUBPROJECT_FILE_CONFIG"
+        mv "./$DIRECTORY_PROJECT/$SUBPROJECT_FILE_CONFIG.bak" "./$DIRECTORY_PROJECT/$SUBPROJECT_FILE_CONFIG"
     fi
 }
 
@@ -206,7 +254,7 @@ Compile()
     do
         echo "├ $file_c"
 
-        file_o=$(md5sum "$file_c" | awk '{ printf "%s%s", $1, ".o"; }')
+        file_o=$(Md5Calc "$file_c" | awk '{ printf "%s%s", $1, ".o"; }')
 
         $COMPILER_NAME \
             $COMPILER_OPTIONS \
@@ -261,7 +309,7 @@ Link()
     echo "└───"
     if [ ! -z "$RUN_AFTER_LINK" ]
     then
-      echo "┌─── Running after linking"
+       echo "┌─── Running after linking"
        source "$RUN_AFTER_LINK"
        echo "└───"
     fi
@@ -322,11 +370,13 @@ ShowErrors()
 }
 
 # Run section
+trap ShowErrors EXIT
+
 Initialise
 Include
 CleanBinary
 CleanIncludes
-grep -v '^$\|^\s*\#' $FILE_SUBPROJECTS | while read -r subproject ;
+grep "^[^#]" $FILE_SUBPROJECTS | while read -r subproject ;
 do
     CleanObject
     Configure "./$DIRECTORY_CODE/$subproject"
@@ -337,4 +387,3 @@ do
     Export
 done
 
-ShowErrors

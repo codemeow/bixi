@@ -131,3 +131,5 @@ code/test/utils/bxibitutils.c
 code/test/utils/bxibitutils.h
 code/test/utils/bximemutils.c
 code/test/utils/bximemutils.h
+code/libbixi/definitions/bxienv.h
+README.md

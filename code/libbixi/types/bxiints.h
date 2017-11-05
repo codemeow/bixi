@@ -1,22 +1,22 @@
 /*
- * «Bixi» - Basic types management C89 library
+ * "Bixi" - Basic types management C89 library
  *
  *  Copyright (C) Alexey Shishkin 2017
  *
- *  This file is part of Project «Bixi».
+ *  This file is part of Project "Bixi".
  *
- *  Project «Bixi» is free software: you can redistribute it and/or modify
+ *  Project "Bixi" is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Lesser General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
  *
- *  Project «Bixi» is distributed in the hope that it will be useful,
+ *  Project "Bixi" is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  *  GNU Lesser General Public License for more details.
  *
  *  You should have received a copy of the GNU Lesser General Public License
- *  along with Project «Bixi». If not, see <http://www.gnu.org/licenses/>.
+ *  along with Project "Bixi". If not, see <http://www.gnu.org/licenses/>.
  */
 
 #ifndef BXIINTS_H
@@ -24,6 +24,7 @@
 
 #include "../definitions/bxiexport.h"
 #include "../definitions/bxiassert.h"
+#include "../definitions/bxienv.h"
 
 EXPORT typedef   signed       char i8;
 EXPORT typedef unsigned       char u8;
@@ -31,6 +32,19 @@ EXPORT typedef   signed short int i16;
 EXPORT typedef unsigned short int u16;
 EXPORT typedef   signed       int i32;
 EXPORT typedef unsigned       int u32;
+
+EXPORT_FROM
+#   if   defined(BXI_ARCH_X64)
+       typedef unsigned  long int pu_t;
+       typedef   signed  long int pd_t;
+#   elif defined(BXI_ARCH_X32)
+       typedef unsigned       int pu_t;
+       typedef   signed       int pd_t;
+#   elif defined(BXI_ARCH_X16)
+       typedef unsigned short int pu_t;
+       typedef   signed short int pd_t;
+#   endif
+EXPORT_TO
 
 EXPORT_FROM
 #define BITS_IN_BYTE ( 8)
