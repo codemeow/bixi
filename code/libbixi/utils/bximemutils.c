@@ -21,6 +21,8 @@
 
 #include "../definitions/bximacros.h"
 #include "../utils/bximemutils.h"
+#include "../math/bximath.h"
+#include "../definitions/bxiarch.h"
 
 bxi_memopt_t bxi_memopt_val = BXI_MEM_ZERO;
 
@@ -95,43 +97,128 @@ void * bxi_realloc_call(void * ptr, u32 size, const char * file, u32 line)
 
 void * bxi_memmove(void * dst, const void * src, u32 cnt)
 {
-          u8 * dst_u8 = dst;
-    const u8 * src_u8 = src;
+          u32 i;
+          u32 pre;
+          u32 cen;
+          u32 end;
+           u8 * dst_u8 = dst;
+    const  u8 * src_u8 = src;
+          u32 * dst_u32;
+    const u32 * src_u32;
+          u32   pp;
 
     if (!dst)
         return NULL;
     if (!src)
         return dst;
-
     if (dst == src)
         return dst;
 
+#   if defined(BXI_ARCH_X64)
+        pre = BXI_MIN((4 - ((long unsigned int)dst & 3)) & 3, cnt);
+#   elif defined(BXI_ARCH_X32)
+#       pre = BXI_MIN((4 - ((u32)dst & 3)) & 3, cnt);
+#   else
+#       error "Unsuported architecture"
+#   endif
+    cen = (cnt - pre) >> 2;
+    end = cnt - pre - (cen << 2);
+
     if (dst > src)
     {
-        while (cnt--)
-           dst_u8[cnt] = src_u8[cnt];
+        dst_u8 += cnt - 1;
+        src_u8 += cnt - 1;
+        for (i = 0; i < end; i++, dst_u8--, src_u8--)
+            *dst_u8 = *src_u8;
+
+        if (cen)
+        {
+            dst_u32 = (      u32 *)(dst_u8 - 3);
+            src_u32 = (const u32 *)(src_u8 - 3);
+            for (i = 0; i < cen; i++, dst_u32--, src_u32--)
+            {
+                /* I'm not sure if we can directly copy
+             * overlapping areas like this, therefore
+             * I'm having a buffer                 */
+                /* [ ][ ][ ][ ][ ][ ][ ][ ]
+             *    [   dst    ]
+             *          [    src   ]               */
+                pp = *src_u32;
+                *dst_u32 = pp;
+            }
+
+            dst_u8 = (      u8 *)dst_u32 + 3;
+            src_u8 = (const u8 *)src_u32 + 3;
+        }
+
+        for (i = 0; i < pre; i++, dst_u8--, src_u8--)
+            *dst_u8 = *src_u8;
     }
     else
     {
-        u32 len = cnt;
-        while (cnt--)
-            dst_u8[len - cnt - 1] = src_u8[len - cnt - 1];
+        for (i = 0; i < pre; i++, dst_u8++, src_u8++)
+            *dst_u8 = *src_u8;
+
+        dst_u32 = (      u32 *)dst_u8;
+        src_u32 = (const u32 *)src_u8;
+        for (i = 0; i < cen; i++, dst_u32++, src_u32++)
+        {
+            /* I'm not sure if we can directly copy
+             * overlapping areas like this, therefore
+             * I'm having a buffer                 */
+            /* [ ][ ][ ][ ][ ][ ][ ][ ]
+             *    [   dst    ]
+             *          [    src   ]               */
+            pp = *src_u32;
+            *dst_u32 = pp;
+        }
+
+        dst_u8 = (      u8 *)dst_u32;
+        src_u8 = (const u8 *)src_u32;
+        for (i = 0; i < end; i++, dst_u8++, src_u8++)
+            *dst_u8 = *src_u8;
     }
 
     return dst;
 }
 
-/* @todo 4-bytes memset via asm like in smilo ъ*/
+/* @todo 4-bytes memset via asm like in smilo */
 
 void * bxi_memset(void * ptr, i32 val, u32 cnt)
 {
-    u8 * ptr_u8 = ptr;
+    u32 f = 0;
+    u32 i;
+    u32 pre;
+    u32 cen;
+    u32 end;
+    u8  * ptr_u8 = ptr;
+    u32 * ptr_u32;
 
     if (!ptr)
         return NULL;
 
-    while (cnt--)
-        ptr_u8[cnt] = (val & 0xff);
+#   if defined(BXI_ARCH_X64)
+        pre = BXI_MIN((4 - ((long unsigned int)ptr & 3)) & 3, cnt);
+#   elif defined(BXI_ARCH_X32)
+#       pre = BXI_MIN((4 - ((u32)ptr & 3)) & 3, cnt);
+#   else
+#       error "Unsuported architecture"
+#   endif
+    cen = (cnt - pre) >> 2;
+    end = cnt - pre - (cen << 2);
+
+    f = val;
+    f |= f << 8;
+    f |= f << 16;
+
+    for (i = 0; i < pre; i++, ptr_u8++)
+        *ptr_u8 = val;
+    ptr_u32 = (u32 *)ptr_u8;
+    for (i = 0; i < cen; i++, ptr_u32++)
+        *ptr_u32 = f;
+    ptr_u8 = (u8 *)ptr_u32;
+    for (i = 0; i < end; i++, ptr_u8++)
+        *ptr_u8 = val;
 
     return ptr;
 }
@@ -174,15 +261,45 @@ i32 bxi_memcmp(const void * p1, const void * p2, u32 cnt)
   return 0;
 }
 
-void bxi_memfrob(void * ptr, u8 val, u32 cnt)
+void * bxi_memfrob(void * ptr, u8 val, u32 cnt)
 {
+    u32 f = 0;
     u32 i;
-    u8 * ptru8 = (u8 *)ptr;
-    if (!ptr)
-        return;
+    u32 pre;
+    u32 cen;
+    u32 end;
+    u8  * ptr_u8 = ptr;
+    u32 * ptr_u32;
 
-    for (i = 0; i < cnt; i++)
-        ptru8[i] ^= val;
+    if (!ptr)
+        return NULL;
+    if (!cnt)
+        return ptr;
+
+#   if defined(BXI_ARCH_X64)
+        pre = BXI_MIN((4 - ((long unsigned int)ptr & 3)) & 3, cnt);
+#   elif defined(BXI_ARCH_X32)
+#       pre = BXI_MIN((4 - ((u32)ptr & 3)) & 3, cnt);
+#   else
+#       error "Unsuported architecture"
+#   endif
+    cen = (cnt - pre) >> 2;
+    end = cnt - pre - (cen << 2);
+
+    f = val;
+    f |= f << 8;
+    f |= f << 16;
+
+    for (i = 0; i < pre; i++, ptr_u8++)
+        *ptr_u8 ^= val;
+    ptr_u32 = (u32 *)ptr_u8;
+    for (i = 0; i < cen; i++, ptr_u32++)
+        *ptr_u32 ^= f;
+    ptr_u8 = (u8 *)ptr_u32;
+    for (i = 0; i < end; i++, ptr_u8++)
+        *ptr_u8 ^= val;
+
+    return ptr;
 }
 
 void * bxi_memchr (const void * ptr, u8 val, u32 cnt)
