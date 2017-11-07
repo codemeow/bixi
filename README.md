@@ -13,7 +13,7 @@ The Bixi library provides basic fixed-sized types, functions to translate them t
 
 # Dependencies to standart library
 
-The Bixi library only uses `<time.h>` module for `nanosleep` function under linux and also uses `windows.h` under windows for the same purposes.
+The Bixi library has *no* dependencies.
 
 # Defined types
 

@@ -26,6 +26,24 @@
 #include "../types/bxiints.h"
 #include "../types/bxifloats.h"
 
+EXPORT_FROM
+#define BXI_MSEC_IN_SEC  (1000)
+#define BXI_USEC_IN_SEC  (1000 * BXI_MSEC_IN_SEC)
+#define BXI_NSEC_IN_SEC  (1000 * BXI_USEC_IN_SEC)
+#define BXI_NSEC_IN_USEC (1000)
+#define BXI_NSEC_IN_MSEC (1000 * BXI_NSEC_IN_USEC)
+#define BXI_USEC_IN_MSEC (1000)
+EXPORT_TO
+
+EXPORT typedef void (*bxi_sleep_int_func)(u32);
+EXPORT typedef void (*bxi_sleep_flt_func)(f32);
+
+EXPORT void bxi_sleep_set (bxi_sleep_int_func func);
+EXPORT void bxi_msleep_set(bxi_sleep_int_func func);
+EXPORT void bxi_usleep_set(bxi_sleep_int_func func);
+EXPORT void bxi_nsleep_set(bxi_sleep_int_func func);
+EXPORT void bxi_fsleep_set(bxi_sleep_flt_func func);
+
 EXPORT void bxi_sleep (u32  sec);
 EXPORT void bxi_msleep(u32 msec);
 EXPORT void bxi_usleep(u32 usec);

@@ -59,8 +59,8 @@ CompilerValid()
 
 Md5Calc()
 {
-    #          Linux                             || Minix
-    command -v md5sum > /dev/null && md5sum "$1" || md5 -n "$1"
+    #          Linux                                 || Minix
+    ( command -v md5sum > /dev/null && md5sum "$1" ) || md5 -n "$1"
 }
 
 Initialise()
@@ -80,8 +80,8 @@ Include()
 {
     GREP_OPTIONS=""
 
-    if GrepValid --color=never; then
-        echo "Setting grep to colored"
+    if GrepValid --color=never
+    then
         GREP_OPTIONS+=" --color=never"
     fi
 

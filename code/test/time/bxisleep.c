@@ -50,6 +50,20 @@
            (u32)((time_n_f - time_n_s) / mult));     \
 }
 
+#if defined(BXI_OS_GLX) || defined(BXI_OS_MNX)
+#   include <time.h>
+
+    static void nsleep(u32 nsec)
+    {
+        struct timespec ts;
+        ts.tv_sec  = nsec / BXI_NSEC_IN_SEC;
+        ts.tv_nsec = nsec % BXI_NSEC_IN_SEC;
+
+        nanosleep(&ts, NULL);
+    }
+
+#endif
+
 void test_time_bxisleep(void)
 {
     print_info;
@@ -57,14 +71,15 @@ void test_time_bxisleep(void)
     printf("    functions:\n");
 
 #   if defined(BXI_OS_GLX) || defined(BXI_OS_MNX)
-        TEST_SLEEP(bxi_nsleep, TEST_SLEEP_N, 1);
-        TEST_SLEEP(bxi_usleep, TEST_SLEEP_U, 1e3);
-        TEST_SLEEP(bxi_msleep, TEST_SLEEP_M, 1e6);
-        TEST_SLEEP(bxi_sleep,  TEST_SLEEP_S, 1e9);
-        TEST_SLEEP(bxi_fsleep, TEST_SLEEP_F, 1e9);
-#   else
-        print_failed();
+        printf("        checking: bxi_nsleep_set\n");
+        bxi_nsleep_set(nsleep);
 #   endif
+
+    TEST_SLEEP(bxi_nsleep, TEST_SLEEP_N, 1);
+    TEST_SLEEP(bxi_usleep, TEST_SLEEP_U, 1e3);
+    TEST_SLEEP(bxi_msleep, TEST_SLEEP_M, 1e6);
+    TEST_SLEEP(bxi_sleep,  TEST_SLEEP_S, 1e9);
+    TEST_SLEEP(bxi_fsleep, TEST_SLEEP_F, 1e9);
 
     print_passed();
 }
