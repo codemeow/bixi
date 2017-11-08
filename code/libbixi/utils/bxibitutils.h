@@ -25,18 +25,24 @@
 #include "../definitions/bxiexport.h"
 #include "../types/bxiints.h"
 
-EXPORT u8  rotl8 (u8  val, u32 n);
-EXPORT u8  rotr8 (u8  val, u32 n);
-EXPORT u16 rotl16(u16 val, u32 n);
-EXPORT u16 rotr16(u16 val, u32 n);
-EXPORT u32 rotl32(u32 val, u32 n);
-EXPORT u32 rotr32(u32 val, u32 n);
+EXPORT_FROM
+#define BXI_SWAP(a, b) do { if ((a) != (b)) { (a) ^= (b); (b) ^= (a); (a) ^= (b); } } while (0)
+EXPORT_TO
 
-EXPORT u8  getbit(u32 val, u8 n);
-EXPORT u32 setbit(u32 val, u8 n);
-EXPORT u32 tglbit(u32 val, u8 n);
-EXPORT u32 clrbit(u32 val, u8 n);
-EXPORT u32 chgbit(u32 val, u8 n, u8 bit);
+EXPORT u8  bxi_rotl8 (u8  val, u32 n);
+EXPORT u8  bxi_rotr8 (u8  val, u32 n);
+EXPORT u16 bxi_rotl16(u16 val, u32 n);
+EXPORT u16 bxi_rotr16(u16 val, u32 n);
+EXPORT u32 bxi_rotl32(u32 val, u32 n);
+EXPORT u32 bxi_rotr32(u32 val, u32 n);
+
+EXPORT u8  bxi_getbit(u32 val, u8 n);
+EXPORT u32 bxi_setbit(u32 val, u8 n);
+EXPORT u32 bxi_tglbit(u32 val, u8 n);
+EXPORT u32 bxi_clrbit(u32 val, u8 n);
+EXPORT u32 bxi_chgbit(u32 val, u8 n, u8 bit);
+
+EXPORT u8  bxi_cntbit(u32 val);
 
 #endif /* BXIBITUTILS_H */
 

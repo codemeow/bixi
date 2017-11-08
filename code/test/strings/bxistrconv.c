@@ -73,10 +73,9 @@
 
 #define TEST_FORMAT(name, flags)                     \
 {                                                    \
-    char out[128] = { 0 };                           \
+    char out[128];                                   \
     bxi_raw2hex(out, raw, 16, flags);                \
     printf("            [%s]: \"%s\"\n", name, out); \
-    out[0] = '\0';                                   \
 }
 
 void test_strings_bxistrconv(void)

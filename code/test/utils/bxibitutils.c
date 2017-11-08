@@ -28,50 +28,73 @@ void test_utils_bxibitutils(void)
 {
     print_info;
 
+    printf("    defines:\n");
+#   if defined(BXI_SWAP)
+        printf("        checking: BXI_SWAP\n");
+        {
+            i32 a = 3;
+            i32 b = 4;
+            BXI_SWAP(a, b);
+            if ((a != 4) || (b != 3))
+                print_failed();
+            BXI_SWAP(a, a);
+            if ((a != 4))
+                print_failed();
+        }
+#   else
+        print_failed();
+#   endif
+
     printf("    functions:\n");
 
-    printf("        checking: rotl8\n");
-    if (rotl8(0x4c, 5) != 0x89)
+    printf("        checking: bxi_rotl8\n");
+    if (bxi_rotl8(0x4c, 5) != 0x89)
         print_failed();
 
-    printf("        checking: rotr8\n");
-    if (rotr8(0x89, 5) != 0x4c)
+    printf("        checking: bxi_rotr8\n");
+    if (bxi_rotr8(0x89, 5) != 0x4c)
         print_failed();
 
-    printf("        checking: rotl16\n");
-    if (rotl16(0x1122, 4) != 0x1221)
+    printf("        checking: bxi_rotl16\n");
+    if (bxi_rotl16(0x1122, 4) != 0x1221)
         print_failed();
 
-    printf("        checking: rotl16\n");
-    if (rotr16(0x1221, 4) != 0x1122)
+    printf("        checking: bxi_rotl16\n");
+    if (bxi_rotr16(0x1221, 4) != 0x1122)
         print_failed();
 
-    printf("        checking: rotl32\n");
-    if (rotl32(0x12345678, 8) != 0x34567812)
+    printf("        checking: bxi_rotl32\n");
+    if (bxi_rotl32(0x12345678, 8) != 0x34567812)
         print_failed();
 
-    printf("        checking: rotl32\n");
-    if (rotr32(0x34567812, 8) != 0x12345678)
+    printf("        checking: bxi_rotl32\n");
+    if (bxi_rotr32(0x34567812, 8) != 0x12345678)
         print_failed();
 
-    printf("        checking: getbit\n");
-    if (getbit(0x12345678, 9) != 1)
+    printf("        checking: bxi_getbit\n");
+    if (bxi_getbit(0x12345678, 9) != 1)
         print_failed();
 
-    printf("        checking: setbit\n");
-    if (setbit(0x12345678, 1) != 0x1234567A)
+    printf("        checking: bxi_setbit\n");
+    if (bxi_setbit(0x12345678, 1) != 0x1234567A)
         print_failed();
 
-    printf("        checking: tglbit\n");
-    if (tglbit(0x12345678, 9) != 0x12345478)
+    printf("        checking: bxi_tglbit\n");
+    if (bxi_tglbit(0x12345678, 9) != 0x12345478)
         print_failed();
 
-    printf("        checking: clrbit\n");
-    if (clrbit(0x12345678, 9) != 0x12345478)
+    printf("        checking: bxi_clrbit\n");
+    if (bxi_clrbit(0x12345678, 9) != 0x12345478)
         print_failed();
 
-    printf("        checking: chgbit\n");
-    if (chgbit(0x12345678, 9, 0) != 0x12345478)
+    printf("        checking: bxi_chgbit\n");
+    if (bxi_chgbit(0x12345678, 9, 0) != 0x12345478)
+        print_failed();
+
+    printf("        checking: bxi_cntbit\n");
+    if (bxi_cntbit(0x80000000u) != 1)
+        print_failed();
+    if (bxi_cntbit(0x89100) != 4)
         print_failed();
 
     print_passed();

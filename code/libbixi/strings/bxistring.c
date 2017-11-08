@@ -111,6 +111,19 @@ char * bxi_strcpy(char * dst, const char * src)
     return dst;
 }
 
+char * bxi_strdup(const char * str)
+{
+    char * res;
+
+    if (!str)
+        return NULL;
+
+    res = bxi_malloc(bxi_strlen(str) + 1);
+    bxi_strcpy(res, str);
+
+    return res;
+}
+
 char * bxi_strchr(const char * s, i32 c)
 {
     if (!s)
@@ -193,7 +206,7 @@ char * bxi_strshiftl(char * str, u32 count)
 
 static bool isasciigeneric(u32 c, bxi_isasciifuncs type)
 {
-    return getbit(bxi_isasciitable[type][c / BITS_IN_U32] , c % BITS_IN_U32);
+    return bxi_getbit(bxi_isasciitable[type][c / BITS_IN_U32] , c % BITS_IN_U32);
 }
 
 bool bxi_iscntrl(u32 c)

@@ -26,37 +26,43 @@
 
 bxi_memopt_t bxi_memopt_val = BXI_MEM_ZERO;
 
-static void * bxi_malloc_dummy (            u32 size);
-static void   bxi_free_dummy   (void * ptr          );
-static void * bxi_realloc_dummy(void * ptr, u32 size);
-static void   bxi_memerr_dummy (u32 req, const char * file, u32 line);
+static void * bxi_malloc_dummy (            u32 size, const char * file, u32 line);
+static void   bxi_free_dummy   (void * ptr          , const char * file, u32 line);
+static void * bxi_realloc_dummy(void * ptr, u32 size, const char * file, u32 line);
+static void   bxi_memerr_dummy (            u32 size, const char * file, u32 line);
 
 bxi_malloc_t  bxi_malloc_func  = bxi_malloc_dummy;
 bxi_free_t    bxi_free_func    = bxi_free_dummy;
 bxi_realloc_t bxi_realloc_func = bxi_realloc_dummy;
 bxi_memerr_t  bxi_memerr_func  = bxi_memerr_dummy;
 
-static void * bxi_malloc_dummy(u32 size)
+static void * bxi_malloc_dummy(u32 size, const char * file, u32 line)
 {
     UNUSED(size);
+    UNUSED(file);
+    UNUSED(line);
     return NULL;
 }
 
-static void bxi_free_dummy(void * ptr)
+static void bxi_free_dummy(void * ptr, const char * file, u32 line)
 {
     UNUSED(ptr);
+    UNUSED(file);
+    UNUSED(line);
 }
 
-static void * bxi_realloc_dummy(void * ptr, u32 size)
+static void * bxi_realloc_dummy(void * ptr, u32 size, const char * file, u32 line)
 {
     UNUSED(ptr);
     UNUSED(size);
+    UNUSED(file);
+    UNUSED(line);
     return NULL;
 }
 
-static void bxi_memerr_dummy(u32 req, const char * file, u32 line)
+static void bxi_memerr_dummy(u32 size, const char * file, u32 line)
 {
-    UNUSED(req);
+    UNUSED(size);
     UNUSED(file);
     UNUSED(line);
 }
@@ -69,7 +75,7 @@ void bxi_memopt_set (bxi_memopt_t memopt) { bxi_memopt_val   = memopt; }
 
 void * bxi_malloc_call(u32 size, const char * file, u32 line)
 {
-    void * mem = bxi_malloc_func(size);
+    void * mem = bxi_malloc_func(size, file, line);
 
     if (!mem)
         bxi_memerr_func(size, file, line);
@@ -80,14 +86,14 @@ void * bxi_malloc_call(u32 size, const char * file, u32 line)
     return mem;
 }
 
-void bxi_free_call(void * ptr)
+void bxi_free_call(void * ptr, const char * file, u32 line)
 {
-    bxi_free_func(ptr);
+    bxi_free_func(ptr, file, line);
 }
 
 void * bxi_realloc_call(void * ptr, u32 size, const char * file, u32 line)
 {
-    void * mem = bxi_realloc_func(ptr, size);
+    void * mem = bxi_realloc_func(ptr, size, file, line);
     if (!mem && size)
         bxi_memerr_func(size, file, line);
     else
@@ -105,7 +111,6 @@ void * bxi_memmove(void * dst, const void * src, u32 cnt)
     const  u8 * src_u8 = src;
           u32 * dst_u32;
     const u32 * src_u32;
-          u32   pp;
 
     if (!dst)
         return NULL;
@@ -137,7 +142,7 @@ void * bxi_memmove(void * dst, const void * src, u32 cnt)
                 /* [ ][ ][ ][ ][ ][ ][ ][ ]
              *    [   dst    ]
              *          [    src   ]               */
-                pp = *src_u32;
+                u32 pp = *src_u32;
                 *dst_u32 = pp;
             }
 
@@ -163,7 +168,7 @@ void * bxi_memmove(void * dst, const void * src, u32 cnt)
             /* [ ][ ][ ][ ][ ][ ][ ][ ]
              *    [   dst    ]
              *          [    src   ]               */
-            pp = *src_u32;
+            u32 pp = *src_u32;
             *dst_u32 = pp;
         }
 
@@ -195,7 +200,7 @@ void * bxi_memset(void * ptr, i32 val, u32 cnt)
     cen = (cnt - pre) >> 2;
     end = cnt - pre - (cen << 2);
 
-    f = val;
+    f = val & 0xFF;
     f |= f << 8;
     f |= f << 16;
 
@@ -213,16 +218,40 @@ void * bxi_memset(void * ptr, i32 val, u32 cnt)
 
 void * bxi_memcpy(void * dst, const void * src, u32 cnt)
 {
+         u32   pre;
+         u32   cen;
+         u32   end;
           u8 * dst_u8 = dst;
-    const u8 * src_u8 = src;
+   const  u8 * src_u8 = src;
+         u32 * dst_u32;
+   const u32 * src_u32;
+         u32   i;
 
     if (!dst)
         return NULL;
     if (!src)
         return dst;
 
-    while (cnt--)
-        dst_u8[cnt] = src_u8[cnt];
+    if ((((u8 *)src < ((u8 *)dst) + cnt) && ((u8 *)src > (u8 *)dst)) ||
+        (((u8 *)dst < ((u8 *)src) + cnt) && ((u8 *)dst > (u8 *)src)))
+        return bxi_memmove(dst, src, cnt);
+
+    pre = BXI_MIN((4 - ((pu_t)dst & 3)) & 3, cnt);
+    cen = (cnt - pre) >> 2;
+    end = cnt - pre - (cen << 2);
+
+    for (i = 0; i < pre; i++, dst_u8++, src_u8++)
+        *dst_u8 = *src_u8;
+
+    dst_u32 = (      u32 *)dst_u8;
+    src_u32 = (const u32 *)src_u8;
+    for (i = 0; i < cen; i++, dst_u32++, src_u32++)
+        *dst_u32 = *src_u32;
+
+    dst_u8 = (      u8 *)dst_u32;
+    src_u8 = (const u8 *)src_u32;
+    for (i = 0; i < end; i++, dst_u8++, src_u8++)
+        *dst_u8 = *src_u8;
 
     return dst;
 }

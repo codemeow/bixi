@@ -41,9 +41,9 @@ Operation systems:
  BXI_OS_MSD - for MS-DOS
  BXI_OS_PAL - for PalmOS
  BXI_OS_UNX - for UNIX
- BXI_OS_MNX - for Minix
+ BXI_OS_MNX (T) - for Minix
  BXI_OS_GHR - for GNU/Herd
- BXI_OS_GLX - for GNU/Linux
+ BXI_OS_GLX (T) - for GNU/Linux
  BXI_OS_MAC - for MacOS
  BXI_OS_OS2 - for OS/2
  BXI_OS_WIN - for Windows
@@ -51,6 +51,7 @@ Operation systems:
  BXI_OS_ZOS - for z/OS
  BXI_OS_SLR - for Solaris
  BXI_OS_SOS - for SunOS
+*T - completely tested
 
 Bits:
  BXI_BITS as XX for bits

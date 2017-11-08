@@ -66,6 +66,7 @@ EXPORT u32    bxi_strparse(      char * str, u32 * count, char ** output);
 EXPORT char * bxi_strchr  (const char * s, i32 c);
 EXPORT char * bxi_strcpy  (char * dst, const char * src);
 EXPORT char * bxi_strstr  (const char * str, const char * sub);
+EXPORT char * bxi_strdup  (const char * str);
 
 EXPORT bool bxi_iscntrl (u32 c);
 EXPORT bool bxi_isprint (u32 c);

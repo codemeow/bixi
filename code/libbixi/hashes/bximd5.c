@@ -95,7 +95,7 @@ static void md5_process(md5_t * md5)
         dt = abcd[3];
         abcd[3] = abcd[2];
         abcd[2] = abcd[1];
-        abcd[1] = abcd[1] + rotl32(abcd[0] + F + md5_sins[i] +
+        abcd[1] = abcd[1] + bxi_rotl32(abcd[0] + F + md5_sins[i] +
                   block[md5_1234[i / MD5_SIZE](i)], md5_shifts[i]);
         abcd[0] = dt;
     }

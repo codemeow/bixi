@@ -33,18 +33,24 @@ static void my_memerr(u32 req, const char * file, u32 line)
            file, line, req);
 }
 
-static void * my_malloc(u32 size)
+static void * my_malloc(u32 size, const char * file, u32 line)
 {
+    UNUSED(file);
+    UNUSED(line);
     return calloc(size, 1);
 }
 
-static void my_free(void * ptr)
+static void my_free(void * ptr, const char * file, u32 line)
 {
+    UNUSED(file);
+    UNUSED(line);
     free(ptr);
 }
 
-static void * my_realloc(void * ptr, u32 size)
+static void * my_realloc(void * ptr, u32 size, const char * file, u32 line)
 {
+    UNUSED(file);
+    UNUSED(line);
     return realloc(ptr, size);
 }
 
@@ -63,7 +69,7 @@ void test_types_bxiarrays(void)
     /* @todo do good tests */
 
     i32       i;
-    bxi_bts * b1 = NULL;
+    bxi_bts * b1;
     bxi_bts * b2 = NULL;
     char      buffer[TEST_ARRAY_SIZE * 32];
 

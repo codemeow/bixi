@@ -20,6 +20,7 @@
 */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <ctype.h>
 #include <libbixi.h>
 #include "../test.h"
@@ -43,6 +44,20 @@
     func(buffer);                                \
     if (bxi_strcmp(buffer, trg))                 \
         print_failed();                          \
+}
+
+static void * my_malloc(u32 size, const char * file, u32 line)
+{
+    UNUSED(file);
+    UNUSED(line);
+    return calloc(size, 1);
+}
+
+static void my_free(void * ptr, const char * file, u32 line)
+{
+    UNUSED(file);
+    UNUSED(line);
+    free(ptr);
 }
 
 void test_strings_bxistring(void)
@@ -133,6 +148,16 @@ void test_strings_bxistring(void)
                              "quick brown fox jumps over the lazy dog!");
     TEST_STR2(bxi_str2upper, "quick brown fox jumps over the lazy dog!",
                              "QUICK BROWN FOX JUMPS OVER THE LAZY DOG!");
+
+    bxi_malloc_set(my_malloc);
+    bxi_free_set(my_free);
+    printf("        checking: bxi_strdup\n");
+    {
+        char * str = bxi_strdup("Quick brown dog jumps over the lazy frog\n");
+        if (bxi_strcmp(str, "Quick brown dog jumps over the lazy frog\n"))
+            print_failed();
+        bxi_free(str);
+    }
 
     print_passed();
 }
