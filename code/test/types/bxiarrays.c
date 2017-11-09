@@ -64,105 +64,165 @@ static void traverser(bxi_bts * bts, u32 pos, u8 * val)
     *val = bts->data[pos - 2] + bts->data[pos - 1];
 }
 
+static void test_array_create(bxi_bts ** b1, bxi_bts ** b2)
+{
+    i32 i;
+    printf("        checking: bxi_bts_create\n");
+
+    *b1 = bxi_bts_create(TEST_ARRAY_SIZE);
+    *b2 = bxi_bts_create(TEST_ARRAY_SIZE);
+
+    if ((!(*b1)) || (!(*b2)))
+        print_failed();
+    if (((*b1)->size != TEST_ARRAY_SIZE) ||
+        ((*b2)->size != TEST_ARRAY_SIZE))
+        print_failed();
+    if ((!(*b1)->data) || (!(*b2)->data))
+        print_failed();
+
+    for (i = 0; i < TEST_ARRAY_SIZE; i++)
+    {
+        (*b1)->data[i] = i * TEST_ARRAY_SIZE;
+        if ((*b1)->data[i] != i * TEST_ARRAY_SIZE)
+            print_failed();
+        (*b2)->data[i] = i * TEST_ARRAY_SIZE;
+        if ((*b2)->data[i] != i * TEST_ARRAY_SIZE)
+            print_failed();
+    }
+}
+
+static void test_array_append(bxi_bts * b1, bxi_bts * b2)
+{
+    i32 i;
+
+    printf("        checking: bxi_bts_append\n");
+    bxi_bts_append(b1, b2);
+    if (b1->size != TEST_ARRAY_SIZE * 2)
+        print_failed();
+
+    for (i = TEST_ARRAY_SIZE; i < TEST_ARRAY_SIZE * 2; i++)
+        if (b1->data[i] != b2->data[i - TEST_ARRAY_SIZE])
+            print_failed();
+}
+
+static void test_array_walk(bxi_bts * b1)
+{
+    u32 i;
+
+    printf("        checking: bxi_bts_walk\n");
+    bxi_bts_walk(b1, traverser);
+
+    for (i = 0; i < b1->size; i++)
+    {
+        if (i < 2)
+        {
+            if (b1->data[i] != 1)
+                print_failed();
+        }
+        else
+        {
+            if (b1->data[i] != ((b1->data[i - 1] + b1->data[i - 2]) & 0xFF))
+                print_failed();
+        }
+    }
+}
+
+static void test_array_search(bxi_bts * b1)
+{
+    UNUSED(b1);
+    printf("        checking: bxi_bts_search\n");
+    if (bxi_bts_search(b1, 0x77) != -1)
+        print_failed();
+    if (bxi_bts_search(b1, 0x05) != 4)
+        print_failed();
+}
+
+static void test_array_resize(bxi_bts * b1, bxi_bts * b2)
+{
+    printf("        checking: bxi_bts_resize\n");
+    bxi_bts_resize(b1, 2);
+    bxi_bts_resize(b2, 2);
+
+    if (b1->size != 2)
+        print_failed();
+    if (b2->size != 2)
+        print_failed();
+
+    if ((b1->data[0] != 1) || (b1->data[1] != 1))
+        print_failed();
+    if ((b2->data[0] != 0) || (b2->data[1] != 8))
+        print_failed();
+}
+
+static void test_array_insert(bxi_bts * b1, bxi_bts * b2)
+{
+    printf("        checking: bxi_bts_insert\n");
+    b1->data[0] = 0x10;
+    b1->data[1] = 0x20;
+    b2->data[0] = 0x01;
+    b2->data[1] = 0x02;
+
+    bxi_bts_insert(b1, b2, 2);
+    bxi_bts_insert(b1, b2, 1);
+    bxi_bts_insert(b1, b2, 0);
+
+    if (b1->size != b2->size * 3 + 2)
+        print_failed();
+    if ((b1->data[0] != 0x01) ||
+        (b1->data[1] != 0x02) ||
+        (b1->data[2] != 0x10) ||
+        (b1->data[3] != 0x01) ||
+        (b1->data[4] != 0x02) ||
+        (b1->data[5] != 0x20) ||
+        (b1->data[6] != 0x01) ||
+        (b1->data[7] != 0x02))
+        print_failed();
+}
+
+static void test_array_delete(bxi_bts * b1)
+{
+    printf("        checking: bxi_bts_delete\n");
+
+    bxi_bts_delete(b1, 6, 2);
+    bxi_bts_delete(b1, 3, 2);
+    bxi_bts_delete(b1, 0, 2);
+
+    if (b1->size != 2)
+        print_failed();
+    if ((b1->data[0] != 0x10) ||
+        (b1->data[1] != 0x20))
+        print_failed();
+}
+
+static void test_array_free(bxi_bts * b1, bxi_bts * b2)
+{
+    printf("        checking: bxi_bts_free\n");
+    bxi_bts_free(b1);
+    bxi_bts_free(b2);
+}
+
 void test_types_bxiarrays(void)
 {
-    /* @todo do good tests */
-
-    i32       i;
-    bxi_bts * b1;
+    bxi_bts * b1 = NULL;
     bxi_bts * b2 = NULL;
-    char      buffer[TEST_ARRAY_SIZE * 32];
 
     print_info;
 
-    printf("    settings:\n");
-    printf("        function: bxi_malloc_set\n");
-    bxi_malloc_set(my_malloc);
-    printf("        function: bxi_free_set\n");
-    bxi_free_set(my_free);
-    printf("        function: bxi_realloc_set\n");
+    bxi_malloc_set (my_malloc );
+    bxi_free_set   (my_free   );
     bxi_realloc_set(my_realloc);
-    printf("        function: bxi_memerr_set\n");
-    bxi_memerr_set(my_memerr);
+    bxi_memerr_set (my_memerr );
 
     printf("    functions:\n");
-    printf("        checking: bxi_bts_create:");
-    b1 = bxi_bts_create(TEST_ARRAY_SIZE);
-    if (!b1 || !(b1->data) || !(b1->size == TEST_ARRAY_SIZE))
-        print_failed();
 
-    for (i = 0; i < TEST_ARRAY_SIZE; i++)
-        b1->data[i] = i * TEST_ARRAY_SIZE;
-    bxi_raw2hex(buffer, b1->data, b1->size, BXI_HEX_COMBO_C | BXI_HEX_END_CLOSED);
-    printf("(b1)[%s]\n", buffer);
-    b2 = bxi_bts_create(TEST_ARRAY_SIZE);
-    if (!b2 || !(b2->data) || !(b2->size == TEST_ARRAY_SIZE))
-        print_failed();
-
-    for (i = 0; i < TEST_ARRAY_SIZE; i++)
-        b2->data[i] = i << 4 | i;
-    bxi_raw2hex(buffer, b2->data, b2->size, BXI_HEX_COMBO_C | BXI_HEX_END_CLOSED);
-    printf("                                 (b2)[%s]\n", buffer);
-
-    printf("        checking: bxi_bts_append:");
-    bxi_bts_append(b1, b2);
-    bxi_raw2hex(buffer, b1->data, b1->size, BXI_HEX_COMBO_C | BXI_HEX_END_CLOSED);
-    printf("(b1)[%s]\n", buffer);
-
-    printf("        checking: bxi_bts_walk  :");
-    bxi_bts_walk(b1, traverser);
-    bxi_raw2hex(buffer, b1->data, b1->size, BXI_HEX_COMBO_C | BXI_HEX_END_CLOSED);
-    printf("(b1)[%s]\n", buffer);
-
-    printf("        checking: bxi_bts_search: ");
-    printf("0x%02x at %d\n", 0x77, bxi_bts_search(b1, 0x77));
-    printf("                                  0x%02x at %d\n",
-           0x05, bxi_bts_search(b1, 0x05));
-
-    printf("        checking: bxi_bts_insert:");
-    bxi_bts_resize(b1, 5);
-    bxi_bts_resize(b2, 5);
-    for (i = 0; i < 5; i++)
-    {
-        b1->data[i] = (i + 1) << 4;
-        b2->data[i] = (i + 1);
-    }
-    bxi_bts_insert(b1, b2, 2);
-    bxi_bts_insert(b1, b2, 12);
-    bxi_raw2hex(buffer, b1->data, b1->size, BXI_HEX_COMBO_C | BXI_HEX_END_CLOSED);
-    printf("(b1)[%s]\n", buffer);
-
-    printf("        checking: bxi_bts_delete:");
-    bxi_bts_delete(b1, 2, 2);
-    bxi_raw2hex(buffer, b1->data, b1->size, BXI_HEX_COMBO_C | BXI_HEX_END_CLOSED);
-    printf("(b1)[%s]\n", buffer);
-    bxi_bts_delete(b1, 5, 11);
-    bxi_raw2hex(buffer, b1->data, b1->size, BXI_HEX_COMBO_C | BXI_HEX_END_CLOSED);
-    printf("                                 (b1)[%s]\n", buffer);
-
-    printf("        checking: bxi_bts_resize:");
-    bxi_bts_resize(b1, 0);
-    bxi_raw2hex(buffer, b1->data, b1->size, BXI_HEX_COMBO_C | BXI_HEX_END_CLOSED);
-    printf("(b1)[%s]\n", buffer);
-    bxi_memopt_set(BXI_MEM_NONE);
-    bxi_bts_resize(b1, TEST_ARRAY_SIZE);
-    bxi_raw2hex(buffer, b1->data, b1->size, BXI_HEX_COMBO_C | BXI_HEX_END_CLOSED);
-    printf("                                 (b1)[%s]\n", buffer);
-    bxi_bts_resize(b1, 0);
-    bxi_raw2hex(buffer, b1->data, b1->size, BXI_HEX_COMBO_C | BXI_HEX_END_CLOSED);
-    printf("                                 (b1)[%s]\n", buffer);
-    bxi_memopt_set(BXI_MEM_ZERO);
-    bxi_bts_resize(b1, TEST_ARRAY_SIZE);
-    bxi_raw2hex(buffer, b1->data, b1->size, BXI_HEX_COMBO_C | BXI_HEX_END_CLOSED);
-    printf("                                 (b1)[%s]\n", buffer);
-
-    printf("        checking: bxi_bts_free  :");
-    bxi_bts_free(b1);
-    bxi_raw2hex(buffer, b1->data, b1->size, BXI_HEX_COMBO_C | BXI_HEX_END_CLOSED);
-    printf("(b1)[%s]\n", buffer);
-    bxi_bts_free(b2);
-    bxi_raw2hex(buffer, b2->data, b2->size, BXI_HEX_COMBO_C | BXI_HEX_END_CLOSED);
-    printf("                                 (b2)[%s]\n", buffer);
+    test_array_create(&b1, &b2);
+    test_array_append( b1,  b2);
+    test_array_walk  ( b1     );
+    test_array_search( b1     );
+    test_array_resize( b1,  b2);
+    test_array_insert( b1,  b2);
+    test_array_delete( b1     );
+    test_array_free  ( b1,  b2);
 
     print_passed();
 }

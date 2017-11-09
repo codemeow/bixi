@@ -89,28 +89,19 @@ i32 bxi_bts_search(bxi_bts * bts, u8 value)
 
 bxi_bts * bxi_bts_insert(bxi_bts * dst, bxi_bts * src, u32 pos)
 {
+    u32 os;
     if (!dst)
         return NULL;
     if (!src)
         return dst;
 
-    /* [0][1][2][3][4][5]
-             [6][7][8]
-
-       [0][1][2][3][4][5][ ][ ][ ]
-             [6][7][8]
-
-       [0][1][ ][ ][ ][2][3][4][5]
-             [6][7][8]
-
-       [0][1][6][7][8][2][3][4][5] */
-
-    if (dst->size < pos)
+    os = dst->size;
+    if (os < pos)
         bxi_bts_resize(dst, pos + src->size);
     else
-        bxi_bts_resize(dst, dst->size + src->size);
+        bxi_bts_resize(dst, os + src->size);
 
-    bxi_memmove(dst->data + pos + src->size, dst->data + pos, src->size);
+    bxi_memmove(dst->data + pos + src->size, dst->data + pos, os - pos);
     bxi_memcpy (dst->data + pos, src->data, src->size);
 
     return dst;
@@ -127,29 +118,12 @@ bxi_bts * bxi_bts_delete(bxi_bts * dst, u32 pos, u32 cnt)
         return dst;
 
     if (pos + cnt > dst->size)
-    {
         bxi_bts_resize(dst, pos);
-    }
     else
     {
         bxi_memmove(dst->data + pos, dst->data + pos + cnt, dst->size - pos - cnt);
         bxi_bts_resize(dst, dst->size - cnt);
     }
-
-    /* [0][1][2][3][4][5][6][7][8]
-                [<--  ---  ]
-
-       [0][1][2][7][8][5][6][7][8]
-
-       [0][1][2][7][8]
-
-
-       [0][1][2][3][4][5][6][7][8]
-                         [<--  ---  ]
-
-       [0][1][2][3][4][5]
-
-        */
 
     return dst;
 }

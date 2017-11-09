@@ -34,12 +34,13 @@ volatile bxi_mutex rainbow_opener [7];
                u32 rainbow_results    = 0;
                u32 rainbow_counter    = 0;
         const char rainbow_string [ ] = "        printing: %d [\x1b[48;5;%dm             \x1b[0m]\n";
-const          u32 rainbow_colours[7] = {
+const          u32 rainbow_colours[7] =
+{
     BXI_COLOUR_A256_RED,
     BXI_COLOUR_A256_YELLOW,
-    BXI_COLOUR_A256_B_YELLOW,
+    BXI_COLOUR_A256_BRIGHT_YELLOW,
     BXI_COLOUR_A256_GREEN,
-    BXI_COLOUR_A256_B_CYAN,
+    BXI_COLOUR_A256_BRIGHT_CYAN,
     BXI_COLOUR_A256_BLUE,
     BXI_COLOUR_A256_MAGENTA,
 };
