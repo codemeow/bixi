@@ -24,26 +24,6 @@
 
 #include "../definitions/bxiexport.h"
 
-/* Not widely supported */
-/* @todo colors */
-/*  #include <stdio.h>
-    int main()
-    {
-        int r, g, b;
-        for (r = 0; r < 6; r++)
-        for (g = 0; g < 6; g++)
-        {
-            for (b = 0; b < 6; b++)
-            {
-                int c = 16 + r * 36 + g * 6 + b;
-                printf("\x1b[48;5;%dm %3d \x1b[0m", c, c);
-            }
-            printf("\n");
-        }
-        printf("\n");
-        return 0;
-    } */
-
 EXPORT enum bxi_colours_ansi8
 {
     BXI_COLOUR_A8_BLACK   = (0),

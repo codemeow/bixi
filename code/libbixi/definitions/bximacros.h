@@ -23,6 +23,7 @@
 #define BXIMACROS_H
 
 #include "../definitions/bxiexport.h"
+#include "../types/bxiints.h"
 
 EXPORT_FROM
 #ifndef   UNUSED

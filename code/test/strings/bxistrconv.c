@@ -94,22 +94,22 @@ void test_strings_bxistrconv(void)
     TEST_STR2(bxi_str2i16,      -32000,          0,       32000);
     TEST_STR2(bxi_str2u16,           0,      32000,       65000);
     TEST_STR2(bxi_str2i32, -2000000000,          0, +2000000000);
-    TEST_STR2(bxi_str2u32,           0, 2000000000,  4000000000);
+    TEST_STR2(bxi_str2u32,           0,  200000000,  400000000);
 
     TEST_HEX2(bxi_hex2i8    ,   "f0",              -16);
     TEST_HEX2(bxi_hex2u8    ,   "f0",              240);
     TEST_HEX2(bxi_hex2i16   ,   "f0f1",          -3855);
     TEST_HEX2(bxi_hex2u16   ,   "f0f1",          61681);
     TEST_HEX2(bxi_hex2i32   , "0xf0f1f2f3", -252579085);
-    TEST_HEX2(bxi_hex2u32   , "0xf0f1f2f3", 4042388211);
+    TEST_HEX2(bxi_hex2u32   , "0x181831e5",  404238821);
     TEST_HEX2(bxi_hex2i16_le,   "f0f1",          -3855);
     TEST_HEX2(bxi_hex2u16_le,   "f0f1",          61681);
     TEST_HEX2(bxi_hex2i32_le,   "f0f1f2f3", -252579085);
-    TEST_HEX2(bxi_hex2u32_le,   "f0f1f2f3", 4042388211);
+    TEST_HEX2(bxi_hex2u32_le,   "181831e5",  404238821);
     TEST_HEX2(bxi_hex2i16_be,   "f0f1",          -3600);
     TEST_HEX2(bxi_hex2u16_be,   "f0f1",          61936);
     TEST_HEX2(bxi_hex2i32_be,   "f0f1f2f3", -202182160);
-    TEST_HEX2(bxi_hex2u32_be,   "f0f1f2f3", 4092785136);
+    TEST_HEX2(bxi_hex2u32_be,   "10000000",         16);
 
     printf("        checking: hex2raw\n");
     if (bxi_hex2raw("f0f1f2f3f4f5f6f7", data) != 8)

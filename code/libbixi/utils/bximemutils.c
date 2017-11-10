@@ -109,8 +109,8 @@ void * bxi_memmove(void * dst, const void * src, u32 cnt)
           u32 end;
            u8 * dst_u8 = dst;
     const  u8 * src_u8 = src;
-          u32 * dst_u32;
-    const u32 * src_u32;
+          pu_t * dst_pt;
+    const pu_t * src_pt;
 
     if (!dst)
         return NULL;
@@ -119,9 +119,10 @@ void * bxi_memmove(void * dst, const void * src, u32 cnt)
     if (dst == src)
         return dst;
 
-    pre = BXI_MIN((4 - ((pu_t)dst & 3)) & 3, cnt);
-    cen = (cnt - pre) >> 2;
-    end = cnt - pre - (cen << 2);
+    pre = BXI_MIN((BXI_WORD_SIZE - ((pu_t)dst & (BXI_WORD_SIZE - 1)))
+                  & (BXI_WORD_SIZE - 1), cnt);
+    cen = (cnt - pre) / BXI_WORD_SIZE;
+    end =  cnt - pre - (cen * BXI_WORD_SIZE);
 
     if (dst > src)
     {
@@ -132,9 +133,9 @@ void * bxi_memmove(void * dst, const void * src, u32 cnt)
 
         if (cen)
         {
-            dst_u32 = (      u32 *)(dst_u8 - 3);
-            src_u32 = (const u32 *)(src_u8 - 3);
-            for (i = 0; i < cen; i++, dst_u32--, src_u32--)
+            dst_pt = (      pu_t *)(dst_u8 - 3);
+            src_pt = (const pu_t *)(src_u8 - 3);
+            for (i = 0; i < cen; i++, dst_pt--, src_pt--)
             {
                 /* I'm not sure if we can directly copy
              * overlapping areas like this, therefore
@@ -142,12 +143,12 @@ void * bxi_memmove(void * dst, const void * src, u32 cnt)
                 /* [ ][ ][ ][ ][ ][ ][ ][ ]
              *    [   dst    ]
              *          [    src   ]               */
-                u32 pp = *src_u32;
-                *dst_u32 = pp;
+                pu_t pp = *src_pt;
+                *dst_pt = pp;
             }
 
-            dst_u8 = (      u8 *)dst_u32 + 3;
-            src_u8 = (const u8 *)src_u32 + 3;
+            dst_u8 = (      u8 *)dst_pt + 3;
+            src_u8 = (const u8 *)src_pt + 3;
         }
 
         for (i = 0; i < pre; i++, dst_u8--, src_u8--)
@@ -158,9 +159,9 @@ void * bxi_memmove(void * dst, const void * src, u32 cnt)
         for (i = 0; i < pre; i++, dst_u8++, src_u8++)
             *dst_u8 = *src_u8;
 
-        dst_u32 = (      u32 *)dst_u8;
-        src_u32 = (const u32 *)src_u8;
-        for (i = 0; i < cen; i++, dst_u32++, src_u32++)
+        dst_pt = (      pu_t *)dst_u8;
+        src_pt = (const pu_t *)src_u8;
+        for (i = 0; i < cen; i++, dst_pt++, src_pt++)
         {
             /* I'm not sure if we can directly copy
              * overlapping areas like this, therefore
@@ -168,12 +169,12 @@ void * bxi_memmove(void * dst, const void * src, u32 cnt)
             /* [ ][ ][ ][ ][ ][ ][ ][ ]
              *    [   dst    ]
              *          [    src   ]               */
-            u32 pp = *src_u32;
-            *dst_u32 = pp;
+            pu_t pp = *src_pt;
+            *dst_pt = pp;
         }
 
-        dst_u8 = (      u8 *)dst_u32;
-        src_u8 = (const u8 *)src_u32;
+        dst_u8 = (      u8 *)dst_pt;
+        src_u8 = (const u8 *)src_pt;
         for (i = 0; i < end; i++, dst_u8++, src_u8++)
             *dst_u8 = *src_u8;
     }
@@ -185,31 +186,36 @@ void * bxi_memmove(void * dst, const void * src, u32 cnt)
 
 void * bxi_memset(void * ptr, i32 val, u32 cnt)
 {
-    u32 f = 0;
+    pu_t f = 0;
     u32 i;
     u32 pre;
     u32 cen;
     u32 end;
-    u8  * ptr_u8 = ptr;
-    u32 * ptr_u32;
+    u8   * ptr_u8 = ptr;
+    pu_t * ptr_pt;
 
     if (!ptr)
         return NULL;
 
-    pre = BXI_MIN((4 - ((pu_t)ptr & 3)) & 3, cnt);
-    cen = (cnt - pre) >> 2;
-    end = cnt - pre - (cen << 2);
+    pre = BXI_MIN((BXI_WORD_SIZE - ((pu_t)ptr & (BXI_WORD_SIZE - 1)))
+                  & (BXI_WORD_SIZE - 1), cnt);
+    cen = (cnt - pre) / BXI_WORD_SIZE;
+    end =  cnt - pre - (cen * BXI_WORD_SIZE);
 
     f = val & 0xFF;
     f |= f << 8;
     f |= f << 16;
+#   if defined(BXI_BITS_64)
+        f |= f << 32;
+#   endif
+
 
     for (i = 0; i < pre; i++, ptr_u8++)
         *ptr_u8 = val;
-    ptr_u32 = (u32 *)ptr_u8;
-    for (i = 0; i < cen; i++, ptr_u32++)
-        *ptr_u32 = f;
-    ptr_u8 = (u8 *)ptr_u32;
+    ptr_pt = (pu_t *)ptr_u8;
+    for (i = 0; i < cen; i++, ptr_pt++)
+        *ptr_pt = f;
+    ptr_u8 = (u8 *)ptr_pt;
     for (i = 0; i < end; i++, ptr_u8++)
         *ptr_u8 = val;
 
@@ -218,14 +224,14 @@ void * bxi_memset(void * ptr, i32 val, u32 cnt)
 
 void * bxi_memcpy(void * dst, const void * src, u32 cnt)
 {
-         u32   pre;
-         u32   cen;
-         u32   end;
-          u8 * dst_u8 = dst;
-   const  u8 * src_u8 = src;
-         u32 * dst_u32;
-   const u32 * src_u32;
-         u32   i;
+          u32   pre;
+          u32   cen;
+          u32   end;
+           u8 * dst_u8 = dst;
+   const   u8 * src_u8 = src;
+         pu_t * dst_pt;
+   const pu_t * src_pt;
+          u32   i;
 
     if (!dst)
         return NULL;
@@ -236,20 +242,21 @@ void * bxi_memcpy(void * dst, const void * src, u32 cnt)
         (((u8 *)dst < ((u8 *)src) + cnt) && ((u8 *)dst > (u8 *)src)))
         return bxi_memmove(dst, src, cnt);
 
-    pre = BXI_MIN((4 - ((pu_t)dst & 3)) & 3, cnt);
-    cen = (cnt - pre) >> 2;
-    end = cnt - pre - (cen << 2);
+    pre = BXI_MIN((BXI_WORD_SIZE - ((pu_t)dst & (BXI_WORD_SIZE - 1)))
+                  & (BXI_WORD_SIZE - 1), cnt);
+    cen = (cnt - pre) / BXI_WORD_SIZE;
+    end =  cnt - pre - (cen * BXI_WORD_SIZE);
 
     for (i = 0; i < pre; i++, dst_u8++, src_u8++)
         *dst_u8 = *src_u8;
 
-    dst_u32 = (      u32 *)dst_u8;
-    src_u32 = (const u32 *)src_u8;
-    for (i = 0; i < cen; i++, dst_u32++, src_u32++)
-        *dst_u32 = *src_u32;
+    dst_pt = (      pu_t *)dst_u8;
+    src_pt = (const pu_t *)src_u8;
+    for (i = 0; i < cen; i++, dst_pt++, src_pt++)
+        *dst_pt = *src_pt;
 
-    dst_u8 = (      u8 *)dst_u32;
-    src_u8 = (const u8 *)src_u32;
+    dst_u8 = (      u8 *)dst_pt;
+    src_u8 = (const u8 *)src_pt;
     for (i = 0; i < end; i++, dst_u8++, src_u8++)
         *dst_u8 = *src_u8;
 
@@ -258,55 +265,116 @@ void * bxi_memcpy(void * dst, const void * src, u32 cnt)
 
 i32 bxi_memcmp(const void * p1, const void * p2, u32 cnt)
 {
-  u32 i;
-  const u8 * p1u8 = (const u8 *) p1;
-  const u8 * p2u8 = (const u8 *) p2;
+    const u8   * p1_u8 = p1;
+    const u8   * p2_u8 = p2;
+    const pu_t * p1_pt = p1;
+    const pu_t * p2_pt = p2;
 
-  if (p1u8 == p2u8)
-      return 0;
-  if (p1u8 == NULL)
-      return *p2u8;
-  if (p2u8 == NULL)
-      return *p1u8;
+    if (p1_u8 == p2_u8)
+        return 0;
+    if (p1_u8 == NULL)
+        return *p2_u8;
+    if (p2_u8 == NULL)
+        return *p1_u8;
 
-  for (i = 0; i < cnt; i++, p1u8++, p2u8++)
-  {
-      if      (*p1u8 < *p2u8) return -(*p2u8 - *p1u8);
-      else if (*p1u8 > *p2u8) return  (*p1u8 - *p2u8);
-  }
+    if (((pu_t)p1_pt & (BXI_WORD_SIZE - 1)) ==
+        ((pu_t)p2_pt & (BXI_WORD_SIZE - 1)))
+    {
+        u32 skip = BXI_MIN((BXI_WORD_SIZE - ((pu_t)p1_pt & (BXI_WORD_SIZE - 1)))
+                           & (BXI_WORD_SIZE - 1), cnt);
+        if (skip)
+        {
+            while ((skip--) && (cnt--))
+            {
+                if      (*p1_u8 < *p2_u8)
+                    return -(*p2_u8 - *p1_u8);
+                else if (*p1_u8 > *p2_u8)
+                    return  (*p1_u8 - *p2_u8);
+                p1_u8++;
+                p2_u8++;
+            }
+            p1_pt = (const pu_t *)p1_u8;
+            p2_pt = (const pu_t *)p2_u8;
+        }
 
-  return 0;
+        while (cnt >= BXI_WORD_SIZE)
+        {
+            if (*p1_pt < *p2_pt)
+            {
+                p1_u8 = (const u8 *)p1_pt;
+                p2_u8 = (const u8 *)p2_pt;
+                while (*p1_u8 == *p2_u8)
+                {
+                    p1_u8++;
+                    p2_u8++;
+                }
+                return -(*p2_u8 - *p1_u8);
+            }
+            else if (*p1_pt > *p2_pt)
+            {
+                p1_u8 = (const u8 *)p1_pt;
+                p2_u8 = (const u8 *)p2_pt;
+                while (*p1_u8 == *p2_u8)
+                {
+                    p1_u8++;
+                    p2_u8++;
+                }
+                return  (*p1_u8 - *p2_u8);
+            }
+            p1_pt++;
+            p2_pt++;
+            cnt -= BXI_WORD_SIZE;
+        }
+        p1_u8 = (const u8 *)p1_pt;
+        p2_u8 = (const u8 *)p2_pt;
+    }
+
+    while (cnt--)
+    {
+        if      (*p1_u8 < *p2_u8)
+            return -(*p2_u8 - *p1_u8);
+        else if (*p1_u8 > *p2_u8)
+            return  (*p1_u8 - *p2_u8);
+        p1_u8++;
+        p2_u8++;
+    }
+
+    return 0;
 }
 
 void * bxi_memfrob(void * ptr, u8 val, u32 cnt)
 {
-    u32 f = 0;
+    pu_t f = 0;
     u32 i;
     u32 pre;
     u32 cen;
     u32 end;
-    u8  * ptr_u8 = ptr;
-    u32 * ptr_u32;
+    u8   * ptr_u8 = ptr;
+    pu_t * ptr_pt;
 
     if (!ptr)
         return NULL;
     if (!cnt)
         return ptr;
 
-    pre = BXI_MIN((4 - ((pu_t)ptr & 3)) & 3, cnt);
-    cen = (cnt - pre) >> 2;
-    end = cnt - pre - (cen << 2);
+    pre = BXI_MIN((BXI_WORD_SIZE - ((pu_t)ptr & (BXI_WORD_SIZE - 1)))
+                  & (BXI_WORD_SIZE - 1), cnt);
+    cen = (cnt - pre) / BXI_WORD_SIZE;
+    end =  cnt - pre - (cen * BXI_WORD_SIZE);
 
     f = val;
     f |= f << 8;
     f |= f << 16;
+#   if defined(BXI_BITS_64)
+        f |= f << 32;
+#   endif
 
     for (i = 0; i < pre; i++, ptr_u8++)
         *ptr_u8 ^= val;
-    ptr_u32 = (u32 *)ptr_u8;
-    for (i = 0; i < cen; i++, ptr_u32++)
-        *ptr_u32 ^= f;
-    ptr_u8 = (u8 *)ptr_u32;
+    ptr_pt = (pu_t *)ptr_u8;
+    for (i = 0; i < cen; i++, ptr_pt++)
+        *ptr_pt ^= f;
+    ptr_u8 = (u8 *)ptr_pt;
     for (i = 0; i < end; i++, ptr_u8++)
         *ptr_u8 ^= val;
 

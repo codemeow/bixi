@@ -353,6 +353,10 @@ EXPORT_FROM
 #endif
 EXPORT_TO
 
+EXPORT_FROM
+#define BXI_WORD_SIZE ((BXI_BITS) >> 3)
+EXPORT_TO
+
 /* @todo 16 bit windows/unix */
 
 #endif /* BXIENV_H */

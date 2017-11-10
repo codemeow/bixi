@@ -60,7 +60,7 @@ void test_serials_bxiserread(void)
 
     /* bxi_read_u32 */
     printf("        checking: bxi_read_u32\n");
-    if (bxi_read_u32(data + 8) != 4092785136)
+    if (bxi_read_u32(data + 8) != 4092785136u)
         print_failed();
 
     /* bxi_read_i16_be */
@@ -80,7 +80,7 @@ void test_serials_bxiserread(void)
 
     /* bxi_read_u32_be */
     printf("        checking: bxi_read_u32_be\n");
-    if (bxi_read_u32_be(data + 8) != 4042388211)
+    if (bxi_read_u32_be(data + 8) != 4042388211u)
         print_failed();
 
     /* bxi_read_u16_le */
@@ -100,7 +100,7 @@ void test_serials_bxiserread(void)
 
     /* bxi_read_u32_le */
     printf("        checking: bxi_read_u32_le\n");
-    if (bxi_read_u32_le(data + 8) != 4092785136)
+    if (bxi_read_u32_le(data + 8) != 4092785136u)
         print_failed();
 
     print_passed();
