@@ -22,7 +22,7 @@
 #include <stdio.h>
 #include <libbixi.h>
 #include "../test.h"
-#include "../types/bxifloats.h"
+#include "../types/tst_bxifloats.h"
 
 void test_types_bxifloats(void)
 {

@@ -22,29 +22,52 @@
 #include <stdio.h>
 #include <libbixi.h>
 #include "../test.h"
-#include "../types/bxibools.h"
+#include "../time/tst_bxitime.h"
 
-void test_types_bxibools(void)
+void test_time_bxitime(void)
 {
     print_info;
 
-    printf("    defined:\n");
+    printf("    defines:\n");
 
-#   if defined(BITS_IN_B8)
-        printf("        defined: BITS_IN_B8 : %d\n", BITS_IN_B8);
+#   if defined(SEC_PER_MIN)
+        printf("        defined : SEC_PER_MIN   (%ld)\n", SEC_PER_MIN);
 #   else
         print_failed();
 #   endif
 
-#   if defined(BITS_IN_B16)
-        printf("        defined: BITS_IN_B16: %d\n", BITS_IN_B16);
+#   if defined(MIN_PER_HRS)
+        printf("        defined : MIN_PER_HRS   (%ld)\n", MIN_PER_HRS);
 #   else
         print_failed();
 #   endif
 
+#   if defined(HRS_PER_DAY)
+        printf("        defined : HRS_PER_DAY   (%ld)\n", HRS_PER_DAY);
+#   else
+        print_failed();
+#   endif
 
-#   if defined(BITS_IN_B32)
-        printf("        defined: BITS_IN_B32: %d\n", BITS_IN_B32);
+#   if defined(DAYS_PER_WEEK)
+        printf("        defined : DAYS_PER_WEEK (%ld)\n", DAYS_PER_WEEK);
+#   else
+        print_failed();
+#   endif
+
+#   if defined(SEC_PER_HRS)
+        printf("        defined : SEC_PER_HRS   (%ld)\n", SEC_PER_HRS);
+#   else
+        print_failed();
+#   endif
+
+#   if defined(SEC_PER_DAY)
+        printf("        defined : SEC_PER_DAY   (%ld)\n", SEC_PER_DAY);
+#   else
+        print_failed();
+#   endif
+
+#   if defined(MIN_PER_DAY)
+        printf("        defined : MIN_PER_DAY   (%ld)\n", MIN_PER_DAY);
 #   else
         print_failed();
 #   endif

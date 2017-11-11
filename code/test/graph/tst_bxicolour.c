@@ -22,7 +22,7 @@
 #include <stdio.h>
 #include <libbixi.h>
 #include "../test.h"
-#include "../graph/bxicolour.h"
+#include "../graph/tst_bxicolour.h"
 
 static void test_colors_16(void)
 {

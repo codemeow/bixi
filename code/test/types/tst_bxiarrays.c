@@ -23,7 +23,7 @@
 #include <stdlib.h>
 #include <libbixi.h>
 #include "../test.h"
-#include "../types/bxiarrays.h"
+#include "../types/tst_bxiarrays.h"
 
 #define TEST_ARRAY_SIZE (8)
 

@@ -51,10 +51,6 @@ EXPORT void   bxi_free_call   (void * ptr          , const char * file, u32 line
 EXPORT void * bxi_realloc_call(void * ptr, u32 size, const char * file, u32 line);
 
 EXPORT_FROM
-/* As linux systems use overcommit tech by default
- * we only can receive trusted block of memory by
- * manually zerofying the received block. That is
- * why BXI_MEM_ZERO is enabled by default       */
 #if defined(__FILE__) && defined(__LINE__)
 #define bxi_malloc(size)       bxi_malloc_call (     size, __FILE__, __LINE__)
 #define bxi_realloc(ptr, size) bxi_realloc_call(ptr, size, __FILE__, __LINE__)
@@ -66,13 +62,15 @@ EXPORT_FROM
 #define bxi_free(ptr)          bxi_free_call(ptr, __FILE__, __LINE__);
 EXPORT_TO
 
-EXPORT void * bxi_memset (      void * ptr,        i32   val, u32 cnt);
-EXPORT void * bxi_memcpy (      void * dst, const void * src, u32 cnt);
-EXPORT void * bxi_memmove(      void * dst, const void * src, u32 cnt);
-EXPORT i32    bxi_memcmp (const void * p1,  const void * p2,  u32 cnt);
-EXPORT void * bxi_memfrob(      void * ptr,         u8   val, u32 cnt);
-EXPORT void * bxi_memchr (const void * ptr,         u8   val, u32 cnt);
-EXPORT void * bxi_memrchr(const void * ptr,         u8   val, u32 cnt);
+EXPORT void * bxi_memset  (      void * ptr,        i32   val, u32 cnt);
+EXPORT void * bxi_memset16(      void * ptr,        u32   val, u32 cnt); /* @test */
+/* @todo EXPORT void * bxi_memset32(      void * ptr,        u32   val, u32 cnt); */
+EXPORT void * bxi_memcpy  (      void * dst, const void * src, u32 cnt);
+EXPORT void * bxi_memmove (      void * dst, const void * src, u32 cnt);
+EXPORT i32    bxi_memcmp  (const void * p1,  const void * p2,  u32 cnt);
+EXPORT void * bxi_memfrob (      void * ptr,         u8   val, u32 cnt);
+EXPORT void * bxi_memchr  (const void * ptr,         u8   val, u32 cnt);
+EXPORT void * bxi_memrchr (const void * ptr,         u8   val, u32 cnt);
 
 #endif /* BXIMEMUTILS_H */
 

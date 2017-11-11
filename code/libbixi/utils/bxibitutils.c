@@ -23,68 +23,68 @@
 
 u8 bxi_rotl8(u8 val, u32 n)
 {
-      u8 t1, t2;
+    u8 t1, t2;
 
-      n = n % (sizeof(val) * 8);
-      t1 = val << n;
-      t2 = val >> (sizeof(val) * 8 - n);
+    n = n % (sizeof(val) * 8);
+    t1 = val << n;
+    t2 = val >> (sizeof(val) * 8 - n);
 
-      return t1 | t2;
+    return t1 | t2;
 }
 
 u8 bxi_rotr8(u8 val, u32 n)
 {
-      u8 t1, t2;
+    u8 t1, t2;
 
-      n = n % (sizeof(val) * 8);
-      t1 = val >> n;
-      t2 = val << (sizeof(val) * 8 - n);
+    n = n % (sizeof(val) * 8);
+    t1 = val >> n;
+    t2 = val << (sizeof(val) * 8 - n);
 
-      return t1 | t2;
+    return t1 | t2;
 }
 
 u16 bxi_rotl16(u16 val, u32 n)
 {
-      u16 t1, t2;
+    u16 t1, t2;
 
-      n = n % (sizeof(val) * 8);
-      t1 = val << n;
-      t2 = val >> (sizeof(val) * 8 - n);
+    n = n % (sizeof(val) * 8);
+    t1 = val << n;
+    t2 = val >> (sizeof(val) * 8 - n);
 
-      return t1 | t2;
+    return t1 | t2;
 }
 
 u16 bxi_rotr16(u16 val, u32 n)
 {
-      u16 t1, t2;
+    u16 t1, t2;
 
-      n = n % (sizeof(val) * 8);
-      t1 = val >> n;
-      t2 = val << (sizeof(val) * 8 - n);
+    n = n % (sizeof(val) * 8);
+    t1 = val >> n;
+    t2 = val << (sizeof(val) * 8 - n);
 
-      return t1 | t2;
+    return t1 | t2;
 }
 
 u32 bxi_rotl32(u32 val, u32 n)
 {
-      u32 t1, t2;
+    u32 t1, t2;
 
-      n = n % (sizeof(val) * 8);
-      t1 = val << n;
-      t2 = val >> (sizeof(val) * 8 - n);
+    n = n % (sizeof(val) * 8);
+    t1 = val << n;
+    t2 = val >> (sizeof(val) * 8 - n);
 
-      return t1 | t2;
+    return t1 | t2;
 }
 
 u32 bxi_rotr32(u32 val, u32 n)
 {
-      u32 t1, t2;
+    u32 t1, t2;
 
-      n = n % (sizeof(val) * 8);
-      t1 = val >> n;
-      t2 = val << (sizeof(val) * 8 - n);
+    n = n % (sizeof(val) * 8);
+    t1 = val >> n;
+    t2 = val << (sizeof(val) * 8 - n);
 
-      return t1 | t2;
+    return t1 | t2;
 }
 
 u8 bxi_getbit(u32 val, u8 n)

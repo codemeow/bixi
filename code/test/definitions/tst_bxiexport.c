@@ -22,7 +22,7 @@
 #include <stdio.h>
 #include <libbixi.h>
 #include "../test.h"
-#include "../definitions/bxiexport.h"
+#include "../definitions/tst_bxiexport.h"
 
 void test_definitions_bxiexport(void)
 {

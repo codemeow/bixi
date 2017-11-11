@@ -23,7 +23,7 @@
 #include <time.h>
 #include <libbixi.h>
 #include "../test.h"
-#include "../time/bxisleep.h"
+#include "../time/tst_bxisleep.h"
 
 #define TEST_SLEEP_N (100)
 #define TEST_SLEEP_U (100)

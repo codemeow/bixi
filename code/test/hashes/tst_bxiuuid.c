@@ -22,7 +22,7 @@
 #include <stdio.h>
 #include <libbixi.h>
 #include "../test.h"
-#include "../hashes/bxiuuid.h"
+#include "../hashes/tst_bxiuuid.h"
 
 void test_hashes_bxiuuid(void)
 {

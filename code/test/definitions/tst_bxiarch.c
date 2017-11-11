@@ -22,7 +22,7 @@
 #include <stdio.h>
 #include <libbixi.h>
 #include "../test.h"
-#include "../definitions/bxiarch.h"
+#include "../definitions/tst_bxiarch.h"
 
 void test_definitions_bxiarch(void)
 {

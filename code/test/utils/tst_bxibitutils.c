@@ -22,7 +22,7 @@
 #include <stdio.h>
 #include <libbixi.h>
 #include "../test.h"
-#include "../utils/bxibitutils.h"
+#include "../utils/tst_bxibitutils.h"
 
 void test_utils_bxibitutils(void)
 {

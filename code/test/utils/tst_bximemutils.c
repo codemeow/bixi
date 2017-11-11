@@ -24,8 +24,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include <libbixi.h>
+#include <math.h>
 #include "../test.h"
-#include "../utils/bximemutils.h"
+#include "../utils/tst_bximemutils.h"
+
+#define TEST_ADVANCE_MEM16_SIZE (50)
 
 /* Not sure how to do it better */
 #if defined(BXI_OS_MNX)
@@ -281,6 +284,77 @@ static void check_memcpy_advance()
         print_failed();
 }
 
+static void * system_memset16(void * ptr, i32 val, u32 cnt)
+{
+    u32 bs   = 1;
+
+    if (!cnt)
+       return ptr;
+
+    memcpy(ptr, &val, 2);
+
+    while (cnt > (bs << 1))
+    {
+        memcpy((u8 *)ptr + (bs << 1), ptr, (bs << 1));
+        bs   <<= 1;
+    }
+
+    cnt -= bs;
+
+    while (cnt)
+    {
+        memcpy((u8 *)ptr + (bs << 1) + ((cnt - 1) << 1), ptr, 2);
+        cnt--;
+    }
+
+    return ptr;
+}
+
+static void check_memset16_speed()
+{
+    TEST_SPEED_INIT;
+
+    u8 data[TEST_SPEED_SIZE];
+    u32 i;
+
+    bxi_memset(data, 0x42, TEST_SPEED_SIZE);
+    TEST_SPEED_START;
+    for (i = 0; i < TEST_SPEED_LOOPS; i++)
+    {
+        system_memset16(data, i,
+                   (TEST_SPEED_SIZE - (i % TEST_SPEED_SIZE)) / 2);
+        sum_org += data[42];
+    }
+    TEST_SPEED_STOP;
+    TEST_SPEED_SAY("   memset16");
+
+    bxi_memset(data, 0x42, TEST_SPEED_SIZE);
+    TEST_SPEED_START;
+    for (i = 0; i < TEST_SPEED_LOOPS; i++)
+    {
+        bxi_memset16(data, i,
+                   (TEST_SPEED_SIZE - (i % TEST_SPEED_SIZE)) / 2);
+        sum_new += data[42];
+    }
+    TEST_SPEED_STOP;
+    TEST_SPEED_SAY("bxi_memset16");
+
+    TEST_SPEED_CHECK;
+}
+
+static void check_memset16_advance()
+{
+    u32 i;
+    u8 data[TEST_ADVANCE_MEM16_SIZE] = { 0 };
+    bxi_memset16(data + 1, 0x1020, TEST_ADVANCE_MEM16_SIZE / 2 - 1);
+
+    for (i = 1; i < TEST_ADVANCE_MEM16_SIZE - 1; i++)
+        if (data[i] != (i % 2 ? 0x20 : 0x10))
+            print_failed();
+    if ((data[0] != 0) || (data[TEST_ADVANCE_MEM16_SIZE - 1] != 0))
+            print_failed();
+}
+
 void test_utils_bximemutils(void)
 {
     u8   test[10] = { 0x12, 0x13, 0x14, 0x15, 0x16,
@@ -408,6 +482,10 @@ void test_utils_bximemutils(void)
     printf("        checking: bxi_memrchr\n");
     if (bxi_memrchr(data, 0x58, 10) != data + 3)
         print_failed();
+
+    printf("        checking: bxi_memset16\n");
+    check_memset16_advance();
+    check_memset16_speed();
 
     print_passed();
 }

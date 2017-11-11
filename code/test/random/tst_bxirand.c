@@ -22,7 +22,7 @@
 #include <stdio.h>
 #include <libbixi.h>
 #include "../test.h"
-#include "../random/bxirand.h"
+#include "../random/tst_bxirand.h"
 
 void test_random_bxirand(void)
 {

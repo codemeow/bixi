@@ -23,7 +23,12 @@
 #include "../utils/bximemutils.h"
 #include "../math/bximath.h"
 #include "../definitions/bxienv.h"
+#include "../utils/bxibitutils.h"
 
+/* As linux systems use overcommit tech by default
+ * we only can receive trusted block of memory by
+ * manually zerofying the received block. That is
+ * why BXI_MEM_ZERO is enabled by default       */
 bxi_memopt_t bxi_memopt_val = BXI_MEM_ZERO;
 
 static void * bxi_malloc_dummy (            u32 size, const char * file, u32 line);
@@ -118,6 +123,8 @@ void * bxi_memmove(void * dst, const void * src, u32 cnt)
         return dst;
     if (dst == src)
         return dst;
+    if (!cnt)
+        return dst;
 
     pre = BXI_MIN((BXI_WORD_SIZE - ((pu_t)dst & (BXI_WORD_SIZE - 1)))
                   & (BXI_WORD_SIZE - 1), cnt);
@@ -182,8 +189,6 @@ void * bxi_memmove(void * dst, const void * src, u32 cnt)
     return dst;
 }
 
-/* @todo 4-bytes memset via asm like in smilo */
-
 void * bxi_memset(void * ptr, i32 val, u32 cnt)
 {
     pu_t f = 0;
@@ -196,6 +201,8 @@ void * bxi_memset(void * ptr, i32 val, u32 cnt)
 
     if (!ptr)
         return NULL;
+    if (!cnt)
+        return ptr;
 
     pre = BXI_MIN((BXI_WORD_SIZE - ((pu_t)ptr & (BXI_WORD_SIZE - 1)))
                   & (BXI_WORD_SIZE - 1), cnt);
@@ -222,6 +229,62 @@ void * bxi_memset(void * ptr, i32 val, u32 cnt)
     return ptr;
 }
 
+void * bxi_memset16(void * ptr, u32 val, u32 cnt)
+{
+    pu_t   fll    = val & 0xffff;
+    pu_t   shf    = (BXI_WORD_SIZE - ((pu_t)ptr & (BXI_WORD_SIZE - 1))) &
+                    (BXI_WORD_SIZE - 1);
+    pu_t * ptr_pt;
+    u8   * ptr_u8 = ptr;
+
+    fll |= fll << 16;
+#   if defined(BXI_BITS_64)
+        fll |= fll << 32;
+#   endif
+
+    if (!ptr)
+        return NULL;
+    if (!cnt)
+        return ptr;
+
+    cnt <<= 1;
+
+    if (shf % 2)
+        fll = fll >> 8 | fll << ((sizeof(pu_t) << 3) - 8);
+
+    while (cnt && shf)
+    {
+        if (cnt % 2) *ptr_u8++ = (val >> 8) & 0xff;
+                else *ptr_u8++ = (val     ) & 0xff;
+        cnt--;
+        shf--;
+    }
+
+    ptr_pt = (pu_t *)ptr_u8;
+    while (cnt > BXI_WORD_SIZE)
+    {
+        *ptr_pt++ = fll;
+        cnt -= BXI_WORD_SIZE;
+    }
+
+    ptr_u8 = (u8 *)ptr_pt;
+    while (cnt)
+    {
+        if (cnt % 2) *ptr_u8++ = (val >> 8) & 0xff;
+                else *ptr_u8++ = (val     ) & 0xff;
+        cnt--;
+    }
+
+    return ptr;
+}
+
+/*
+void * bxi_memset32(void * ptr, u32 val, u32 cnt)
+{
+
+}
+*/
+
 void * bxi_memcpy(void * dst, const void * src, u32 cnt)
 {
           u32   pre;
@@ -236,6 +299,8 @@ void * bxi_memcpy(void * dst, const void * src, u32 cnt)
     if (!dst)
         return NULL;
     if (!src)
+        return dst;
+    if (!cnt)
         return dst;
 
     if ((((u8 *)src < ((u8 *)dst) + cnt) && ((u8 *)src > (u8 *)dst)) ||
@@ -276,6 +341,8 @@ i32 bxi_memcmp(const void * p1, const void * p2, u32 cnt)
         return *p2_u8;
     if (p2_u8 == NULL)
         return *p1_u8;
+    if (!cnt)
+        return 0;
 
     if (((pu_t)p1_pt & (BXI_WORD_SIZE - 1)) ==
         ((pu_t)p2_pt & (BXI_WORD_SIZE - 1)))
@@ -387,6 +454,8 @@ void * bxi_memchr (const void * ptr, u8 val, u32 cnt)
     const u8 * ptru8 = (const u8 *)ptr;
     if (!ptr)
         return NULL;
+    if (!cnt)
+        return NULL;
 
     for (i = 0; i < cnt; i++)
         if (ptru8[i] == val)
@@ -399,6 +468,8 @@ void * bxi_memrchr(const void * ptr, u8 val, u32 cnt)
     i32 i;
     const u8 * ptru8 = (const u8 *)ptr;
     if (!ptr)
+        return NULL;
+    if (!cnt)
         return NULL;
 
     for (i = cnt - 1; i >= 0; i--)

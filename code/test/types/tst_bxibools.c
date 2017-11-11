@@ -19,9 +19,35 @@
 *  along with Project "Bixi". If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef BXIMATH_H
-#define BXIMATH_H
+#include <stdio.h>
+#include <libbixi.h>
+#include "../test.h"
+#include "../types/tst_bxibools.h"
 
-void test_math_bximath(void);
+void test_types_bxibools(void)
+{
+    print_info;
 
-#endif /* BXIMATH_H */
+    printf("    defined:\n");
+
+#   if defined(BITS_IN_B8)
+        printf("        defined: BITS_IN_B8 : %d\n", BITS_IN_B8);
+#   else
+        print_failed();
+#   endif
+
+#   if defined(BITS_IN_B16)
+        printf("        defined: BITS_IN_B16: %d\n", BITS_IN_B16);
+#   else
+        print_failed();
+#   endif
+
+
+#   if defined(BITS_IN_B32)
+        printf("        defined: BITS_IN_B32: %d\n", BITS_IN_B32);
+#   else
+        print_failed();
+#   endif
+
+    print_passed();
+}

@@ -22,7 +22,7 @@
 #include <stdio.h>
 #include <libbixi.h>
 #include "../test.h"
-#include "../strings/bxistrconv.h"
+#include "../strings/tst_bxistrconv.h"
 
 #define TEST_STR2(func, v1, v2, v3)          \
 {                                            \

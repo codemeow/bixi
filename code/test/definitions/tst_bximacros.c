@@ -22,7 +22,7 @@
 #include <stdio.h>
 #include <libbixi.h>
 #include "../test.h"
-#include "../definitions/bximacros.h"
+#include "../definitions/tst_bximacros.h"
 
 void test_definitions_bximacros(void)
 {

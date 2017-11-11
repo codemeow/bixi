@@ -22,7 +22,7 @@
 #include <stdio.h>
 #include <libbixi.h>
 #include "../test.h"
-#include "../types/bxiboints.h"
+#include "../types/tst_bxiboints.h"
 
 void test_types_bxiboints(void)
 {

@@ -24,7 +24,7 @@
 #include <ctype.h>
 #include <libbixi.h>
 #include "../test.h"
-#include "../strings/bxistring.h"
+#include "../strings/tst_bxistring.h"
 
 #define TEST_ISCHAR(bxifunc, stdfunc)            \
 {                                                \

@@ -22,7 +22,7 @@
 #include <libbixi.h>
 #include <stdio.h>
 #include "../test.h"
-#include "../thread/bxithread.h"
+#include "../thread/tst_bxithread.h"
 
 #if !defined(BXI_OS_MNX)
 #include <pthread.h>

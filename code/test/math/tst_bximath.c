@@ -22,7 +22,7 @@
 #include <stdio.h>
 #include <libbixi.h>
 #include "../test.h"
-#include "../math/bximath.h"
+#include "../math/tst_bximath.h"
 
 void test_math_bximath(void)
 {

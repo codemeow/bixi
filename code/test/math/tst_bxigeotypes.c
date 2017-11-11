@@ -22,7 +22,7 @@
 #include <stdio.h>
 #include <libbixi.h>
 #include "../test.h"
-#include "../math/bxigeotypes.h"
+#include "../math/tst_bxigeotypes.h"
 
 void test_math_bxigeotypes(void)
 {

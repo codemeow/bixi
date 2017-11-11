@@ -22,7 +22,7 @@
 #include <stdio.h>
 #include <libbixi.h>
 #include "../test.h"
-#include "../serials/bxiserread.h"
+#include "../serials/tst_bxiserread.h"
 
 void test_serials_bxiserread(void)
 {

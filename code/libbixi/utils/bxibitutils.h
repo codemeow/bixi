@@ -29,12 +29,12 @@ EXPORT_FROM
 #define BXI_SWAP(a, b) do { if ((a) != (b)) { (a) ^= (b); (b) ^= (a); (a) ^= (b); } } while (0)
 EXPORT_TO
 
-EXPORT u8  bxi_rotl8 (u8  val, u32 n);
-EXPORT u8  bxi_rotr8 (u8  val, u32 n);
-EXPORT u16 bxi_rotl16(u16 val, u32 n);
-EXPORT u16 bxi_rotr16(u16 val, u32 n);
-EXPORT u32 bxi_rotl32(u32 val, u32 n);
-EXPORT u32 bxi_rotr32(u32 val, u32 n);
+EXPORT u8   bxi_rotl8 (u8   val, u32 n);
+EXPORT u8   bxi_rotr8 (u8   val, u32 n);
+EXPORT u16  bxi_rotl16(u16  val, u32 n);
+EXPORT u16  bxi_rotr16(u16  val, u32 n);
+EXPORT u32  bxi_rotl32(u32  val, u32 n);
+EXPORT u32  bxi_rotr32(u32  val, u32 n);
 
 EXPORT u8  bxi_getbit(u32 val, u8 n);
 EXPORT u32 bxi_setbit(u32 val, u8 n);
