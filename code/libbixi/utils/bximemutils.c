@@ -278,12 +278,70 @@ void * bxi_memset16(void * ptr, u32 val, u32 cnt)
     return ptr;
 }
 
-/*
+
 void * bxi_memset32(void * ptr, u32 val, u32 cnt)
 {
+    pu_t   fll    = val;
+    pu_t   shf    = (BXI_WORD_SIZE - ((pu_t)ptr & (BXI_WORD_SIZE - 1))) &
+                    (BXI_WORD_SIZE - 1);
+    pu_t * ptr_pt;
+    u8   * ptr_u8 = ptr;
 
+#   if defined(BXI_BITS_64)
+        fll |= fll << 32;
+#   endif
+
+    if (!ptr)
+        return NULL;
+    if (!cnt)
+        return ptr;
+
+    cnt <<= 2;
+
+    switch (shf % 4)
+    {
+    case  1: fll = fll >> 0x08 | fll << ((sizeof(pu_t) << 3) - 0x08); break;
+    case  2: fll = fll >> 0x10 | fll << ((sizeof(pu_t) << 3) - 0x10); break;
+    case  3: fll = fll >> 0x18 | fll << ((sizeof(pu_t) << 3) - 0x18); break;
+    default: break;
+    }
+
+    while (cnt && shf)
+    {
+        switch (cnt % 4)
+        {
+        case  0: *ptr_u8++ = (val         ) & 0xff; break;
+        case  1: *ptr_u8++ = (val >> 0x18 ) & 0xff; break;
+        case  2: *ptr_u8++ = (val >> 0x10 ) & 0xff; break;
+        default: *ptr_u8++ = (val >> 0x08 ) & 0xff; break;
+        }
+        cnt--;
+        shf--;
+    }
+
+    ptr_pt = (pu_t *)ptr_u8;
+    while (cnt > BXI_WORD_SIZE)
+    {
+        *ptr_pt++ = fll;
+        cnt -= BXI_WORD_SIZE;
+    }
+
+    ptr_u8 = (u8 *)ptr_pt;
+    while (cnt)
+    {
+        switch (cnt % 4)
+        {
+        case  0: *ptr_u8++ = (val         ) & 0xff; break;
+        case  1: *ptr_u8++ = (val >> 0x18 ) & 0xff; break;
+        case  2: *ptr_u8++ = (val >> 0x10 ) & 0xff; break;
+        default: *ptr_u8++ = (val >> 0x08 ) & 0xff; break;
+        }
+        cnt--;
+    }
+
+    return ptr;
 }
-*/
+
 
 void * bxi_memcpy(void * dst, const void * src, u32 cnt)
 {

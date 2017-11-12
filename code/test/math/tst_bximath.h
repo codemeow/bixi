@@ -23,6 +23,7 @@
 #define BXIMATH_H
 
 /* @todo integer sqrt from project smilo */
+/* @todo inv sqrt from project smilo     */
 void test_math_bximath(void);
 
 #endif /* BXIMATH_H */

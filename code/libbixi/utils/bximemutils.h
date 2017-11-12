@@ -63,8 +63,8 @@ EXPORT_FROM
 EXPORT_TO
 
 EXPORT void * bxi_memset  (      void * ptr,        i32   val, u32 cnt);
-EXPORT void * bxi_memset16(      void * ptr,        u32   val, u32 cnt); /* @test */
-/* @todo EXPORT void * bxi_memset32(      void * ptr,        u32   val, u32 cnt); */
+EXPORT void * bxi_memset16(      void * ptr,        u32   val, u32 cnt);
+EXPORT void * bxi_memset32(      void * ptr,        u32   val, u32 cnt);
 EXPORT void * bxi_memcpy  (      void * dst, const void * src, u32 cnt);
 EXPORT void * bxi_memmove (      void * dst, const void * src, u32 cnt);
 EXPORT i32    bxi_memcmp  (const void * p1,  const void * p2,  u32 cnt);

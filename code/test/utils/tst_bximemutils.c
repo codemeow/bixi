@@ -29,6 +29,7 @@
 #include "../utils/tst_bximemutils.h"
 
 #define TEST_ADVANCE_MEM16_SIZE (50)
+#define TEST_ADVANCE_MEM32_SIZE (50)
 
 /* Not sure how to do it better */
 #if defined(BXI_OS_MNX)
@@ -310,6 +311,33 @@ static void * system_memset16(void * ptr, i32 val, u32 cnt)
     return ptr;
 }
 
+
+static void * system_memset32(void * ptr, i32 val, u32 cnt)
+{
+    u32 bs = 1;
+
+    if (!cnt)
+       return ptr;
+
+    memcpy(ptr, &val, 4);
+
+    while (cnt > (bs << 1))
+    {
+        memcpy((u8 *)ptr + (bs << 2), ptr, (bs << 2));
+        bs   <<= 1;
+    }
+
+    cnt -= bs;
+
+    while (cnt)
+    {
+        memcpy((u8 *)ptr + (bs << 2) + ((cnt - 1) << 2), ptr, 4);
+        cnt--;
+    }
+
+    return ptr;
+}
+
 static void check_memset16_speed()
 {
     TEST_SPEED_INIT;
@@ -326,7 +354,7 @@ static void check_memset16_speed()
         sum_org += data[42];
     }
     TEST_SPEED_STOP;
-    TEST_SPEED_SAY("   memset16");
+    TEST_SPEED_SAY("    memset16");
 
     bxi_memset(data, 0x42, TEST_SPEED_SIZE);
     TEST_SPEED_START;
@@ -352,6 +380,54 @@ static void check_memset16_advance()
         if (data[i] != (i % 2 ? 0x20 : 0x10))
             print_failed();
     if ((data[0] != 0) || (data[TEST_ADVANCE_MEM16_SIZE - 1] != 0))
+            print_failed();
+}
+
+static void check_memset32_speed()
+{
+    TEST_SPEED_INIT;
+
+    u8 data[TEST_SPEED_SIZE];
+    u32 i;
+
+    bxi_memset(data, 0x42, TEST_SPEED_SIZE);
+    TEST_SPEED_START;
+    for (i = 0; i < TEST_SPEED_LOOPS; i++)
+    {
+        system_memset32(data, i,
+                   (TEST_SPEED_SIZE - (i % TEST_SPEED_SIZE)) / 4);
+        sum_org += data[42];
+    }
+    TEST_SPEED_STOP;
+    TEST_SPEED_SAY("    memset32");
+
+    bxi_memset(data, 0x42, TEST_SPEED_SIZE);
+    TEST_SPEED_START;
+    for (i = 0; i < TEST_SPEED_LOOPS; i++)
+    {
+        bxi_memset32(data, i,
+                   (TEST_SPEED_SIZE - (i % TEST_SPEED_SIZE)) / 4);
+        sum_new += data[42];
+    }
+    TEST_SPEED_STOP;
+    TEST_SPEED_SAY("bxi_memset32");
+
+    TEST_SPEED_CHECK;
+}
+
+static void check_memset32_advance()
+{
+    u32 i;
+    u8 data[TEST_ADVANCE_MEM32_SIZE] = { 0 };
+    bxi_memset32(data + 1, 0x10203040, TEST_ADVANCE_MEM32_SIZE / 4);
+
+    for (i = 1; i < TEST_ADVANCE_MEM32_SIZE - 1; i++)
+        if (data[i] != (i % 4 == 1 ? 0x40 :
+                        i % 4 == 2 ? 0x30 :
+                        i % 4 == 3 ? 0x20 :
+                                     0x10))
+            print_failed();
+    if ((data[0] != 0) || (data[TEST_ADVANCE_MEM32_SIZE - 1] != 0))
             print_failed();
 }
 
@@ -486,6 +562,10 @@ void test_utils_bximemutils(void)
     printf("        checking: bxi_memset16\n");
     check_memset16_advance();
     check_memset16_speed();
+
+    printf("        checking: bxi_memset32\n");
+    check_memset32_advance();
+    check_memset32_speed();
 
     print_passed();
 }
