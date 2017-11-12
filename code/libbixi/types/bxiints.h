@@ -76,7 +76,7 @@ EXPORT_FROM
 
 #define  I8_MIN ((i8 )(-128))
 #define I16_MIN ((i16)(-32768))
-#define I32_MIN ((i32)(-2147483648))
+#define I32_MIN ((i32)(-2147483647-1))
 
 #define  I8_MAX ((u8 )(+127))
 #define I16_MAX ((u16)(+32767))
