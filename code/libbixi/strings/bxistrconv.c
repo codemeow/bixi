@@ -282,7 +282,6 @@ u32 bxi_hex2raw(const char * hex, u8 * raw)
 u32 bxi_hex2u32end(const char * str, i32 * len, bxi_ends end)
 {
     i32 llen = 0;
-    i32 i;
     u8 raw[sizeof(u32)];
     u32 result = 0;
     bool hexed = false;
@@ -296,8 +295,7 @@ u32 bxi_hex2u32end(const char * str, i32 * len, bxi_ends end)
         return 0;
     }
 
-    if ((bxi_strlen(str) > 2) &&
-        ((str[0] == '0') && (str[1] == 'x')))
+    if ((bxi_strlen(str) > 2) && (str[0] == '0') && (str[1] == 'x'))
     {
         hexed = true;
         str += 2;
@@ -318,22 +316,26 @@ u32 bxi_hex2u32end(const char * str, i32 * len, bxi_ends end)
 
     if (end == BXI_ENDIANNESS_LE)
     {
-        for (i = 0; i < llen; i++)
+        u32 dl = llen;
+        u32 i;
+        for (i = 0; i < dl; i++)
         {
-            result <<= BITS_IN_BYTE;
-            result += raw[i];
+             result <<= BITS_IN_BYTE;
+             result += raw[i];
         }
     }
     else
     {
-        for (i = llen - 1; i >= 0; i--)
+        u32 dl = llen - 1;
+        do
         {
-            result <<= 8;
-            result += raw[i];
+             result <<= BITS_IN_BYTE;
+             result += raw[dl];
         }
+        while (dl--);
     }
 
-    if (len) *len = (llen << 1) + (hexed * 2);
+    if (len) *len = (llen * 2) + (i32)(hexed * 2);
     return result;
 }
 

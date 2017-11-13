@@ -21,7 +21,8 @@
 
 set -e
 
-GLOBAL_DEBUG_MODE=$1
+GLOBAL_DEBUG_MODE="$1"
+GLOBAL_COMPILER_OPTIONS="$2"
 
 # @todo support of +--- instead of ┌───
 
@@ -181,6 +182,15 @@ Configure()
     source $DIRECTORY_PROJECT/$SUBPROJECT_FILE_CONFIG
 
     COMPILER_NAME=$( CompilerValid $COMPILER_NAME )
+
+    COMPILER_OPTIONS+=" $GLOBAL_COMPILER_OPTIONS "
+
+    echo "┌─── Configuring project"
+    echo "├ Compiler name: $COMPILER_NAME"
+    echo "├ Compiler std : $COMPILER_STD"
+    echo "├ Compiler opt : $COMPILER_OPTIONS"
+    echo "├ Linker opt   : $LINKER_OPTIONS"
+    echo "└───"
 
     # Clang's whining fix about unused args
     if [ "$COMPILER_NAME" == "clang" ]

@@ -91,5 +91,7 @@ i32 main(i32 argc, char * argv[])
     test_utils_bximemutils();
     if (stop) getchar();
 
+    getchar();
+
     return 0;
 }

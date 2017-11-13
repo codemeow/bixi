@@ -523,15 +523,19 @@ void * bxi_memchr (const void * ptr, u8 val, u32 cnt)
 
 void * bxi_memrchr(const void * ptr, u8 val, u32 cnt)
 {
-    i32 i;
     const u8 * ptru8 = (const u8 *)ptr;
     if (!ptr)
         return NULL;
     if (!cnt)
         return NULL;
 
-    for (i = cnt - 1; i >= 0; i--)
-        if (ptru8[i] == val)
-            return (void *)(ptru8 + i);
+    ptru8 += cnt;
+    while (cnt--)
+        if (*ptru8-- == val)
+            return (void *)(ptru8 + 1);
+
+    if (*ptru8 == val)
+        return (void *)(ptru8);
+
     return NULL;
 }

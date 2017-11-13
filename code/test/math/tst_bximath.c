@@ -19,10 +19,52 @@
 *  along with Project "Bixi". If not, see <http://www.gnu.org/licenses/>.
 */
 
+#define _GNU_SOURCE 1
 #include <stdio.h>
+#include <math.h>
 #include <libbixi.h>
+#include <time.h>
 #include "../test.h"
 #include "../math/tst_bximath.h"
+
+#define TEST_SPEED_INIT                \
+    struct timespec time_s = { 0, 0 }; \
+    struct timespec time_f = { 0, 0 }; \
+    double time_n_s = 0;               \
+    double time_n_f = 0;               \
+    double sum_org = 0;                \
+    double sum_new = 0
+#define TEST_SPEED_START               \
+    clock_gettime(CLOCK_MONOTONIC, &time_s)
+#define TEST_SPEED_STOP                \
+    clock_gettime(CLOCK_MONOTONIC, &time_f); \
+    time_n_s = time_s.tv_nsec + time_s.tv_sec * 1e9; \
+    time_n_f = time_f.tv_nsec + time_f.tv_sec * 1e9
+#define TEST_SPEED_SAY(name)           \
+    printf("            speedtest: %-12s: %8.5f\n", \
+        name, (time_n_f - time_n_s) / (f64)1e9)
+#define TEST_SPEED_LOOPS (U32_MAX)
+
+static void test_sqrt_speed(void)
+{
+    u32 i;
+    TEST_SPEED_INIT;
+
+    TEST_SPEED_START;
+    for (i = 0; i < TEST_SPEED_LOOPS; i++)
+        sum_org += round(sqrt(i));
+    TEST_SPEED_STOP;
+    TEST_SPEED_SAY("     sqrt");
+
+    TEST_SPEED_START;
+    for (i = 0; i < TEST_SPEED_LOOPS; i++)
+        sum_new += bxi_sqrti(i);
+    TEST_SPEED_STOP;
+    TEST_SPEED_SAY("bxi_sqrti");
+
+    printf("                precision: %8.5f%%\n",
+           100 - ((sum_new - sum_org) * 100 / sum_org));
+}
 
 void test_math_bximath(void)
 {
@@ -86,6 +128,9 @@ void test_math_bximath(void)
         print_failed();
     if (bxi_lcm(12, 13) != 156)
         print_failed();
+
+    printf("        checking: bxi_sqrti\n");
+    test_sqrt_speed();
 
     print_passed();
 }

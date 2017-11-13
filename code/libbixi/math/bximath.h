@@ -24,15 +24,17 @@
 
 #include "../types/bxiints.h"
 
+EXPORT_FROM
+#define BXI_MAX(a, b) ((a) > (b) ? (a) : (b))
+#define BXI_MIN(a, b) ((a) > (b) ? (b) : (a))
+EXPORT_TO
+
 EXPORT u32 bxi_abs(i32 val);
 EXPORT i32 bxi_sign(i32 val);
 EXPORT i32 bxi_gcd(i32 a, i32 b);
 EXPORT i32 bxi_lcm(i32 a, i32 b);
 
-EXPORT_FROM
-#define BXI_MAX(a, b) ((a) > (b) ? (a) : (b))
-#define BXI_MIN(a, b) ((a) > (b) ? (b) : (a))
-EXPORT_TO
+EXPORT u32 bxi_sqrti(u32 x);
 
 #endif /* BXI_MATH_H */
 

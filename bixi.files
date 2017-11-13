@@ -133,3 +133,4 @@ code/test/utils/tst_bximemutils.c
 code/test/utils/tst_bximemutils.h
 code/libbixi/definitions/bxienv.h
 README.md
+code/libbixi/tables/bxisqrti.h
