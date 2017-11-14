@@ -30,7 +30,7 @@
 #include "./hashes/tst_bxihash.h"
 #include "./hashes/tst_bximd5.h"
 #include "./hashes/tst_bxiuuid.h"
-#include "./math/tst_bxigeotypes.h"
+#include "./math/tst_bxiplan.h"
 #include "./math/tst_bximath.h"
 #include "./random/tst_bxirand.h"
 #include "./serials/tst_bxiserread.h"

@@ -297,3 +297,12 @@ bxi_mutex_state bxi_mutex_test  (volatile bxi_mutex * mutex);
 # Compiling the library
 
 Just run `./scripts/build.sh debug` or `./scripts/build.sh release`. The binaries will go to `./bin`, the includes will go to `./includes`. This does not require configure, make, or any other build utilities.
+
+# Additional build options
+
+Syntax:
+```sh
+./scripts/build.sh [debug|release] options
+```
+Supported options:\
+`-DBXI_NO_SQRTI` - removes bxi_sqrti function and all related tables. Use this to free additional 32KB of runtime memory

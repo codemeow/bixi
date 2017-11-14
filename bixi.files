@@ -37,7 +37,7 @@ code/libbixi/hashes/bximd5.c
 code/libbixi/hashes/bximd5.h
 code/libbixi/hashes/bxiuuid.c
 code/libbixi/hashes/bxiuuid.h
-code/libbixi/math/bxigeotypes.h
+code/libbixi/math/bxiplan.h
 code/libbixi/math/bximath.c
 code/libbixi/math/bximath.h
 code/libbixi/project.config
@@ -97,8 +97,8 @@ code/test/hashes/tst_bximd5.h
 code/test/hashes/tst_bximd5.c
 code/test/hashes/tst_bxiuuid.h
 code/test/hashes/tst_bxiuuid.c
-code/test/math/tst_bxigeotypes.h
-code/test/math/tst_bxigeotypes.c
+code/test/math/tst_bxiplan.h
+code/test/math/tst_bxiplan.c
 code/test/math/tst_bximath.c
 code/test/math/tst_bximath.h
 code/test/random/tst_bxirand.c
@@ -134,3 +134,5 @@ code/test/utils/tst_bximemutils.h
 code/libbixi/definitions/bxienv.h
 README.md
 code/libbixi/tables/bxisqrti.h
+code/libbixi/math/bxiplan.c
+code/libbixi/graph/bxicolour.c

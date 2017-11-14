@@ -131,3 +131,46 @@ u32 bxi_sqrti(u32 x)
     return 0;
 #   endif /* BXI_NO_SQRTI */
 }
+
+bool bxi_isnan(f64 x)
+{
+    return x != x;
+}
+
+i32 bxi_floor(f64 x)
+{
+    if (bxi_isnan(x))
+        return 0;
+    if (x > I32_MAX)
+        return I32_MAX;
+    if (x < I32_MIN)
+        return I32_MIN;
+
+    return (i32)x;
+}
+
+i32 bxi_round(f64 x)
+{
+    if (bxi_isnan(x))
+        return 0;
+    if (x > I32_MAX)
+        return I32_MAX;
+    if (x < I32_MIN)
+        return I32_MIN;
+
+    return x < 0.0 ? (i32)(x - 0.5) :
+                     (i32)(x + 0.5);
+}
+
+i32 bxi_ceil(f64 x)
+{
+    if (bxi_isnan(x))
+        return 0;
+    if (x > I32_MAX)
+        return I32_MAX;
+    if (x < I32_MIN)
+        return I32_MIN;
+
+    if ((x - bxi_floor(x)) > 0.0) return (i32)(x + 1);
+                             else return (i32)(x);
+}

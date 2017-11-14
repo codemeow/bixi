@@ -41,17 +41,18 @@ typedef struct
     for (y = 0; y < 256; y++)
     for (x = 0; x <  16; x++)
     {
-        arr[x][y] = (u32)(sqrt((y << 4) | x) * (double)16777216);
+        arr[x][y] = (u32)(sqrt((y << 4) | x) * (double)0x1000000);
     }
 
     for (y = 0; y < 256; y++)
     for (x = 0; x <  16; x++)
     {
         u32 value = y << 8 | x;
-        u32 sq = (u32)(sqrt(value) * (double)4194304);
+        u32 sq = (u32)(sqrt(value) * (double)0x400000);
         u32 cell = sq - arr[0][y];
         cor[x][y] = cell;
-    } */
+    }
+*/
 
 static const bxi_data_sqrti_t bxi_data_sqrti =
 {

@@ -23,6 +23,8 @@
 #define BXI_MATH_H
 
 #include "../types/bxiints.h"
+#include "../types/bxifloats.h"
+#include "../types/bxibools.h"
 
 EXPORT_FROM
 #define BXI_MAX(a, b) ((a) > (b) ? (a) : (b))
@@ -34,7 +36,12 @@ EXPORT i32 bxi_sign(i32 val);
 EXPORT i32 bxi_gcd(i32 a, i32 b);
 EXPORT i32 bxi_lcm(i32 a, i32 b);
 
-EXPORT u32 bxi_sqrti(u32 x);
+EXPORT u32  bxi_sqrti(u32 x);
+
+EXPORT bool bxi_isnan(f64 x); /* @test */
+EXPORT i32  bxi_floor(f64 x); /* @test */
+EXPORT i32  bxi_round(f64 x); /* @test */
+EXPORT i32  bxi_ceil (f64 x); /* @test */
 
 #endif /* BXI_MATH_H */
 

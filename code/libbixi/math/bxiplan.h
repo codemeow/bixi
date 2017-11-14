@@ -19,20 +19,39 @@
  *  along with Project "Bixi". If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <stdio.h>
-#include <libbixi.h>
-#include "../test.h"
-#include "../math/tst_bxigeotypes.h"
+#ifndef BXIPLAN_H
+#define BXIPLAN_H
 
-void test_math_bxigeotypes(void)
+#include "../definitions/bxiexport.h"
+#include "../types/bxiints.h"
+#include "../types/bxibools.h"
+
+EXPORT_FROM
+#define MM_PER_INCH (25.4)
+EXPORT_TO
+
+EXPORT typedef struct
 {
-    print_info;
+    i32 x;
+    i32 y;
+} bxi_pointi;
 
-#   if defined(UUID_SIZE)
-        printf("        defined: MM_PER_INCH    (%f)\n", MM_PER_INCH);
-#   else
-        print_failed();
-#   endif
+EXPORT typedef struct
+{
+    u32 x;
+    u32 y;
+} bxi_pointu;
 
-    print_passed();
-}
+EXPORT typedef bxi_pointu bxi_size;
+EXPORT typedef bxi_pointi bxi_point;
+
+EXPORT typedef struct
+{
+    bxi_point p1;
+    bxi_point p2;
+} bxi_line;
+
+EXPORT bool bxi_line_cross(bxi_line * l1, bxi_line * l2, bxi_point * c); /* @test */
+
+#endif /* BXIPLAN_H */
+

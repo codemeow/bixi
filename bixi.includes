@@ -19,3 +19,5 @@
 
 includes
 code/libbixi/tables
+code/libbixi/math
+code/libbixi/graph

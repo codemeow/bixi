@@ -23,6 +23,8 @@
 #define BXICOLOUR_H
 
 #include "../definitions/bxiexport.h"
+#include "../types/bxiints.h"
+#include "../random/bxirand.h"
 
 EXPORT enum bxi_colours_ansi8
 {
@@ -474,6 +476,43 @@ EXPORT enum bxi_colours_webx11
     BXI_COLOUR_WEBX11_YELLOW               = (0xffff00u),
     BXI_COLOUR_WEBX11_YELLOWGREEN          = (0x9acd32u)
 };
+
+EXPORT typedef struct
+{
+    u8 r;
+    u8 g;
+    u8 b;
+} bxi_rgb;
+
+EXPORT typedef struct
+{
+    u8 a;
+    u8 r;
+    u8 g;
+    u8 b;
+} bxi_argb;
+
+EXPORT typedef u32 bxi_colour;
+
+EXPORT bxi_argb   bxi_colour2argb(bxi_colour col); /* @test */
+EXPORT bxi_colour bxi_argb2colour(bxi_argb  argb); /* @test */
+
+/* @test vv */
+EXPORT_FROM
+#define BXI_COLOUR_A(col) ((u8)(((col) >> 24) & 0xff))
+#define BXI_COLOUR_R(col) ((u8)(((col) >> 16) & 0xff))
+#define BXI_COLOUR_G(col) ((u8)(((col) >>  8) & 0xff))
+#define BXI_COLOUR_B(col) ((u8)(((col)      ) & 0xff))
+
+#define BXI_COLOUR_ARGB(a, r, g, b) ((bxi_colour) \
+    (((u8)(a) << 24) | ((u8)(r) << 16) | ((u8)(g) << 8) | ((u8)(b))))
+#define BXI_COLOUR_MIX(c1, c2, a) \
+    (bxi_colour)(((((((u8)(a) ^ 0xff)  * ( c1 & 0x00ff00ffu))                         | \
+                     ((u8)(a)          * ( c2 & 0x00ff00ffu))) >> 8)   & 0x00ff00ffu) | \
+                  (((((u8)(a) ^ 0xff)) * ((c1 & 0xff00ff00u)   >> 8))                 | \
+                     ((u8)(a)          * ((c2 & 0xff00ff00u)   >> 8))) & 0xff00ff00u))
+#define BXI_COLOUR_RANDOM ((bxi_colour)bxi_randu32())
+EXPORT_TO
 
 #endif /* BXICOLOUR_H */
 
