@@ -271,13 +271,97 @@ static void test_colors_256(void)
     printf("\n");
 }
 
+static void test_macro(void)
+{
+    printf("    defines:\n");
+
+#   if defined(BXI_COLOUR_A)
+        printf("         defined: BXI_COLOUR_A\n");
+        if (BXI_COLOUR_A(0x10203040) != 0x10)
+            print_failed();
+#   else
+        print_failed();
+#   endif
+
+#   if defined(BXI_COLOUR_R)
+        printf("         defined: BXI_COLOUR_R\n");
+        if (BXI_COLOUR_R(0x10203040) != 0x20)
+            print_failed();
+#   else
+        print_failed();
+#   endif
+
+#   if defined(BXI_COLOUR_G)
+        printf("         defined: BXI_COLOUR_G\n");
+        if (BXI_COLOUR_G(0x10203040) != 0x30)
+            print_failed();
+#   else
+        print_failed();
+#   endif
+
+#   if defined(BXI_COLOUR_B)
+        printf("         defined: BXI_COLOUR_B\n");
+        if (BXI_COLOUR_B(0x10203040) != 0x40)
+            print_failed();
+#   else
+        print_failed();
+#   endif
+
+#   if defined(BXI_COLOUR_ARGB)
+        printf("         defined: BXI_COLOUR_ARGB\n");
+        if (BXI_COLOUR_ARGB(0x10, 0x20, 0x30, 0x40) != 0x10203040)
+            print_failed();
+#   else
+        print_failed();
+#   endif
+
+#   if defined(BXI_COLOUR_MIX)
+        printf("         defined: BXI_COLOUR_MIX\n");
+        if (BXI_COLOUR_MIX(0x10203040u, 0x40302010u, 0x80) != 0x28282727u)
+            print_failed();
+        if (BXI_COLOUR_MIX(0x10203040u, 0x10203040u, 0x12) != 0x10203040u)
+            print_failed();
+        if (BXI_COLOUR_MIX(0xffffffffu, 0x00000000u, 0x80) != 0x7f7f7f7fu)
+            print_failed();
+        if (BXI_COLOUR_MIX(0xffffffffu, 0x00000000u, 0xff) != 0x00000000u)
+            print_failed();
+        if (BXI_COLOUR_MIX(0x00000000u, 0xffffffffu, 0x00) != 0x00000000u)
+            print_failed();
+#   else
+        print_failed();
+#   endif
+
+#   if defined(BXI_COLOUR_RANDOM)
+        printf("         defined: BXI_COLOUR_RANDOM\n");
+#   else
+        print_failed();
+#   endif
+}
+
+static void test_funcs(void)
+{
+    bxi_argb argb;
+    bxi_colour col;
+    printf("        checking: bxi_colour2argb\n");
+    argb = bxi_colour2argb(0x10203040);
+    if ((argb.a != 0x10) || (argb.r != 0x20) ||
+        (argb.g != 0x30) || (argb.b != 0x40))
+        print_failed();
+    printf("        checking: bxi_argb2colour\n");
+    col = bxi_argb2colour(argb);
+    if (col != 0x10203040)
+        print_failed();
+}
+
 void test_graph_bxicolour(void)
 {
     print_info;
 
+    test_macro();
     printf("    constants:\n");
     test_colors_16();
     test_colors_256();
+    test_funcs();
 
     print_passed();
 }

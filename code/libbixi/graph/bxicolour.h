@@ -494,10 +494,9 @@ EXPORT typedef struct
 
 EXPORT typedef u32 bxi_colour;
 
-EXPORT bxi_argb   bxi_colour2argb(bxi_colour col); /* @test */
-EXPORT bxi_colour bxi_argb2colour(bxi_argb  argb); /* @test */
+EXPORT bxi_argb   bxi_colour2argb(bxi_colour col);
+EXPORT bxi_colour bxi_argb2colour(bxi_argb  argb);
 
-/* @test vv */
 EXPORT_FROM
 #define BXI_COLOUR_A(col) ((u8)(((col) >> 24) & 0xff))
 #define BXI_COLOUR_R(col) ((u8)(((col) >> 16) & 0xff))
@@ -507,10 +506,10 @@ EXPORT_FROM
 #define BXI_COLOUR_ARGB(a, r, g, b) ((bxi_colour) \
     (((u8)(a) << 24) | ((u8)(r) << 16) | ((u8)(g) << 8) | ((u8)(b))))
 #define BXI_COLOUR_MIX(c1, c2, a) \
-    (bxi_colour)(((((((u8)(a) ^ 0xff)  * ( c1 & 0x00ff00ffu))                         | \
-                     ((u8)(a)          * ( c2 & 0x00ff00ffu))) >> 8)   & 0x00ff00ffu) | \
-                  (((((u8)(a) ^ 0xff)) * ((c1 & 0xff00ff00u)   >> 8))                 | \
-                     ((u8)(a)          * ((c2 & 0xff00ff00u)   >> 8))) & 0xff00ff00u))
+    (bxi_colour)(((BXI_FAST_U16DIV255(BXI_COLOUR_A(c1) * (0xff - (a)) + BXI_COLOUR_A(c2) * (a))) << 24) | \
+                 ((BXI_FAST_U16DIV255(BXI_COLOUR_R(c1) * (0xff - (a)) + BXI_COLOUR_R(c2) * (a))) << 16) | \
+                 ((BXI_FAST_U16DIV255(BXI_COLOUR_G(c1) * (0xff - (a)) + BXI_COLOUR_G(c2) * (a))) <<  8) | \
+                 ((BXI_FAST_U16DIV255(BXI_COLOUR_B(c1) * (0xff - (a)) + BXI_COLOUR_B(c2) * (a)))      ))
 #define BXI_COLOUR_RANDOM ((bxi_colour)bxi_randu32())
 EXPORT_TO
 

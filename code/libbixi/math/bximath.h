@@ -31,6 +31,11 @@ EXPORT_FROM
 #define BXI_MIN(a, b) ((a) > (b) ? (b) : (a))
 EXPORT_TO
 
+/* @test vv */
+EXPORT_FROM
+#define BXI_FAST_U16DIV255(x) ((u32)(x) + 1 + (((u32)(x) + 1) >> 8)) >> 8
+EXPORT_TO
+
 EXPORT u32 bxi_abs(i32 val);
 EXPORT i32 bxi_sign(i32 val);
 EXPORT i32 bxi_gcd(i32 a, i32 b);
