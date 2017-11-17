@@ -66,6 +66,60 @@ static void test_sqrt_speed(void)
            100 - ((sum_new - sum_org) * 100 / sum_org));
 }
 
+static void test_math_div255(void)
+{
+#   if defined(BXI_FAST_U16DIV255)
+        u32 i;
+
+        printf("        defined : BXI_FAST_U16DIV255\n");
+        for (i = U16_MIN; i < U16_MAX; i++)
+        {
+            if (BXI_FAST_U16DIV255(i) != i / 255)
+                print_failed();
+        }
+#   else
+        print_failed();
+#   endif
+}
+
+static void test_math_rounders(void)
+{
+    u32 i;
+    printf("        checking: bxi_isnan\n");
+    if (bxi_isnan(5.0) != false)
+        print_failed();
+    if (bxi_isnan(0.0) != false)
+        print_failed();
+    if (bxi_isnan(0.0 / 0.0) != true)
+        print_failed();
+    if (bxi_isnan(NAN) != true)
+        print_failed();
+
+    printf("        checking: bxi_ceil\n");
+    for (i = 0; i < 50; i++)
+    {
+        if (    ceil(1.0 + i * 0.1) !=
+            bxi_ceil(1.0 + i * 0.1))
+            print_failed();
+    }
+
+    printf("        checking: bxi_floor\n");
+    for (i = 0; i < 50; i++)
+    {
+        if (    floor(1.0 + i * 0.1) !=
+            bxi_floor(1.0 + i * 0.1))
+            print_failed();
+    }
+
+    printf("        checking: bxi_round\n");
+    for (i = 0; i < 50; i++)
+    {
+        if (    round(1.0 + i * 0.1) !=
+            bxi_round(1.0 + i * 0.1))
+            print_failed();
+    }
+}
+
 void test_math_bximath(void)
 {
     print_info;
@@ -90,6 +144,8 @@ void test_math_bximath(void)
         print_failed();
         return;
 #   endif
+
+    test_math_div255();
 
     printf("    functions:\n");
 
@@ -131,6 +187,8 @@ void test_math_bximath(void)
 
     printf("        checking: bxi_sqrti\n");
     test_sqrt_speed();
+
+    test_math_rounders();
 
     print_passed();
 }

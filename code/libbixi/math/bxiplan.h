@@ -51,7 +51,8 @@ EXPORT typedef struct
     bxi_point p2;
 } bxi_line;
 
-EXPORT bool bxi_line_cross(bxi_line * l1, bxi_line * l2, bxi_point * c); /* @test */
+ /* @test */
+EXPORT bool bxi_line_cross(bxi_line * l1, bxi_line * l2, bxi_point * c);
 
 #endif /* BXIPLAN_H */
 

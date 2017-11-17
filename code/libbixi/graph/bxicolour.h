@@ -506,10 +506,14 @@ EXPORT_FROM
 #define BXI_COLOUR_ARGB(a, r, g, b) ((bxi_colour) \
     (((u8)(a) << 24) | ((u8)(r) << 16) | ((u8)(g) << 8) | ((u8)(b))))
 #define BXI_COLOUR_MIX(c1, c2, a) \
-    (bxi_colour)(((BXI_FAST_U16DIV255(BXI_COLOUR_A(c1) * (0xff - (a)) + BXI_COLOUR_A(c2) * (a))) << 24) | \
-                 ((BXI_FAST_U16DIV255(BXI_COLOUR_R(c1) * (0xff - (a)) + BXI_COLOUR_R(c2) * (a))) << 16) | \
-                 ((BXI_FAST_U16DIV255(BXI_COLOUR_G(c1) * (0xff - (a)) + BXI_COLOUR_G(c2) * (a))) <<  8) | \
-                 ((BXI_FAST_U16DIV255(BXI_COLOUR_B(c1) * (0xff - (a)) + BXI_COLOUR_B(c2) * (a)))      ))
+    (bxi_colour)(((BXI_FAST_U16DIV255(BXI_COLOUR_A(c1) * (0xff - (a)) + \
+                                      BXI_COLOUR_A(c2) * (a))) << 24) | \
+                 ((BXI_FAST_U16DIV255(BXI_COLOUR_R(c1) * (0xff - (a)) + \
+                                      BXI_COLOUR_R(c2) * (a))) << 16) | \
+                 ((BXI_FAST_U16DIV255(BXI_COLOUR_G(c1) * (0xff - (a)) + \
+                                      BXI_COLOUR_G(c2) * (a))) <<  8) | \
+                 ((BXI_FAST_U16DIV255(BXI_COLOUR_B(c1) * (0xff - (a)) + \
+                                      BXI_COLOUR_B(c2) * (a)))      ))
 #define BXI_COLOUR_RANDOM ((bxi_colour)bxi_randu32())
 EXPORT_TO
 
