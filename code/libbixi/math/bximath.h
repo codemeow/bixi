@@ -26,6 +26,12 @@
 #include "../types/bxifloats.h"
 #include "../types/bxibools.h"
 
+/* @todo add math consts */
+/* @test vv */
+EXPORT_FROM
+#define BXI_PI (3.14159265359)
+EXPORT_TO
+
 EXPORT_FROM
 #define BXI_MAX(a, b) ((a) > (b) ? (a) : (b))
 #define BXI_MIN(a, b) ((a) > (b) ? (b) : (a))
@@ -46,6 +52,10 @@ EXPORT bool bxi_isnan(f64 x);
 EXPORT i32  bxi_floor(f64 x);
 EXPORT i32  bxi_round(f64 x);
 EXPORT i32  bxi_ceil (f64 x);
+
+EXPORT f64  bxi_fabs (f64 x); /* @test */
+
+EXPORT f64  bxi_fsin(f64 x); /* @test */
 
 #endif /* BXI_MATH_H */
 

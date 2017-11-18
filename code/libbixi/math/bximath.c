@@ -174,3 +174,18 @@ i32 bxi_ceil(f64 x)
     if ((x - bxi_floor(x)) > 0.0) return (i32)(x + 1);
                              else return (i32)(x);
 }
+
+f64 bxi_fabs(f64 x)
+{
+    /* Surprizingly this works
+     * faster than std::fabs */
+    return x > 0 ? x : -x;
+}
+
+f64 bxi_fsin(f64 x)
+{
+    /* Slightly optimised algo from Nick
+     * http://forum.devmaster.net/t/9648 */
+    double y = (1.27323954474) * x + (-0.40528473456) * x * x;
+    return y * (0.225 * bxi_fabs(y) + 0.775);
+}
