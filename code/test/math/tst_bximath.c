@@ -27,23 +27,8 @@
 #include "../test.h"
 #include "../math/tst_bximath.h"
 
-#define TEST_SPEED_INIT                \
-    struct timespec time_s = { 0, 0 }; \
-    struct timespec time_f = { 0, 0 }; \
-    double time_n_s = 0;               \
-    double time_n_f = 0;               \
-    double sum_org = 0;                \
-    double sum_new = 0
-#define TEST_SPEED_START               \
-    clock_gettime(CLOCK_MONOTONIC, &time_s)
-#define TEST_SPEED_STOP                \
-    clock_gettime(CLOCK_MONOTONIC, &time_f); \
-    time_n_s = time_s.tv_nsec + time_s.tv_sec * 1e9; \
-    time_n_f = time_f.tv_nsec + time_f.tv_sec * 1e9
-#define TEST_SPEED_SAY(name)           \
-    printf("            speedtest: %-12s: %8.5f\n", \
-        name, (time_n_f - time_n_s) / (f64)1e9)
-#define TEST_SPEED_LOOPS (U32_MAX)
+#define TEST_SPEED_SQRTI_LOOPS (U32_MAX >> 5)
+#define TEST_SPEED_FABS_LOOBS  (U32_MAX >> 3)
 
 static void test_sqrt_speed(void)
 {
@@ -51,13 +36,13 @@ static void test_sqrt_speed(void)
     TEST_SPEED_INIT;
 
     TEST_SPEED_START;
-    for (i = 0; i < TEST_SPEED_LOOPS; i++)
+    for (i = 0; i < TEST_SPEED_SQRTI_LOOPS; i ++)
         sum_org += round(sqrt(i));
     TEST_SPEED_STOP;
     TEST_SPEED_SAY("     sqrt");
 
     TEST_SPEED_START;
-    for (i = 0; i < TEST_SPEED_LOOPS; i++)
+    for (i = 0; i < TEST_SPEED_SQRTI_LOOPS; i ++)
         sum_new += bxi_sqrti(i);
     TEST_SPEED_STOP;
     TEST_SPEED_SAY("bxi_sqrti");
@@ -120,13 +105,164 @@ static void test_math_rounders(void)
     }
 }
 
+static void check_fabs_advanced(void)
+{
+    u32 i;
+    double iterator = 1.1;
+    double value    = 0.0;
+    for (i = 0; i < 1000; i++)
+    {
+        iterator *= -1.5;
+        value += iterator;
+        if (bxi_fabs(value) != fabs(value))
+            print_failed();
+    }
+}
+
+static void check_fabs_speed(void)
+{
+    TEST_SPEED_INIT;
+    u32 i;
+    double iterator = 1.1;
+    double value    = 0.0;
+    TEST_SPEED_START;
+    for (i = 0; i < TEST_SPEED_FABS_LOOBS; i++)
+    {
+        iterator *= -1.5;
+        value    += iterator;
+        sum_org  += fabs(i);
+    }
+    TEST_SPEED_STOP;
+    TEST_SPEED_SAY("    fabs");
+
+    iterator = 1.1;
+    value    = 0.0;
+    TEST_SPEED_START;
+    for (i = 0; i < TEST_SPEED_FABS_LOOBS; i++)
+    {
+        iterator *= -1.5;
+        value    += iterator;
+        sum_new  += bxi_fabs(i);
+    }
+    TEST_SPEED_STOP;
+    TEST_SPEED_SAY("bxi_fabs");
+    TEST_SPEED_CHECK;
+}
+
+static void test_math_fabs(void)
+{
+    printf("        checking: bxi_fabs\n");
+    check_fabs_advanced();
+    check_fabs_speed();
+}
+
+static void test_math_constants(void)
+{
+#   if defined(BXI_PI)
+        printf("        defined : BXI_PI          : %f\n", BXI_PI);
+#   else
+        print_failed();
+#   endif
+
+#   if defined(BXI_PI_DIV_2)
+        printf("        defined : BXI_PI_DIV_2    : %f\n", BXI_PI_DIV_2);
+#   else
+        print_failed();
+#   endif
+
+#   if defined(BXI_PI_DIV_4)
+        printf("        defined : BXI_PI_DIV_4    : %f\n", BXI_PI_DIV_4);
+#   else
+        print_failed();
+#   endif
+
+#   if defined(BXI_1_DIV_PI)
+        printf("        defined : BXI_1_DIV_PI    : %f\n", BXI_1_DIV_PI);
+#   else
+        print_failed();
+#   endif
+
+#   if defined(BXI_2_DIV_PI)
+        printf("        defined : BXI_2_DIV_PI    : %f\n", BXI_2_DIV_PI);
+#   else
+        print_failed();
+#   endif
+
+#   if defined(BXI_E)
+        printf("        defined : BXI_E           : %f\n", BXI_E);
+#   else
+        print_failed();
+#   endif
+
+#   if defined(BXI_PHI)
+        printf("        defined : BXI_PHI         : %f\n", BXI_PHI);
+#   else
+        print_failed();
+#   endif
+
+#   if defined(BXI_E_POW_PI)
+        printf("        defined : BXI_E_POW_PI    : %f\n", BXI_E_POW_PI);
+#   else
+        print_failed();
+#   endif
+
+#   if defined(BXI_LOG2_E)
+        printf("        defined : BXI_LOG2_E      : %f\n", BXI_LOG2_E);
+#   else
+        print_failed();
+#   endif
+
+#   if defined(BXI_LOG10_E)
+        printf("        defined : BXI_LOG10_E     : %f\n", BXI_LOG10_E);
+#   else
+        print_failed();
+#   endif
+
+#   if defined(BXI_LN_E)
+        printf("        defined : BXI_LN_E        : %f\n", BXI_LN_E);
+#   else
+        print_failed();
+#   endif
+
+#   if defined(BXI_LN_10)
+        printf("        defined : BXI_LN_10       : %f\n", BXI_LN_10);
+#   else
+        print_failed();
+#   endif
+
+#   if defined(BXI_SQRT_2)
+        printf("        defined : BXI_SQRT_2      : %f\n", BXI_SQRT_2);
+#   else
+        print_failed();
+#   endif
+
+#   if defined(BXI_SQRT_3)
+        printf("        defined : BXI_SQRT_3      : %f\n", BXI_SQRT_3);
+#   else
+        print_failed();
+#   endif
+
+#   if defined(BXI_SQRT_5)
+        printf("        defined : BXI_SQRT_5      : %f\n", BXI_SQRT_5);
+#   else
+        print_failed();
+#   endif
+
+#   if defined(BXI_1_DIV_SQRT_2)
+        printf("        defined : BXI_1_DIV_SQRT_2: %f\n", BXI_1_DIV_SQRT_2);
+#   else
+        print_failed();
+#   endif
+}
+
 void test_math_bximath(void)
 {
     print_info;
 
     printf("    defines:\n");
 
-    /* BXI_MAX */
+    test_math_constants();
+
 #   if defined(BXI_MAX)
         printf("        defined : BXI_MAX\n");
         if (BXI_MAX(5, 6) != 6)
@@ -135,7 +271,6 @@ void test_math_bximath(void)
         print_failed();
 #   endif
 
-    /* BXI_MIN */
 #   if defined(BXI_MIN)
         printf("        defined : BXI_MIN\n");
         if (BXI_MIN(6, 5) != 5)
@@ -189,6 +324,9 @@ void test_math_bximath(void)
     test_sqrt_speed();
 
     test_math_rounders();
+
+    test_math_fabs();
+
 
     print_passed();
 }

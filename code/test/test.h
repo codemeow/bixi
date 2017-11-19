@@ -50,6 +50,26 @@
 
 #define print_info  printf("\033[1;33m%s\033[0m\n", __FILE__)
 
+#define TEST_SPEED_INIT                \
+    struct timespec time_s = { 0, 0 }; \
+    struct timespec time_f = { 0, 0 }; \
+    double time_n_s = 0;               \
+    double time_n_f = 0;               \
+    double sum_org = 0;                \
+    double sum_new = 0
+#define TEST_SPEED_START               \
+    clock_gettime(CLOCK_MONOTONIC, &time_s)
+#define TEST_SPEED_STOP                \
+    clock_gettime(CLOCK_MONOTONIC, &time_f); \
+    time_n_s = time_s.tv_nsec + time_s.tv_sec * 1e9; \
+    time_n_f = time_f.tv_nsec + time_f.tv_sec * 1e9
+#define TEST_SPEED_SAY(name)           \
+    printf("            speedtest: %-12s: %8.5f\n", \
+        name, (time_n_f - time_n_s) / (f64)1e9)
+#define TEST_SPEED_CHECK    \
+    if (sum_org != sum_new) \
+        print_failed()
+
 void print_passed(void);
 void print_failed(void);
 

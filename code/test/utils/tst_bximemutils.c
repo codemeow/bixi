@@ -28,6 +28,9 @@
 #include "../test.h"
 #include "../utils/tst_bximemutils.h"
 
+#define TEST_SPEED_LOOPS (1000000)
+#define TEST_SPEED_SIZE  (5000)
+
 #define TEST_ADVANCE_MEM16_SIZE (50)
 #define TEST_ADVANCE_MEM32_SIZE (50)
 
@@ -62,28 +65,6 @@ static void * my_realloc(void * ptr, u32 size, const char * file, u32 line)
     UNUSED(line);
     return realloc(ptr, size);
 }
-
-#define TEST_SPEED_INIT                \
-    struct timespec time_s = { 0, 0 }; \
-    struct timespec time_f = { 0, 0 }; \
-    u32 time_n_s = 0;                  \
-    u32 time_n_f = 0;                  \
-    u32 sum_org = 0;                   \
-    u32 sum_new = 0
-#define TEST_SPEED_START               \
-    clock_gettime(CLOCK_MONOTONIC, &time_s)
-#define TEST_SPEED_STOP                \
-    clock_gettime(CLOCK_MONOTONIC, &time_f); \
-    time_n_s = time_s.tv_nsec + time_s.tv_sec * 1e9; \
-    time_n_f = time_f.tv_nsec + time_f.tv_sec * 1e9
-#define TEST_SPEED_SAY(name)           \
-    printf("            speedtest: %-12s: %8.5f\n", \
-        name, (time_n_f - time_n_s) / (f64)1e9)
-#define TEST_SPEED_CHECK    \
-    if (sum_org != sum_new) \
-        print_failed()
-#define TEST_SPEED_LOOPS (100000)
-#define TEST_SPEED_SIZE  (5000)
 
 static void check_memset_speed(void)
 {

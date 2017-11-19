@@ -28,6 +28,11 @@
 EXPORT typedef float  f32;
 EXPORT typedef double f64;
 
+/* @todo add fixed-point types:
+ * q32 - fixed point / 0xffffffffu for  0..1 values, precision 1/4294967295
+ * q16 - fixed point / 0xffffu for  0..65535 values, precision 1/65535
+ * q8  - fixed point / 0xffu for 0..16777215 values, precision 1/255 */
+
 EXPORT_FROM
 #define BITS_IN_F32  (32)
 #define BITS_IN_F64  (64)
