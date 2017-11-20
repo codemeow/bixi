@@ -182,6 +182,8 @@ f64 bxi_fabs(f64 x)
     return x > 0 ? x : -x;
 }
 
+/* @todo make it calculable on the while line
+ * instead of 0..1 */
 f64 bxi_fsin(f64 x)
 {
     /* Slightly optimised algo from Nick

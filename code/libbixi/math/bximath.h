@@ -71,7 +71,7 @@ EXPORT i32  bxi_ceil (f64 x);
 
 EXPORT f64  bxi_fabs (f64 x);
 
-EXPORT f64  bxi_fsin(f64 x); /* @test */
+EXPORT f64  bxi_fsin(f64 x); /* 0..1 */
 
 #endif /* BXI_MATH_H */
 

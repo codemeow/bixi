@@ -156,6 +156,84 @@ static void test_math_fabs(void)
     check_fabs_speed();
 }
 
+static void check_sin_advanced(void)
+{
+    double increment = 0.000001;
+    double valx      = 0;
+    double maxerr    = 0.0;
+    double maxdiff   = 0.0;
+    double avgerr    = 0.0;
+    double avgdiff   = 0.0;
+    u32    i         = 0;
+
+    while (valx < 1)
+    {
+        double sin_sys =      sin(valx);
+        double sin_bxi = bxi_fsin(valx);
+        double diff    = bxi_fabs(sin_sys - sin_bxi);
+        double cerr    = sin_sys ? diff * 100.0 / sin_sys : 0;
+
+        if (cerr > maxerr)
+        {
+            maxerr  = cerr;
+            maxdiff = diff;
+        }
+
+        avgerr  += cerr;
+        avgdiff += diff;
+
+        valx += increment;
+        i++;
+    }
+
+    avgerr  /= i;
+    avgdiff /= i;
+
+    printf("            precision: maxerr %10.8f%% / %10.8f,\n"
+           "                       avgerr %10.8f%% / %10.8f \n",
+           maxerr, maxdiff, avgerr, avgdiff);
+}
+
+#define TEST_SIN_INCREMENT (0.00000001)
+#define TEST_SIN_START     (0.0)
+#define TEST_SIN_STOP      (1.0)
+static void check_sin_speed(void)
+{
+    TEST_SPEED_INIT;
+    double increment = TEST_SIN_INCREMENT;
+    double valx      = TEST_SIN_START;
+
+    TEST_SPEED_START;
+    while (valx < TEST_SIN_STOP)
+    {
+        sum_org += sin(valx);
+        valx += increment;
+    }
+    TEST_SPEED_STOP;
+    TEST_SPEED_SAY("     sin");
+
+    increment = TEST_SIN_INCREMENT;
+    valx      = TEST_SIN_START;
+    TEST_SPEED_START;
+    while (valx < TEST_SIN_STOP)
+    {
+        sum_new += bxi_fsin(valx);
+        valx += increment;
+    }
+    TEST_SPEED_STOP;
+    TEST_SPEED_SAY("bxi_fsin");
+
+    printf("            comp: %10.2f vs %10.2f\n",
+           sum_org, sum_new);
+}
+
+static void test_math_sin(void)
+{
+    printf("        checking: bxi_sin\n");
+    check_sin_advanced();
+    check_sin_speed();
+}
+
 static void test_math_constants(void)
 {
 #   if defined(BXI_PI)
@@ -326,7 +404,7 @@ void test_math_bximath(void)
     test_math_rounders();
 
     test_math_fabs();
-
+    test_math_sin();
 
     print_passed();
 }
