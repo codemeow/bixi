@@ -159,7 +159,7 @@ static void test_math_fabs(void)
 static void check_sin_advanced(void)
 {
     double increment = 0.000001;
-    double valx      = 0;
+    double valx      = -BXI_PI;
     double maxerr    = 0.0;
     double maxdiff   = 0.0;
     double avgerr    = 0.0;
@@ -188,6 +188,50 @@ static void check_sin_advanced(void)
 
     avgerr  /= i;
     avgdiff /= i;
+
+    avgerr  = bxi_fabs(avgerr);
+    avgdiff = bxi_fabs(avgdiff);
+
+    printf("            precision: maxerr %10.8f%% / %10.8f,\n"
+           "                       avgerr %10.8f%% / %10.8f \n",
+           maxerr, maxdiff, avgerr, avgdiff);
+}
+
+static void check_cos_advanced(void)
+{
+    double increment = 0.000001;
+    double valx      = -BXI_PI;
+    double maxerr    = 0.0;
+    double maxdiff   = 0.0;
+    double avgerr    = 0.0;
+    double avgdiff   = 0.0;
+    u32    i         = 0;
+
+    while (valx < 1)
+    {
+        double cos_sys =      cos(valx);
+        double cos_bxi = bxi_fcos(valx);
+        double diff    = bxi_fabs(cos_sys - cos_bxi);
+        double cerr    = cos_sys ? diff * 100.0 / cos_sys : 0;
+
+        if (cerr > maxerr)
+        {
+            maxerr  = cerr;
+            maxdiff = diff;
+        }
+
+        avgerr  += cerr;
+        avgdiff += diff;
+
+        valx += increment;
+        i++;
+    }
+
+    avgerr  /= i;
+    avgdiff /= i;
+
+    avgerr  = bxi_fabs(avgerr);
+    avgdiff = bxi_fabs(avgdiff);
 
     printf("            precision: maxerr %10.8f%% / %10.8f,\n"
            "                       avgerr %10.8f%% / %10.8f \n",
@@ -227,11 +271,51 @@ static void check_sin_speed(void)
            sum_org, sum_new);
 }
 
+#define TEST_COS_INCREMENT (0.00000001)
+#define TEST_COS_START     (0.0)
+#define TEST_COS_STOP      (1.0)
+static void check_cos_speed(void)
+{
+    TEST_SPEED_INIT;
+    double increment = TEST_COS_INCREMENT;
+    double valx      = TEST_COS_START;
+
+    TEST_SPEED_START;
+    while (valx < TEST_COS_STOP)
+    {
+        sum_org += cos(valx);
+        valx += increment;
+    }
+    TEST_SPEED_STOP;
+    TEST_SPEED_SAY("     cos");
+
+    increment = TEST_COS_INCREMENT;
+    valx      = TEST_COS_START;
+    TEST_SPEED_START;
+    while (valx < TEST_COS_STOP)
+    {
+        sum_new += bxi_fcos(valx);
+        valx += increment;
+    }
+    TEST_SPEED_STOP;
+    TEST_SPEED_SAY("bxi_fcos");
+
+    printf("            comp: %10.2f vs %10.2f\n",
+           sum_org, sum_new);
+}
+
 static void test_math_sin(void)
 {
     printf("        checking: bxi_sin\n");
     check_sin_advanced();
     check_sin_speed();
+}
+
+static void test_math_cos(void)
+{
+    printf("        checking: bxi_cos\n");
+    check_cos_advanced();
+    check_cos_speed();
 }
 
 static void test_math_constants(void)
@@ -262,6 +346,18 @@ static void test_math_constants(void)
 
 #   if defined(BXI_2_DIV_PI)
         printf("        defined : BXI_2_DIV_PI    : %f\n", BXI_2_DIV_PI);
+#   else
+        print_failed();
+#   endif
+
+#   if defined(BXI_4_DIV_PI)
+        printf("        defined : BXI_4_DIV_PI    : %f\n", BXI_4_DIV_PI);
+#   else
+        print_failed();
+#   endif
+
+#   if defined(BXI_4_DIV_SQR_PI)
+        printf("        defined : BXI_4_DIV_SQR_PI: %f\n", BXI_4_DIV_SQR_PI);
 #   else
         print_failed();
 #   endif
@@ -405,6 +501,7 @@ void test_math_bximath(void)
 
     test_math_fabs();
     test_math_sin();
+    test_math_cos();
 
     print_passed();
 }

@@ -177,17 +177,20 @@ i32 bxi_ceil(f64 x)
 
 f64 bxi_fabs(f64 x)
 {
-    /* Surprizingly this works
-     * faster than std::fabs */
     return x > 0 ? x : -x;
 }
 
 /* @todo make it calculable on the while line
- * instead of 0..1 */
+ * instead of -Pi..+Pi */
 f64 bxi_fsin(f64 x)
 {
     /* Slightly optimised algo from Nick
      * http://forum.devmaster.net/t/9648 */
-    double y = (1.27323954474) * x + (-0.40528473456) * x * x;
+    double y = BXI_4_DIV_PI * x + (-BXI_4_DIV_SQR_PI) * x * bxi_fabs(x);
     return y * (0.225 * bxi_fabs(y) + 0.775);
+}
+
+f64 bxi_fcos(f64 x)
+{
+    return bxi_fsin(x + BXI_PI_DIV_2);
 }

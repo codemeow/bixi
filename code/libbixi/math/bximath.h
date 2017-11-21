@@ -32,6 +32,8 @@ EXPORT_FROM
 #define BXI_PI_DIV_4     (0.78539816339744830962) /* Pi / 4         */
 #define BXI_1_DIV_PI     (0.31830988618379067154) /* 1 / Pi         */
 #define BXI_2_DIV_PI     (0.63661977236758134308) /* 2 / Pi         */
+#define BXI_4_DIV_PI     (1.27323954473516268615) /* 4 / Pi         */
+#define BXI_4_DIV_SQR_PI (0.40528473456935108577) /* 4 / Pi^2       */
 
 #define BXI_E            (2.71828182845904523536) /* Euler's number */
 #define BXI_PHI          (1.61803398874989484820) /* Golden ratio   */
@@ -71,7 +73,8 @@ EXPORT i32  bxi_ceil (f64 x);
 
 EXPORT f64  bxi_fabs (f64 x);
 
-EXPORT f64  bxi_fsin(f64 x); /* 0..1 */
+EXPORT f64  bxi_fsin(f64 x); /* -Pi..+Pi */
+EXPORT f64  bxi_fcos(f64 x); /* -Pi..+Pi */
 
 #endif /* BXI_MATH_H */
 
