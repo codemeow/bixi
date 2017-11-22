@@ -106,8 +106,8 @@ void test_strings_bxistring(void)
     if (bxi_strcmp("abc", "abc"))
         print_failed();
 
-    printf("        checking: bxi_strparse\n");
-    bxi_strparse(parsed, &count, output);
+    printf("        checking: bxi_strprs\n");
+    bxi_strprs(parsed, &count, output);
     if ((bxi_strcmp(output[0], "param1")) ||
         (bxi_strcmp(output[1], "param2")) ||
         (bxi_strcmp(output[2], "\"param 3\"")) ||

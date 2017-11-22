@@ -321,7 +321,7 @@ void bxi_str2lower(char * str)
  * output[3] = 'ddd
  * output[4] = eee'
  */
-u32 bxi_strparse(char * str, u32 * count, char ** output)
+u32 bxi_strprs(char * str, u32 * count, char ** output)
 {
     u32 i = 0;
     u32 l = bxi_strlen(str);
@@ -416,4 +416,23 @@ char * bxi_strstr(const char * str, const char * sub)
         str = beg + 1;
     }
     return NULL;
+}
+
+char * bxi_strapp(char * dst, const char * src)
+{
+    u32 dst_len = 0;
+    u32 src_len = 0;
+
+    if (!src)
+        return dst;
+    if (!dst)
+        return bxi_strdup(src);
+
+    dst_len = bxi_strlen(dst);
+    src_len = bxi_strlen(src);
+
+    dst = bxi_realloc(dst, dst_len + src_len + 1);
+    bxi_memcpy(dst + dst_len, src, src_len + 1);
+
+    return dst;
 }

@@ -201,6 +201,20 @@ static void test_array_free(bxi_bts * b1, bxi_bts * b2)
     bxi_bts_free(b2);
 }
 
+static void test_array_lshift(bxi_bts * b1)
+{
+    printf("        checking: bxi_bts_lshift\n");
+    bxi_bts_resize(b1, 4);
+    b1->data[2] = 0x66;
+    b1->data[3] = 0x55;
+
+    bxi_bts_lshift(b1, 2);
+    if (b1->size != 2)
+        print_failed();
+    if ((b1->data[0] != 0x66) || (b1->data[1] != 0x55))
+        print_failed();
+}
+
 void test_types_bxiarrays(void)
 {
     bxi_bts * b1 = NULL;
@@ -222,6 +236,7 @@ void test_types_bxiarrays(void)
     test_array_resize( b1,  b2);
     test_array_insert( b1,  b2);
     test_array_delete( b1     );
+    test_array_lshift( b1     );
     test_array_free  ( b1,  b2);
 
     print_passed();

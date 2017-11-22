@@ -38,5 +38,10 @@ EXPORT_FROM
 #endif /* EXPORT_TO */
 EXPORT_TO
 
+EXPORT_FROM
+#define BXI_USES_MEM /* This function uses memory allocation functions */
+#define BXI_USES_SLP /* This function uses system sleep functions      */
+EXPORT_TO
+
 #endif /* BXIEXPORT_H */
 

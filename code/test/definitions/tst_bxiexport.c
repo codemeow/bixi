@@ -48,5 +48,17 @@ void test_definitions_bxiexport(void)
         print_failed();
 #   endif
 
+#   if defined(BXI_USES_MEM)
+        printf("        defined : BXI_USES_MEM\n");
+#   else
+        print_failed();
+#   endif
+
+#   if defined(BXI_USES_SLP)
+        printf("        defined : BXI_USES_SLP\n");
+#   else
+        print_failed();
+#   endif
+
     print_passed();
 }

@@ -62,6 +62,8 @@ EXPORT_FROM
 #define bxi_free(ptr)          bxi_free_call(ptr, __FILE__, __LINE__);
 EXPORT_TO
 
+/* @todo mempcpy */
+/* @todo memccpy */
 EXPORT void * bxi_memset  (      void * ptr,        i32   val, u32 cnt);
 EXPORT void * bxi_memset16(      void * ptr,        u32   val, u32 cnt);
 EXPORT void * bxi_memset32(      void * ptr,        u32   val, u32 cnt);

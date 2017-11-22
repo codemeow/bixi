@@ -59,6 +59,28 @@ EXPORT_FROM
 #define BXI_FAST_U16DIV255(x) ((u32)(x) + 1 + (((u32)(x) + 1) >> 8)) >> 8
 EXPORT_TO
 
+/* @todo acos */
+/* @todo asin */
+/* @todo atan */
+/* @todo atan2 */
+/* @todo exp */
+/* @todo fmod */
+/* @todo frexp */
+/* @todo ldexp */
+/* @todo log */
+/* @todo log10 */
+/* @todo modf */
+/* @todo pow */
+/* @todo sinh */
+/* @todo sqrt */
+/* @todo tan */
+/* @todo tanh */
+
+/* @todo cbrt */
+/* @todo log2 */
+/* @todo nan */
+/* @todo trunc */
+
 EXPORT u32 bxi_abs(i32 val);
 EXPORT i32 bxi_sign(i32 val);
 EXPORT i32 bxi_gcd(i32 a, i32 b);

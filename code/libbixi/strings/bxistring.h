@@ -54,19 +54,31 @@ EXPORT enum bxi_strerror
 
 EXPORT typedef u32 bxi_hash;
 
-EXPORT bxi_hash     bxi_strhash  (const char * str);
-EXPORT       char * bxi_strshiftl(      char * str, u32 count);
-EXPORT       char * bxi_strtriml (      char * str);
-EXPORT       char * bxi_strtrimr (      char * str);
-EXPORT       char * bxi_strtrim  (      char * str);
+EXPORT bxi_hash bxi_strhash  (const char * str);
+EXPORT   char * bxi_strshiftl(      char * str, u32 count);
+EXPORT   char * bxi_strtriml (      char * str);
+EXPORT   char * bxi_strtrimr (      char * str);
+EXPORT   char * bxi_strtrim  (      char * str);
 
-EXPORT u32    bxi_strlen  (const char * str);
-EXPORT i32    bxi_strcmp  (const char * str1, const char * str2);
-EXPORT u32    bxi_strparse(      char * str, u32 * count, char ** output);
-EXPORT char * bxi_strchr  (const char * s, i32 c);
-EXPORT char * bxi_strcpy  (char * dst, const char * src);
-EXPORT char * bxi_strstr  (const char * str, const char * sub);
-EXPORT char * bxi_strdup  (const char * str);
+/* @todo strcat */
+/* @todo strncat */
+/* @todo strncmp */
+/* @todo strncpy */
+/* @todo strcspn */
+/* @todo strpbrk */
+/* @todo strrchr */
+/* @todo strspn */
+/* @todo strtok */
+EXPORT u32    bxi_strlen(const char * str);
+EXPORT i32    bxi_strcmp(const char * str1, const char * str2);
+EXPORT u32    bxi_strprs(      char * str, u32 * count, char ** output);
+EXPORT char * bxi_strchr(const char * s, i32 c);
+EXPORT char * bxi_strcpy(char * dst, const char * src);
+EXPORT char * bxi_strstr(const char * str, const char * sub);
+
+EXPORT BXI_USES_MEM char * bxi_strdup(const char * str);
+/* @test bxi_strapp */
+EXPORT BXI_USES_MEM char * bxi_strapp(      char * dst, const char * src);
 
 EXPORT bool bxi_iscntrl (u32 c);
 EXPORT bool bxi_isprint (u32 c);

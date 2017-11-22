@@ -33,8 +33,8 @@ EXPORT typedef struct
 
 EXPORT typedef void (*bxi_bts_trav_t)(bxi_bts * bts, u32 pos, u8 * val);
 
-EXPORT bxi_bts * bxi_bts_create(               u32 size);
-EXPORT void      bxi_bts_free  (bxi_bts * bts          );
+EXPORT BXI_USES_MEM bxi_bts * bxi_bts_create(               u32 size);
+EXPORT BXI_USES_MEM void      bxi_bts_free  (bxi_bts * bts          );
 
 /* @todo sort   */
 EXPORT bxi_bts * bxi_bts_walk  (bxi_bts * bts, bxi_bts_trav_t func);
@@ -43,6 +43,7 @@ EXPORT bxi_bts * bxi_bts_resize(bxi_bts * bts, u32 size);
 EXPORT bxi_bts * bxi_bts_insert(bxi_bts * dst, bxi_bts * src, u32 pos);
 EXPORT bxi_bts * bxi_bts_append(bxi_bts * dst, bxi_bts * src);
 EXPORT bxi_bts * bxi_bts_delete(bxi_bts * dst, u32 pos, u32 cnt);
+EXPORT bxi_bts * bxi_bts_lshift(bxi_bts * dst, u32 c);
 
 #endif /* BXIARRAYS_H */
 

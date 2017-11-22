@@ -44,10 +44,10 @@ EXPORT void bxi_usleep_set(bxi_sleep_int_func func);
 EXPORT void bxi_nsleep_set(bxi_sleep_int_func func);
 EXPORT void bxi_fsleep_set(bxi_sleep_flt_func func);
 
-EXPORT void bxi_sleep (u32  sec);
-EXPORT void bxi_msleep(u32 msec);
-EXPORT void bxi_usleep(u32 usec);
-EXPORT void bxi_nsleep(u32 nsec);
-EXPORT void bxi_fsleep(f64  sec);
+EXPORT BXI_USES_SLP void bxi_sleep (u32  sec);
+EXPORT BXI_USES_SLP void bxi_msleep(u32 msec);
+EXPORT BXI_USES_SLP void bxi_usleep(u32 usec);
+EXPORT BXI_USES_SLP void bxi_nsleep(u32 nsec);
+EXPORT BXI_USES_SLP void bxi_fsleep(f64  sec);
 
 #endif /* BXISLEEP_H */

@@ -35,15 +35,15 @@ EXPORT typedef enum
     BXI_MUTEX_UNLOCKED,
     BXI_MUTEX_LOCKED,
     BXI_MUTEX_UNDEFINED
-} bxi_mutex_state;
+} bxi_mutex_st;
 
 EXPORT_FROM
 #define BXI_MUTEX_INITIALIZER (BXI_MUTEX_UNLOCKED)
 EXPORT_TO
 
-EXPORT void            bxi_mutex_init  (volatile bxi_mutex * mutex);
-EXPORT void            bxi_mutex_lock  (volatile bxi_mutex * mutex);
-EXPORT void            bxi_mutex_unlock(volatile bxi_mutex * mutex);
-EXPORT bxi_mutex_state bxi_mutex_test  (volatile bxi_mutex * mutex);
+EXPORT              void         bxi_mutex_init  (volatile bxi_mutex * mutex);
+EXPORT BXI_USES_SLP void         bxi_mutex_lock  (volatile bxi_mutex * mutex);
+EXPORT              void         bxi_mutex_unlock(volatile bxi_mutex * mutex);
+EXPORT              bxi_mutex_st bxi_mutex_test  (volatile bxi_mutex * mutex);
 
 #endif /* BXITHREAD_H */

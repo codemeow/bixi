@@ -127,3 +127,19 @@ bxi_bts * bxi_bts_delete(bxi_bts * dst, u32 pos, u32 cnt)
 
     return dst;
 }
+
+bxi_bts * bxi_bts_lshift(bxi_bts * dst, u32 c)
+{
+    if (!dst)
+        return NULL;
+
+    if (c >= dst->size)
+    {
+        dst->size = 0;
+        return dst;
+    }
+
+    bxi_memmove(dst->data, dst->data + c, dst->size - c);
+    dst->size -= c;
+    return dst;
+}

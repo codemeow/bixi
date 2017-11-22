@@ -36,13 +36,13 @@ EXPORT_FROM
 EXPORT_TO
 
 EXPORT_FROM
-#ifndef __cplusplus
+#if !defined(__cplusplus) && !defined(__bool_true_false_are_defined) && !defined(bool)
 typedef enum
 {
     false,
     true
 } bool;
-#endif /* __cplusplus */
+#endif
 EXPORT_TO
 
 #endif /* BXIBOOLS_H */
