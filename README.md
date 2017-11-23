@@ -1,6 +1,6 @@
 # Bixi
 ![Logo](images/logosmall.png)\
-C89 basic types and functions library for Linux and Minix operation systems.
+C89 basic types and functions library for Linux, BSD and Minix operation systems.
 
 # Origins of the name
 ![bixi statue image](https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Minzu-zhengqi-haoran-changcun-Bixi-3565.jpg/220px-Minzu-zhengqi-haoran-changcun-Bixi-3565.jpg "bixi statue")\
@@ -147,7 +147,7 @@ Found 3 params
 ```
 
 # Arch supports
-The library has been completely tested only under GNU/Linux and Minix at the moment, but it has a list of archs that could be detected (theoretically)
+The library has been completely tested only under GNU/Linux, FreeBSD and Minix at the moment, but it has a list of archs that could be detected (theoretically)
 ```C
 Operation systems:
  BXI_OS as "XXXX" for OS-name
@@ -155,7 +155,7 @@ Operation systems:
  BXI_OS_AND - for Android
  BXI_OS_AMG - for Amiga
  BXI_OS_BOS - for BeOS
- BXI_OS_FBS - for FreeBSD
+ BXI_OS_FBS - for FreeBSD (tested on x64)
  BXI_OS_NBS - for NetBSD
  BXI_OS_OBS - for OpenBSD
  BXI_OS_BSD - for BSD/OS
@@ -164,9 +164,9 @@ Operation systems:
  BXI_OS_MSD - for MS-DOS
  BXI_OS_PAL - for PalmOS
  BXI_OS_UNX - for UNIX
- BXI_OS_MNX - for Minix
+ BXI_OS_MNX - for Minix (tested)
  BXI_OS_GHR - for GNU/Herd
- BXI_OS_GLX - for GNU/Linux
+ BXI_OS_GLX - for GNU/Linux (tested on x86 and x64)
  BXI_OS_MAC - for MacOS
  BXI_OS_OS2 - for OS/2
  BXI_OS_WIN - for Windows

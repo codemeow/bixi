@@ -81,27 +81,55 @@ static void test_math_rounders(void)
         print_failed();
 
     printf("        checking: bxi_ceil\n");
-    for (i = 0; i < 50; i++)
+    for (i = 0; i < 500; i++)
     {
-        if (    ceil(1.0 + i * 0.1) !=
-            bxi_ceil(1.0 + i * 0.1))
+        f64 val = -10.0 + i * 0.1;
+        if (    ceil(val) !=
+            bxi_ceil(val))
+        {
+            printf("            ceil(%f) = %f != %f\n",
+                   val, ceil(val), bxi_ceil(val));
             print_failed();
+        }
     }
 
     printf("        checking: bxi_floor\n");
-    for (i = 0; i < 50; i++)
+    for (i = 0; i < 500; i++)
     {
-        if (    floor(1.0 + i * 0.1) !=
-            bxi_floor(1.0 + i * 0.1))
+        f64 val = -10.0 + i * 0.1;
+        if (    floor(val) !=
+            bxi_floor(val))
+        {
+            printf("            floor(%f) = %f != %f\n",
+                   val, floor(val), bxi_floor(val));
             print_failed();
+        }
     }
 
     printf("        checking: bxi_round\n");
-    for (i = 0; i < 50; i++)
+    for (i = 0; i < 500; i++)
     {
-        if (    round(1.0 + i * 0.1) !=
-            bxi_round(1.0 + i * 0.1))
+        f64 val = -10.0 + i * 0.1;
+        if (    round(val) !=
+            bxi_round(val))
+        {
+            printf("            round(%f) = %f != %f\n",
+                   val, round(val), bxi_round(val));
             print_failed();
+        }
+    }
+
+    printf("        checking: bxi_trunc\n");
+    for (i = 0; i < 500; i++)
+    {
+        f64 val = -10.0 + i * 0.1;
+        if (    trunc(val) !=
+            bxi_trunc(val))
+        {
+            printf("            trunc(%f) = %f != %f\n",
+                   val, trunc(val), bxi_trunc(val));
+            print_failed();
+        }
     }
 }
 
@@ -130,7 +158,7 @@ static void check_fabs_speed(void)
     {
         iterator *= -1.5;
         value    += iterator;
-        sum_org  += fabs(i);
+        sum_org  += fabs(i - 50.0);
     }
     TEST_SPEED_STOP;
     TEST_SPEED_SAY("    fabs");
@@ -142,7 +170,7 @@ static void check_fabs_speed(void)
     {
         iterator *= -1.5;
         value    += iterator;
-        sum_new  += bxi_fabs(i);
+        sum_new  += bxi_fabs(i - 50.0);
     }
     TEST_SPEED_STOP;
     TEST_SPEED_SAY("bxi_fabs");

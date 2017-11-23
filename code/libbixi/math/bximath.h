@@ -59,17 +59,22 @@ EXPORT_FROM
 #define BXI_FAST_U16DIV255(x) ((u32)(x) + 1 + (((u32)(x) + 1) >> 8)) >> 8
 EXPORT_TO
 
+/* @test BXI_NAN, BXI_INF_POS, BXI_INF_NEG */
+EXPORT_FROM
+#define BXI_NAN     ( 0.0 / 0.0)
+#define BXI_INF_POS ( 1.0 / 0.0)
+#define BXI_INF_NEG (-1.0 / 0.0)
+EXPORT_TO
+
 /* @todo acos */
 /* @todo asin */
 /* @todo atan */
 /* @todo atan2 */
 /* @todo exp */
-/* @todo fmod */
 /* @todo frexp */
 /* @todo ldexp */
 /* @todo log */
 /* @todo log10 */
-/* @todo modf */
 /* @todo pow */
 /* @todo sinh */
 /* @todo sqrt */
@@ -78,8 +83,6 @@ EXPORT_TO
 
 /* @todo cbrt */
 /* @todo log2 */
-/* @todo nan */
-/* @todo trunc */
 
 EXPORT u32 bxi_abs(i32 val);
 EXPORT i32 bxi_sign(i32 val);
@@ -88,10 +91,27 @@ EXPORT i32 bxi_lcm(i32 a, i32 b);
 
 EXPORT u32  bxi_sqrti(u32 x);
 
+/* @test bxi_nan */
+/* @test bxi_inf_pos */
+/* @test bxi_inf_neg */
+EXPORT f64  bxi_nan    (void);
+EXPORT f64  bxi_inf_pos(void);
+EXPORT f64  bxi_inf_neg(void);
+
 EXPORT bool bxi_isnan(f64 x);
-EXPORT i32  bxi_floor(f64 x);
-EXPORT i32  bxi_round(f64 x);
-EXPORT i32  bxi_ceil (f64 x);
+/* @test bxi_isinfpos */
+/* @test bxi_isinfneg */
+EXPORT bool bxi_isinfpos(f64 x);
+EXPORT bool bxi_isinfneg(f64 x);
+
+EXPORT f64  bxi_floor(f64 x);
+EXPORT f64  bxi_round(f64 x);
+EXPORT f64  bxi_ceil (f64 x);
+EXPORT f64  bxi_trunc(f64 x);
+/* @test bxi_modf */
+EXPORT f64  bxi_modf (f64 x, f64 * i);
+/* @test bxi_fmod */
+EXPORT f64  bxi_fmod (f64 x, f64   y);
 
 EXPORT f64  bxi_fabs (f64 x);
 

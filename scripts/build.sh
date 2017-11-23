@@ -25,6 +25,7 @@ GLOBAL_DEBUG_MODE="$1"
 GLOBAL_COMPILER_OPTIONS="$2"
 
 # @todo support of +--- instead of ┌───
+# @todo support of non-standart bash location or replace bashisms
 
 # Error holder
 ERROR_HOLDER="/tmp/build-holder.log"
@@ -60,8 +61,14 @@ CompilerValid()
 
 Md5Calc()
 {
-    #          Linux                                 || Minix
-    ( command -v md5sum > /dev/null && md5sum "$1" ) || md5 -n "$1"
+    # Linux
+    # Minix
+    # BSD
+
+    ( command -v md5sum > /dev/null && md5sum "$1"                                 ) || \
+    ( command -v md5    > /dev/null && md5 -n "$1" > /dev/null 2>&1 && md5 -n "$1" ) || \
+    ( command -v md5    > /dev/null && md5 -r "$1" > /dev/null 2>&1 && md5 -r "$1" ) || \
+    ( Die "Can't find appropriate md5-hasher "                                     )
 }
 
 Initialise()
@@ -192,13 +199,6 @@ Configure()
     echo "├ Linker opt   : $LINKER_OPTIONS"
     echo "└───"
 
-    # Clang's whining fix about unused args
-    if [ "$COMPILER_NAME" == "clang" ]
-    then
-        COMPILER_OPTIONS+=" -Wno-error=unused-command-line-argument"
-        COMPILER_OPTIONS+=" -Wno-unused-command-line-argument"
-    fi
-
     if [ ! -z "$DEPENDENCY_INCLUDE" ]
     then
         COMPILER_OPTIONS+=" -I$DEPENDENCY_INCLUDE"
@@ -237,6 +237,7 @@ IncrementBuild()
         ((BUILD_NUMBER_NEXT++))
         SED_BEFORE="PROJECT_VERSION_BUILD=$BUILD_NUMBER_CURRENT"
         SED_AFTER="PROJECT_VERSION_BUILD=$BUILD_NUMBER_NEXT"
+
         # I'm aware of -i option. Unfortunately it is not
         # supported on some systems like Minix or Mac OS
         sed "s/^$SED_BEFORE/$SED_AFTER/" \
@@ -273,7 +274,6 @@ Compile()
             -DPROJECT_VERSION_MAJOR="$PROJECT_VERSION_MAJOR" \
             -DPROJECT_VERSION_MINOR="$PROJECT_VERSION_MINOR" \
             -DPROJECT_VERSION_BUILD="$PROJECT_VERSION_BUILD" \
-            -L"$DIRECTORY_BIN" \
             -I"$DIRECTORY_INCLUDES" \
             -c "$file_c" \
             -o "./$DIRECTORY_BUILD/$file_o" >>"$ERROR_HOLDER" 2>&1

@@ -321,6 +321,7 @@ void bxi_str2lower(char * str)
  * output[3] = 'ddd
  * output[4] = eee'
  */
+/* @todo remove *count, only return */
 u32 bxi_strprs(char * str, u32 * count, char ** output)
 {
     u32 i = 0;
@@ -435,4 +436,14 @@ char * bxi_strapp(char * dst, const char * src)
     bxi_memcpy(dst + dst_len, src, src_len + 1);
 
     return dst;
+}
+
+char * bxi_strcat(char * dst, const char * src)
+{
+    if (!dst)
+        return NULL;
+    if (!src)
+        return dst;
+
+    return bxi_memcpy(dst + bxi_strlen(dst), src, bxi_strlen(src) + 1);
 }

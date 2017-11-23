@@ -132,13 +132,58 @@ u32 bxi_sqrti(u32 x)
 #   endif /* BXI_NO_SQRTI */
 }
 
+f64 bxi_nan(void)
+{
+    return 0.0 / 0.0;
+}
+
+f64 bxi_inf_pos(void)
+{
+    return 1.0 / 0.0;
+}
+
+f64 bxi_inf_neg(void)
+{
+    return -1.0 / 0.0;
+}
+
 bool bxi_isnan(f64 x)
 {
     return x != x;
 }
 
-i32 bxi_floor(f64 x)
+bool bxi_isinfpos(f64 x)
 {
+    return x == BXI_INF_POS;
+}
+
+bool bxi_isinfneg(f64 x)
+{
+    return x == BXI_INF_NEG;
+}
+
+f64 bxi_fmod(f64 x, f64 y)
+{
+    if ((bxi_isnan(x)) || (bxi_isnan(y)))
+        return BXI_NAN;
+
+    if ((bxi_isinfpos(x)) || (bxi_isinfneg(x)))
+        return BXI_NAN;
+
+    if ((y == 0.0))
+        return BXI_NAN;
+
+    if ((x == 0.0))
+        return x;
+
+    return x - ((i32)(x / y)) * y;
+}
+
+f64 bxi_floor(f64 x)
+{
+    i32 ix;
+    f64 dx;
+
     if (bxi_isnan(x))
         return 0;
     if (x > I32_MAX)
@@ -146,10 +191,13 @@ i32 bxi_floor(f64 x)
     if (x < I32_MIN)
         return I32_MIN;
 
-    return (i32)x;
+    ix = (i32)x;
+    dx = x - (f64)ix;
+
+    return x < 0.0 ? (dx < 0.0 ? ix - 1 : ix) : (ix);
 }
 
-i32 bxi_round(f64 x)
+f64 bxi_round(f64 x)
 {
     if (bxi_isnan(x))
         return 0;
@@ -162,7 +210,25 @@ i32 bxi_round(f64 x)
                      (i32)(x + 0.5);
 }
 
-i32 bxi_ceil(f64 x)
+f64 bxi_ceil(f64 x)
+{
+    i32 ix;
+    f64 dx;
+
+    if (bxi_isnan(x))
+        return 0;
+    if (x > I32_MAX)
+        return I32_MAX;
+    if (x < I32_MIN)
+        return I32_MIN;
+
+    ix = (i32)x;
+    dx = x - (f64)ix;
+
+    return x > 0.0 ? (dx > 0.0 ? ix + 1 : ix) : (ix);
+}
+
+f64 bxi_trunc(f64 x)
 {
     if (bxi_isnan(x))
         return 0;
@@ -171,13 +237,29 @@ i32 bxi_ceil(f64 x)
     if (x < I32_MIN)
         return I32_MIN;
 
-    if ((x - bxi_floor(x)) > 0.0) return (i32)(x + 1);
-                             else return (i32)(x);
+    return (i32)x;
 }
 
 f64 bxi_fabs(f64 x)
 {
     return x > 0 ? x : -x;
+}
+
+f64 bxi_modf(f64 x, f64 * i)
+{
+    i32 ix = (i32)x;
+
+    if (bxi_isnan(x))
+    {
+
+    }
+
+    ix = (i32)x;
+
+    if (i)
+        *i = ix;
+
+    return x - ix;
 }
 
 /* @todo make it calculable on the while line

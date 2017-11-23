@@ -60,7 +60,6 @@ EXPORT   char * bxi_strtriml (      char * str);
 EXPORT   char * bxi_strtrimr (      char * str);
 EXPORT   char * bxi_strtrim  (      char * str);
 
-/* @todo strcat */
 /* @todo strncat */
 /* @todo strncmp */
 /* @todo strncpy */
@@ -68,13 +67,20 @@ EXPORT   char * bxi_strtrim  (      char * str);
 /* @todo strpbrk */
 /* @todo strrchr */
 /* @todo strspn */
-/* @todo strtok */
+
+/* @todo utf8-2-utf32 */
+
+/* @todo strrep - replace tokens with reallocation */
 EXPORT u32    bxi_strlen(const char * str);
 EXPORT i32    bxi_strcmp(const char * str1, const char * str2);
+/* @todo as strprs is unsafe this way, make it return number of tokens if input is empty.
+ *       describe it as thread-safe strtok */
 EXPORT u32    bxi_strprs(      char * str, u32 * count, char ** output);
 EXPORT char * bxi_strchr(const char * s, i32 c);
-EXPORT char * bxi_strcpy(char * dst, const char * src);
+EXPORT char * bxi_strcpy(      char * dst, const char * src);
 EXPORT char * bxi_strstr(const char * str, const char * sub);
+/* @test bxi_strcat */
+EXPORT char * bxi_strcat(      char * dst, const char * src);
 
 EXPORT BXI_USES_MEM char * bxi_strdup(const char * str);
 /* @test bxi_strapp */

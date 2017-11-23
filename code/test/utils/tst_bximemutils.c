@@ -35,7 +35,7 @@
 #define TEST_ADVANCE_MEM32_SIZE (50)
 
 /* Not sure how to do it better */
-#if defined(BXI_OS_MNX)
+#if defined(BXI_OS_MNX) || defined(BXI_OS_FBS)
 #define memfrob(s, n) bxi_memfrob(s, 42, n)
 #endif
 
@@ -358,7 +358,7 @@ static void check_memset16_advance()
     bxi_memset16(data + 1, 0x1020, TEST_ADVANCE_MEM16_SIZE / 2 - 1);
 
     for (i = 1; i < TEST_ADVANCE_MEM16_SIZE - 1; i++)
-        if (data[i] != (i % 2 ? 0x20 : 0x10))
+        if (data[i] != ((i % 2) ? 0x20 : 0x10))
             print_failed();
     if ((data[0] != 0) || (data[TEST_ADVANCE_MEM16_SIZE - 1] != 0))
             print_failed();

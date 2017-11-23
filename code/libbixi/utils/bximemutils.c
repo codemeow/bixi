@@ -539,3 +539,39 @@ void * bxi_memrchr(const void * ptr, u8 val, u32 cnt)
 
     return NULL;
 }
+
+void * bxi_mempcpy(void * dst, const void * src, u32 cnt)
+{
+    if (!dst)
+        return NULL;
+    if (!src)
+        return dst;
+
+    return (u8 *)bxi_memcpy(dst, src, cnt) + 1;
+}
+
+void * bxi_memccpy(void * dst, const void * src, i32 c, u32 cnt)
+{
+    const u8 * src_u8  = src;
+         u32   src_cnt = cnt;
+
+    if (!dst)
+        return NULL;
+    if (!src)
+        return dst;
+
+    c &= 0xff;
+
+    while (src_cnt)
+    {
+        if (*src_u8++ == c)
+        {
+            cnt = src_cnt;
+            break;
+        }
+
+        src_cnt--;
+    }
+
+    return bxi_memcpy(dst, src, cnt);
+}

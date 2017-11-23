@@ -62,17 +62,19 @@ EXPORT_FROM
 #define bxi_free(ptr)          bxi_free_call(ptr, __FILE__, __LINE__);
 EXPORT_TO
 
-/* @todo mempcpy */
-/* @todo memccpy */
-EXPORT void * bxi_memset  (      void * ptr,        i32   val, u32 cnt);
-EXPORT void * bxi_memset16(      void * ptr,        u32   val, u32 cnt);
-EXPORT void * bxi_memset32(      void * ptr,        u32   val, u32 cnt);
-EXPORT void * bxi_memcpy  (      void * dst, const void * src, u32 cnt);
-EXPORT void * bxi_memmove (      void * dst, const void * src, u32 cnt);
-EXPORT i32    bxi_memcmp  (const void * p1,  const void * p2,  u32 cnt);
-EXPORT void * bxi_memfrob (      void * ptr,         u8   val, u32 cnt);
-EXPORT void * bxi_memchr  (const void * ptr,         u8   val, u32 cnt);
-EXPORT void * bxi_memrchr (const void * ptr,         u8   val, u32 cnt);
+EXPORT void * bxi_memset  (      void * ptr,        i32   val,        u32 cnt);
+EXPORT void * bxi_memset16(      void * ptr,        u32   val,        u32 cnt);
+EXPORT void * bxi_memset32(      void * ptr,        u32   val,        u32 cnt);
+EXPORT void * bxi_memcpy  (      void * dst, const void * src,        u32 cnt);
+EXPORT void * bxi_memmove (      void * dst, const void * src,        u32 cnt);
+EXPORT i32    bxi_memcmp  (const void * p1,  const void * p2,         u32 cnt);
+EXPORT void * bxi_memfrob (      void * ptr,         u8   val,        u32 cnt);
+EXPORT void * bxi_memchr  (const void * ptr,         u8   val,        u32 cnt);
+EXPORT void * bxi_memrchr (const void * ptr,         u8   val,        u32 cnt);
+/* @test bxi_mempcpy */
+EXPORT void * bxi_mempcpy (      void * dst, const void * src,        u32 cnt);
+/* @test bxi_memccpy */
+EXPORT void * bxi_memccpy (      void * dst, const void * src, i32 c, u32 cnt);
 
 #endif /* BXIMEMUTILS_H */
 

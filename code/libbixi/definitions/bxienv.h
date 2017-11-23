@@ -278,13 +278,6 @@ EXPORT_FROM
 EXPORT_TO
 
 EXPORT_FROM
-#if (defined(__unix__) || defined(__unix)) && (!defined(__linux__)) && (!defined(__minix))
-#   define BXI_OS "UNIX"
-#   define BXI_OS_UNX
-#endif
-EXPORT_TO
-
-EXPORT_FROM
 #if defined(__minix)
 #   define BXI_OS "Minix"
 #   define BXI_OS_MNX
@@ -338,6 +331,13 @@ EXPORT_FROM
 #if defined(__MVS__) || defined(__HOS_MVS__) || defined(__TOS_MVS__)
 #   define BXI_OS "z/OS"
 #   define BXI_OS_ZOS
+#endif
+EXPORT_TO
+
+EXPORT_FROM
+#if (defined(__unix__) || defined(__unix)) && (!defined(BXI_OS))
+#   define BXI_OS "UNIX"
+#   define BXI_OS_UNX
 #endif
 EXPORT_TO
 
