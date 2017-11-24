@@ -251,7 +251,9 @@ f64 bxi_modf(f64 x, f64 * i)
 
     if (bxi_isnan(x))
     {
-
+        if (i)
+            *i = BXI_NAN;
+        return BXI_NAN;
     }
 
     ix = (i32)x;

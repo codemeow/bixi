@@ -43,6 +43,12 @@ EXPORT enum bxi_ascii_characters
     BXI_CHAR_DEL = (0x7F)
 };
 
+/* @test BXI_ASCII_MAX, BXI_ASCII_COUNT */
+EXPORT_FROM
+#define BXI_ASCII_MAX   (0xFF)
+#define BXI_ASCII_COUNT (BXI_ASCII_MAX + 1)
+EXPORT_TO
+
 EXPORT enum bxi_strerror
 {
     BXI_STRERROR_SUCCESS      = ( 0),
@@ -60,27 +66,33 @@ EXPORT   char * bxi_strtriml (      char * str);
 EXPORT   char * bxi_strtrimr (      char * str);
 EXPORT   char * bxi_strtrim  (      char * str);
 
-/* @todo strncat */
 /* @todo strncmp */
-/* @todo strncpy */
-/* @todo strcspn */
 /* @todo strpbrk */
-/* @todo strrchr */
-/* @todo strspn */
+/* @todo strchrnul */
 
 /* @todo utf8-2-utf32 */
 
+/* @todo add speed test for every func, separate tests for funcs */
 /* @todo strrep - replace tokens with reallocation */
-EXPORT u32    bxi_strlen(const char * str);
-EXPORT i32    bxi_strcmp(const char * str1, const char * str2);
-/* @todo as strprs is unsafe this way, make it return number of tokens if input is empty.
- *       describe it as thread-safe strtok */
-EXPORT u32    bxi_strprs(      char * str, u32 * count, char ** output);
-EXPORT char * bxi_strchr(const char * s, i32 c);
-EXPORT char * bxi_strcpy(      char * dst, const char * src);
-EXPORT char * bxi_strstr(const char * str, const char * sub);
+EXPORT u32    bxi_strlen (const char * str);
+EXPORT i32    bxi_strcmp (const char * str1, const char * str2);
+EXPORT u32    bxi_strprs (      char * str, u32 * count, char ** output);
+/* @test strrchr */
+EXPORT char * bxi_strchr (const char * s, i32 c);
+EXPORT char * bxi_strrchr(const char * s, i32 c);
+EXPORT char * bxi_strcpy (      char * dst, const char * src);
+/* @test strncpy */
+EXPORT char * bxi_strncpy(      char * dst, const char * src, u32 n);
+EXPORT char * bxi_strstr (const char * str, const char * sub);
 /* @test bxi_strcat */
-EXPORT char * bxi_strcat(      char * dst, const char * src);
+/* @test bxi_strncat */
+EXPORT char * bxi_strcat (      char * dst, const char * src);
+EXPORT char * bxi_strncat(      char * dst, const char * src, u32 n);
+
+/* @test bxi_bxi_strspn */
+EXPORT u32 bxi_strspn(const char * str, const char * lst);
+/* @test bxi_bxi_strcspn */
+EXPORT u32 bxi_strcspn(const char * str, const char * lst);
 
 EXPORT BXI_USES_MEM char * bxi_strdup(const char * str);
 /* @test bxi_strapp */

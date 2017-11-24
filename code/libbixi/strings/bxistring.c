@@ -23,6 +23,7 @@
 #include "../utils/bxibitutils.h"
 #include "../utils/bximemutils.h"
 #include "../definitions/bximacros.h"
+#include "../math/bximath.h"
 
 #define FNV_VALUE_START (0x811c9dc5u)
 #define FNV_VALUE_STEP  (0x01000193u)
@@ -111,6 +112,19 @@ char * bxi_strcpy(char * dst, const char * src)
     return dst;
 }
 
+char * bxi_strncpy(char * dst, const char * src, u32 n)
+{
+    u32 i;
+
+    for (i = 0; (i < n) && (src[i] != '\0'); i++)
+        dst[i] = src[i];
+
+    while (i < n)
+        dst[i++] = '\0';
+
+    return dst;
+}
+
 char * bxi_strdup(const char * str)
 {
     char * res;
@@ -138,6 +152,24 @@ char * bxi_strchr(const char * s, i32 c)
     }
 
     return NULL;
+}
+
+char * bxi_strrchr(const char * s, i32 c)
+{
+    char * res = NULL;
+
+    if (!s)
+        return NULL;
+
+    while (*s)
+    {
+        if (*s == c)
+            res = (char *)s;
+
+        s++;
+    }
+
+    return res;
 }
 
 bxi_hash bxi_strhash(const char * str)
@@ -446,4 +478,63 @@ char * bxi_strcat(char * dst, const char * src)
         return dst;
 
     return bxi_memcpy(dst + bxi_strlen(dst), src, bxi_strlen(src) + 1);
+}
+
+char * bxi_strncat(char * dst, const char * src, u32 n)
+{
+    u32 src_len;
+    u32 dst_len;
+
+    if (!dst)
+        return NULL;
+    if (!src)
+        return dst;
+
+    src_len = bxi_strlen(src);
+    dst_len = bxi_strlen(dst);
+
+    if (src_len > n)
+    {
+        bxi_memcpy(dst + dst_len, src, n);
+        dst[n + dst_len] = '\0';
+        return dst;
+    }
+    else
+        return bxi_memcpy(dst + dst_len, src, src_len + 1);
+}
+
+u32 bxi_strspn(const char * str, const char * lst)
+{
+    u32 res = 1;
+    char map[BXI_FAST_DIV_8(BXI_ASCII_COUNT)] = { 0 };
+
+    while (*lst)
+        map[BXI_FAST_DIV_8(*lst)] |= 1 << (*lst % 8);
+
+    while (*str)
+    {
+        if (!((map[BXI_FAST_DIV_8(*str)] >> (*str % 8)) & 1))
+            break;
+        res++;
+    }
+
+    return res - 1;
+}
+
+u32 bxi_strcspn(const char * str, const char * lst)
+{
+    u32 res = 1;
+    char map[BXI_FAST_DIV_8(BXI_ASCII_COUNT)] = { 0 };
+
+    while (*lst)
+        map[BXI_FAST_DIV_8(*lst)] |= 1 << (*lst % 8);
+
+    while (*str)
+    {
+        if ((map[BXI_FAST_DIV_8(*str)] >> (*str % 8)) & 1)
+            break;
+        res++;
+    }
+
+    return res - 1;
 }
