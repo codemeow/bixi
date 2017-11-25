@@ -24,6 +24,8 @@
 #include "../test.h"
 #include "../random/tst_bxirand.h"
 
+/* @todo good tests */
+
 void test_random_bxirand(void)
 {
     i8  mem_i8;

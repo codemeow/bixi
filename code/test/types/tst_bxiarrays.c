@@ -25,6 +25,8 @@
 #include "../test.h"
 #include "../types/tst_bxiarrays.h"
 
+/* @todo good tests */
+
 #define TEST_ARRAY_SIZE (8)
 
 static void my_memerr(u32 req, const char * file, u32 line)

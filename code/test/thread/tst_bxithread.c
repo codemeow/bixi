@@ -24,6 +24,8 @@
 #include "../test.h"
 #include "../thread/tst_bxithread.h"
 
+/* @todo good tests */
+
 #if !defined(BXI_OS_MNX)
 #include <pthread.h>
 #include <stdlib.h>

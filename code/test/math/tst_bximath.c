@@ -27,6 +27,8 @@
 #include "../test.h"
 #include "../math/tst_bximath.h"
 
+/* @todo good tests */
+
 #define TEST_SPEED_SQRTI_LOOPS (U32_MAX >> 5)
 #define TEST_SPEED_FABS_LOOBS  (U32_MAX >> 3)
 

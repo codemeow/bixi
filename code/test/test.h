@@ -22,6 +22,8 @@
 #ifndef TEST_H
 #define TEST_H
 
+#include <libbixi.h>
+
 #include "./definitions/tst_bxiexport.h"
 #include "./definitions/tst_bxiarch.h"
 #include "./definitions/tst_bxiassert.h"
@@ -69,6 +71,14 @@
 #define TEST_SPEED_CHECK    \
     if (sum_org != sum_new) \
         print_failed()
+
+#define FAILED print_failed(__FILE__, __LINE__)
+
+void print_macro_name          (const char * name);
+void print_macro_undefined_exit(void);
+void print_macro_value_string  (const char * value);
+void print_macro_value_signed  (i32 value);
+void print_macro_value_unsigned(u32 value);
 
 void print_passed(void);
 void print_failed(void);

@@ -24,6 +24,8 @@
 #include "../test.h"
 #include "../hashes/tst_bximd5.h"
 
+/* @todo good tests */
+
 void test_hashes_bximd5(void)
 {
     md5_t md5;

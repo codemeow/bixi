@@ -24,6 +24,8 @@
 #include "../test.h"
 #include "../time/tst_bxitime.h"
 
+/* @todo good tests */
+
 void test_time_bxitime(void)
 {
     print_info;

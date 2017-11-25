@@ -24,6 +24,8 @@
 #include "../test.h"
 #include "../serials/tst_bxiserwrite.h"
 
+/* @todo good tests */
+
 void test_serials_bxiserwrite(void)
 {
     u8 data[4] = { 0xf0, 0xf1, 0xf2, 0xf3 };

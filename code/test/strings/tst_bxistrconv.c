@@ -24,6 +24,8 @@
 #include "../test.h"
 #include "../strings/tst_bxistrconv.h"
 
+/* @todo good tests */
+
 #define TEST_STR2(func, v1, v2, v3)          \
 {                                            \
     i32 len = 0;                             \

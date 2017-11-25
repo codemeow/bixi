@@ -28,6 +28,8 @@
 #include "../test.h"
 #include "../utils/tst_bximemutils.h"
 
+/* @todo good tests */
+
 #define TEST_SPEED_LOOPS (1000000)
 #define TEST_SPEED_SIZE  (5000)
 

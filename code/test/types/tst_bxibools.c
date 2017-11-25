@@ -24,6 +24,8 @@
 #include "../test.h"
 #include "../types/tst_bxibools.h"
 
+/* @todo good tests */
+
 void test_types_bxibools(void)
 {
     print_info;

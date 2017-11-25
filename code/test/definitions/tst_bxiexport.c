@@ -24,6 +24,8 @@
 #include "../test.h"
 #include "../definitions/tst_bxiexport.h"
 
+/* @todo good tests */
+
 void test_definitions_bxiexport(void)
 {
     print_info;

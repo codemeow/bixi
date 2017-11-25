@@ -25,6 +25,8 @@
 #include "../test.h"
 #include "../time/tst_bxisleep.h"
 
+/* @todo good tests */
+
 #define TEST_SLEEP_N (100)
 #define TEST_SLEEP_U (100)
 #define TEST_SLEEP_M (100)

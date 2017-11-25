@@ -24,6 +24,8 @@
 #include "../test.h"
 #include "../serials/tst_bxiserread.h"
 
+/* @todo good tests */
+
 void test_serials_bxiserread(void)
 {
     u8 data[16] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,

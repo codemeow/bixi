@@ -26,6 +26,8 @@
 #include "../test.h"
 #include "../strings/tst_bxistring.h"
 
+/* @todo good tests */
+
 #define TEST_ISCHAR(bxifunc, stdfunc)            \
 {                                                \
     i32 i;                                       \

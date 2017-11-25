@@ -24,6 +24,8 @@
 #include "../test.h"
 #include "../graph/tst_bxicolour.h"
 
+/* @todo good tests */
+
 static void test_colors_16(void)
 {
     printf("        checking: 8-colours mode\n\n");

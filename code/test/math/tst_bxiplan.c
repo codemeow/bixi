@@ -24,6 +24,8 @@
 #include "../test.h"
 #include "../math/tst_bxiplan.h"
 
+/* @todo good tests */
+
 void test_math_bxigeotypes(void)
 {
     print_info;

@@ -24,6 +24,8 @@
 #include "../test.h"
 #include "../hashes/tst_bxihash.h"
 
+/* @todo good tests */
+
 void test_hashes_bxihash(void)
 {
     print_info;

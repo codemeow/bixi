@@ -24,6 +24,8 @@
 #include "../test.h"
 #include "../types/tst_bxifloats.h"
 
+/* @todo good tests */
+
 void test_types_bxifloats(void)
 {
     print_info;

@@ -22,6 +22,39 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "test.h"
+
+void print_macro_name(const char * name)
+{
+    printf("        checking: %-20s: ", name);
+}
+
+void print_macro_undefined_exit(void)
+{
+    printf("\033[1;31mUNDEFINED\033[0m\n");
+    exit(1);
+}
+
+void print_macro_undefined(void)
+{
+    printf("\033[1;33mUNDEFINED\033[0m\n");
+}
+
+void print_macro_value_string(const char * value)
+{
+    printf("\"%s\"\n", value);
+}
+
+void print_macro_value_signed(i32 value)
+{
+    printf("%d\n", value);
+}
+
+void print_macro_value_unsigned(u32 value)
+{
+    printf("%u\n", value);
+}
+
 void print_passed(void)
 {
     printf("\033[1;32mPASSED\033[0m\n\n");

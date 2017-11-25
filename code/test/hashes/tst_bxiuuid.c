@@ -24,6 +24,8 @@
 #include "../test.h"
 #include "../hashes/tst_bxiuuid.h"
 
+/* @todo good tests */
+
 void test_hashes_bxiuuid(void)
 {
     char buffer[50];

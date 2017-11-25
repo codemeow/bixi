@@ -24,14 +24,57 @@
 #include "../test.h"
 #include "../definitions/tst_bxiarch.h"
 
+
+#include <string.h>
+
+#define TEST_BXI_MACRO_NAMED(name)
+#define TEST_BXI_MACRO_FUNCTION(name)
+
+#define TEST_BXI_MACRO_STRING(name)        \
+    do                                     \
+    {                                      \
+        print_macro_name(#name);           \
+        if (strlen(name "") == 0)          \
+            print_macro_undefined_exit();  \
+        print_macro_value_string(name ""); \
+    }                                      \
+    while (0)
+
+#define TEST_BXI_MACRO_I32(name)            \
+    do                                      \
+    {                                       \
+        print_macro_name(#name);            \
+        if ((5 * name + 1) == 5)            \
+             print_macro_undefined_exit();  \
+        print_macro_value_signed(name + 0); \
+    }                                       \
+    while (0)
+
+#define TEST_BXI_MACRO_U32(name)             \
+    do                                       \
+    {                                        \
+        print_macro_name(#name);             \
+        if ((5 * name + 1) == 5)             \
+             print_macro_undefined_exit();   \
+        print_macro_value_unsigned(name + 0);\
+    }                                        \
+    while (0)
+
+static void test_definitions_defines(void)
+{
+    printf("    defines:\n");
+    TEST_BXI_MACRO_STRING(BXI_OS);
+    TEST_BXI_MACRO_STRING(BXI_ARCH);
+    TEST_BXI_MACRO_I32   (BXI_BITS);
+/*    test_definitions_bxi_bits(); */
+}
+
 void test_definitions_bxiarch(void)
 {
     print_info;
 
-    printf("    defines:\n");
-    printf("        defined : BXI_OS  : \"%s\"\n", BXI_OS);
-    printf("        defined : BXI_BITS: %d\n",     BXI_BITS);
-    printf("        defined : BXI_ARCH: \"%s\"\n", BXI_ARCH);
+    test_definitions_defines();
+
 #   if defined(BXI_OS_AIX)
     printf("        defined : BXI_OS_AIX\n");
 #   endif

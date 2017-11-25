@@ -94,6 +94,37 @@ i32 bxi_strcmp(const char * str1, const char * str2)
     return c1 - c2;
 }
 
+i32 bxi_strncmp(const char * str1, const char * str2, u32 n)
+{
+    u8 c1, c2;
+
+    if (!str1 && !str2) return 0;
+    if (!str1 &&  str2) return -(*str2);
+    if ( str1 && !str2) return +(*str2);
+
+    do
+    {
+        c1 = (u8)*str1;
+        c2 = (u8)*str2;
+
+        if (!c1)
+            return c1 - c2;
+
+        n--;
+        if (!n)
+            break;
+
+        if (!c1)
+            return c1 - c2;
+
+        str1++;
+        str2++;
+    }
+    while (c1 == c2);
+
+    return c1 - c2;
+}
+
 char * bxi_strcpy(char * dst, const char * src)
 {
     if (!dst)
@@ -138,38 +169,54 @@ char * bxi_strdup(const char * str)
     return res;
 }
 
-char * bxi_strchr(const char * s, i32 c)
+char * bxi_strchr(const char * str, i32 c)
 {
-    if (!s)
+    if (!str)
         return NULL;
 
-    while (*s)
+    while (*str)
     {
-        if (*s == c)
-            return (char *)s;
+        if (*str == c)
+            return (char *)str;
 
-        s++;
+        str++;
     }
 
     return NULL;
 }
 
-char * bxi_strrchr(const char * s, i32 c)
+char * bxi_strrchr(const char * str, i32 c)
 {
     char * res = NULL;
 
-    if (!s)
+    if (!str)
         return NULL;
 
-    while (*s)
+    while (*str)
     {
-        if (*s == c)
-            res = (char *)s;
+        if (*str == c)
+            res = (char *)str;
 
-        s++;
+        str++;
     }
 
     return res;
+}
+
+char * bxi_strchrnul(const char * str, i32 c)
+{
+    if (!str)
+        return NULL;
+
+    while (*str)
+    {
+        if (*str == c)
+            return (char *)str;
+
+        str++;
+    }
+
+    return (char *)str;
 }
 
 bxi_hash bxi_strhash(const char * str)
@@ -516,6 +563,7 @@ u32 bxi_strspn(const char * str, const char * lst)
         if (!((map[BXI_FAST_DIV_8(*str)] >> (*str % 8)) & 1))
             break;
         res++;
+        str++;
     }
 
     return res - 1;
@@ -534,7 +582,25 @@ u32 bxi_strcspn(const char * str, const char * lst)
         if ((map[BXI_FAST_DIV_8(*str)] >> (*str % 8)) & 1)
             break;
         res++;
+        str++;
     }
 
     return res - 1;
+}
+
+char * bxi_strpbrk(const char * str, const char * lst)
+{
+    char map[BXI_FAST_DIV_8(BXI_ASCII_COUNT)] = { 0 };
+
+    while (*lst)
+        map[BXI_FAST_DIV_8(*lst)] |= 1 << (*lst % 8);
+
+    while (*str)
+    {
+        if ((map[BXI_FAST_DIV_8(*str)] >> (*str % 8)) & 1)
+            return (char * )str;
+        str++;
+    }
+
+    return NULL;
 }

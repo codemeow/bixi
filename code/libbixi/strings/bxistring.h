@@ -66,28 +66,30 @@ EXPORT   char * bxi_strtriml (      char * str);
 EXPORT   char * bxi_strtrimr (      char * str);
 EXPORT   char * bxi_strtrim  (      char * str);
 
-/* @todo strncmp */
-/* @todo strpbrk */
-/* @todo strchrnul */
-
 /* @todo utf8-2-utf32 */
 
 /* @todo add speed test for every func, separate tests for funcs */
 /* @todo strrep - replace tokens with reallocation */
-EXPORT u32    bxi_strlen (const char * str);
-EXPORT i32    bxi_strcmp (const char * str1, const char * str2);
-EXPORT u32    bxi_strprs (      char * str, u32 * count, char ** output);
+EXPORT u32    bxi_strlen   (const char * str);
+EXPORT i32    bxi_strcmp   (const char * str1, const char * str2);
+/* @test strncmp */
+EXPORT i32    bxi_strncmp  (const char * str1, const char * str2, u32 n);
+EXPORT u32    bxi_strprs   (      char * str, u32 * count, char ** output);
 /* @test strrchr */
-EXPORT char * bxi_strchr (const char * s, i32 c);
-EXPORT char * bxi_strrchr(const char * s, i32 c);
-EXPORT char * bxi_strcpy (      char * dst, const char * src);
+EXPORT char * bxi_strchr   (const char * str, i32 c);
+EXPORT char * bxi_strrchr  (const char * str, i32 c);
+/* @test strchrnul */
+EXPORT char * bxi_strchrnul(const char * str, i32 c);
+EXPORT char * bxi_strcpy   (      char * dst, const char * src);
 /* @test strncpy */
-EXPORT char * bxi_strncpy(      char * dst, const char * src, u32 n);
-EXPORT char * bxi_strstr (const char * str, const char * sub);
+EXPORT char * bxi_strncpy  (      char * dst, const char * src, u32 n);
+EXPORT char * bxi_strstr   (const char * str, const char * sub);
 /* @test bxi_strcat */
 /* @test bxi_strncat */
-EXPORT char * bxi_strcat (      char * dst, const char * src);
-EXPORT char * bxi_strncat(      char * dst, const char * src, u32 n);
+EXPORT char * bxi_strcat   (      char * dst, const char * src);
+EXPORT char * bxi_strncat  (      char * dst, const char * src, u32 n);
+/* @test bxi_strpbrk */
+EXPORT char * bxi_strpbrk  (const char * str, const char * lst);
 
 /* @test bxi_bxi_strspn */
 EXPORT u32 bxi_strspn(const char * str, const char * lst);

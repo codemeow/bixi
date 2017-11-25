@@ -23,6 +23,8 @@
 #include <libbixi.h>
 #include "../test.h"
 
+/* @todo good tests */
+
 void test_definitions_bxiassert(void)
 {
     print_info;

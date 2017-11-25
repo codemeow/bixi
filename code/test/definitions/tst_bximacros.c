@@ -24,6 +24,8 @@
 #include "../test.h"
 #include "../definitions/tst_bximacros.h"
 
+/* @todo good tests */
+
 void test_definitions_bximacros(void)
 {
     u32 i;

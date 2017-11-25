@@ -24,6 +24,8 @@
 #include "../test.h"
 #include "../utils/tst_bxibitutils.h"
 
+/* @todo good tests */
+
 void test_utils_bxibitutils(void)
 {
     print_info;
