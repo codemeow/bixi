@@ -24,49 +24,62 @@
 #include "../test.h"
 #include "../definitions/tst_bxiarch.h"
 
-
-#include <string.h>
-
-#define TEST_BXI_MACRO_NAMED(name)
-#define TEST_BXI_MACRO_FUNCTION(name)
-
-#define TEST_BXI_MACRO_STRING(name)        \
-    do                                     \
-    {                                      \
-        print_macro_name(#name);           \
-        if (strlen(name "") == 0)          \
-            print_macro_undefined_exit();  \
-        print_macro_value_string(name ""); \
-    }                                      \
-    while (0)
-
-#define TEST_BXI_MACRO_I32(name)            \
-    do                                      \
-    {                                       \
-        print_macro_name(#name);            \
-        if ((5 * name + 1) == 5)            \
-             print_macro_undefined_exit();  \
-        print_macro_value_signed(name + 0); \
-    }                                       \
-    while (0)
-
-#define TEST_BXI_MACRO_U32(name)             \
-    do                                       \
-    {                                        \
-        print_macro_name(#name);             \
-        if ((5 * name + 1) == 5)             \
-             print_macro_undefined_exit();   \
-        print_macro_value_unsigned(name + 0);\
-    }                                        \
-    while (0)
-
 static void test_definitions_defines(void)
 {
     printf("    defines:\n");
     TEST_BXI_MACRO_STRING(BXI_OS);
     TEST_BXI_MACRO_STRING(BXI_ARCH);
     TEST_BXI_MACRO_I32   (BXI_BITS);
-/*    test_definitions_bxi_bits(); */
+
+    TEST_BXI_MACRO_EXISTS_WEAK(BXI_OS_AIX);
+    TEST_BXI_MACRO_EXISTS_WEAK(BXI_OS_AND);
+    TEST_BXI_MACRO_EXISTS_WEAK(BXI_OS_AMG);
+    TEST_BXI_MACRO_EXISTS_WEAK(BXI_OS_BOS);
+    TEST_BXI_MACRO_EXISTS_WEAK(BXI_OS_FBS);
+    TEST_BXI_MACRO_EXISTS_WEAK(BXI_OS_OBS);
+    TEST_BXI_MACRO_EXISTS_WEAK(BXI_OS_BSD);
+    TEST_BXI_MACRO_EXISTS_WEAK(BXI_OS_DFL);
+    TEST_BXI_MACRO_EXISTS_WEAK(BXI_OS_CYG);
+    TEST_BXI_MACRO_EXISTS_WEAK(BXI_OS_MSD);
+    TEST_BXI_MACRO_EXISTS_WEAK(BXI_OS_PAL);
+    TEST_BXI_MACRO_EXISTS_WEAK(BXI_OS_UNX);
+    TEST_BXI_MACRO_EXISTS_WEAK(BXI_OS_MNX);
+    TEST_BXI_MACRO_EXISTS_WEAK(BXI_OS_GHR);
+    TEST_BXI_MACRO_EXISTS_WEAK(BXI_OS_GLX);
+    TEST_BXI_MACRO_EXISTS_WEAK(BXI_OS_MAC);
+    TEST_BXI_MACRO_EXISTS_WEAK(BXI_OS_OS2);
+    TEST_BXI_MACRO_EXISTS_WEAK(BXI_OS_WIN);
+    TEST_BXI_MACRO_EXISTS_WEAK(BXI_OS_WCE);
+    TEST_BXI_MACRO_EXISTS_WEAK(BXI_OS_ZOS);
+    TEST_BXI_MACRO_EXISTS_WEAK(BXI_OS_SLR);
+    TEST_BXI_MACRO_EXISTS_WEAK(BXI_OS_SOS);
+
+    TEST_BXI_MACRO_EXISTS_WEAK(BXI_BITS_16);
+    TEST_BXI_MACRO_EXISTS_WEAK(BXI_BITS_32);
+    TEST_BXI_MACRO_EXISTS_WEAK(BXI_BITS_64);
+
+    TEST_BXI_MACRO_EXISTS_WEAK(BXI_ARCH_P32);
+    TEST_BXI_MACRO_EXISTS_WEAK(BXI_ARCH_P64);
+    TEST_BXI_MACRO_EXISTS_WEAK(BXI_ARCH_S32);
+    TEST_BXI_MACRO_EXISTS_WEAK(BXI_ARCH_S64);
+    TEST_BXI_MACRO_EXISTS_WEAK(BXI_ARCH_ALP);
+    TEST_BXI_MACRO_EXISTS_WEAK(BXI_ARCH_A32);
+    TEST_BXI_MACRO_EXISTS_WEAK(BXI_ARCH_A64);
+    TEST_BXI_MACRO_EXISTS_WEAK(BXI_ARCH_M32);
+    TEST_BXI_MACRO_EXISTS_WEAK(BXI_ARCH_M64);
+    TEST_BXI_MACRO_EXISTS_WEAK(BXI_ARCH_Z32);
+    TEST_BXI_MACRO_EXISTS_WEAK(BXI_ARCH_Z64);
+    TEST_BXI_MACRO_EXISTS_WEAK(BXI_ARCH_X32);
+    TEST_BXI_MACRO_EXISTS_WEAK(BXI_ARCH_X64);
+    TEST_BXI_MACRO_EXISTS_WEAK(BXI_ARCH_I64);
+}
+
+static void test_definitions_functions(void)
+{
+    printf("    functions:\n");
+    printf("        checking: bxi_arch: %s\n", bxi_arch());
+    printf("        checking: bxi_bits: %d\n", bxi_bits());
+    printf("        checking: bxi_os  : %s\n", bxi_os());
 }
 
 void test_definitions_bxiarch(void)
@@ -74,134 +87,7 @@ void test_definitions_bxiarch(void)
     print_info;
 
     test_definitions_defines();
-
-#   if defined(BXI_OS_AIX)
-    printf("        defined : BXI_OS_AIX\n");
-#   endif
-#   if defined(BXI_OS_AND)
-    printf("        defined : BXI_OS_AND\n");
-#   endif
-#   if defined(BXI_OS_AMG)
-    printf("        defined : BXI_OS_AMG\n");
-#   endif
-#   if defined(BXI_OS_BOS)
-    printf("        defined : BXI_OS_BOS\n");
-#   endif
-#   if defined(BXI_OS_FBS)
-    printf("        defined : BXI_OS_FBS\n");
-#   endif
-#   if defined(BXI_OS_NBS)
-    printf("        defined : BXI_OS_NBS\n");
-#   endif
-#   if defined(BXI_OS_OBS)
-    printf("        defined : BXI_OS_OBS\n");
-#   endif
-#   if defined(BXI_OS_BSD)
-    printf("        defined : BXI_OS_BSD\n");
-#   endif
-#   if defined(BXI_OS_DFL)
-    printf("        defined : BXI_OS_DFL\n");
-#   endif
-#   if defined(BXI_OS_CYG)
-    printf("        defined : BXI_OS_CYG\n");
-#   endif
-#   if defined(BXI_OS_MSD)
-    printf("        defined : BXI_OS_MSD\n");
-#   endif
-#   if defined(BXI_OS_PAL)
-    printf("        defined : BXI_OS_PAL\n");
-#   endif
-#   if defined(BXI_OS_UNX)
-    printf("        defined : BXI_OS_UNX\n");
-#   endif
-#   if defined(BXI_OS_MNX)
-    printf("        defined : BXI_OS_MNX\n");
-#   endif
-#   if defined(BXI_OS_GHR)
-    printf("        defined : BXI_OS_GHR\n");
-#   endif
-#   if defined(BXI_OS_GLX)
-    printf("        defined : BXI_OS_GLX\n");
-#   endif
-#   if defined(BXI_OS_MAC)
-    printf("        defined : BXI_OS_MAC\n");
-#   endif
-#   if defined(BXI_OS_OS2)
-    printf("        defined : BXI_OS_OS2\n");
-#   endif
-#   if defined(BXI_OS_WIN)
-    printf("        defined : BXI_OS_WIN\n");
-#   endif
-#   if defined(BXI_OS_WCE)
-    printf("        defined : BXI_OS_WCE\n");
-#   endif
-#   if defined(BXI_OS_ZOS)
-    printf("        defined : BXI_OS_ZOS\n");
-#   endif
-#   if defined(BXI_OS_SLR)
-    printf("        defined : BXI_OS_SLR\n");
-#   endif
-#   if defined(BXI_OS_SOS)
-    printf("        defined : BXI_OS_SOS\n");
-#   endif
-
-#   if defined(BXI_BITS_16)
-    printf("        defined : BXI_BITS_16\n");
-#   endif
-#   if defined(BXI_BITS_32)
-    printf("        defined : BXI_BITS_32\n");
-#   endif
-#   if defined(BXI_BITS_64)
-    printf("        defined : BXI_BITS_64\n");
-#   endif
-
-#   if defined(BXI_ARCH_P32)
-    printf("        defined : BXI_ARCH_P32\n");
-#   endif
-#   if defined(BXI_ARCH_P64)
-    printf("        defined : BXI_ARCH_P64\n");
-#   endif
-#   if defined(BXI_ARCH_S32)
-    printf("        defined : BXI_ARCH_S32\n");
-#   endif
-#   if defined(BXI_ARCH_S64)
-    printf("        defined : BXI_ARCH_S64\n");
-#   endif
-#   if defined(BXI_ARCH_ALP)
-    printf("        defined : BXI_ARCH_ALP\n");
-#   endif
-#   if defined(BXI_ARCH_A32)
-    printf("        defined : BXI_ARCH_A32\n");
-#   endif
-#   if defined(BXI_ARCH_A64)
-    printf("        defined : BXI_ARCH_A64\n");
-#   endif
-#   if defined(BXI_ARCH_M32)
-    printf("        defined : BXI_ARCH_M32\n");
-#   endif
-#   if defined(BXI_ARCH_M64)
-    printf("        defined : BXI_ARCH_M64\n");
-#   endif
-#   if defined(BXI_ARCH_Z32)
-    printf("        defined : BXI_ARCH_Z32\n");
-#   endif
-#   if defined(BXI_ARCH_Z64)
-    printf("        defined : BXI_ARCH_Z64\n");
-#   endif
-#   if defined(BXI_ARCH_X32)
-    printf("        defined : BXI_ARCH_X32\n");
-#   endif
-#   if defined(BXI_ARCH_X64)
-    printf("        defined : BXI_ARCH_X64\n");
-#   endif
-#   if defined(BXI_ARCH_I64)
-    printf("        defined : BXI_ARCH_I64\n");
-#   endif
-
-    printf("    functions:\n");
-    printf("        checking: bxi_arch: %s\n", bxi_arch());
-    printf("        checking: bxi_bits: %d\n", bxi_bits());
-    printf("        checking: bxi_os  : %s\n", bxi_os());
+    test_definitions_functions();
 
     print_passed();
 }

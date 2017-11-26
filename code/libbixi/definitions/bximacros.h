@@ -51,9 +51,9 @@ EXPORT_FROM
 EXPORT_TO
 
 EXPORT_FROM
-#define BXI_KB(b) ( (u32)(b) * 1024ul)
-#define BXI_MB(b) (BXI_KB(b) * 1024ul)
-#define BXI_GB(b) (BXI_MB(b) * 1024ul)
+#define BXI_KB(b) ((u32)(b) << 10ul)
+#define BXI_MB(b) ((u32)(b) << 20ul)
+#define BXI_GB(b) ((u32)(b) << 30ul)
 EXPORT_TO
 
 #endif /* BXIMACROS_H */

@@ -24,43 +24,21 @@
 #include "../test.h"
 #include "../definitions/tst_bxiexport.h"
 
-/* @todo good tests */
+static void test_definitions_defines(void)
+{
+    printf("    defines:\n");
+    TEST_BXI_MACRO_EXISTS(EXPORT);
+    TEST_BXI_MACRO_EXISTS(EXPORT_FROM);
+    TEST_BXI_MACRO_EXISTS(EXPORT_TO);
+    TEST_BXI_MACRO_EXISTS(BXI_USES_MEM);
+    TEST_BXI_MACRO_EXISTS(BXI_USES_SLP);
+}
 
 void test_definitions_bxiexport(void)
 {
     print_info;
 
-    printf("    defines:\n");
-
-#   if defined(EXPORT)
-        printf("        defined : EXPORT\n");
-#   else
-        print_failed();
-#   endif
-
-#   if defined(EXPORT_FROM)
-        printf("        defined : EXPORT_FROM\n");
-#   else
-        print_failed();
-#   endif
-
-#   if defined(EXPORT_TO)
-        printf("        defined : EXPORT_TO\n");
-#   else
-        print_failed();
-#   endif
-
-#   if defined(BXI_USES_MEM)
-        printf("        defined : BXI_USES_MEM\n");
-#   else
-        print_failed();
-#   endif
-
-#   if defined(BXI_USES_SLP)
-        printf("        defined : BXI_USES_SLP\n");
-#   else
-        print_failed();
-#   endif
+    test_definitions_defines();
 
     print_passed();
 }

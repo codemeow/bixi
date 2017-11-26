@@ -24,6 +24,12 @@
 
 #include "test.h"
 
+void print_macro_failed(const char * file, i32 line)
+{
+    printf("\033[1;FAILED at %s:%d\033[0m\n", file, line);
+    exit(1);
+}
+
 void print_macro_name(const char * name)
 {
     printf("        checking: %-20s: ", name);
@@ -33,6 +39,11 @@ void print_macro_undefined_exit(void)
 {
     printf("\033[1;31mUNDEFINED\033[0m\n");
     exit(1);
+}
+
+void print_macro_defined(void)
+{
+    printf("\033[1;32mDEFINED\033[0m\n");
 }
 
 void print_macro_undefined(void)

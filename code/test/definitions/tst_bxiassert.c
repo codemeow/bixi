@@ -23,19 +23,20 @@
 #include <libbixi.h>
 #include "../test.h"
 
-/* @todo good tests */
+static void test_definitions_defines(void)
+{
+    printf("    defines:\n");
+
+#   if !defined(NDEBUG)
+    TEST_BXI_MACRO_EXISTS(COMPILE_ASSERT);
+#   endif
+}
 
 void test_definitions_bxiassert(void)
 {
     print_info;
 
-#   if !defined(NDEBUG)
-#       if defined(COMPILE_ASSERT)
-            print_passed();
-#       else
-            print_failed();
-#       endif
-#   else
-        print_passed();
-#   endif
+    test_definitions_defines();
+
+    print_passed();
 }
