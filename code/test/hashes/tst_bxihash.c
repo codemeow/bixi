@@ -24,45 +24,25 @@
 #include "../test.h"
 #include "../hashes/tst_bxihash.h"
 
-/* @todo good tests */
+static void test_hashes_types(void)
+{
+    printf("    types:\n");
+
+    TEST_BXI_TYPE_SIZE(hash_4,   4);
+    TEST_BXI_TYPE_SIZE(hash_8,   8);
+    TEST_BXI_TYPE_SIZE(hash_16,  16);
+    TEST_BXI_TYPE_SIZE(hash_32,  32);
+    TEST_BXI_TYPE_SIZE(hash_64,  64);
+    TEST_BXI_TYPE_SIZE(hash_128, 128);
+    TEST_BXI_TYPE_SIZE(hash_256, 256);
+    TEST_BXI_TYPE_SIZE(hash_512, 512);
+}
 
 void test_hashes_bxihash(void)
 {
     print_info;
 
-    printf("    types:\n");
-
-    printf("        checking: hash_4\n");
-    if (sizeof(hash_4  ) != 4  )
-        print_failed();
-
-    printf("        checking: hash_8\n");
-    if (sizeof(hash_8  ) != 8  )
-        print_failed();
-
-    printf("        checking: hash_16\n");
-    if (sizeof(hash_16  ) != 16  )
-        print_failed();
-
-    printf("        checking: hash_32\n");
-    if (sizeof(hash_32  ) != 32  )
-        print_failed();
-
-    printf("        checking: hash_64\n");
-    if (sizeof(hash_64  ) != 64  )
-        print_failed();
-
-    printf("        checking: hash_128\n");
-    if (sizeof(hash_128  ) != 128  )
-        print_failed();
-
-    printf("        checking: hash_256\n");
-    if (sizeof(hash_256  ) != 256  )
-        print_failed();
-
-    printf("        checking: hash_512\n");
-    if (sizeof(hash_512  ) != 512  )
-        print_failed();
+    test_hashes_types();
 
     print_passed();
 }

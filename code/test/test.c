@@ -71,6 +71,12 @@ void print_passed(void)
     printf("\033[1;32mPASSED\033[0m\n\n");
 }
 
+void test_failed_call(const char * file, i32 line)
+{
+    printf("\033[1;31mFAILED at %s:%d\033[0m\n\n", file, line);
+    exit(1);
+}
+
 void print_failed(void)
 {
     printf("\033[1;31mFAILED\033[0m\n\n");

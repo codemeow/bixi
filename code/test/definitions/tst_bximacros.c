@@ -24,7 +24,39 @@
 #include "../test.h"
 #include "../definitions/tst_bximacros.h"
 
-/* @todo good tests */
+static void test_definitions_test_bxi_array_size(void)
+{
+    u8  data1[10];
+    u16 data2[20];
+    u32 data3[30];
+
+    if (BXI_ARRAY_SIZE(data1) != 10)
+        test_failed();
+    if (BXI_ARRAY_SIZE(data2) != 20)
+        test_failed();
+    if (BXI_ARRAY_SIZE(data3) != 30)
+        test_failed();
+}
+
+static void test_definitions_test_bxi_in(void)
+{
+    if (!BXI_IN(5, 10, 0))
+        test_failed();
+    if (!BXI_IN(9, 10, 0))
+        test_failed();
+    if ( BXI_IN(10, 10, 0))
+        test_failed();
+}
+
+static void test_definitions_test_bxi_in_inc(void)
+{
+    if (!BXI_IN_INC(5, 10, 0))
+        test_failed();
+    if (!BXI_IN_INC(9, 10, 0))
+        test_failed();
+    if (!BXI_IN_INC(10, 10, 0))
+        test_failed();
+}
 
 static void test_definitions_defines(void)
 {
@@ -37,8 +69,11 @@ static void test_definitions_defines(void)
     TEST_BXI_MACRO_EXISTS(BXI_MB);
     TEST_BXI_MACRO_EXISTS(BXI_GB);
     TEST_BXI_MACRO_EXISTS(BXI_ARRAY_SIZE);
-    TEST_BXI_MACRO_EXISTS_3(IN);
-    TEST_BXI_MACRO_EXISTS_3(IN_INC);
+        test_definitions_test_bxi_array_size();
+    TEST_BXI_MACRO_EXISTS_3(BXI_IN);
+        test_definitions_test_bxi_in();
+    TEST_BXI_MACRO_EXISTS_3(BXI_IN_INC);
+        test_definitions_test_bxi_in_inc();
 }
 
 void test_definitions_bximacros(void)

@@ -51,48 +51,55 @@
 #include "./utils/tst_bxibitutils.h"
 #include "./utils/tst_bximemutils.h"
 
-#define TEST_BXI_MACRO_CHECK_INT1(name, func, start, stop)\
-do                                                  \
-{                                                   \
-    int i;                                          \
-    print_macro_name(#name);                        \
-    if (!TEST_BXI_MACRO_DEFINED(#name, name(1)))    \
-        print_macro_undefined_exit();               \
-    for (i = start; i < stop; i++)                  \
-    {                                               \
-        if (name(i) != func(i))                     \
-            print_macro_failed(__FILE__, __LINE__); \
-    }                                               \
-    print_macro_defined();                          \
-}                                                   \
-while (0)
+#define TEST_BXI_TYPE_SIZE(type, size)           \
+    do                                           \
+    {                                            \
+        printf("        checking: %s\n", #type); \
+        if (sizeof(type) != size)                \
+            test_failed();                       \
+    }                                            \
+    while (0)
+
+#define TEST_BXI_MACRO_DEFINED_4_I(strstr, fnc) (strcmp(#fnc, strstr "(1, 2, 3, 4)"))
+#define TEST_BXI_MACRO_DEFINED_4(str, fnc) TEST_BXI_MACRO_DEFINED_3_I(str, fnc)
+
+#define TEST_BXI_MACRO_EXISTS_4(name)                           \
+    do                                                          \
+    {                                                           \
+        print_macro_name(#name);                                \
+        if (!TEST_BXI_MACRO_DEFINED_4(#name, name(1, 2, 3, 4))) \
+            print_macro_undefined_exit();                       \
+        else                                                    \
+            print_macro_defined();                              \
+    }                                                           \
+    while (0)
 
 #define TEST_BXI_MACRO_DEFINED_3_I(strstr, fnc) (strcmp(#fnc, strstr "(1, 2, 3)"))
 #define TEST_BXI_MACRO_DEFINED_3(str, fnc) TEST_BXI_MACRO_DEFINED_3_I(str, fnc)
 
-#define TEST_BXI_MACRO_EXISTS_3(name)                      \
-    do                                                     \
-    {                                                      \
-        print_macro_name(#name);                           \
-        if (!TEST_BXI_MACRO_DEFINED(#name, name(1, 2, 3))) \
-            print_macro_undefined_exit();                  \
-        else                                               \
-            print_macro_defined();                         \
-    }                                                      \
+#define TEST_BXI_MACRO_EXISTS_3(name)                        \
+    do                                                       \
+    {                                                        \
+        print_macro_name(#name);                             \
+        if (!TEST_BXI_MACRO_DEFINED_3(#name, name(1, 2, 3))) \
+            print_macro_undefined_exit();                    \
+        else                                                 \
+            print_macro_defined();                           \
+    }                                                        \
     while (0)
 
 #define TEST_BXI_MACRO_DEFINED_2_I(strstr, fnc) (strcmp(#fnc, strstr "(1, 2)"))
 #define TEST_BXI_MACRO_DEFINED_2(str, fnc) TEST_BXI_MACRO_DEFINED_2_I(str, fnc)
 
-#define TEST_BXI_MACRO_EXISTS_2(name)                   \
-    do                                                  \
-    {                                                   \
-        print_macro_name(#name);                        \
-        if (!TEST_BXI_MACRO_DEFINED(#name, name(1, 2))) \
-            print_macro_undefined_exit();               \
-        else                                            \
-            print_macro_defined();                      \
-    }                                                   \
+#define TEST_BXI_MACRO_EXISTS_2(name)                     \
+    do                                                    \
+    {                                                     \
+        print_macro_name(#name);                          \
+        if (!TEST_BXI_MACRO_DEFINED_2(#name, name(1, 2))) \
+            print_macro_undefined_exit();                 \
+        else                                              \
+            print_macro_defined();                        \
+    }                                                     \
     while (0)
 
 #define TEST_BXI_MACRO_DEFINED_I(strstr, fnc) (strcmp(#fnc, strstr "(1)"))
@@ -187,6 +194,9 @@ void print_macro_value_string  (const char * value);
 void print_macro_value_signed  (i32 value);
 void print_macro_value_unsigned(u32 value);
 void print_macro_failed        (const char * file, i32 line);
+
+#define test_failed() test_failed_call(__FILE__, __LINE__)
+void test_failed_call(const char * file, i32 line);
 
 void print_passed(void);
 void print_failed(void);

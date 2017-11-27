@@ -54,7 +54,7 @@ void test_hashes_bximd5(void)
     md5_init(&md5);
     md5_appendstr(&md5, "The quick brown fox jumps over the lazy dog");
     md5_final(&md5);
-    uuid2str(md5.hash, outp, UUID_PLAIN);
+    uuid2str(md5.hash, outp, UUID_PLAIN); /* @todo not only plain */
     printf("%s)\n", outp);
 
     if (bxi_strcmp(outp, "9e107d9d372bb6826bd81d3542a419d6"))
