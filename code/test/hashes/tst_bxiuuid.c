@@ -26,6 +26,14 @@
 
 /* @todo good tests */
 
+static void test_hashes_defines(void)
+{
+    printf("    defines:\n");
+
+    TEST_BXI_MACRO_EXISTS(UUID_SIZE);
+    TEST_BXI_MACRO_EXISTS(UUID_STR_SIZE);
+}
+
 void test_hashes_bxiuuid(void)
 {
     char buffer[50];
@@ -38,20 +46,7 @@ void test_hashes_bxiuuid(void)
                    0x77, 0x66, 0x55, 0x44, 0x00, 0x00, 0x00, 0x00 };
 
     print_info;
-
-    printf("    defines:\n");
-
-#   if defined(UUID_SIZE)
-        printf("        defined : UUID_SIZE     (%d)\n", UUID_SIZE);
-#   else
-        print_failed();
-#   endif
-
-#   if defined(UUID_STR_SIZE)
-        printf("        defined : UUID_STR_SIZE (%d)\n", UUID_STR_SIZE);
-#   else
-        print_failed();
-#   endif
+    test_hashes_defines();
 
     printf("    functions:\n");
 
