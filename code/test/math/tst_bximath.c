@@ -348,124 +348,34 @@ static void test_math_cos(void)
     check_cos_speed();
 }
 
-static void test_math_constants(void)
+static void test_math_defines(void)
 {
-#   if defined(BXI_PI)
-        printf("        defined : BXI_PI          : %f\n", BXI_PI);
-#   else
-        print_failed();
-#   endif
-
-#   if defined(BXI_PI_DIV_2)
-        printf("        defined : BXI_PI_DIV_2    : %f\n", BXI_PI_DIV_2);
-#   else
-        print_failed();
-#   endif
-
-#   if defined(BXI_PI_DIV_4)
-        printf("        defined : BXI_PI_DIV_4    : %f\n", BXI_PI_DIV_4);
-#   else
-        print_failed();
-#   endif
-
-#   if defined(BXI_1_DIV_PI)
-        printf("        defined : BXI_1_DIV_PI    : %f\n", BXI_1_DIV_PI);
-#   else
-        print_failed();
-#   endif
-
-#   if defined(BXI_2_DIV_PI)
-        printf("        defined : BXI_2_DIV_PI    : %f\n", BXI_2_DIV_PI);
-#   else
-        print_failed();
-#   endif
-
-#   if defined(BXI_4_DIV_PI)
-        printf("        defined : BXI_4_DIV_PI    : %f\n", BXI_4_DIV_PI);
-#   else
-        print_failed();
-#   endif
-
-#   if defined(BXI_4_DIV_SQR_PI)
-        printf("        defined : BXI_4_DIV_SQR_PI: %f\n", BXI_4_DIV_SQR_PI);
-#   else
-        print_failed();
-#   endif
-
-#   if defined(BXI_E)
-        printf("        defined : BXI_E           : %f\n", BXI_E);
-#   else
-        print_failed();
-#   endif
-
-#   if defined(BXI_PHI)
-        printf("        defined : BXI_PHI         : %f\n", BXI_PHI);
-#   else
-        print_failed();
-#   endif
-
-#   if defined(BXI_E_POW_PI)
-        printf("        defined : BXI_E_POW_PI    : %f\n", BXI_E_POW_PI);
-#   else
-        print_failed();
-#   endif
-
-#   if defined(BXI_LOG2_E)
-        printf("        defined : BXI_LOG2_E      : %f\n", BXI_LOG2_E);
-#   else
-        print_failed();
-#   endif
-
-#   if defined(BXI_LOG10_E)
-        printf("        defined : BXI_LOG10_E     : %f\n", BXI_LOG10_E);
-#   else
-        print_failed();
-#   endif
-
-#   if defined(BXI_LN_E)
-        printf("        defined : BXI_LN_E        : %f\n", BXI_LN_E);
-#   else
-        print_failed();
-#   endif
-
-#   if defined(BXI_LN_10)
-        printf("        defined : BXI_LN_10       : %f\n", BXI_LN_10);
-#   else
-        print_failed();
-#   endif
-
-#   if defined(BXI_SQRT_2)
-        printf("        defined : BXI_SQRT_2      : %f\n", BXI_SQRT_2);
-#   else
-        print_failed();
-#   endif
-
-#   if defined(BXI_SQRT_3)
-        printf("        defined : BXI_SQRT_3      : %f\n", BXI_SQRT_3);
-#   else
-        print_failed();
-#   endif
-
-#   if defined(BXI_SQRT_5)
-        printf("        defined : BXI_SQRT_5      : %f\n", BXI_SQRT_5);
-#   else
-        print_failed();
-#   endif
-
-#   if defined(BXI_1_DIV_SQRT_2)
-        printf("        defined : BXI_1_DIV_SQRT_2: %f\n", BXI_1_DIV_SQRT_2);
-#   else
-        print_failed();
-#   endif
+    printf("    defines:\n");
+    TEST_BXI_MACRO_FLT(BXI_PI);
+    TEST_BXI_MACRO_FLT(BXI_PI_DIV_2);
+    TEST_BXI_MACRO_FLT(BXI_PI_DIV_4);
+    TEST_BXI_MACRO_FLT(BXI_1_DIV_PI);
+    TEST_BXI_MACRO_FLT(BXI_2_DIV_PI);
+    TEST_BXI_MACRO_FLT(BXI_4_DIV_PI);
+    TEST_BXI_MACRO_FLT(BXI_4_DIV_SQR_PI);
+    TEST_BXI_MACRO_FLT(BXI_E);
+    TEST_BXI_MACRO_FLT(BXI_PHI);
+    TEST_BXI_MACRO_FLT(BXI_E_POW_PI);
+    TEST_BXI_MACRO_FLT(BXI_LOG2_E);
+    TEST_BXI_MACRO_FLT(BXI_LOG10_E);
+    TEST_BXI_MACRO_FLT(BXI_LN_E);
+    TEST_BXI_MACRO_FLT(BXI_LN_10);
+    TEST_BXI_MACRO_FLT(BXI_SQRT_2);
+    TEST_BXI_MACRO_FLT(BXI_SQRT_3);
+    TEST_BXI_MACRO_FLT(BXI_SQRT_5);
+    TEST_BXI_MACRO_FLT(BXI_1_DIV_SQRT_2);
 }
 
 void test_math_bximath(void)
 {
     print_info;
 
-    printf("    defines:\n");
-
-    test_math_constants();
+    test_math_defines();
 
 #   if defined(BXI_MAX)
         printf("        defined : BXI_MAX\n");

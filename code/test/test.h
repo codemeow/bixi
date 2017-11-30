@@ -152,6 +152,18 @@
     }                                                \
     while (0)
 
+#define TEST_BXI_MACRO_FLT(name)                     \
+    do                                               \
+    {                                                \
+        print_macro_name(#name);                     \
+        if (!TEST_BXI_MACRO_DEFINED(#name, name(1))) \
+            print_macro_undefined_exit();            \
+        if ((5 * name + 1) == 5)                     \
+             print_macro_undefined_exit();           \
+        print_macro_value_float(name + 0);           \
+    }                                                \
+    while (0)
+
 #define TEST_BXI_MACRO_U32(name)                     \
     do                                               \
     {                                                \
@@ -193,6 +205,7 @@ void print_macro_undefined_exit(void);
 void print_macro_value_string  (const char * value);
 void print_macro_value_signed  (i32 value);
 void print_macro_value_unsigned(u32 value);
+void print_macro_value_float   (f64 value);
 void print_macro_failed        (const char * file, i32 line);
 
 #define test_failed() test_failed_call(__FILE__, __LINE__)

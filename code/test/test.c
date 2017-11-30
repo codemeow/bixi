@@ -61,6 +61,11 @@ void print_macro_value_signed(i32 value)
     printf("%d\n", value);
 }
 
+void print_macro_value_float(f64 value)
+{
+    printf("%25.18f\n", value);
+}
+
 void print_macro_value_unsigned(u32 value)
 {
     printf("%u\n", value);
