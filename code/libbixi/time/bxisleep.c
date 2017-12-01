@@ -55,6 +55,7 @@ void bxi_fsleep_set(bxi_sleep_flt_func func)
 
 void bxi_fsleep(f64 sec)
 {
+    /* @todo check this functions for overflow */
     if (bxi_fsleep_val)
         bxi_fsleep_val(sec);
     else

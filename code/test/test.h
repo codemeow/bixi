@@ -196,7 +196,7 @@
         name, (time_n_f - time_n_s) / (f64)1e9)
 #define TEST_SPEED_CHECK    \
     if (sum_org != sum_new) \
-        print_failed()
+        test_failed()
 
 void print_macro_name          (const char * name);
 void print_macro_defined       (void);

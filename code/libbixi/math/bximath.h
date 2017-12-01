@@ -55,8 +55,6 @@ EXPORT_FROM
 #define BXI_MIN(a, b) ((a) > (b) ? (b) : (a))
 EXPORT_TO
 
-/* @test FAST_DIV */
-/* @test FAST_MUL */
 EXPORT_FROM
 #define BXI_FAST_DIV_2(x)          ((x) >> 0x01)
 #define BXI_FAST_DIV_4(x)          ((x) >> 0x02)
@@ -122,10 +120,9 @@ EXPORT_FROM
 #define BXI_FAST_MUL_1073741824(x) ((x) << 0x1e)
 #define BXI_FAST_MUL_2147483648(x) ((x) << 0x1f)
 
-#define BXI_FAST_U16DIV255(x) ((u32)(x) + 1 + (((u32)(x) + 1) >> 8)) >> 8
+#define BXI_FAST_U16DIV255(x) (((u32)(x) + 1 + (((u32)(x) + 1) >> 8)) >> 8)
 EXPORT_TO
 
-/* @test BXI_NAN, BXI_INF_POS, BXI_INF_NEG */
 EXPORT_FROM
 #define BXI_NAN     ( 0.0 / 0.0)
 #define BXI_INF_POS ( 1.0 / 0.0)

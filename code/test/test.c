@@ -32,7 +32,7 @@ void print_macro_failed(const char * file, i32 line)
 
 void print_macro_name(const char * name)
 {
-    printf("        checking: %-20s: ", name);
+    printf("        checking: %-25s: ", name);
 }
 
 void print_macro_undefined_exit(void)
