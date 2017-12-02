@@ -24,17 +24,17 @@
 #include "../test.h"
 #include "../math/tst_bxiplan.h"
 
-/* @todo good tests */
+static void test_math_definitions(void)
+{
+    printf("    defines:\n");
+    TEST_BXI_MACRO_FLT(MM_PER_INCH);
+}
 
 void test_math_bxigeotypes(void)
 {
     print_info;
 
-#   if defined(UUID_SIZE)
-        printf("        defined: MM_PER_INCH    (%f)\n", MM_PER_INCH);
-#   else
-        print_failed();
-#   endif
+    test_math_definitions();
 
     print_passed();
 }

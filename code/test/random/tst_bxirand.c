@@ -24,9 +24,15 @@
 #include "../test.h"
 #include "../random/tst_bxirand.h"
 
-/* @todo good tests */
+static void test_random_definitions(void)
+{
+    printf("    defines:\n");
+    TEST_BXI_MACRO_U32(BXI_RAND8_MAX);
+    TEST_BXI_MACRO_U32(BXI_RAND16_MAX);
+    TEST_BXI_MACRO_U32(BXI_RAND32_MAX);
+}
 
-void test_random_bxirand(void)
+void test_random_functions(void)
 {
     i8  mem_i8;
     u8  mem_u8;
@@ -35,41 +41,21 @@ void test_random_bxirand(void)
     i32 mem_i32;
     u32 mem_u32;
 
-    print_info;
+    f64 sum_i8  = 0;
+    f64 sum_u8  = 0;
+    f64 sum_i16 = 0;
+    f64 sum_u16 = 0;
+    f64 sum_i32 = 0;
+    f64 sum_u32 = 0;
 
-    printf("    defines:\n");
+    u32 i;
 
-    /* BXI_RAND8_MAX */
-#   if defined(BXI_RAND8_MAX)
-        printf("        defined : BXI_RAND8_MAX  (%u)\n", BXI_RAND8_MAX);
-#   else
-        print_failed();
-#   endif
-
-    /* BXI_RAND16_MAX */
-#   if defined(BXI_RAND8_MAX)
-        printf("        defined : BXI_RAND16_MAX (%u)\n", BXI_RAND16_MAX);
-#   else
-        print_failed();
-#   endif
-
-    /* BXI_RAND8_MAX */
-#   if defined(BXI_RAND32_MAX)
-        printf("        defined : BXI_RAND32_MAX (%u)\n", BXI_RAND32_MAX);
-#   else
-        print_failed();
-#   endif
-
-    /* bxi_srand   */
-    /* bxi_randi8  */
-    /* bxi_randu8  */
-    /* bxi_randi16 */
-    /* bxi_randu16 */
-    /* bxi_randi32 */
-    /* bxi_randu32 */
     printf("    functions:\n");
 
+    printf("        checking: bxi_srand\n");
     bxi_srand(23);
+
+    /* Remember first values */
     mem_i8  = bxi_randi8 ();
     mem_u8  = bxi_randu8 ();
     mem_i16 = bxi_randi16();
@@ -77,35 +63,47 @@ void test_random_bxirand(void)
     mem_i32 = bxi_randi32();
     mem_u32 = bxi_randu32();
 
-    bxi_srand(42);
-    printf("        checking: bxi_randi8\n");
-    if (mem_i8 == bxi_randi8())
-        print_failed();
-    printf("        checking: bxi_randu8\n");
-    if (mem_u8 == bxi_randu8())
-        print_failed();
-    printf("        checking: bxi_randi16\n");
-    if (mem_i16 == bxi_randi16())
-        print_failed();
-    printf("        checking: bxi_randu16\n");
-    if (mem_u16 == bxi_randu16())
-        print_failed();
-    printf("        checking: bxi_randi32\n");
-    if (mem_i32 == bxi_randi32())
-        print_failed();
-    printf("        checking: bxi_randu32\n");
-    if (mem_u32 == bxi_randu32())
-        print_failed();
+    /* Skip elements. Make sure the
+     * compiler won't remove it */
+    for (i = 0; i < U16_MAX; i++)
+    {
+        sum_i8  += (f64)bxi_randi8 () / U16_MAX;
+        sum_u8  += (f64)bxi_randu8 () / U16_MAX;
+        sum_i16 += (f64)bxi_randi16() / U16_MAX;
+        sum_u16 += (f64)bxi_randu16() / U16_MAX;
+        sum_i32 += (f64)bxi_randi32() / U16_MAX;
+        sum_u32 += (f64)bxi_randu32() / U16_MAX;
+    }
 
-    printf("        checking: bxi_srand\n");
+    /* Now reset the sequence and check */
     bxi_srand(23);
-    if ((mem_i8  != bxi_randi8 ()) ||
-        (mem_u8  != bxi_randu8 ()) ||
-        (mem_i16 != bxi_randi16()) ||
-        (mem_u16 != bxi_randu16()) ||
-        (mem_i32 != bxi_randi32()) ||
-        (mem_u32 != bxi_randu32()))
-        print_failed();
+
+    printf("        checking: bxi_randi8  (avg %14.2f)\n", sum_i8);
+    if (mem_i8 != bxi_randi8())
+        test_failed();
+    printf("        checking: bxi_randu8  (avg %14.2f)\n", sum_u8);
+    if (mem_u8 != bxi_randu8())
+        test_failed();
+    printf("        checking: bxi_randi16 (avg %14.2f)\n", sum_i16);
+    if (mem_i16 != bxi_randi16())
+        test_failed();
+    printf("        checking: bxi_randu16 (avg %14.2f)\n", sum_u16);
+    if (mem_u16 != bxi_randu16())
+        test_failed();
+    printf("        checking: bxi_randi32 (avg %14.2f)\n", sum_i32);
+    if (mem_i32 != bxi_randi32())
+        test_failed();
+    printf("        checking: bxi_randu32 (avg %14.2f)\n", sum_u32);
+    if (mem_u32 != bxi_randu32())
+        test_failed();
+}
+
+void test_random_bxirand(void)
+{
+    print_info;
+
+    test_random_definitions();
+    test_random_functions();
 
     print_passed();
 }
