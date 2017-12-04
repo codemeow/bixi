@@ -23,6 +23,7 @@
 #include <stdio.h>
 #include <math.h>
 #include <libbixi.h>
+#include <float.h>
 #include <time.h>
 #include "../test.h"
 #include "../math/tst_bximath.h"
@@ -516,6 +517,91 @@ static void test_math_bxi_isnan(void)
         test_failed();
 }
 
+static void test_math_bxi_nan(void)
+{
+    printf("        checking: bxi_nan\n");
+    if (bxi_nan() == bxi_nan())
+        test_failed();
+}
+
+static void test_math_bxi_inf_pos(void)
+{
+    printf("        checking: bxi_inf_pos\n");
+    if (bxi_inf_pos() <= DBL_MAX)
+        test_failed();
+}
+
+static void test_math_bxi_inf_neg(void)
+{
+    printf("        checking: bxi_inf_neg\n");
+    if (bxi_inf_neg() >= DBL_MIN)
+        test_failed();
+}
+
+static void test_math_bxi_isinfpos(void)
+{
+    printf("        checking: bxi_isinfpos\n");
+    if (bxi_isinfpos(1.0) != false)
+        test_failed();
+    if (bxi_isinfpos(BXI_INF_POS) != true)
+        test_failed();
+}
+
+static void test_math_bxi_isinfneg(void)
+{
+    printf("        checking: bxi_isinfneg\n");
+    if (bxi_isinfneg(1.0) != false)
+        test_failed();
+    if (bxi_isinfneg(BXI_INF_NEG) != true)
+        test_failed();
+}
+
+static void test_math_bxi_modf(void)
+{
+    u32 i;
+    f64 start = -10.0;
+
+    printf("        checking: bxi_modf\n");
+    for (i = 0; i < 100; i++)
+    {
+        f64 std_in = 0;
+        f64 std_fr = modf(start + i * 0.1, &std_in);
+
+        f64 bxi_in = 0;
+        f64 bxi_fr = bxi_modf(start + i * 0.1, &bxi_in);
+
+        if ((std_in != bxi_in) || (std_fr != bxi_fr))
+        {
+            printf("            at %d: %f/%f vs %f/%f\n",
+                   i, std_in, std_fr, bxi_in, bxi_fr);
+            test_failed();
+        }
+    }
+}
+
+static void test_math_bxi_fmod(void)
+{
+    /*u32 i;
+    u32 m;
+    f64 start = -10.0;
+
+    printf("        checking: bxi_modf\n");
+    for (i = 0; i < 100; i++)
+    {
+        for (m = 1; m < 100; m++)
+        {
+            f64 std_res =     fmod(start + i * 0.1, m * 0.1);
+            f64 bxi_res = bxi_fmod(start + i * 0.1, m * 0.1);
+            if (std_res != bxi_res)
+            {
+                printf("            at %d/%d: %f vs %f\n",
+                       i, m, std_res, bxi_res);
+                test_failed();
+            }
+        }
+    }*/
+}
+
 static void test_math_functions(void)
 {
     printf("    functions:\n");
@@ -532,6 +618,13 @@ static void test_math_functions(void)
     test_math_bxi_fabs();
     test_math_bxi_sin();
     test_math_bxi_cos();
+    test_math_bxi_nan();
+    test_math_bxi_inf_pos();
+    test_math_bxi_inf_neg();
+    test_math_bxi_isinfpos();
+    test_math_bxi_isinfneg();
+    test_math_bxi_modf();
+    test_math_bxi_fmod();
 }
 
 void test_math_bximath(void)

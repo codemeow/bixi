@@ -147,23 +147,16 @@ EXPORT_TO
 /* @todo cbrt */
 /* @todo log2 */
 
-EXPORT u32 bxi_abs(i32 val);
-EXPORT i32 bxi_sign(i32 val);
-EXPORT i32 bxi_gcd(i32 a, i32 b);
-EXPORT i32 bxi_lcm(i32 a, i32 b);
-
+EXPORT u32  bxi_abs(i32 val);
+EXPORT i32  bxi_sign(i32 val);
+EXPORT i32  bxi_gcd(i32 a, i32 b);
+EXPORT i32  bxi_lcm(i32 a, i32 b);
 EXPORT u32  bxi_sqrti(u32 x);
-
-/* @test bxi_nan */
-/* @test bxi_inf_pos */
-/* @test bxi_inf_neg */
 EXPORT f64  bxi_nan    (void);
 EXPORT f64  bxi_inf_pos(void);
 EXPORT f64  bxi_inf_neg(void);
 
 EXPORT bool bxi_isnan(f64 x);
-/* @test bxi_isinfpos */
-/* @test bxi_isinfneg */
 EXPORT bool bxi_isinfpos(f64 x);
 EXPORT bool bxi_isinfneg(f64 x);
 
@@ -171,9 +164,7 @@ EXPORT f64  bxi_floor(f64 x);
 EXPORT f64  bxi_round(f64 x);
 EXPORT f64  bxi_ceil (f64 x);
 EXPORT f64  bxi_trunc(f64 x);
-/* @test bxi_modf */
 EXPORT f64  bxi_modf (f64 x, f64 * i);
-/* @test bxi_fmod */
 EXPORT f64  bxi_fmod (f64 x, f64   y);
 
 EXPORT f64  bxi_fabs (f64 x);

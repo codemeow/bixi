@@ -176,7 +176,8 @@ f64 bxi_fmod(f64 x, f64 y)
     if ((x == 0.0))
         return x;
 
-    return x - ((i32)(x / y)) * y;
+    /* @todo bxi_fmod does not work */
+    return (x - y * bxi_floor(x / y));
 }
 
 f64 bxi_floor(f64 x)
