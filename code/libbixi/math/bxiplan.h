@@ -143,8 +143,7 @@ EXPORT typedef bxi_circlei   bxi_circle;
 
 EXPORT typedef bxi_pointu    bxi_size;
 
- /* @test bxi_line_cross */
-EXPORT bool bxi_line_cross(bxi_line * l1, bxi_line * l2, bxi_point * c);
+EXPORT bool bxi_segment_cross(bxi_line * l1, bxi_line * l2, bxi_point * c);
 
 #endif /* BXIPLAN_H */
 

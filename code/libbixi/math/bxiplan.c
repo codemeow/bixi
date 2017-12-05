@@ -20,8 +20,10 @@
  */
 
 #include "../math/bxiplan.h"
+#include "../math/bximath.h"
+#include "../definitions/bximacros.h"
 
-bool bxi_line_cross(bxi_line * l1, bxi_line * l2, bxi_point * c)
+bool bxi_segment_cross(bxi_line * l1, bxi_line * l2, bxi_point * c)
 {
     bxi_point crs;
     bool      res;
@@ -40,8 +42,27 @@ bool bxi_line_cross(bxi_line * l1, bxi_line * l2, bxi_point * c)
     dx2 = l2->p2.x - l2->p1.x;
     dy2 = l2->p2.y - l2->p1.y;
 
+    if (dx2 == 0)
+    {
+        i32 mx_l1_y = BXI_MAX(l1->p1.y, l1->p2.y);
+        i32 mn_l1_y = BXI_MIN(l1->p1.y, l1->p2.y);
+
+        crs.x = l2->p1.x;
+        crs.y = l1->p1.y + (dy1 * (dx1 - l2->p1.x + l1->p1.x)) / dx1;
+
+        if ((mn_l1_y <= crs.y) &&
+            (mx_l1_y >= crs.y))
+        {
+            if (c)
+                *c = crs;
+            return true;
+        }
+        else
+            return false;
+    }
+
     crs.x = dy1 * dx2 - dy2 * dx1;
-    if(!crs.x || !dx2)
+    if (crs.x == 0)
         return false;
 
     crs.y =   l2->p1.x * l2->p2.y - l2->p1.y * l2->p2.x;

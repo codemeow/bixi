@@ -26,84 +26,149 @@
 
 /* @todo good tests */
 
-void test_serials_bxiserread(void)
+static const u8 data[16] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
+                             0xf0, 0xf1, 0xf2, 0xf3, 0xf4, 0xf5, 0xf6, 0xf7};
+
+static void test_serials_bxi_read_i8(void)
 {
-    u8 data[16] = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
-                    0xf0, 0xf1, 0xf2, 0xf3, 0xf4, 0xf5, 0xf6, 0xf7};
+    printf("        checking: bxi_read_i8\n");
 
-    print_info;
+    if (bxi_read_i8(data + 8) != -16)
+        test_failed();
+}
 
+static void test_serials_bxi_read_u8(void)
+{
+    printf("        checking: bxi_read_u8\n");
+
+    if (bxi_read_u8(data + 0) != 0)
+        test_failed();
+}
+
+static void test_serials_bxi_read_i16(void)
+{
+    printf("        checking: bxi_read_i16\n");
+
+    if (bxi_read_i16(data + 8) != -3600)
+        test_failed();
+}
+
+static void test_serials_bxi_read_u16(void)
+{
+
+    printf("        checking: bxi_read_u16\n");
+
+    if (bxi_read_u16(data + 0) != 256)
+        test_failed();
+}
+
+static void test_serials_bxi_read_i32(void)
+{
+    printf("        checking: bxi_read_i32\n");
+
+    if (bxi_read_i32(data + 8) != -202182160)
+        test_failed();
+}
+
+static void test_serials_bxi_read_u32(void)
+{
+    printf("        checking: bxi_read_u32\n");
+
+    if (bxi_read_u32(data + 8) != 4092785136u)
+        test_failed();
+}
+
+static void test_serials_bxi_read_i16_be(void)
+{
+    printf("        checking: bxi_read_i16_be\n");
+
+    if (bxi_read_i16_be(data + 8) != -3855)
+        test_failed();
+}
+
+static void test_serials_bxi_read_u16_be(void)
+{
+    printf("        checking: bxi_read_u16_be\n");
+
+    if (bxi_read_u16_be(data + 8) != 61681)
+        test_failed();
+}
+
+static void test_serials_bxi_read_i32_be(void)
+{
+    printf("        checking: bxi_read_i32_be\n");
+
+    if (bxi_read_i32_be(data + 8) != -252579085)
+        test_failed();
+}
+
+static void test_serials_bxi_read_u32_be(void)
+{
+    printf("        checking: bxi_read_u32_be\n");
+
+    if (bxi_read_u32_be(data + 8) != 4042388211u)
+        test_failed();
+}
+
+static void test_serials_bxi_read_i16_le(void)
+{
+    printf("        checking: bxi_read_i16_le\n");
+
+    if (bxi_read_i16_le(data + 8) != -3600)
+        test_failed();
+}
+
+static void test_serials_bxi_read_u16_le(void)
+{
+    printf("        checking: bxi_read_u16_be\n");
+
+    if (bxi_read_u16_le(data + 8) != 61936)
+        test_failed();
+}
+
+static void test_serials_bxi_read_i32_le(void)
+{
+    printf("        checking: bxi_read_i32_le\n");
+
+    if (bxi_read_i32_le(data + 8) != -202182160)
+        test_failed();
+}
+
+static void test_serials_bxi_read_u32_le(void)
+{
+    printf("        checking: bxi_read_u32_le\n");
+
+    if (bxi_read_u32_le(data + 8) != 4092785136u)
+        test_failed();
+}
+
+static void test_serials_functions(void)
+{
     printf("    functions:\n");
 
-    /* bxi_read_i8 */
-    printf("        checking: bxi_read_i8\n");
-    if (bxi_read_i8(data + 8) != -16)
-        print_failed();
+    test_serials_bxi_read_i8();
+    test_serials_bxi_read_u8();
+    test_serials_bxi_read_i16();
+    test_serials_bxi_read_u16();
+    test_serials_bxi_read_i32();
+    test_serials_bxi_read_u32();
 
-    /* bxi_read_u8 */
-    printf("        checking: bxi_read_u8\n");
-    if (bxi_read_u8(data + 0) != 0)
-        print_failed();
+    test_serials_bxi_read_i16_be();
+    test_serials_bxi_read_u16_be();
+    test_serials_bxi_read_i32_be();
+    test_serials_bxi_read_u32_be();
 
-    /* bxi_read_i16 */
-    printf("        checking: bxi_read_i16\n");
-    if (bxi_read_i16(data + 8) != -3600)
-        print_failed();
+    test_serials_bxi_read_i16_le();
+    test_serials_bxi_read_u16_le();
+    test_serials_bxi_read_i32_le();
+    test_serials_bxi_read_u32_le();
+}
 
-    /* bxi_read_u16 */
-    printf("        checking: bxi_read_u16\n");
-    if (bxi_read_u16(data + 0) != 256)
-        print_failed();
+void test_serials_bxiserread(void)
+{
+    print_info;
 
-    /* bxi_read_i32 */
-    printf("        checking: bxi_read_i32\n");
-    if (bxi_read_i32(data + 8) != -202182160)
-        print_failed();
-
-    /* bxi_read_u32 */
-    printf("        checking: bxi_read_u32\n");
-    if (bxi_read_u32(data + 8) != 4092785136u)
-        print_failed();
-
-    /* bxi_read_i16_be */
-    printf("        checking: bxi_read_i16_be\n");
-    if (bxi_read_i16_be(data + 8) != -3855)
-        print_failed();
-
-    /* bxi_read_u16_be */
-    printf("        checking: bxi_read_u16_be\n");
-    if (bxi_read_u16_be(data + 8) != 61681)
-        print_failed();
-
-    /* bxi_read_i32_be */
-    printf("        checking: bxi_read_i32_be\n");
-    if (bxi_read_i32_be(data + 8) != -252579085)
-        print_failed();
-
-    /* bxi_read_u32_be */
-    printf("        checking: bxi_read_u32_be\n");
-    if (bxi_read_u32_be(data + 8) != 4042388211u)
-        print_failed();
-
-    /* bxi_read_u16_le */
-    printf("        checking: bxi_read_i16_le\n");
-    if (bxi_read_i16_le(data + 8) != -3600)
-        print_failed();
-
-    /* bxi_read_u16_le */
-    printf("        checking: bxi_read_u16_le\n");
-    if (bxi_read_u16_le(data + 8) != 61936)
-        print_failed();
-
-    /* bxi_read_i32_le */
-    printf("        checking: bxi_read_i32_le\n");
-    if (bxi_read_i32_le(data + 8) != -202182160)
-        print_failed();
-
-    /* bxi_read_u32_le */
-    printf("        checking: bxi_read_u32_le\n");
-    if (bxi_read_u32_le(data + 8) != 4092785136u)
-        print_failed();
+    test_serials_functions();
 
     print_passed();
 }
