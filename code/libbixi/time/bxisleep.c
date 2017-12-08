@@ -28,6 +28,7 @@ bxi_sleep_int_func bxi_usleep_val = NULL;
 bxi_sleep_int_func bxi_nsleep_val = NULL;
 bxi_sleep_flt_func bxi_fsleep_val = NULL;
 
+/* @todo nanosec only with sec + nsec struct */
 void bxi_sleep_set(bxi_sleep_int_func func)
 {
     bxi_sleep_val = func;

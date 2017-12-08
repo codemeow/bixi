@@ -11,7 +11,7 @@ i32 bxi_str2i32(const char * str, i32 * len)
 {
     i32 sign = 0;
     u32 ures = 0;
-    i32 pos  = 0;
+    u32 pos  = 0;
     u32 skp  = 0;
 
     if (!str)
@@ -71,7 +71,7 @@ i32 bxi_str2i32(const char * str, i32 * len)
         }
         else
         {
-            if (pos && !sign)
+            if (pos && (sign != 0))
                 break;
 
             if (len) *len = BXI_STRERROR_BADSTRING;
@@ -142,7 +142,7 @@ i16 bxi_str2i16(const char * str, i32 * len)
 u32 bxi_str2u32(const char * str, i32 * len)
 {
     u32 ures = 0;
-    i32 pos  = 0;
+    u32 pos  = 0;
     u32 skp  = 0;
 
     if (!str)
