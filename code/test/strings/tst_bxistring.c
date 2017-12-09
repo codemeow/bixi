@@ -62,43 +62,73 @@ static void my_free(void * ptr, const char * file, u32 line)
     free(ptr);
 }
 
+static void test_strings_bxi_strhash(void)
+{
+    printf("        checking: bxi_strhash\n");
+    if (bxi_strhash("FNV") != 0xf5cfe2b9)
+        test_failed();
+}
+
+static void test_strings_bxi_strshiftl(void)
+{
+    char shift[] = "abcdef";
+
+    printf("        checking: bxi_strshiftl\n");
+    if (bxi_strcmp(bxi_strshiftl(shift, 3), "def"))
+        test_failed();
+}
+
+static void test_strings_bxi_strtriml(void)
+{
+    char triml[] = "   def";
+
+    printf("        checking: bxi_strtriml\n");
+    if (bxi_strcmp(bxi_strtriml(triml), "def"))
+        test_failed();
+}
+
+
+static void test_strings_bxi_strtrimr(void)
+{
+    char trimr[] = "abc   ";
+
+    printf("        checking: bxi_strtrimr\n");
+    if (bxi_strcmp(bxi_strtrimr(trimr), "abc"))
+        test_failed();
+}
+
+static void test_strings_bxi_strtrim(void)
+{
+    char trimc[] = "  cd  ";
+
+    printf("        checking: bxi_strtrim\n");
+    if (bxi_strcmp(bxi_strtrim(trimc), "cd"))
+        test_failed();
+}
+
+static void test_strings_functions(void)
+{
+    printf("    functions:\n");
+
+    test_strings_bxi_strhash();
+    test_strings_bxi_strshiftl();
+    test_strings_bxi_strtriml();
+    test_strings_bxi_strtrimr();
+    test_strings_bxi_strtrim();
+}
+
 void test_strings_bxistring(void)
 {
     char dst[10];
     char src[]   = "abcdef";
     char str[]   = "abcdef";
     char sub[]   = "cd";
-    char shift[] = "abcdef";
-    char triml[] = "   def";
-    char trimr[] = "abc   ";
-    char trimc[] = "  cd  ";
     char * output[5];
     char parsed[] = "  param1 param2 \"param 3\" \'param \"\\\' 4 \'";
     u32  count;
 
     print_info;
-
-    printf("    functions:\n");
-
-    printf("        checking: bxi_strhash\n");
-    if (bxi_strhash("FNV") != 0xf5cfe2b9)
-        print_failed();
-
-    printf("        checking: bxi_strshiftl\n");
-    if (bxi_strcmp(bxi_strshiftl(shift, 3), "def"))
-        print_failed();
-
-    printf("        checking: bxi_strtriml\n");
-    if (bxi_strcmp(bxi_strtriml(triml), "def"))
-        print_failed();
-
-    printf("        checking: bxi_strtrimr\n");
-    if (bxi_strcmp(bxi_strtrimr(trimr), "abc"))
-        print_failed();
-
-    printf("        checking: bxi_strtrim\n");
-    if (bxi_strcmp(bxi_strtrim(trimc), "cd"))
-        print_failed();
+    test_strings_functions();
 
     printf("        checking: bxi_strlen\n");
     if (bxi_strlen("abcdef") != 6)

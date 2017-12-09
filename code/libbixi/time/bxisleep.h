@@ -35,14 +35,9 @@ EXPORT_FROM
 #define BXI_USEC_IN_MSEC (1000)
 EXPORT_TO
 
-EXPORT typedef void (*bxi_sleep_int_func)(u32);
-EXPORT typedef void (*bxi_sleep_flt_func)(f32);
+EXPORT typedef void (*bxi_sleep_int_func)(u32 sec, u32 nsec);
 
-EXPORT void bxi_sleep_set (bxi_sleep_int_func func);
-EXPORT void bxi_msleep_set(bxi_sleep_int_func func);
-EXPORT void bxi_usleep_set(bxi_sleep_int_func func);
 EXPORT void bxi_nsleep_set(bxi_sleep_int_func func);
-EXPORT void bxi_fsleep_set(bxi_sleep_flt_func func);
 
 EXPORT BXI_USES_SLP void bxi_sleep (u32  sec);
 EXPORT BXI_USES_SLP void bxi_msleep(u32 msec);

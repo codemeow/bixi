@@ -55,11 +55,11 @@
 #if defined(BXI_OS_GLX) || defined(BXI_OS_MNX)
 #   include <time.h>
 
-    static void nsleep(u32 nsec)
+    static void nsleep(u32 sec, u32 nsec)
     {
         struct timespec ts;
-        ts.tv_sec  = nsec / BXI_NSEC_IN_SEC;
-        ts.tv_nsec = nsec % BXI_NSEC_IN_SEC;
+        ts.tv_sec  = sec;
+        ts.tv_nsec = nsec;
 
         nanosleep(&ts, NULL);
     }

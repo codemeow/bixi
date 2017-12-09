@@ -22,128 +22,42 @@
 #include "../time/bxisleep.h"
 #include "../definitions/bximacros.h"
 
-bxi_sleep_int_func bxi_sleep_val  = NULL;
-bxi_sleep_int_func bxi_msleep_val = NULL;
-bxi_sleep_int_func bxi_usleep_val = NULL;
 bxi_sleep_int_func bxi_nsleep_val = NULL;
-bxi_sleep_flt_func bxi_fsleep_val = NULL;
-
-/* @todo nanosec only with sec + nsec struct */
-void bxi_sleep_set(bxi_sleep_int_func func)
-{
-    bxi_sleep_val = func;
-}
-
-void bxi_msleep_set(bxi_sleep_int_func func)
-{
-    bxi_msleep_val = func;
-}
-
-void bxi_usleep_set(bxi_sleep_int_func func)
-{
-    bxi_usleep_val = func;
-}
 
 void bxi_nsleep_set(bxi_sleep_int_func func)
 {
     bxi_nsleep_val = func;
 }
 
-void bxi_fsleep_set(bxi_sleep_flt_func func)
-{
-    bxi_fsleep_val = func;
-}
-
 void bxi_fsleep(f64 sec)
 {
-    /* @todo check this functions for overflow */
-    if (bxi_fsleep_val)
-        bxi_fsleep_val(sec);
-    else
     if (bxi_nsleep_val)
-        bxi_nsleep_val(sec * BXI_NSEC_IN_SEC);
-    else
-    if (bxi_usleep_val)
-        bxi_usleep_val(sec * BXI_USEC_IN_SEC);
-    else
-    if (bxi_msleep_val)
-        bxi_msleep_val(sec * BXI_MSEC_IN_SEC);
-    else
-    if (bxi_sleep_val)
-        bxi_sleep_val(sec);
+        bxi_nsleep_val(sec, (sec - (u32)sec) * BXI_NSEC_IN_SEC);
 }
 
 void bxi_nsleep(u32 nsec)
 {
     if (bxi_nsleep_val)
-        bxi_nsleep_val(nsec);
-    else
-    if (bxi_fsleep_val)
-        bxi_fsleep_val((f32)nsec / BXI_NSEC_IN_SEC);
-    else
-    /* Less accurate */
-    if (bxi_usleep_val)
-        bxi_usleep_val(1);
-    else
-    if (bxi_msleep_val)
-        bxi_msleep_val(1);
-    else
-    if (bxi_sleep_val)
-        bxi_sleep_val(1);
+        bxi_nsleep_val(nsec / BXI_NSEC_IN_SEC,
+                       nsec % BXI_NSEC_IN_SEC);
 }
 
 void bxi_usleep(u32 usec)
 {
-    if (bxi_usleep_val)
-        bxi_usleep_val(usec);
-    else
     if (bxi_nsleep_val)
-        bxi_nsleep_val(usec * BXI_NSEC_IN_USEC);
-    else
-    if (bxi_fsleep_val)
-        bxi_fsleep_val((f32)usec / BXI_USEC_IN_SEC);
-    else
-    /* Less accurate */
-    if (bxi_msleep_val)
-        bxi_msleep_val(1);
-    else
-    if (bxi_sleep_val)
-        bxi_sleep_val(1);
+        bxi_nsleep_val(usec / BXI_USEC_IN_SEC,
+                      (usec % BXI_USEC_IN_SEC) * BXI_NSEC_IN_USEC);
 }
 
 void bxi_msleep(u32 msec)
 {
-    if (bxi_msleep_val)
-        bxi_msleep_val(msec);
-    else
     if (bxi_nsleep_val)
-        bxi_nsleep_val(msec * BXI_NSEC_IN_MSEC);
-    else
-    if (bxi_fsleep_val)
-        bxi_fsleep_val(msec / BXI_MSEC_IN_SEC);
-    else
-    if (bxi_usleep_val)
-        bxi_usleep_val(msec * BXI_USEC_IN_MSEC);
-    else
-    /* Less accurate */
-    if (bxi_sleep_val)
-        bxi_sleep_val(1);
+        bxi_nsleep_val(msec / BXI_MSEC_IN_SEC,
+                      (msec % BXI_MSEC_IN_SEC) * BXI_NSEC_IN_MSEC);
 }
 
 void bxi_sleep(u32 sec)
 {
-    if (bxi_sleep_val)
-        bxi_sleep_val(sec);
-    else
     if (bxi_nsleep_val)
-        bxi_nsleep_val(sec * BXI_NSEC_IN_SEC);
-    else
-    if (bxi_fsleep_val)
-        bxi_fsleep_val(sec);
-    else
-    if (bxi_usleep_val)
-        bxi_usleep_val(sec * BXI_USEC_IN_SEC);
-    else
-    if (bxi_msleep_val)
-        bxi_msleep_val(sec * BXI_MSEC_IN_SEC);
+        bxi_nsleep_val(sec, 0);
 }
