@@ -26,42 +26,6 @@
 #include "../test.h"
 #include "../strings/tst_bxistring.h"
 
-/* @todo good tests */
-
-#define TEST_ISCHAR(bxifunc, stdfunc)            \
-{                                                \
-    i32 i;                                       \
-    printf("        checking: %s\n", #bxifunc);  \
-                                                 \
-    for (i = 0; i < 128; i++);                   \
-    if (stdfunc(i) != bxifunc(i))                \
-        print_failed();                          \
-}
-
-#define TEST_STR2(func, src, trg)                \
-{                                                \
-    char buffer[64] = src;                       \
-                                                 \
-    printf("        checking: %s\n", #func);     \
-    func(buffer);                                \
-    if (bxi_strcmp(buffer, trg))                 \
-        print_failed();                          \
-}
-
-static void * my_malloc(u32 size, const char * file, u32 line)
-{
-    UNUSED(file);
-    UNUSED(line);
-    return calloc(size, 1);
-}
-
-static void my_free(void * ptr, const char * file, u32 line)
-{
-    UNUSED(file);
-    UNUSED(line);
-    free(ptr);
-}
-
 static void test_strings_bxi_strhash(void)
 {
     printf("        checking: bxi_strhash\n");
@@ -106,58 +70,86 @@ static void test_strings_bxi_strtrim(void)
         test_failed();
 }
 
-static void test_strings_functions(void)
+static void test_strings_bxi_strlen(void)
 {
-    printf("    functions:\n");
-
-    test_strings_bxi_strhash();
-    test_strings_bxi_strshiftl();
-    test_strings_bxi_strtriml();
-    test_strings_bxi_strtrimr();
-    test_strings_bxi_strtrim();
-}
-
-void test_strings_bxistring(void)
-{
-    char dst[10];
-    char src[]   = "abcdef";
-    char str[]   = "abcdef";
-    char sub[]   = "cd";
-    char * output[5];
-    char parsed[] = "  param1 param2 \"param 3\" \'param \"\\\' 4 \'";
-    u32  count;
-
-    print_info;
-    test_strings_functions();
-
     printf("        checking: bxi_strlen\n");
     if (bxi_strlen("abcdef") != 6)
-        print_failed();
+        test_failed();
+}
 
+static void test_strings_bxi_strcmp(void)
+{
     printf("        checking: bxi_strcmp\n");
+
     if (bxi_strcmp("abc", "abc"))
-        print_failed();
+        test_failed();
+    if (bxi_strcmp("", ""))
+        test_failed();
+    if (!bxi_strcmp("abcd", "abc"))
+        test_failed();
+}
+
+static void test_strings_bxi_strprs(void)
+{
+    char   parsed[] = "  param1 param2 \"param 3\" \'param \"\\\' 4 \'";
+    char * output[5];
+    u32    count = 0;
 
     printf("        checking: bxi_strprs\n");
-    bxi_strprs(parsed, &count, output);
+    if (bxi_strprs(parsed, &count, output) != 4)
+        test_failed();
+
+    if (count != 4)
+        test_failed();
+
     if ((bxi_strcmp(output[0], "param1")) ||
         (bxi_strcmp(output[1], "param2")) ||
         (bxi_strcmp(output[2], "\"param 3\"")) ||
         (bxi_strcmp(output[3], "\'param \"\\\' 4 \'")))
-        print_failed();
+        test_failed();
+}
 
+static void test_strings_bxi_strchr(void)
+{
     printf("        checking: bxi_strchr\n");
     if (bxi_strcmp(bxi_strchr("abcdef", 'c'), "cdef"))
-        print_failed();
+        test_failed();
+}
+
+static void test_strings_bxi_strcpy(void)
+{
+    char dst[10];
+    char src[]   = "abcdef";
 
     printf("        checking: bxi_strcpy\n");
+
     bxi_strcpy(dst, src);
     if (bxi_strcmp(dst, src))
-        print_failed();
+        test_failed();
+}
+
+static void test_strings_bxi_strstr(void)
+{
+    const char str[]   = "abcdef";
+    const char sub[]   = "cd";
 
     printf("        checking: bxi_strstr\n");
+
     if (bxi_strcmp(bxi_strstr(str, sub), "cdef"))
-        print_failed();
+        test_failed();
+}
+
+static void test_strings_bxi_is(void)
+{
+#   define TEST_ISCHAR(bxifunc, stdfunc)            \
+    {                                               \
+        i32 i;                                      \
+        printf("        checking: %s\n", #bxifunc); \
+                                                    \
+        for (i = 0; i < 128; i++);                  \
+        if (stdfunc(i) != bxifunc(i))               \
+            test_failed();                          \
+    }
 
     TEST_ISCHAR(bxi_iscntrl , iscntrl );
     TEST_ISCHAR(bxi_isprint , isprint );
@@ -170,26 +162,90 @@ void test_strings_bxistring(void)
     TEST_ISCHAR(bxi_islower , islower );
     TEST_ISCHAR(bxi_isdigit , isdigit );
     TEST_ISCHAR(bxi_isxdigit, isxdigit);
-    /* c99 req, no tests for you, buddy     */
+    /* isblank requires c99, no tests here  */
     /* TEST_ISCHAR(bxi_isblank , isblank ); */
 
     TEST_ISCHAR(bxi_2upper, (u32)toupper);
     TEST_ISCHAR(bxi_2lower, (u32)tolower);
 
-    TEST_STR2(bxi_str2lower, "QUICK BROWN FOX JUMPS OVER THE LAZY DOG!",
-                             "quick brown fox jumps over the lazy dog!");
-    TEST_STR2(bxi_str2upper, "quick brown fox jumps over the lazy dog!",
-                             "QUICK BROWN FOX JUMPS OVER THE LAZY DOG!");
+#   undef TEST_ISCHAR
+}
 
+static void test_strings_bxi_str2lower(void)
+{
+    char buffer[] = "QUICK BROWN FOX JUMPS OVER THE LAZY DOG!";
+
+    printf("        checking: bxi_str2lower\n");
+    bxi_str2lower(buffer);
+    if (bxi_strcmp(buffer, "quick brown fox jumps over the lazy dog!"))
+        test_failed();
+}
+
+static void test_strings_bxi_str2upper(void)
+{
+    char buffer[] = "quick brown fox jumps over the lazy dog!";
+
+    printf("        checking: bxi_str2upper\n");
+    bxi_str2upper(buffer);
+    if (bxi_strcmp(buffer, "QUICK BROWN FOX JUMPS OVER THE LAZY DOG!"))
+        test_failed();
+}
+
+static void * my_malloc(u32 size, const char * file, u32 line)
+{
+    UNUSED(file);
+    UNUSED(line);
+    return calloc(size, 1);
+}
+
+static void my_free(void * ptr, const char * file, u32 line)
+{
+    UNUSED(file);
+    UNUSED(line);
+    free(ptr);
+}
+
+static void test_strings_bxi_strdup(void)
+{
     bxi_malloc_set(my_malloc);
     bxi_free_set(my_free);
+
     printf("        checking: bxi_strdup\n");
     {
         char * str = bxi_strdup("Quick brown dog jumps over the lazy frog\n");
         if (bxi_strcmp(str, "Quick brown dog jumps over the lazy frog\n"))
-            print_failed();
+            test_failed();
+
         bxi_free(str);
     }
+}
+
+static void test_strings_functions(void)
+{
+    printf("    functions:\n");
+
+    test_strings_bxi_strhash();
+    test_strings_bxi_strshiftl();
+    test_strings_bxi_strtriml();
+    test_strings_bxi_strtrimr();
+    test_strings_bxi_strtrim();
+    test_strings_bxi_strlen();
+    test_strings_bxi_strcmp();
+    test_strings_bxi_strprs();
+    test_strings_bxi_strchr();
+    test_strings_bxi_strcpy();
+    test_strings_bxi_strstr();
+    test_strings_bxi_is();
+    test_strings_bxi_str2lower();
+    test_strings_bxi_str2upper();
+    test_strings_bxi_strdup();
+}
+
+void test_strings_bxistring(void)
+{
+    print_info;
+
+    test_strings_functions();
 
     print_passed();
 }
