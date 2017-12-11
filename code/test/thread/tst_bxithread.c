@@ -24,18 +24,17 @@
 #include "../test.h"
 #include "../thread/tst_bxithread.h"
 
-/* @todo good tests */
-
 #if !defined(BXI_OS_MNX)
 #include <pthread.h>
 #include <stdlib.h>
+#include <inttypes.h>
 
 volatile bxi_mutex printer_mutex = BXI_MUTEX_INITIALIZER;
 volatile bxi_mutex rainbow_mutex  [7];
 volatile bxi_mutex rainbow_opener [7];
                u32 rainbow_results    = 0;
                u32 rainbow_counter    = 0;
-        const char rainbow_string [ ] = "        printing: %d [\x1b[48;5;%dm             \x1b[0m]\n";
+        const char rainbow_string [ ] = "        printing: %" PRIuPTR " [\x1b[48;5;%dm             \x1b[0m]\n";
 const          u32 rainbow_colours[7] =
 {
     BXI_COLOUR_A256_RED,
@@ -49,7 +48,7 @@ const          u32 rainbow_colours[7] =
 
 static void * thread_job(void * arg)
 {
-    i32 index = *(i32 *)arg;
+    pu_t index = *(pu_t *)arg;
 
     free(arg);
 
@@ -86,11 +85,11 @@ void test_thread_bxithread(void)
 
     for (i = 0; i < 7; i++)
     {
-        i32 * index = malloc(sizeof(i32));
+        pu_t * index = malloc(sizeof(pu_t));
         *index = i;
         pthread_result = pthread_create(&pthread, NULL, thread_job, (void *)index);
         if (pthread_result != 0)
-            print_failed();
+            test_failed();
 
     }
 
@@ -100,8 +99,12 @@ void test_thread_bxithread(void)
         bxi_mutex_lock(&rainbow_opener[i]);
     }
 
-    if (rainbow_results != 642)
-        print_failed();
+    if (rainbow_results != /* 642 */
+            (0 << 0) + (1 << 1) +
+            (2 << 2) + (3 << 3) +
+            (4 << 4) + (5 << 5) +
+            (6 << 6))
+        test_failed();
 
     print_passed();
 }

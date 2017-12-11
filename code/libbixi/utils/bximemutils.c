@@ -83,7 +83,10 @@ void * bxi_malloc_call(u32 size, const char * file, u32 line)
     void * mem = bxi_malloc_func(size, file, line);
 
     if (!mem)
+    {
         bxi_memerr_func(size, file, line);
+        return NULL;
+    }
 
     if (bxi_memopt_val & BXI_MEM_ZERO)
         bxi_memset(mem, 0, size);

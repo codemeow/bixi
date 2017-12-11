@@ -100,7 +100,7 @@ i32 bxi_strncmp(const char * str1, const char * str2, u32 n)
 
     if (!str1 && !str2) return 0;
     if (!str1 &&  str2) return -(*str2);
-    if ( str1 && !str2) return +(*str2);
+    if ( str1 && !str2) return +(*str1);
 
     do
     {

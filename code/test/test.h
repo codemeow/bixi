@@ -146,7 +146,7 @@
         print_macro_name(#name);                     \
         if (!TEST_BXI_MACRO_DEFINED(#name, name(1))) \
             print_macro_undefined_exit();            \
-        if ((5 * name + 1) == 5)                     \
+        if ((2 * name + 1) == 2)                     \
              print_macro_undefined_exit();           \
         print_macro_value_signed(name + 0);          \
     }                                                \
@@ -158,7 +158,7 @@
         print_macro_name(#name);                     \
         if (!TEST_BXI_MACRO_DEFINED(#name, name(1))) \
             print_macro_undefined_exit();            \
-        if ((5 * name + 1) == 5)                     \
+        if ((2 * name + 1) == 2)                     \
              print_macro_undefined_exit();           \
         print_macro_value_float(name + 0);           \
     }                                                \
@@ -170,7 +170,7 @@
         print_macro_name(#name);                     \
         if (!TEST_BXI_MACRO_DEFINED(#name, name(1))) \
             print_macro_undefined_exit();            \
-        if ((5 * name + 1) == 5)                     \
+        if ((2 * name + 1) == 2)                     \
              print_macro_undefined_exit();           \
         print_macro_value_unsigned(name + 0);        \
     }                                                \

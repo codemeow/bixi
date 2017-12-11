@@ -31,6 +31,8 @@
 #define TEST_SPEED_SQRTI_LOOPS (U32_MAX >> 5)
 #define TEST_SPEED_FABS_LOOBS  (U32_MAX >> 3)
 
+/* @todo re do tests */
+
 static void test_math_bxi_sqrti(void)
 {
     u32 i;
@@ -396,44 +398,44 @@ static void test_math_bxi_abs(void)
 {
     printf("        checking: bxi_abs\n");
     if (bxi_abs(-5) != 5)
-        print_failed();
+        test_failed();
     if (bxi_abs(0) != 0)
-        print_failed();
+        test_failed();
     if (bxi_abs(5) != 5)
-        print_failed();
+        test_failed();
 }
 
 static void test_math_bxi_sign(void)
 {
     printf("        checking: bxi_sign\n");
     if (bxi_sign(-5) != -1)
-        print_failed();
+        test_failed();
     if (bxi_sign(0) != 0)
-        print_failed();
+        test_failed();
     if (bxi_sign(5) != 1)
-        print_failed();
+        test_failed();
 }
 
 static void test_math_bxi_gcd(void)
 {
     printf("        checking: bxi_gcd\n");
     if (bxi_gcd(28, 17) != 1)
-        print_failed();
+        test_failed();
     if (bxi_gcd(28, 34) != 2)
-        print_failed();
+        test_failed();
     if (bxi_gcd(-17, 34) != 17)
-        print_failed();
+        test_failed();
 }
 
 static void test_math_bxi_lcm(void)
 {
     printf("        checking: bxi_lcm\n");
     if (bxi_lcm(65, 10) != 130)
-        print_failed();
+        test_failed();
     if (bxi_lcm(17, 34) != 34)
-        print_failed();
+        test_failed();
     if (bxi_lcm(12, 13) != 156)
-        print_failed();
+        test_failed();
 }
 
 static void test_math_bxi_ceil(void)
