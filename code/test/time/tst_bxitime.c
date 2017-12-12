@@ -24,55 +24,23 @@
 #include "../test.h"
 #include "../time/tst_bxitime.h"
 
-/* @todo good tests */
+static void test_time_defines(void)
+{
+    printf("    defines:\n");
+    TEST_BXI_MACRO_U32(SEC_PER_MIN);
+    TEST_BXI_MACRO_U32(MIN_PER_HRS);
+    TEST_BXI_MACRO_U32(HRS_PER_DAY);
+    TEST_BXI_MACRO_U32(DAYS_PER_WEEK);
+    TEST_BXI_MACRO_U32(SEC_PER_HRS);
+    TEST_BXI_MACRO_U32(SEC_PER_DAY);
+    TEST_BXI_MACRO_U32(MIN_PER_DAY);
+}
 
 void test_time_bxitime(void)
 {
     print_info;
 
-    printf("    defines:\n");
-
-#   if defined(SEC_PER_MIN)
-        printf("        defined : SEC_PER_MIN   (%ld)\n", SEC_PER_MIN);
-#   else
-        print_failed();
-#   endif
-
-#   if defined(MIN_PER_HRS)
-        printf("        defined : MIN_PER_HRS   (%ld)\n", MIN_PER_HRS);
-#   else
-        print_failed();
-#   endif
-
-#   if defined(HRS_PER_DAY)
-        printf("        defined : HRS_PER_DAY   (%ld)\n", HRS_PER_DAY);
-#   else
-        print_failed();
-#   endif
-
-#   if defined(DAYS_PER_WEEK)
-        printf("        defined : DAYS_PER_WEEK (%ld)\n", DAYS_PER_WEEK);
-#   else
-        print_failed();
-#   endif
-
-#   if defined(SEC_PER_HRS)
-        printf("        defined : SEC_PER_HRS   (%ld)\n", SEC_PER_HRS);
-#   else
-        print_failed();
-#   endif
-
-#   if defined(SEC_PER_DAY)
-        printf("        defined : SEC_PER_DAY   (%ld)\n", SEC_PER_DAY);
-#   else
-        print_failed();
-#   endif
-
-#   if defined(MIN_PER_DAY)
-        printf("        defined : MIN_PER_DAY   (%ld)\n", MIN_PER_DAY);
-#   else
-        print_failed();
-#   endif
+    test_time_defines();
 
     print_passed();
 }
