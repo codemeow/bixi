@@ -24,25 +24,19 @@
 #include "../test.h"
 #include "../types/tst_bxifloats.h"
 
-/* @todo good tests */
+static void test_types_defines(void)
+{
+    printf("    defines\n");
+
+    TEST_BXI_MACRO_FLT(BITS_IN_F32);
+    TEST_BXI_MACRO_FLT(BITS_IN_F64);
+}
 
 void test_types_bxifloats(void)
 {
     print_info;
 
-    printf("    defines\n");
-
-#   if defined(BITS_IN_F32)
-        printf("        defined: BITS_IN_F32: %d\n", BITS_IN_F32);
-#   else
-        print_failed();
-#   endif
-
-#   if defined(BITS_IN_F64)
-        printf("        defined: BITS_IN_F64: %d\n", BITS_IN_F64);
-#   else
-        print_failed();
-#   endif
+    test_types_defines();
 
     print_passed();
 }
