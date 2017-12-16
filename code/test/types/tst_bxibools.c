@@ -24,32 +24,20 @@
 #include "../test.h"
 #include "../types/tst_bxibools.h"
 
-/* @todo good tests */
+static void test_types_definitions(void)
+{
+    printf("    defined:\n");
+
+    TEST_BXI_MACRO_U32(BITS_IN_B8);
+    TEST_BXI_MACRO_U32(BITS_IN_B16);
+    TEST_BXI_MACRO_U32(BITS_IN_B32);
+}
 
 void test_types_bxibools(void)
 {
     print_info;
 
-    printf("    defined:\n");
-
-#   if defined(BITS_IN_B8)
-        printf("        defined: BITS_IN_B8 : %d\n", BITS_IN_B8);
-#   else
-        print_failed();
-#   endif
-
-#   if defined(BITS_IN_B16)
-        printf("        defined: BITS_IN_B16: %d\n", BITS_IN_B16);
-#   else
-        print_failed();
-#   endif
-
-
-#   if defined(BITS_IN_B32)
-        printf("        defined: BITS_IN_B32: %d\n", BITS_IN_B32);
-#   else
-        print_failed();
-#   endif
+    test_types_definitions();
 
     print_passed();
 }
