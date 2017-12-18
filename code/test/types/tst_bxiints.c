@@ -24,127 +24,35 @@
 #include "../test.h"
 #include "../types/tst_bxiints.h"
 
-/* @todo good tests */
+static void test_types_defines(void)
+{
+    printf("    defines\n");
+
+    TEST_BXI_MACRO_U32(BITS_IN_BYTE);
+    TEST_BXI_MACRO_U32(BITS_IN_U16);
+    TEST_BXI_MACRO_U32(BITS_IN_U32);
+    TEST_BXI_MACRO_U32(BITS_IN_I8);
+    TEST_BXI_MACRO_U32(BITS_IN_I16);
+    TEST_BXI_MACRO_U32(BITS_IN_I32);
+    TEST_BXI_MACRO_U32(U8_MIN);
+    TEST_BXI_MACRO_U32(U16_MIN);
+    TEST_BXI_MACRO_U32(U32_MIN);
+    TEST_BXI_MACRO_U32(U8_MAX);
+    TEST_BXI_MACRO_U32(U16_MAX);
+    TEST_BXI_MACRO_U32(U32_MAX);
+    TEST_BXI_MACRO_I32(I8_MIN);
+    TEST_BXI_MACRO_I32(I16_MIN);
+    TEST_BXI_MACRO_I32(I32_MIN);
+    TEST_BXI_MACRO_I32(I8_MAX);
+    TEST_BXI_MACRO_I32(I16_MAX);
+    TEST_BXI_MACRO_I32(I32_MAX);
+}
 
 void test_types_bxiints(void)
 {
     print_info;
 
-    printf("    defines\n");
-
-#   if defined(BITS_IN_BYTE)
-        printf("        defined: BITS_IN_BYTE: %d\n", BITS_IN_BYTE);
-#   else
-        print_failed();
-#   endif
-
-#   if defined(BITS_IN_U8)
-        printf("        defined: BITS_IN_U8  : %d\n", BITS_IN_U8);
-#   else
-        print_failed();
-#   endif
-
-#   if defined(BITS_IN_U16)
-        printf("        defined: BITS_IN_U16 : %d\n", BITS_IN_U16);
-#   else
-        print_failed();
-#   endif
-
-#   if defined(BITS_IN_U32)
-        printf("        defined: BITS_IN_U32 : %d\n", BITS_IN_U32);
-#   else
-        print_failed();
-#   endif
-
-#   if defined(BITS_IN_I8)
-        printf("        defined: BITS_IN_I8  : %d\n", BITS_IN_I8);
-#   else
-        print_failed();
-#   endif
-
-#   if defined(BITS_IN_I16)
-        printf("        defined: BITS_IN_I16 : %d\n", BITS_IN_I16);
-#   else
-        print_failed();
-#   endif
-
-#   if defined(BITS_IN_I32)
-        printf("        defined: BITS_IN_I32 : %d\n", BITS_IN_I32);
-#   else
-        print_failed();
-#   endif
-
-#   if defined(U8_MIN)
-        printf("        defined: U8_MIN      : %d\n", U8_MIN);
-#   else
-        print_failed();
-#   endif
-
-#   if defined(U16_MIN)
-        printf("        defined: U16_MIN     : %d\n", U16_MIN);
-#   else
-        print_failed();
-#   endif
-
-#   if defined(U32_MIN)
-        printf("        defined: U32_MIN     : %d\n", U32_MIN);
-#   else
-        print_failed();
-#   endif
-
-#   if defined(U8_MAX)
-        printf("        defined: U8_MAX      : %d\n", U8_MAX);
-#   else
-        print_failed();
-#   endif
-
-#   if defined(U16_MAX)
-        printf("        defined: U16_MAX     : %d\n", U16_MAX);
-#   else
-        print_failed();
-#   endif
-
-#   if defined(U32_MAX)
-        printf("        defined: U32_MAX     : %u\n", U32_MAX);
-#   else
-        print_failed();
-#   endif
-
-#   if defined(I8_MIN)
-        printf("        defined: I8_MIN      : %d\n", I8_MIN);
-#   else
-        print_failed();
-#   endif
-
-#   if defined(I16_MIN)
-        printf("        defined: I16_MIN     : %d\n", I16_MIN);
-#   else
-        print_failed();
-#   endif
-
-#   if defined(I32_MIN)
-        printf("        defined: I32_MIN     : %d\n", I32_MIN);
-#   else
-        print_failed();
-#   endif
-
-#   if defined(I8_MAX)
-        printf("        defined: I8_MAX      : %d\n", I8_MAX);
-#   else
-        print_failed();
-#   endif
-
-#   if defined(I16_MAX)
-        printf("        defined: I16_MAX     : %d\n", I16_MAX);
-#   else
-        print_failed();
-#   endif
-
-#   if defined(I32_MAX)
-        printf("        defined: I32_MAX     : %d\n", I32_MAX);
-#   else
-        print_failed();
-#   endif
+    test_types_defines();
 
     print_passed();
 }
