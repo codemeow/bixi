@@ -18,6 +18,7 @@
 *  You should have received a copy of the GNU Lesser General Public License
 *  along with Project "Bixi". If not, see <http://www.gnu.org/licenses/>.
 */
+
 #define _GNU_SOURCE 1
 #include <stdio.h>
 #include <time.h>
@@ -40,27 +41,6 @@
 
 #endif
 
-static struct timespec time_s = { 0, 0 };
-static struct timespec time_f = { 0, 0 };
-static double time_diff = 0.0;
-
-static void test_time_start(void)
-{
-    clock_gettime(CLOCK_MONOTONIC, &time_s);
-}
-
-static void test_time_finish(void)
-{
-    double time_n_s;
-    double time_n_f;
-
-    clock_gettime(CLOCK_MONOTONIC, &time_f);
-    time_n_s = time_s.tv_nsec + time_s.tv_sec * (f64)1e9;
-    time_n_f = time_f.tv_nsec + time_f.tv_sec * (f64)1e9;
-
-    time_diff = time_n_f - time_n_s;
-}
-
 static void test_time_bxi_nsleep_set(void)
 {
 #   if defined(BXI_OS_GLX) || defined(BXI_OS_MNX)
@@ -74,17 +54,23 @@ static void test_time_bxi_nsleep(void)
     printf("        checking: bxi_nsleep\n");
 
     test_time_start();
-    bxi_nsleep(100);
+    {
+        bxi_nsleep(100);
+    }
     test_time_finish();
     printf(TEST_FMT_SLEEP_TEMPLATE, 100.0, time_diff);
 
     test_time_start();
-    bxi_nsleep(5000);
+    {
+        bxi_nsleep(5000);
+    }
     test_time_finish();
     printf(TEST_FMT_SLEEP_TEMPLATE, 5000.0, time_diff);
 
     test_time_start();
-    bxi_nsleep(100000);
+    {
+        bxi_nsleep(100000);
+    }
     test_time_finish();
     printf(TEST_FMT_SLEEP_TEMPLATE, 100000.0, time_diff);
 }
@@ -94,17 +80,23 @@ static void test_time_bxi_usleep(void)
     printf("        checking: bxi_usleep\n");
 
     test_time_start();
-    bxi_usleep(100);
+    {
+        bxi_usleep(100);
+    }
     test_time_finish();
     printf(TEST_FMT_SLEEP_TEMPLATE, 100.0, time_diff / BXI_NSEC_IN_USEC);
 
     test_time_start();
-    bxi_usleep(5000);
+    {
+        bxi_usleep(5000);
+    }
     test_time_finish();
     printf(TEST_FMT_SLEEP_TEMPLATE, 5000.0, time_diff / BXI_NSEC_IN_USEC);
 
     test_time_start();
-    bxi_usleep(100000);
+    {
+        bxi_usleep(100000);
+    }
     test_time_finish();
     printf(TEST_FMT_SLEEP_TEMPLATE, 100000.0, time_diff / BXI_NSEC_IN_USEC);
 }
@@ -114,17 +106,23 @@ static void test_time_bxi_msleep(void)
     printf("        checking: bxi_msleep\n");
 
     test_time_start();
-    bxi_msleep(10);
+    {
+        bxi_msleep(10);
+    }
     test_time_finish();
     printf(TEST_FMT_SLEEP_TEMPLATE, 10.0, time_diff / BXI_NSEC_IN_MSEC);
 
     test_time_start();
-    bxi_msleep(500);
+    {
+        bxi_msleep(500);
+    }
     test_time_finish();
     printf(TEST_FMT_SLEEP_TEMPLATE, 500.0, time_diff / BXI_NSEC_IN_MSEC);
 
     test_time_start();
-    bxi_msleep(1000);
+    {
+        bxi_msleep(1000);
+    }
     test_time_finish();
     printf(TEST_FMT_SLEEP_TEMPLATE, 1000.0, time_diff / BXI_NSEC_IN_MSEC);
 }
@@ -134,19 +132,25 @@ static void test_time_bxi_sleep(void)
     printf("        checking: bxi_sleep\n");
 
     test_time_start();
-    bxi_sleep(1);
+    {
+        bxi_sleep(1);
+    }
     test_time_finish();
     printf(TEST_FMT_SLEEP_TEMPLATE, 1.0, time_diff / BXI_NSEC_IN_SEC);
 
     test_time_start();
-    bxi_sleep(2);
+    {
+        bxi_sleep(2);
+    }
     test_time_finish();
     printf(TEST_FMT_SLEEP_TEMPLATE, 2.0, time_diff / BXI_NSEC_IN_SEC);
 
     test_time_start();
-    bxi_sleep(3);
+    {
+        bxi_sleep(5);
+    }
     test_time_finish();
-    printf(TEST_FMT_SLEEP_TEMPLATE, 3.0, time_diff / BXI_NSEC_IN_SEC);
+    printf(TEST_FMT_SLEEP_TEMPLATE, 5.0, time_diff / BXI_NSEC_IN_SEC);
 }
 
 static void test_time_bxi_fsleep(void)
@@ -154,17 +158,23 @@ static void test_time_bxi_fsleep(void)
     printf("        checking: bxi_fsleep\n");
 
     test_time_start();
-    bxi_fsleep(0.01);
+    {
+        bxi_fsleep(0.01);
+    }
     test_time_finish();
     printf(TEST_FMT_SLEEP_TEMPLATE, 0.01, time_diff / BXI_NSEC_IN_SEC);
 
     test_time_start();
-    bxi_fsleep(1.5);
+    {
+        bxi_fsleep(1.5);
+    }
     test_time_finish();
     printf(TEST_FMT_SLEEP_TEMPLATE, 1.5, time_diff / BXI_NSEC_IN_SEC);
 
     test_time_start();
-    bxi_fsleep(1.01);
+    {
+        bxi_fsleep(1.01);
+    }
     test_time_finish();
     printf(TEST_FMT_SLEEP_TEMPLATE, 1.01, time_diff / BXI_NSEC_IN_SEC);
 }

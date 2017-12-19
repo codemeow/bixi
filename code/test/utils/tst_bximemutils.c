@@ -70,91 +70,106 @@ static void * my_realloc(void * ptr, u32 size, const char * file, u32 line)
 
 static void check_memset_speed(void)
 {
-    TEST_SPEED_INIT;
-
     u8  data[TEST_SPEED_SIZE];
     u32 i;
+    double sum_org = 0;
+    double sum_new = 0;
 
-    TEST_SPEED_START;
-    for (i = 0; i < TEST_SPEED_LOOPS; i++)
+    test_time_start();
     {
-        memset(data, 0xFF, TEST_SPEED_SIZE);
-        sum_org += data[42];
+        for (i = 0; i < TEST_SPEED_LOOPS; i++)
+        {
+            memset(data, 0xFF, TEST_SPEED_SIZE);
+            sum_org += data[42];
+        }
     }
-    TEST_SPEED_STOP;
-    TEST_SPEED_SAY("    memset");
+    test_time_finish();
+    test_time_print("memset");
 
-    TEST_SPEED_START;
-    for (i = 0; i < TEST_SPEED_LOOPS; i++)
+    test_time_start();
     {
-        bxi_memset(data, 0xFF, TEST_SPEED_SIZE);
-        sum_new += data[42];
+        for (i = 0; i < TEST_SPEED_LOOPS; i++)
+        {
+            bxi_memset(data, 0xFF, TEST_SPEED_SIZE);
+            sum_new += data[42];
+        }
     }
-    TEST_SPEED_STOP;
-    TEST_SPEED_SAY("bxi_memset");
+    test_time_finish();
+    test_time_print("bxi_memset");
 
-    TEST_SPEED_CHECK;
+    if (sum_org != sum_new)
+        test_failed();
 }
 
 static void check_memfrob_speed(void)
 {
-    TEST_SPEED_INIT;
-
     u8  data[TEST_SPEED_SIZE] = { 0 };
     u32 i;
+    double sum_org = 0;
+    double sum_new = 0;
 
-    TEST_SPEED_START;
-    for (i = 0; i < TEST_SPEED_LOOPS; i++)
+    test_time_start();
     {
-        memfrob(data, TEST_SPEED_SIZE);
-        sum_org += data[42];
+        for (i = 0; i < TEST_SPEED_LOOPS; i++)
+        {
+            memfrob(data, TEST_SPEED_SIZE);
+            sum_org += data[42];
+        }
     }
-    TEST_SPEED_STOP;
-    TEST_SPEED_SAY("    memfrob");
+    test_time_finish();
+    test_time_print("memfrob");
 
     bxi_memset(data, 0, TEST_SPEED_SIZE);
-    TEST_SPEED_START;
-    for (i = 0; i < TEST_SPEED_LOOPS; i++)
+    test_time_start();
     {
-        bxi_memfrob(data, 42, TEST_SPEED_SIZE);
-        sum_new += data[42];
+        for (i = 0; i < TEST_SPEED_LOOPS; i++)
+        {
+            bxi_memfrob(data, 42, TEST_SPEED_SIZE);
+            sum_new += data[42];
+        }
     }
-    TEST_SPEED_STOP;
-    TEST_SPEED_SAY("bxi_memfrob");
+    test_time_finish();
+    test_time_print("bxi_memfrob");
 
-    TEST_SPEED_CHECK;
+    if (sum_org != sum_new)
+        test_failed();
 }
 
 static void check_memmove_speed()
 {
-    TEST_SPEED_INIT;
-
     u8 data[TEST_SPEED_SIZE];
     u32 i;
+    double sum_org = 0;
+    double sum_new = 0;
 
     bxi_memset(data, 0x42, TEST_SPEED_SIZE);
-    TEST_SPEED_START;
-    for (i = 0; i < TEST_SPEED_LOOPS; i++)
+    test_time_start();
     {
-        memmove(data, data + (i % TEST_SPEED_SIZE),
-                TEST_SPEED_SIZE - (i % TEST_SPEED_SIZE));
-        sum_org += data[42];
-    }
-    TEST_SPEED_STOP;
-    TEST_SPEED_SAY("    memmove");
-
-    bxi_memset(data, 0x42, TEST_SPEED_SIZE);
-    TEST_SPEED_START;
-    for (i = 0; i < TEST_SPEED_LOOPS; i++)
-    {
-        bxi_memmove(data, data + (i % TEST_SPEED_SIZE),
+        for (i = 0; i < TEST_SPEED_LOOPS; i++)
+        {
+            memmove(data, data + (i % TEST_SPEED_SIZE),
                     TEST_SPEED_SIZE - (i % TEST_SPEED_SIZE));
-        sum_new += data[42];
+            sum_org += data[42];
+        }
     }
-    TEST_SPEED_STOP;
-    TEST_SPEED_SAY("bxi_memmove");
+    test_time_finish();
+    test_time_print("memmove");
 
-    TEST_SPEED_CHECK;
+    bxi_memset(data, 0x42, TEST_SPEED_SIZE);
+    test_time_start();
+    {
+        for (i = 0; i < TEST_SPEED_LOOPS; i++)
+        {
+            bxi_memmove(data, data + (i % TEST_SPEED_SIZE),
+                        TEST_SPEED_SIZE - (i % TEST_SPEED_SIZE));
+            sum_new += data[42];
+        }
+    }
+    test_time_finish();
+    test_time_print("bxi_memmove");
+
+    if (sum_org != sum_new)
+        test_failed();
 }
 
 static void check_memcmp_advance()
@@ -164,11 +179,11 @@ static void check_memcmp_advance()
     u8 eth2[10] = { 0x10, 0x20, 0x30, 0x40, 0x50, 0x60, 0x70, 0x80, 0x90, 0xa0 };
 
     if (bxi_memcmp(data, eth2, 10))
-        print_failed();
+        test_failed();
     if (!bxi_memcmp(data, eth1, 10))
-        print_failed();
+        test_failed();
     if (bxi_memcmp(data, eth1 + 1, 9))
-        print_failed();
+        test_failed();
 }
 
 static void check_memmove_advance()
@@ -179,76 +194,86 @@ static void check_memmove_advance()
 
     bxi_memmove(data, data + 3, 6);
     if (memcmp(data, eth1, 10))
-        print_failed();
+        test_failed();
 
     bxi_memmove(data + 3, data, 6);
     if (memcmp(data, eth2, 10))
-        print_failed();
+        test_failed();
 }
 
 static void check_memcpy_speed()
 {
-    TEST_SPEED_INIT;
-
     u8 data[TEST_SPEED_SIZE];
     u8 src [TEST_SPEED_SIZE];
     u32 i;
+    double sum_org = 0;
+    double sum_new = 0;
 
     bxi_memset(data, 0x42, TEST_SPEED_SIZE);
     bxi_memset(src, 0x12, TEST_SPEED_SIZE);
-    TEST_SPEED_START;
-    for (i = 0; i < TEST_SPEED_LOOPS; i++)
+    test_time_start();
     {
-        memcpy(data, src + (i % TEST_SPEED_SIZE),
-                TEST_SPEED_SIZE - (i % TEST_SPEED_SIZE));
-        sum_org += data[42];
+        for (i = 0; i < TEST_SPEED_LOOPS; i++)
+        {
+            memcpy(data, src + (i % TEST_SPEED_SIZE),
+                   TEST_SPEED_SIZE - (i % TEST_SPEED_SIZE));
+            sum_org += data[42];
+        }
     }
-    TEST_SPEED_STOP;
-    TEST_SPEED_SAY("    memcpy");
+    test_time_finish();
+    test_time_print("memcpy");
 
     bxi_memset(data, 0x42, TEST_SPEED_SIZE);
-    TEST_SPEED_START;
-    for (i = 0; i < TEST_SPEED_LOOPS; i++)
+    test_time_start();
     {
-        bxi_memcpy(data, src + (i % TEST_SPEED_SIZE),
-                TEST_SPEED_SIZE - (i % TEST_SPEED_SIZE));
-        sum_new += data[42];
+        for (i = 0; i < TEST_SPEED_LOOPS; i++)
+        {
+            bxi_memcpy(data, src + (i % TEST_SPEED_SIZE),
+                       TEST_SPEED_SIZE - (i % TEST_SPEED_SIZE));
+            sum_new += data[42];
+        }
     }
-    TEST_SPEED_STOP;
-    TEST_SPEED_SAY("bxi_memcpy");
+    test_time_finish();
+    test_time_print("bxi_memcpy");
 
-    TEST_SPEED_CHECK;
+    if (sum_org != sum_new)
+        test_failed();
 }
 
 static void check_memcmp_speed()
 {
-    TEST_SPEED_INIT;
-
     u8 data[TEST_SPEED_SIZE*100];
     u8 src [TEST_SPEED_SIZE*100];
     u32 i;
+    double sum_org = 0;
+    double sum_new = 0;
 
     bxi_memset(data, 0x42, TEST_SPEED_SIZE*10);
     bxi_memset(src, 0x42, TEST_SPEED_SIZE*10);
-    TEST_SPEED_START;
-    for (i = 0; i < TEST_SPEED_LOOPS; i++)
+    test_time_start();
     {
-        if (memcmp(data, src,TEST_SPEED_SIZE*10 - (i % (TEST_SPEED_SIZE*10))))
-            sum_org++;
+        for (i = 0; i < TEST_SPEED_LOOPS; i++)
+        {
+            if (memcmp(data, src,TEST_SPEED_SIZE*10 - (i % (TEST_SPEED_SIZE*10))))
+                sum_org++;
+        }
     }
-    TEST_SPEED_STOP;
-    TEST_SPEED_SAY("    memcmp");
+    test_time_finish();
+    test_time_print("memcmp");
 
-    TEST_SPEED_START;
-    for (i = 0; i < TEST_SPEED_LOOPS; i++)
+    test_time_start();
     {
-        if (bxi_memcmp(data, src,(TEST_SPEED_SIZE*10) - (i % (TEST_SPEED_SIZE*10))))
-            sum_new++;
+        for (i = 0; i < TEST_SPEED_LOOPS; i++)
+        {
+            if (bxi_memcmp(data, src,(TEST_SPEED_SIZE*10) - (i % (TEST_SPEED_SIZE*10))))
+                sum_new++;
+        }
     }
-    TEST_SPEED_STOP;
-    TEST_SPEED_SAY("bxi_memcmp");
+    test_time_finish();
+    test_time_print("bxi_memcmp");
 
-    TEST_SPEED_CHECK;
+    if (sum_org != sum_new)
+        test_failed();
 }
 
 static void check_memcpy_advance()
@@ -261,11 +286,11 @@ static void check_memcpy_advance()
 
     bxi_memcpy(data + 3, src1 + 2, 7);
     if (memcmp(data, eth1, 10))
-        print_failed();
+        test_failed();
 
     bxi_memcpy(data, src2 + 1, 5);
     if (memcmp(data, eth2, 10))
-        print_failed();
+        test_failed();
 }
 
 static void * system_memset16(void * ptr, i32 val, u32 cnt)
@@ -273,7 +298,7 @@ static void * system_memset16(void * ptr, i32 val, u32 cnt)
     u32 bs   = 1;
 
     if (!cnt)
-       return ptr;
+        return ptr;
 
     memcpy(ptr, &val, 2);
 
@@ -300,7 +325,7 @@ static void * system_memset32(void * ptr, i32 val, u32 cnt)
     u32 bs = 1;
 
     if (!cnt)
-       return ptr;
+        return ptr;
 
     memcpy(ptr, &val, 4);
 
@@ -323,34 +348,39 @@ static void * system_memset32(void * ptr, i32 val, u32 cnt)
 
 static void check_memset16_speed()
 {
-    TEST_SPEED_INIT;
-
     u8 data[TEST_SPEED_SIZE];
     u32 i;
+    double sum_org = 0;
+    double sum_new = 0;
 
     bxi_memset(data, 0x42, TEST_SPEED_SIZE);
-    TEST_SPEED_START;
-    for (i = 0; i < TEST_SPEED_LOOPS; i++)
+    test_time_start();
     {
-        system_memset16(data, i,
-                   (TEST_SPEED_SIZE - (i % TEST_SPEED_SIZE)) / 2);
-        sum_org += data[42];
+        for (i = 0; i < TEST_SPEED_LOOPS; i++)
+        {
+            system_memset16(data, i,
+                            (TEST_SPEED_SIZE - (i % TEST_SPEED_SIZE)) / 2);
+            sum_org += data[42];
+        }
     }
-    TEST_SPEED_STOP;
-    TEST_SPEED_SAY("    memset16");
+    test_time_finish();
+    test_time_print("memset16");
 
     bxi_memset(data, 0x42, TEST_SPEED_SIZE);
-    TEST_SPEED_START;
-    for (i = 0; i < TEST_SPEED_LOOPS; i++)
+    test_time_start();
     {
-        bxi_memset16(data, i,
-                   (TEST_SPEED_SIZE - (i % TEST_SPEED_SIZE)) / 2);
-        sum_new += data[42];
+        for (i = 0; i < TEST_SPEED_LOOPS; i++)
+        {
+            bxi_memset16(data, i,
+                         (TEST_SPEED_SIZE - (i % TEST_SPEED_SIZE)) / 2);
+            sum_new += data[42];
+        }
     }
-    TEST_SPEED_STOP;
-    TEST_SPEED_SAY("bxi_memset16");
+    test_time_finish();
+    test_time_print("bxi_memset16");
 
-    TEST_SPEED_CHECK;
+    if (sum_org != sum_new)
+        test_failed();
 }
 
 static void check_memset16_advance()
@@ -361,41 +391,46 @@ static void check_memset16_advance()
 
     for (i = 1; i < TEST_ADVANCE_MEM16_SIZE - 1; i++)
         if (data[i] != ((i % 2) ? 0x20 : 0x10))
-            print_failed();
+            test_failed();
     if ((data[0] != 0) || (data[TEST_ADVANCE_MEM16_SIZE - 1] != 0))
-            print_failed();
+        test_failed();
 }
 
 static void check_memset32_speed()
 {
-    TEST_SPEED_INIT;
-
     u8 data[TEST_SPEED_SIZE];
     u32 i;
+    double sum_org = 0;
+    double sum_new = 0;
 
     bxi_memset(data, 0x42, TEST_SPEED_SIZE);
-    TEST_SPEED_START;
-    for (i = 0; i < TEST_SPEED_LOOPS; i++)
+    test_time_start();
     {
-        system_memset32(data, i,
-                   (TEST_SPEED_SIZE - (i % TEST_SPEED_SIZE)) / 4);
-        sum_org += data[42];
+        for (i = 0; i < TEST_SPEED_LOOPS; i++)
+        {
+            system_memset32(data, i,
+                            (TEST_SPEED_SIZE - (i % TEST_SPEED_SIZE)) / 4);
+            sum_org += data[42];
+        }
     }
-    TEST_SPEED_STOP;
-    TEST_SPEED_SAY("    memset32");
+    test_time_finish();
+    test_time_print("memset32");
 
     bxi_memset(data, 0x42, TEST_SPEED_SIZE);
-    TEST_SPEED_START;
-    for (i = 0; i < TEST_SPEED_LOOPS; i++)
+    test_time_start();
     {
-        bxi_memset32(data, i,
-                   (TEST_SPEED_SIZE - (i % TEST_SPEED_SIZE)) / 4);
-        sum_new += data[42];
+        for (i = 0; i < TEST_SPEED_LOOPS; i++)
+        {
+            bxi_memset32(data, i,
+                         (TEST_SPEED_SIZE - (i % TEST_SPEED_SIZE)) / 4);
+            sum_new += data[42];
+        }
     }
-    TEST_SPEED_STOP;
-    TEST_SPEED_SAY("bxi_memset32");
+    test_time_finish();
+    test_time_print("bxi_memset32");
 
-    TEST_SPEED_CHECK;
+    if (sum_org != sum_new)
+        test_failed();
 }
 
 static void check_memset32_advance()
@@ -408,10 +443,10 @@ static void check_memset32_advance()
         if (data[i] != (i % 4 == 1 ? 0x40 :
                         i % 4 == 2 ? 0x30 :
                         i % 4 == 3 ? 0x20 :
-                                     0x10))
-            print_failed();
+                        0x10))
+            test_failed();
     if ((data[0] != 0) || (data[TEST_ADVANCE_MEM32_SIZE - 1] != 0))
-            print_failed();
+        test_failed();
 }
 
 void test_utils_bximemutils(void)
@@ -425,15 +460,15 @@ void test_utils_bximemutils(void)
 
     printf("    defines:\n");
 #   if defined(BXI_MEM_NONE)
-        printf("        defined: BX_MEM_NONE: 0x%06x\n", BXI_MEM_NONE);
+    printf("        defined: BX_MEM_NONE: 0x%06x\n", BXI_MEM_NONE);
 #   else
-        print_failed();
+    test_failed();
 #   endif
 
 #   if defined(BXI_MEM_ZERO)
-        printf("        defined: BX_MEM_ZERO: 0x%06x\n", BXI_MEM_ZERO);
+    printf("        defined: BX_MEM_ZERO: 0x%06x\n", BXI_MEM_ZERO);
 #   else
-        print_failed();
+    test_failed();
 #   endif
 
     printf("    functions:\n");
@@ -448,17 +483,17 @@ void test_utils_bximemutils(void)
 
     printf("        checking: bxi_malloc\n");
 #   if defined(bxi_malloc)
-        data = bxi_malloc(10);
-        if (!data)
-            print_failed();
-        else
-        {
-            data[0] = 0x12;
-            if (data[0] != 0x12)
-                print_failed();
-        }
+    data = bxi_malloc(10);
+    if (!data)
+        test_failed();
+    else
+    {
+        data[0] = 0x12;
+        if (data[0] != 0x12)
+            test_failed();
+    }
 #   else
-        print_failed();
+    test_failed();
 #   endif
 
     printf("        checking: bxi_realloc_set\n");
@@ -466,16 +501,16 @@ void test_utils_bximemutils(void)
 
     printf("        checking: bxi_realloc\n");
 #   if defined(bxi_realloc)
-        data = bxi_realloc(data, 15);
-        if (!data)
-            print_failed();
-        else
-        {
-            if (data[0] != 0x12)
-                print_failed();
-        }
+    data = bxi_realloc(data, 15);
+    if (!data)
+        test_failed();
+    else
+    {
+        if (data[0] != 0x12)
+            test_failed();
+    }
 #   else
-        print_failed();
+    test_failed();
 #   endif
 
     printf("        checking: bxi_free_set\n");
@@ -483,9 +518,9 @@ void test_utils_bximemutils(void)
 
     printf("        checking: bxi_free\n");
 #   if defined(bxi_free)
-        bxi_free(data);
+    bxi_free(data);
 #   else
-        print_failed();
+    test_failed();
 #   endif
 
     printf("        checking: bxi_memset\n");
@@ -494,7 +529,7 @@ void test_utils_bximemutils(void)
     for (i = 0; i < 10; i++)
     {
         if (data[i] != 0x12)
-            print_failed();
+            test_failed();
     }
     check_memset_speed();
 
@@ -503,7 +538,7 @@ void test_utils_bximemutils(void)
     for (i = 0; i < 10; i++)
     {
         if (data[i] != test[i])
-            print_failed();
+            test_failed();
     }
     check_memcpy_advance();
     check_memcpy_speed();
@@ -513,34 +548,34 @@ void test_utils_bximemutils(void)
     for (i = 0; i < 5; i++)
     {
         if (data[i] != test[i + 5])
-            print_failed();
+            test_failed();
     }
     check_memmove_advance();
     check_memmove_speed();
 
     printf("        checking: bxi_memcmp\n");
     if (bxi_memcmp(data, test+5, 5))
-        print_failed();
+        test_failed();
     check_memcmp_advance();
     check_memcmp_speed();
 
     printf("        checking: bxi_memfrob\n");
     bxi_memfrob(data, 0x42, 5);
     if ((data[0] != 0x55) ||
-        (data[1] != 0x5a) ||
-        (data[2] != 0x5b) ||
-        (data[3] != 0x58) ||
-        (data[4] != 0x59))
-        print_failed();
+            (data[1] != 0x5a) ||
+            (data[2] != 0x5b) ||
+            (data[3] != 0x58) ||
+            (data[4] != 0x59))
+        test_failed();
     check_memfrob_speed();
 
     printf("        checking: bxi_memchr\n");
     if (bxi_memchr(data, 0x58, 10) != data + 3)
-        print_failed();
+        test_failed();
 
     printf("        checking: bxi_memrchr\n");
     if (bxi_memrchr(data, 0x58, 10) != data + 3)
-        print_failed();
+        test_failed();
 
     printf("        checking: bxi_memset16\n");
     check_memset16_advance();

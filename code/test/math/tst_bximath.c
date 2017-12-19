@@ -31,26 +31,31 @@
 #define TEST_SPEED_SQRTI_LOOPS (U32_MAX >> 5)
 #define TEST_SPEED_FABS_LOOBS  (U32_MAX >> 3)
 
-/* @todo re do tests */
-
 static void test_math_bxi_sqrti(void)
 {
     u32 i;
-    TEST_SPEED_INIT;
+    double sum_org = 0;
+    double sum_new = 0;
 
     printf("        checking: bxi_sqrti\n");
 
-    TEST_SPEED_START;
-    for (i = 0; i < TEST_SPEED_SQRTI_LOOPS; i ++)
-        sum_org += round(sqrt(i));
-    TEST_SPEED_STOP;
-    TEST_SPEED_SAY("     sqrt");
+    test_time_start();
+    {
+        for (i = 0; i < TEST_SPEED_SQRTI_LOOPS; i ++)
+            sum_org += round(sqrt(i));
 
-    TEST_SPEED_START;
-    for (i = 0; i < TEST_SPEED_SQRTI_LOOPS; i ++)
-        sum_new += bxi_sqrti(i);
-    TEST_SPEED_STOP;
-    TEST_SPEED_SAY("bxi_sqrti");
+    }
+    test_time_finish();
+    test_time_print("sqrt");
+
+    test_time_start();
+    {
+        for (i = 0; i < TEST_SPEED_SQRTI_LOOPS; i ++)
+            sum_new += bxi_sqrti(i);
+    }
+    test_time_finish();
+    test_time_print("bxi_sqrti");
+
 
     printf("                precision: %8.5f%%\n",
            100 - ((sum_new - sum_org) * 100 / sum_org));
@@ -72,32 +77,40 @@ static void check_fabs_advanced(void)
 
 static void check_fabs_speed(void)
 {
-    TEST_SPEED_INIT;
     u32 i;
     double iterator = 1.1;
     double value    = 0.0;
-    TEST_SPEED_START;
-    for (i = 0; i < TEST_SPEED_FABS_LOOBS; i++)
+    double sum_org   = 0;
+    double sum_new   = 0;
+
+    test_time_start();
     {
-        iterator *= -1.5;
-        value    += iterator;
-        sum_org  += fabs(i - 50.0);
+        for (i = 0; i < TEST_SPEED_FABS_LOOBS; i++)
+        {
+            iterator *= -1.5;
+            value    += iterator;
+            sum_org  += fabs(i - 50.0);
+        }
     }
-    TEST_SPEED_STOP;
-    TEST_SPEED_SAY("    fabs");
+    test_time_finish();
+    test_time_print("fabs");
 
     iterator = 1.1;
     value    = 0.0;
-    TEST_SPEED_START;
-    for (i = 0; i < TEST_SPEED_FABS_LOOBS; i++)
+    test_time_start();
     {
-        iterator *= -1.5;
-        value    += iterator;
-        sum_new  += bxi_fabs(i - 50.0);
+        for (i = 0; i < TEST_SPEED_FABS_LOOBS; i++)
+        {
+            iterator *= -1.5;
+            value    += iterator;
+            sum_new  += bxi_fabs(i - 50.0);
+        }
     }
-    TEST_SPEED_STOP;
-    TEST_SPEED_SAY("bxi_fabs");
-    TEST_SPEED_CHECK;
+    test_time_finish();
+    test_time_print("bxi_fabs");
+
+    if (sum_org != sum_new)
+        test_failed();
 }
 
 static void test_math_bxi_fabs(void)
@@ -192,31 +205,37 @@ static void check_cos_advanced(void)
 #define TEST_SIN_INCREMENT (0.00000001)
 #define TEST_SIN_START     (0.0)
 #define TEST_SIN_STOP      (1.0)
+
 static void check_sin_speed(void)
 {
-    TEST_SPEED_INIT;
+    double sum_org   = 0;
+    double sum_new   = 0;
     double increment = TEST_SIN_INCREMENT;
     double valx      = TEST_SIN_START;
 
-    TEST_SPEED_START;
-    while (valx < TEST_SIN_STOP)
+    test_time_start();
     {
-        sum_org += sin(valx);
-        valx += increment;
+        while (valx < TEST_SIN_STOP)
+        {
+            sum_org += sin(valx);
+            valx += increment;
+        }
     }
-    TEST_SPEED_STOP;
-    TEST_SPEED_SAY("     sin");
+    test_time_finish();
+    test_time_print("sin");
 
     increment = TEST_SIN_INCREMENT;
     valx      = TEST_SIN_START;
-    TEST_SPEED_START;
-    while (valx < TEST_SIN_STOP)
+    test_time_start();
     {
-        sum_new += bxi_fsin(valx);
-        valx += increment;
+        while (valx < TEST_SIN_STOP)
+        {
+            sum_new += bxi_fsin(valx);
+            valx += increment;
+        }
     }
-    TEST_SPEED_STOP;
-    TEST_SPEED_SAY("bxi_fsin");
+    test_time_finish();
+    test_time_print("bxi_fsin");
 
     printf("            comp     : %10.2f vs %10.2f\n",
            sum_org, sum_new);
@@ -227,29 +246,34 @@ static void check_sin_speed(void)
 #define TEST_COS_STOP      (1.0)
 static void check_cos_speed(void)
 {
-    TEST_SPEED_INIT;
     double increment = TEST_COS_INCREMENT;
     double valx      = TEST_COS_START;
+    double sum_org   = 0;
+    double sum_new   = 0;
 
-    TEST_SPEED_START;
-    while (valx < TEST_COS_STOP)
+    test_time_start();
     {
-        sum_org += cos(valx);
-        valx += increment;
+        while (valx < TEST_COS_STOP)
+        {
+            sum_org += cos(valx);
+            valx += increment;
+        }
     }
-    TEST_SPEED_STOP;
-    TEST_SPEED_SAY("     cos");
+    test_time_finish();
+    test_time_print("cos");
 
     increment = TEST_COS_INCREMENT;
     valx      = TEST_COS_START;
-    TEST_SPEED_START;
-    while (valx < TEST_COS_STOP)
+    test_time_start();
     {
-        sum_new += bxi_fcos(valx);
-        valx += increment;
+        while (valx < TEST_COS_STOP)
+        {
+            sum_new += bxi_fcos(valx);
+            valx += increment;
+        }
     }
-    TEST_SPEED_STOP;
-    TEST_SPEED_SAY("bxi_fcos");
+    test_time_finish();
+    test_time_print("bxi_cos");
 
     printf("            comp      : %10.2f vs %10.2f\n",
            sum_org, sum_new);

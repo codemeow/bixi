@@ -19,10 +19,16 @@
  *  along with Project "Bixi". If not, see <http://www.gnu.org/licenses/>.
  */
 
+#define _GNU_SOURCE 1
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 #include "test.h"
+
+struct timespec time_s = { 0, 0 };
+struct timespec time_f = { 0, 0 };
+double time_diff = 0.0;
 
 void print_macro_failed(const char * file, i32 line)
 {
@@ -82,8 +88,25 @@ void test_failed_call(const char * file, i32 line)
     exit(1);
 }
 
-void print_failed(void)
+void test_time_start(void)
 {
-    printf("\033[1;31mFAILED\033[0m\n\n");
-    exit(1);
+    clock_gettime(CLOCK_MONOTONIC, &time_s);
+}
+
+void test_time_finish(void)
+{
+    double time_n_s;
+    double time_n_f;
+
+    clock_gettime(CLOCK_MONOTONIC, &time_f);
+    time_n_s = time_s.tv_nsec + time_s.tv_sec * (f64)1e9;
+    time_n_f = time_f.tv_nsec + time_f.tv_sec * (f64)1e9;
+
+    time_diff = time_n_f - time_n_s;
+}
+
+void test_time_print(const char * text)
+{
+    printf("            speedtest: %12s: %8.5f\n", text,
+           time_diff / BXI_NSEC_IN_SEC);
 }

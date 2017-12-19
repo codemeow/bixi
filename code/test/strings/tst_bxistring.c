@@ -241,10 +241,19 @@ static void test_strings_functions(void)
     test_strings_bxi_strdup();
 }
 
+static void test_strings_defines(void)
+{
+    printf("    defines\n");
+
+    TEST_BXI_MACRO_U32(BXI_ASCII_MAX);
+    TEST_BXI_MACRO_U32(BXI_ASCII_COUNT);
+}
+
 void test_strings_bxistring(void)
 {
     print_info;
 
+    test_strings_defines();
     test_strings_functions();
 
     print_passed();

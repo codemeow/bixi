@@ -51,6 +51,10 @@
 #include "./utils/tst_bxibitutils.h"
 #include "./utils/tst_bximemutils.h"
 
+extern struct timespec time_s;
+extern struct timespec time_f;
+extern double time_diff;
+
 #define TEST_BXI_TYPE_SIZE(type, size)           \
     do                                           \
     {                                            \
@@ -178,26 +182,6 @@
 
 #define print_info  printf("\033[1;33m%s\033[0m\n", __FILE__)
 
-#define TEST_SPEED_INIT                \
-    struct timespec time_s = { 0, 0 }; \
-    struct timespec time_f = { 0, 0 }; \
-    double time_n_s = 0;               \
-    double time_n_f = 0;               \
-    double sum_org = 0;                \
-    double sum_new = 0
-#define TEST_SPEED_START               \
-    clock_gettime(CLOCK_MONOTONIC, &time_s)
-#define TEST_SPEED_STOP                \
-    clock_gettime(CLOCK_MONOTONIC, &time_f); \
-    time_n_s = time_s.tv_nsec + time_s.tv_sec * 1e9; \
-    time_n_f = time_f.tv_nsec + time_f.tv_sec * 1e9
-#define TEST_SPEED_SAY(name)           \
-    printf("            speedtest: %-12s: %8.5f\n", \
-        name, (time_n_f - time_n_s) / (f64)1e9)
-#define TEST_SPEED_CHECK    \
-    if (sum_org != sum_new) \
-        test_failed()
-
 void print_macro_name          (const char * name);
 void print_macro_defined       (void);
 void print_macro_undefined     (void);
@@ -212,7 +196,10 @@ void print_macro_failed        (const char * file, i32 line);
 void test_failed_call(const char * file, i32 line);
 
 void print_passed(void);
-void print_failed(void);
+
+void test_time_start(void);
+void test_time_finish(void);
+void test_time_print(const char * text);
 
 #endif /* TEST_H */
 

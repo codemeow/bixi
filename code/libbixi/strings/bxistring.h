@@ -43,7 +43,6 @@ EXPORT enum bxi_ascii_characters
     BXI_CHAR_DEL = (0x7F)
 };
 
-/* @test BXI_ASCII_MAX, BXI_ASCII_COUNT */
 EXPORT_FROM
 #define BXI_ASCII_MAX   (0xFF)
 #define BXI_ASCII_COUNT (BXI_ASCII_MAX + 1)
