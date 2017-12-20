@@ -30,15 +30,26 @@
 
 /* @todo good tests */
 
+static u8 * data = NULL;
+static u8   test[10] = { 0x12, 0x13, 0x14, 0x15, 0x16,
+                         0x17, 0x18, 0x19, 0x1a, 0x1b };
+
 #define TEST_SPEED_LOOPS (1000000)
 #define TEST_SPEED_SIZE  (5000)
 
 #define TEST_ADVANCE_MEM16_SIZE (50)
 #define TEST_ADVANCE_MEM32_SIZE (50)
 
-/* Not sure how to do it better */
+/* As Minix & FreeBSD doesn't have memfrob
+   We need to workaround it              */
 #if defined(BXI_OS_MNX) || defined(BXI_OS_FBS)
-#define memfrob(s, n) bxi_memfrob(s, 42, n)
+void * memfrob(void * s, size_t n)
+{
+    u8 * p8 = s;
+    while (n)
+        p8[n--] ^= 42;
+    return s;
+}
 #endif
 
 static void my_memerr(u32 req, const char * file, u32 line)
@@ -319,7 +330,6 @@ static void * system_memset16(void * ptr, i32 val, u32 cnt)
     return ptr;
 }
 
-
 static void * system_memset32(void * ptr, i32 val, u32 cnt)
 {
     u32 bs = 1;
@@ -449,39 +459,33 @@ static void check_memset32_advance()
         test_failed();
 }
 
-void test_utils_bximemutils(void)
+static void test_utils_defines(void)
 {
-    u8   test[10] = { 0x12, 0x13, 0x14, 0x15, 0x16,
-                      0x17, 0x18, 0x19, 0x1a, 0x1b };
-    u8 * data;
-    u32  i;
-
-    print_info;
-
     printf("    defines:\n");
-#   if defined(BXI_MEM_NONE)
-    printf("        defined: BX_MEM_NONE: 0x%06x\n", BXI_MEM_NONE);
-#   else
-    test_failed();
-#   endif
 
-#   if defined(BXI_MEM_ZERO)
-    printf("        defined: BX_MEM_ZERO: 0x%06x\n", BXI_MEM_ZERO);
-#   else
-    test_failed();
-#   endif
+    TEST_BXI_MACRO_U32(BXI_MEM_NONE);
+    TEST_BXI_MACRO_U32(BXI_MEM_ZERO);
+}
 
-    printf("    functions:\n");
+static void test_utils_test_bxi_memopt_set(void)
+{
     printf("        checking: bxi_memopt_set\n");
     bxi_memopt_set(BXI_MEM_ZERO);
+}
 
+static void test_utils_test_bxi_memerr_set(void)
+{
     printf("        checking: bxi_memerr_set\n");
     bxi_memerr_set(my_memerr);
+}
 
+static void test_utils_test_bxi_malloc_set(void)
+{
     printf("        checking: bxi_malloc_set\n");
     bxi_malloc_set(my_malloc);
 
     printf("        checking: bxi_malloc\n");
+
 #   if defined(bxi_malloc)
     data = bxi_malloc(10);
     if (!data)
@@ -495,7 +499,10 @@ void test_utils_bximemutils(void)
 #   else
     test_failed();
 #   endif
+}
 
+static void test_utils_test_bxi_realloc_set(void)
+{
     printf("        checking: bxi_realloc_set\n");
     bxi_realloc_set(my_realloc);
 
@@ -512,7 +519,10 @@ void test_utils_bximemutils(void)
 #   else
     test_failed();
 #   endif
+}
 
+static void test_utils_test_bxi_free_set(void)
+{
     printf("        checking: bxi_free_set\n");
     bxi_free_set(my_free);
 
@@ -522,7 +532,11 @@ void test_utils_bximemutils(void)
 #   else
     test_failed();
 #   endif
+}
 
+static void test_utils_test_bxi_memset(void)
+{
+    u32  i;
     printf("        checking: bxi_memset\n");
     data = bxi_malloc(10);
     bxi_memset(data, 0x12, 10);
@@ -532,7 +546,11 @@ void test_utils_bximemutils(void)
             test_failed();
     }
     check_memset_speed();
+}
 
+static void test_utils_test_bxi_memcpy(void)
+{
+    u32  i;
     printf("        checking: bxi_memcpy\n");
     bxi_memcpy(data, test, 10);
     for (i = 0; i < 10; i++)
@@ -542,7 +560,11 @@ void test_utils_bximemutils(void)
     }
     check_memcpy_advance();
     check_memcpy_speed();
+}
 
+static void test_utils_test_bxi_memmove(void)
+{
+    u32  i;
     printf("        checking: bxi_memmove\n");
     bxi_memmove(data, data + 5, 5);
     for (i = 0; i < 5; i++)
@@ -552,38 +574,86 @@ void test_utils_bximemutils(void)
     }
     check_memmove_advance();
     check_memmove_speed();
+}
 
+static void test_utils_test_bxi_memcmp(void)
+{
     printf("        checking: bxi_memcmp\n");
     if (bxi_memcmp(data, test+5, 5))
         test_failed();
     check_memcmp_advance();
     check_memcmp_speed();
+}
 
+static void test_utils_test_bxi_memfrob(void)
+{
     printf("        checking: bxi_memfrob\n");
     bxi_memfrob(data, 0x42, 5);
     if ((data[0] != 0x55) ||
-            (data[1] != 0x5a) ||
-            (data[2] != 0x5b) ||
-            (data[3] != 0x58) ||
-            (data[4] != 0x59))
+        (data[1] != 0x5a) ||
+        (data[2] != 0x5b) ||
+        (data[3] != 0x58) ||
+        (data[4] != 0x59))
         test_failed();
     check_memfrob_speed();
+}
 
+static void test_utils_test_bxi_memchr(void)
+{
     printf("        checking: bxi_memchr\n");
     if (bxi_memchr(data, 0x58, 10) != data + 3)
         test_failed();
+}
 
+static void test_utils_test_bxi_memrchr(void)
+{
     printf("        checking: bxi_memrchr\n");
     if (bxi_memrchr(data, 0x58, 10) != data + 3)
         test_failed();
+}
 
+static void test_utils_test_bxi_memset16(void)
+{
     printf("        checking: bxi_memset16\n");
     check_memset16_advance();
     check_memset16_speed();
+}
 
+static void test_utils_test_bxi_memset32(void)
+{
     printf("        checking: bxi_memset32\n");
     check_memset32_advance();
     check_memset32_speed();
+}
+
+static void test_utils_functions(void)
+{
+    printf("    functions:\n");
+
+    test_utils_test_bxi_memopt_set();
+    test_utils_test_bxi_memerr_set();
+    test_utils_test_bxi_malloc_set();
+    test_utils_test_bxi_realloc_set();
+    test_utils_test_bxi_free_set();
+
+    test_utils_test_bxi_memset();
+    test_utils_test_bxi_memcpy();
+    test_utils_test_bxi_memmove();
+    test_utils_test_bxi_memcmp();
+    test_utils_test_bxi_memfrob();
+    test_utils_test_bxi_memchr();
+    test_utils_test_bxi_memrchr();
+    test_utils_test_bxi_memset16();
+    test_utils_test_bxi_memset32();
+}
+
+void test_utils_bximemutils(void)
+{
+
+    print_info;
+
+    test_utils_defines();
+    test_utils_functions();
 
     print_passed();
 }
