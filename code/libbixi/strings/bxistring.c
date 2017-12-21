@@ -98,6 +98,7 @@ i32 bxi_strncmp(const char * str1, const char * str2, u32 n)
 {
     u8 c1, c2;
 
+    if (!n)             return 0;
     if (!str1 && !str2) return 0;
     if (!str1 &&  str2) return -(*str2);
     if ( str1 && !str2) return +(*str1);
@@ -519,12 +520,16 @@ char * bxi_strapp(char * dst, const char * src)
 
 char * bxi_strcat(char * dst, const char * src)
 {
+    u32 dst_l = 0;
+
     if (!dst)
         return NULL;
     if (!src)
         return dst;
 
-    return bxi_memcpy(dst + bxi_strlen(dst), src, bxi_strlen(src) + 1);
+    dst_l = bxi_strlen(dst);
+
+    return (char *)bxi_memcpy(dst + dst_l, src, bxi_strlen(src) + 1) - dst_l;
 }
 
 char * bxi_strncat(char * dst, const char * src, u32 n)

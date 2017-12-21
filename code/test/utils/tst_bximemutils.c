@@ -649,7 +649,6 @@ static void test_utils_functions(void)
 
 void test_utils_bximemutils(void)
 {
-
     print_info;
 
     test_utils_defines();

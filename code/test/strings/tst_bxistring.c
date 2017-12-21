@@ -26,14 +26,14 @@
 #include "../test.h"
 #include "../strings/tst_bxistring.h"
 
-static void test_strings_bxi_strhash(void)
+static void test_strings_test_bxi_strhash(void)
 {
     printf("        checking: bxi_strhash\n");
     if (bxi_strhash("FNV") != 0xf5cfe2b9)
         test_failed();
 }
 
-static void test_strings_bxi_strshiftl(void)
+static void test_strings_test_bxi_strshiftl(void)
 {
     char shift[] = "abcdef";
 
@@ -42,7 +42,7 @@ static void test_strings_bxi_strshiftl(void)
         test_failed();
 }
 
-static void test_strings_bxi_strtriml(void)
+static void test_strings_test_bxi_strtriml(void)
 {
     char triml[] = "   def";
 
@@ -52,7 +52,7 @@ static void test_strings_bxi_strtriml(void)
 }
 
 
-static void test_strings_bxi_strtrimr(void)
+static void test_strings_test_bxi_strtrimr(void)
 {
     char trimr[] = "abc   ";
 
@@ -61,7 +61,7 @@ static void test_strings_bxi_strtrimr(void)
         test_failed();
 }
 
-static void test_strings_bxi_strtrim(void)
+static void test_strings_test_bxi_strtrim(void)
 {
     char trimc[] = "  cd  ";
 
@@ -70,14 +70,14 @@ static void test_strings_bxi_strtrim(void)
         test_failed();
 }
 
-static void test_strings_bxi_strlen(void)
+static void test_strings_test_bxi_strlen(void)
 {
     printf("        checking: bxi_strlen\n");
     if (bxi_strlen("abcdef") != 6)
         test_failed();
 }
 
-static void test_strings_bxi_strcmp(void)
+static void test_strings_test_bxi_strcmp(void)
 {
     printf("        checking: bxi_strcmp\n");
 
@@ -89,7 +89,7 @@ static void test_strings_bxi_strcmp(void)
         test_failed();
 }
 
-static void test_strings_bxi_strprs(void)
+static void test_strings_test_bxi_strprs(void)
 {
     char   parsed[] = "  param1 param2 \"param 3\" \'param \"\\\' 4 \'";
     char * output[5];
@@ -109,14 +109,14 @@ static void test_strings_bxi_strprs(void)
         test_failed();
 }
 
-static void test_strings_bxi_strchr(void)
+static void test_strings_test_bxi_strchr(void)
 {
     printf("        checking: bxi_strchr\n");
     if (bxi_strcmp(bxi_strchr("abcdef", 'c'), "cdef"))
         test_failed();
 }
 
-static void test_strings_bxi_strcpy(void)
+static void test_strings_test_bxi_strcpy(void)
 {
     char dst[10];
     char src[]   = "abcdef";
@@ -128,7 +128,7 @@ static void test_strings_bxi_strcpy(void)
         test_failed();
 }
 
-static void test_strings_bxi_strstr(void)
+static void test_strings_test_bxi_strstr(void)
 {
     const char str[]   = "abcdef";
     const char sub[]   = "cd";
@@ -139,7 +139,7 @@ static void test_strings_bxi_strstr(void)
         test_failed();
 }
 
-static void test_strings_bxi_is(void)
+static void test_strings_test_bxi_is(void)
 {
 #   define TEST_ISCHAR(bxifunc, stdfunc)            \
     {                                               \
@@ -163,6 +163,7 @@ static void test_strings_bxi_is(void)
     TEST_ISCHAR(bxi_isdigit , isdigit );
     TEST_ISCHAR(bxi_isxdigit, isxdigit);
     /* isblank requires c99, no tests here  */
+    /* @test add generic isblank            */
     /* TEST_ISCHAR(bxi_isblank , isblank ); */
 
     TEST_ISCHAR(bxi_2upper, (u32)toupper);
@@ -171,7 +172,7 @@ static void test_strings_bxi_is(void)
 #   undef TEST_ISCHAR
 }
 
-static void test_strings_bxi_str2lower(void)
+static void test_strings_test_bxi_str2lower(void)
 {
     char buffer[] = "QUICK BROWN FOX JUMPS OVER THE LAZY DOG!";
 
@@ -181,7 +182,7 @@ static void test_strings_bxi_str2lower(void)
         test_failed();
 }
 
-static void test_strings_bxi_str2upper(void)
+static void test_strings_test_bxi_str2upper(void)
 {
     char buffer[] = "quick brown fox jumps over the lazy dog!";
 
@@ -205,7 +206,7 @@ static void my_free(void * ptr, const char * file, u32 line)
     free(ptr);
 }
 
-static void test_strings_bxi_strdup(void)
+static void test_strings_test_bxi_strdup(void)
 {
     bxi_malloc_set(my_malloc);
     bxi_free_set(my_free);
@@ -220,25 +221,92 @@ static void test_strings_bxi_strdup(void)
     }
 }
 
+static void test_strings_test_bxi_strrchr(void)
+{
+    char t1[] = "abcdefabcedf";
+    char t2[] = "   a   b   a";
+
+    printf("        checking: bxi_strrchr\n");
+    if (bxi_strrchr(t1, 'a') != strrchr(t1, 'a'))
+        test_failed();
+    if (bxi_strrchr(t2, 'a') != strrchr(t2, 'a'))
+        test_failed();
+    if (bxi_strrchr(t2, 'f') != strrchr(t2, 'f'))
+        test_failed();
+}
+
+static void test_strings_test_bxi_strcat(void)
+{
+    char org[100] = "abc";
+    char new[100] = "abc";
+
+    char * p1 = NULL;
+    char * p2 = NULL;
+
+    printf("        checking: bxi_strcat\n");
+    p1 =     strcat(org, "def");
+    p2 = bxi_strcat(new, "def");
+
+    if (bxi_strcmp(p1, p2))
+        test_failed();
+}
+
+static void test_strings_test_bxi_strncpy(void)
+{
+    char org[100] = { 0 };
+    char new[100] = { 0 };
+
+    char * p1 = NULL;
+    char * p2 = NULL;
+
+    printf("        checking: bxi_strncpy\n");
+    p1 =     strncpy(org, "abcdef", 3);
+    p2 = bxi_strncpy(new, "abcdef", 3);
+
+    if (bxi_strcmp(p1, p2))
+        test_failed();
+}
+
+static void test_strings_test_bxi_strncmp(void)
+{
+    char s1[] = "abcdefghi";
+    char s2[] = "abcde1234";
+
+    u32 i;
+
+    printf("        checking: bxi_strncmp\n");
+    for (i = 0; i < bxi_strlen(s1); i++)
+    {
+        i32 ro =     strncmp(s1, s2, i);
+        i32 rn = bxi_strncmp(s1, s2, i);
+        if (ro != rn)
+            test_failed();
+    }
+}
+
 static void test_strings_functions(void)
 {
     printf("    functions:\n");
 
-    test_strings_bxi_strhash();
-    test_strings_bxi_strshiftl();
-    test_strings_bxi_strtriml();
-    test_strings_bxi_strtrimr();
-    test_strings_bxi_strtrim();
-    test_strings_bxi_strlen();
-    test_strings_bxi_strcmp();
-    test_strings_bxi_strprs();
-    test_strings_bxi_strchr();
-    test_strings_bxi_strcpy();
-    test_strings_bxi_strstr();
-    test_strings_bxi_is();
-    test_strings_bxi_str2lower();
-    test_strings_bxi_str2upper();
-    test_strings_bxi_strdup();
+    test_strings_test_bxi_strhash();
+    test_strings_test_bxi_strshiftl();
+    test_strings_test_bxi_strtriml();
+    test_strings_test_bxi_strtrimr();
+    test_strings_test_bxi_strtrim();
+    test_strings_test_bxi_strlen();
+    test_strings_test_bxi_strcmp();
+    test_strings_test_bxi_strprs();
+    test_strings_test_bxi_strchr();
+    test_strings_test_bxi_strcpy();
+    test_strings_test_bxi_strstr();
+    test_strings_test_bxi_is();
+    test_strings_test_bxi_str2lower();
+    test_strings_test_bxi_str2upper();
+    test_strings_test_bxi_strdup();
+    test_strings_test_bxi_strrchr();
+    test_strings_test_bxi_strcat();
+    test_strings_test_bxi_strncpy();
+    test_strings_test_bxi_strncmp();
 }
 
 static void test_strings_defines(void)
