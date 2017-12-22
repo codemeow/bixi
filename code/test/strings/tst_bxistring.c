@@ -19,6 +19,7 @@
 *  along with Project "Bixi". If not, see <http://www.gnu.org/licenses/>.
 */
 
+#define _GNU_SOURCE 1
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -269,8 +270,8 @@ static void test_strings_test_bxi_strncpy(void)
 
 static void test_strings_test_bxi_strncmp(void)
 {
-    char s1[] = "abcdefghi";
-    char s2[] = "abcde1234";
+    const char s1[] = "abcdefghi";
+    const char s2[] = "abcde1234";
 
     u32 i;
 
@@ -282,6 +283,25 @@ static void test_strings_test_bxi_strncmp(void)
         if (ro != rn)
             test_failed();
     }
+}
+
+static void test_strings_test_bxi_strchrnul(void)
+{
+    const char s1[] = "abcdefghi";
+    char * org = NULL;
+    char * new = NULL;
+
+    printf("        checking: bxi_strchrnul\n");
+
+    new = bxi_strchrnul(s1, 'c');
+    org =     strchrnul(s1, 'c');
+    if (new != org)
+        test_failed();
+
+    new = bxi_strchrnul(s1, 'z');
+    org =     strchrnul(s1, 'z');
+    if (new != org)
+        test_failed();
 }
 
 static void test_strings_functions(void)
@@ -307,6 +327,7 @@ static void test_strings_functions(void)
     test_strings_test_bxi_strcat();
     test_strings_test_bxi_strncpy();
     test_strings_test_bxi_strncmp();
+    test_strings_test_bxi_strchrnul();
 }
 
 static void test_strings_defines(void)
