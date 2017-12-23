@@ -75,7 +75,6 @@ EXPORT i32    bxi_strncmp  (const char * str1, const char * str2, u32 n);
 EXPORT u32    bxi_strprs   (      char * str, u32 * count, char ** output);
 EXPORT char * bxi_strchr   (const char * str, i32 c);
 EXPORT char * bxi_strrchr  (const char * str, i32 c);
-/* @test strchrnul */
 EXPORT char * bxi_strchrnul(const char * str, i32 c);
 EXPORT char * bxi_strcpy   (      char * dst, const char * src);
 EXPORT char * bxi_strncpy  (      char * dst, const char * src, u32 n);

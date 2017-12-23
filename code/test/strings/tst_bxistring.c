@@ -304,6 +304,23 @@ static void test_strings_test_bxi_strchrnul(void)
         test_failed();
 }
 
+static void test_strings_test_bxi_strncat(void)
+{
+    char s1[100] = "abc";
+    char s2[100] = "abc";
+
+    char * org = NULL;
+    char * new = NULL;
+
+    printf("        checking: bxi_strncat\n");
+
+    org =     strncat(s1, "defghijkl", 5);
+    new = bxi_strncat(s2, "defghijkl", 5);
+
+    if (bxi_strcmp(org, new))
+        test_failed();
+}
+
 static void test_strings_functions(void)
 {
     printf("    functions:\n");
@@ -328,6 +345,7 @@ static void test_strings_functions(void)
     test_strings_test_bxi_strncpy();
     test_strings_test_bxi_strncmp();
     test_strings_test_bxi_strchrnul();
+    test_strings_test_bxi_strncat();
 }
 
 static void test_strings_defines(void)
