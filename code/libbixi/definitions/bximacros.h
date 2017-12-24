@@ -38,8 +38,8 @@ EXPORT_FROM
 EXPORT_TO
 
 EXPORT_FROM
-#define BXI_IN(    value, high, low) ((high >  value) && (value >  low))
-#define BXI_IN_INC(value, high, low) ((high >= value) && (value >= low))
+#define BXI_IN(    value, high, low) (((high) >  (value)) && ((value) >  (low)))
+#define BXI_IN_INC(value, high, low) (((high) >= (value)) && ((value) >= (low)))
 EXPORT_TO
 
 EXPORT_FROM

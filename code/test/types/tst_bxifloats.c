@@ -28,8 +28,8 @@ static void test_types_defines(void)
 {
     printf("    defines\n");
 
-    TEST_BXI_MACRO_FLT(BITS_IN_F32);
-    TEST_BXI_MACRO_FLT(BITS_IN_F64);
+    TEST_BXI_MACRO_U32(BITS_IN_F32);
+    TEST_BXI_MACRO_U32(BITS_IN_F64);
 }
 
 void test_types_bxifloats(void)

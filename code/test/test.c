@@ -107,6 +107,6 @@ void test_time_finish(void)
 
 void test_time_print(const char * text)
 {
-    printf("            speedtest: %12s: %8.5f\n", text,
+    printf("            speedtest: %12s: %8.5f s\n", text,
            time_diff / BXI_NSEC_IN_SEC);
 }

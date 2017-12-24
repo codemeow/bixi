@@ -79,7 +79,6 @@ EXPORT char * bxi_strchrnul(const char * str, i32 c);
 EXPORT char * bxi_strcpy   (      char * dst, const char * src);
 EXPORT char * bxi_strncpy  (      char * dst, const char * src, u32 n);
 EXPORT char * bxi_strstr   (const char * str, const char * sub);
-/* @test bxi_strncat */
 EXPORT char * bxi_strcat   (      char * dst, const char * src);
 EXPORT char * bxi_strncat  (      char * dst, const char * src, u32 n);
 /* @test bxi_strpbrk */
