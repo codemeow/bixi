@@ -321,6 +321,28 @@ static void test_strings_test_bxi_strncat(void)
         test_failed();
 }
 
+static void test_strings_test_bxi_strapp(void)
+{
+    char * buf = NULL;
+    char * res = NULL;
+
+    printf("        checking: bxi_strapp\n");
+
+    res = bxi_strapp(&buf, "abc");
+    if (bxi_strcmp(res, "abc"))
+        test_failed();
+
+    res = bxi_strapp(&buf, "def");
+    if (bxi_strcmp(res, "abcdef"))
+        test_failed();
+
+    res = bxi_strapp(&buf, "ghi");
+    if (bxi_strcmp(res, "abcdefghi"))
+        test_failed();
+
+    bxi_free(res);
+}
+
 static void test_strings_functions(void)
 {
     printf("    functions:\n");
@@ -346,6 +368,7 @@ static void test_strings_functions(void)
     test_strings_test_bxi_strncmp();
     test_strings_test_bxi_strchrnul();
     test_strings_test_bxi_strncat();
+    test_strings_test_bxi_strapp();
 }
 
 static void test_strings_defines(void)

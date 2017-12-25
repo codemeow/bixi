@@ -90,8 +90,7 @@ EXPORT u32 bxi_strspn(const char * str, const char * lst);
 EXPORT u32 bxi_strcspn(const char * str, const char * lst);
 
 EXPORT BXI_USES_MEM char * bxi_strdup(const char * str);
-/* @test bxi_strapp */
-EXPORT BXI_USES_MEM char * bxi_strapp(      char * dst, const char * src);
+EXPORT BXI_USES_MEM char * bxi_strapp(char ** dst, const char * src);
 
 EXPORT bool bxi_iscntrl (u32 c);
 EXPORT bool bxi_isprint (u32 c);
