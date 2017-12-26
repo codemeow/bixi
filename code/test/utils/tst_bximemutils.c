@@ -579,10 +579,52 @@ static void test_utils_test_bxi_memmove(void)
 static void test_utils_test_bxi_memcmp(void)
 {
     printf("        checking: bxi_memcmp\n");
-    if (bxi_memcmp(data, test+5, 5))
+    if (bxi_memcmp(data, test + 5, 5))
         test_failed();
     check_memcmp_advance();
     check_memcmp_speed();
+}
+
+static void test_utils_test_bxi_mempcpy(void)
+{
+    u8 p1[100];
+    u8 p2[100];
+
+    u8 * org = NULL;
+    u8 * new = NULL;
+
+    printf("        checking: bxi_mempcpy\n");
+
+    org =     mempcpy(p1, test, 5);
+    new = bxi_mempcpy(p2, test, 5);
+
+    if (bxi_memcmp(p1, p2, 5))
+        test_failed();
+
+    if (org != p1 + 5)
+        test_failed();
+    if (new != p2 + 5)
+        test_failed();
+}
+
+static void test_utils_test_bxi_memccpy(void)
+{
+    u8 p1[100];
+    u8 p2[100];
+
+    u8 * org = NULL;
+    u8 * new = NULL;
+
+    printf("        checking: bxi_memccpy\n");
+
+    org =     memccpy(p1, test, 0x14, 5);
+    new = bxi_memccpy(p2, test, 0x14, 5);
+
+    if (bxi_memcmp(p1, p2, 3))
+        test_failed();
+
+    if ((org - p1) != (new - p2))
+        test_failed();
 }
 
 static void test_utils_test_bxi_memfrob(void)
@@ -638,8 +680,10 @@ static void test_utils_functions(void)
 
     test_utils_test_bxi_memset();
     test_utils_test_bxi_memcpy();
+    test_utils_test_bxi_memccpy();
     test_utils_test_bxi_memmove();
     test_utils_test_bxi_memcmp();
+    test_utils_test_bxi_mempcpy();
     test_utils_test_bxi_memfrob();
     test_utils_test_bxi_memchr();
     test_utils_test_bxi_memrchr();

@@ -68,7 +68,7 @@ EXPORT   char * bxi_strtrim  (      char * str);
 /* @todo utf8-2-utf32 */
 
 /* @todo add speed test for every func, separate tests for funcs */
-/* @todo strrep - replace tokens with reallocation */
+/* @todo strrep - replace tokens with reallocation (as call of memrep) */
 EXPORT u32    bxi_strlen   (const char * str);
 EXPORT i32    bxi_strcmp   (const char * str1, const char * str2);
 EXPORT i32    bxi_strncmp  (const char * str1, const char * str2, u32 n);
@@ -81,7 +81,6 @@ EXPORT char * bxi_strncpy  (      char * dst, const char * src, u32 n);
 EXPORT char * bxi_strstr   (const char * str, const char * sub);
 EXPORT char * bxi_strcat   (      char * dst, const char * src);
 EXPORT char * bxi_strncat  (      char * dst, const char * src, u32 n);
-/* @test bxi_strpbrk */
 EXPORT char * bxi_strpbrk  (const char * str, const char * lst);
 
 /* @test bxi_bxi_strspn */

@@ -343,6 +343,28 @@ static void test_strings_test_bxi_strapp(void)
     bxi_free(res);
 }
 
+static void test_strings_test_bxi_strpbrk(void)
+{
+    const char str[] = "abcdefghijklmnopqrstuvwxyz";
+
+    char * org = NULL;
+    char * new = NULL;
+
+    printf("        checking: bxi_strpbrk\n");
+
+    org =     strpbrk(str, "ox");
+    new = bxi_strpbrk(str, "ox");
+
+    if (bxi_strcmp(org, new))
+        test_failed();
+
+    org =     strpbrk(str, "12");
+    new = bxi_strpbrk(str, "12");
+
+    if (bxi_strcmp(org, new))
+        test_failed();
+}
+
 static void test_strings_functions(void)
 {
     printf("    functions:\n");
@@ -369,6 +391,7 @@ static void test_strings_functions(void)
     test_strings_test_bxi_strchrnul();
     test_strings_test_bxi_strncat();
     test_strings_test_bxi_strapp();
+    test_strings_test_bxi_strpbrk();
 }
 
 static void test_strings_defines(void)

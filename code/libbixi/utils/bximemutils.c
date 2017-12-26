@@ -408,7 +408,8 @@ i32 bxi_memcmp(const void * p1, const void * p2, u32 cnt)
     if (((pu_t)p1_pt & (BXI_WORD_SIZE - 1)) ==
         ((pu_t)p2_pt & (BXI_WORD_SIZE - 1)))
     {
-        u32 skip = BXI_MIN((BXI_WORD_SIZE - ((pu_t)p1_pt & (BXI_WORD_SIZE - 1)))
+        u32 skip = BXI_MIN((BXI_WORD_SIZE - ((pu_t)p1_pt
+                           & (BXI_WORD_SIZE - 1)))
                            & (BXI_WORD_SIZE - 1), cnt);
         if (skip)
         {
@@ -550,7 +551,7 @@ void * bxi_mempcpy(void * dst, const void * src, u32 cnt)
     if (!src)
         return dst;
 
-    return (u8 *)bxi_memcpy(dst, src, cnt) + 1;
+    return (u8 *)bxi_memcpy(dst, src, cnt) + cnt;
 }
 
 void * bxi_memccpy(void * dst, const void * src, i32 c, u32 cnt)
@@ -568,13 +569,10 @@ void * bxi_memccpy(void * dst, const void * src, i32 c, u32 cnt)
     while (src_cnt)
     {
         if (*src_u8++ == c)
-        {
-            cnt = src_cnt;
             break;
-        }
 
         src_cnt--;
     }
 
-    return bxi_memcpy(dst, src, cnt);
+    return (u8 *)bxi_memcpy(dst, src, src_cnt) + (cnt - src_cnt + 1);
 }
