@@ -365,6 +365,50 @@ static void test_strings_test_bxi_strpbrk(void)
         test_failed();
 }
 
+static void test_strings_test_bxi_strspn(void)
+{
+    const char str[] = "abcdefghijklmnopqrstuvwxyz";
+
+    u32 org = 0;
+    u32 new = 0;
+
+    printf("        checking: bxi_strspn\n");
+
+    org =     strspn(str, "abcdefg");
+    new = bxi_strspn(str, "abcdefg");
+
+    if (org != new)
+        test_failed();
+
+    org =     strspn(str, "123");
+    new = bxi_strspn(str, "123");
+
+    if (org != new)
+        test_failed();
+}
+
+static void test_strings_test_bxi_strcspn(void)
+{
+    const char str[] = "abcdefghijklmnopqrstuvwxyz";
+
+    u32 org = 0;
+    u32 new = 0;
+
+    printf("        checking: bxi_strcspn\n");
+
+    org =     strspn(str, "abcdefg");
+    new = bxi_strspn(str, "abcdefg");
+
+    if (org != new)
+        test_failed();
+
+    org =     strspn(str, "123");
+    new = bxi_strspn(str, "123");
+
+    if (org != new)
+        test_failed();
+}
+
 static void test_strings_functions(void)
 {
     printf("    functions:\n");
@@ -392,6 +436,8 @@ static void test_strings_functions(void)
     test_strings_test_bxi_strncat();
     test_strings_test_bxi_strapp();
     test_strings_test_bxi_strpbrk();
+    test_strings_test_bxi_strspn();
+    test_strings_test_bxi_strcspn();
 }
 
 static void test_strings_defines(void)

@@ -72,7 +72,6 @@ EXPORT void * bxi_memfrob (      void * ptr,         u8   val,        u32 cnt);
 EXPORT void * bxi_memchr  (const void * ptr,         u8   val,        u32 cnt);
 EXPORT void * bxi_memrchr (const void * ptr,         u8   val,        u32 cnt);
 EXPORT void * bxi_mempcpy (      void * dst, const void * src,        u32 cnt);
-/* @test bxi_memccpy */
 EXPORT void * bxi_memccpy (      void * dst, const void * src, i32 c, u32 cnt);
 
 #endif /* BXIMEMUTILS_H */

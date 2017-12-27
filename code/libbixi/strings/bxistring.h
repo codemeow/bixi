@@ -82,11 +82,8 @@ EXPORT char * bxi_strstr   (const char * str, const char * sub);
 EXPORT char * bxi_strcat   (      char * dst, const char * src);
 EXPORT char * bxi_strncat  (      char * dst, const char * src, u32 n);
 EXPORT char * bxi_strpbrk  (const char * str, const char * lst);
-
-/* @test bxi_bxi_strspn */
-EXPORT u32 bxi_strspn(const char * str, const char * lst);
-/* @test bxi_bxi_strcspn */
-EXPORT u32 bxi_strcspn(const char * str, const char * lst);
+EXPORT u32    bxi_strspn   (const char * str, const char * lst);
+EXPORT u32    bxi_strcspn  (const char * str, const char * lst);
 
 EXPORT BXI_USES_MEM char * bxi_strdup(const char * str);
 EXPORT BXI_USES_MEM char * bxi_strapp(char ** dst, const char * src);

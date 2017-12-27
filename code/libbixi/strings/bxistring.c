@@ -566,7 +566,10 @@ u32 bxi_strspn(const char * str, const char * lst)
     char map[BXI_FAST_DIV_8(BXI_ASCII_COUNT)] = { 0 };
 
     while (*lst)
+    {
         map[BXI_FAST_DIV_8(*lst)] |= 1 << (*lst % 8);
+        lst++;
+    }
 
     while (*str)
     {
@@ -585,7 +588,10 @@ u32 bxi_strcspn(const char * str, const char * lst)
     char map[BXI_FAST_DIV_8(BXI_ASCII_COUNT)] = { 0 };
 
     while (*lst)
+    {
         map[BXI_FAST_DIV_8(*lst)] |= 1 << (*lst % 8);
+        lst++;
+    }
 
     while (*str)
     {
