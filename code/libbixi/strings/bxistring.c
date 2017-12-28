@@ -506,9 +506,11 @@ char * bxi_strapp(char ** dst, const char * src)
     u32 dst_len = 0;
     u32 src_len = 0;
 
+    if (!dst)
+        return NULL;
     if (!src)
         return *dst;
-    if ((!dst) || (!(*dst)))
+    if (!(*dst))
     {
         *dst = bxi_strdup(src);
         return *dst;

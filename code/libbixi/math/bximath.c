@@ -134,6 +134,7 @@ u32 bxi_sqrti(u32 x)
 
 f64 bxi_nan(void)
 {
+    /* cppcheck-suppress duplicateExpression */
     return 0.0 / 0.0;
 }
 

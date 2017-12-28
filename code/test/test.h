@@ -35,6 +35,7 @@
 #include "./hashes/tst_bxiuuid.h"
 #include "./math/tst_bxiplan.h"
 #include "./math/tst_bximath.h"
+#include "./net/tst_bxiipv4.h"
 #include "./random/tst_bxirand.h"
 #include "./serials/tst_bxiserread.h"
 #include "./serials/tst_bxiserwrite.h"

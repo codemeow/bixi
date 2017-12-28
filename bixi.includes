@@ -18,6 +18,4 @@
 #  along with Project «bixi». If not, see <http://www.gnu.org/licenses/>.
 
 includes
-code/libbixi/tables
-code/libbixi/math
-code/libbixi/graph
+code/libbixi/net

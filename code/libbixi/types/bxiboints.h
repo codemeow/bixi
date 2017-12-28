@@ -27,8 +27,8 @@
 
 EXPORT typedef enum
 {
-    BXI_ENDIANNESS_BE,
-    BXI_ENDIANNESS_LE
+    BXI_END_BE,
+    BXI_END_LE
 } bxi_ends;
 
 EXPORT typedef i16 i16_le;

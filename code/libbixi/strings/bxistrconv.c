@@ -314,7 +314,7 @@ u32 bxi_hex2u32end(const char * str, i32 * len, bxi_ends end)
         return 0;
     }
 
-    if (end == BXI_ENDIANNESS_LE)
+    if (end == BXI_END_LE)
     {
         u32 dl = llen;
         u32 i;
@@ -341,13 +341,13 @@ u32 bxi_hex2u32end(const char * str, i32 * len, bxi_ends end)
 
 u32 bxi_hex2u32(const char * str, i32 * len)
 {
-    return bxi_hex2u32end(str, len, IS_BE ? BXI_ENDIANNESS_BE : BXI_ENDIANNESS_LE);
+    return bxi_hex2u32end(str, len, IS_BE ? BXI_END_BE : BXI_END_LE);
 }
 
 u16 bxi_hex2u16(const char * str, i32 * len)
 {
     i32 llen = 0;
-    u32 result = bxi_hex2u32end(str, &llen, IS_BE ? BXI_ENDIANNESS_BE : BXI_ENDIANNESS_LE);
+    u32 result = bxi_hex2u32end(str, &llen, IS_BE ? BXI_END_BE : BXI_END_LE);
     if (llen < BXI_STRERROR_SUCCESS)
     {
         if (len) *len = llen;
@@ -367,7 +367,7 @@ u16 bxi_hex2u16(const char * str, i32 * len)
 u8 bxi_hex2u8(const char * str, i32 * len)
 {
     i32 llen = 0;
-    u32 result = bxi_hex2u32end(str, &llen, IS_BE ? BXI_ENDIANNESS_BE : BXI_ENDIANNESS_LE);
+    u32 result = bxi_hex2u32end(str, &llen, IS_BE ? BXI_END_BE : BXI_END_LE);
     if (llen < BXI_STRERROR_SUCCESS)
     {
         if (len) *len = llen;
@@ -438,7 +438,7 @@ i32 bxi_hex2i32(const char * str, i32 * len)
 u16_le bxi_hex2u16_le(const char * str, i32 * len)
 {
     i32 llen = 0;
-    u32 result = bxi_hex2u32end(str, &llen, BXI_ENDIANNESS_LE);
+    u32 result = bxi_hex2u32end(str, &llen, BXI_END_LE);
     if (llen < BXI_STRERROR_SUCCESS)
     {
         if (len) *len = llen;
@@ -474,7 +474,7 @@ i16_le bxi_hex2i16_le(const char * str, i32 * len)
 
 u32_le bxi_hex2u32_le(const char * str, i32 * len)
 {
-    return bxi_hex2u32end(str, len, BXI_ENDIANNESS_LE);
+    return bxi_hex2u32end(str, len, BXI_END_LE);
 }
 
 i32_le bxi_hex2i32_le(const char * str, i32 * len)
@@ -497,7 +497,7 @@ i32_le bxi_hex2i32_le(const char * str, i32 * len)
 u16_be bxi_hex2u16_be(const char * str, i32 * len)
 {
     i32 llen = 0;
-    u32 result = bxi_hex2u32end(str, &llen, BXI_ENDIANNESS_BE);
+    u32 result = bxi_hex2u32end(str, &llen, BXI_END_BE);
     if (llen < BXI_STRERROR_SUCCESS)
     {
         if (len) *len = llen;
@@ -533,7 +533,7 @@ i16_be bxi_hex2i16_be(const char * str, i32 * len)
 
 u32_be bxi_hex2u32_be(const char * str, i32 * len)
 {
-    return bxi_hex2u32end(str, len, BXI_ENDIANNESS_BE);
+    return bxi_hex2u32end(str, len, BXI_END_BE);
 }
 
 i32_be bxi_hex2i32_be(const char * str, i32 * len)

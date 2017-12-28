@@ -54,6 +54,9 @@ i32 main(i32 argc, char * argv[])
     test_math_bximath();
     if (stop) getchar();
 
+    test_net_bxiipv4();
+    if (stop) getchar();
+
     test_random_bxirand();
     if (stop) getchar();
 
