@@ -492,6 +492,14 @@ EXPORT typedef struct
     u8 b;
 } bxi_argb;
 
+/* @todo test bxi_argb_u */
+EXPORT typedef union
+{
+    u8       raw[4];
+    u32      quad;
+    bxi_argb argb;
+} bxi_argb_u;
+
 EXPORT typedef u32 bxi_colour;
 
 EXPORT bxi_argb   bxi_colour2argb(bxi_colour col);

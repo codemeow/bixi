@@ -54,12 +54,12 @@ EXPORT_FROM
 #if defined(__FILE__) && defined(__LINE__)
 #define bxi_malloc(size)       bxi_malloc_call (     size, __FILE__, __LINE__)
 #define bxi_realloc(ptr, size) bxi_realloc_call(ptr, size, __FILE__, __LINE__)
+#define bxi_free(ptr)          bxi_free_call   (ptr,       __FILE__, __LINE__)
 #else
 #define bxi_malloc(size)       bxi_malloc_call (     size,       "",        0)
-#define bxi_realloc(ptr, size) bxi_realloc_call(ptr, size, __FILE__, __LINE__)
+#define bxi_realloc(ptr, size) bxi_realloc_call(ptr, size,       "",        0)
+#define bxi_free(ptr)          bxi_free_call   (ptr,             "",        0)
 #endif
-
-#define bxi_free(ptr)          bxi_free_call(ptr, __FILE__, __LINE__);
 EXPORT_TO
 
 EXPORT void * bxi_memset  (      void * ptr,        i32   val,        u32 cnt);

@@ -24,6 +24,8 @@
 
 #include "../definitions/bxiexport.h"
 #include "../types/bxiints.h"
+#include "../types/bxiboints.h"
+#include "../hashes/bxiuuid.h"
 
 EXPORT typedef struct
 {
@@ -44,6 +46,24 @@ EXPORT bxi_bts * bxi_bts_insert(bxi_bts * dst, bxi_bts * src, u32 pos);
 EXPORT bxi_bts * bxi_bts_append(bxi_bts * dst, bxi_bts * src);
 EXPORT bxi_bts * bxi_bts_delete(bxi_bts * dst, u32 pos, u32 cnt);
 EXPORT bxi_bts * bxi_bts_lshift(bxi_bts * dst, u32 c);
+
+/* @test */
+EXPORT bxi_bts * bxi_bts_append_u8    (bxi_bts * bts, u8     value);
+EXPORT bxi_bts * bxi_bts_append_i8    (bxi_bts * bts, i8     value);
+EXPORT bxi_bts * bxi_bts_append_u16   (bxi_bts * bts, u16    value);
+EXPORT bxi_bts * bxi_bts_append_i16   (bxi_bts * bts, i16    value);
+EXPORT bxi_bts * bxi_bts_append_u32   (bxi_bts * bts, u32    value);
+EXPORT bxi_bts * bxi_bts_append_i32   (bxi_bts * bts, i32    value);
+EXPORT bxi_bts * bxi_bts_append_u16_le(bxi_bts * bts, u16_le value);
+EXPORT bxi_bts * bxi_bts_append_i16_le(bxi_bts * bts, i16_le value);
+EXPORT bxi_bts * bxi_bts_append_u16_be(bxi_bts * bts, u16_be value);
+EXPORT bxi_bts * bxi_bts_append_i16_be(bxi_bts * bts, i16_be value);
+EXPORT bxi_bts * bxi_bts_append_u32_le(bxi_bts * bts, u32_le value);
+EXPORT bxi_bts * bxi_bts_append_i32_le(bxi_bts * bts, i32_le value);
+EXPORT bxi_bts * bxi_bts_append_u32_be(bxi_bts * bts, u32_be value);
+EXPORT bxi_bts * bxi_bts_append_i32_be(bxi_bts * bts, i32_be value);
+EXPORT bxi_bts * bxi_bts_append_string(bxi_bts * bts, const char * value);
+EXPORT bxi_bts * bxi_bts_append_uuid  (bxi_bts * bts, uuid_t value);
 
 #endif /* BXIARRAYS_H */
 

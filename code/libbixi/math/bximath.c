@@ -266,7 +266,7 @@ f64 bxi_modf(f64 x, f64 * i)
     return x - ix;
 }
 
-/* @todo make it calculable on the while line
+/* @todo make it calculable on the whole line
  * instead of -Pi..+Pi */
 f64 bxi_fsin(f64 x)
 {

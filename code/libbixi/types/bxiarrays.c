@@ -22,6 +22,8 @@
 #include "../types/bxiarrays.h"
 #include "../utils/bximemutils.h"
 #include "../definitions/bximacros.h"
+#include "../serials/bxiserwrite.h"
+#include "../strings/bxistring.h"
 
 bxi_bts * bxi_bts_create(u32 size)
 {
@@ -39,6 +41,9 @@ bxi_bts * bxi_bts_resize(bxi_bts * bts, u32 size)
     if (!bts)
         return NULL;
 
+    if (bts->size == size)
+        return bts;
+
     bts->data = bxi_realloc(bts->data, size);
     if (bts->size < size)
         bxi_memset(bts->data + bts->size, 0, size - bts->size);
@@ -52,6 +57,7 @@ void bxi_bts_free(bxi_bts * bts)
         return;
 
     bxi_free(bts->data);
+    bts->data = NULL;
     bts->size = 0;
     bxi_free(bts);
 }
@@ -142,4 +148,182 @@ bxi_bts * bxi_bts_lshift(bxi_bts * dst, u32 c)
     bxi_memmove(dst->data, dst->data + c, dst->size - c);
     dst->size -= c;
     return dst;
+}
+
+bxi_bts * bxi_bts_append_u8(bxi_bts * bts, u8 value)
+{
+    if (!bts)
+        return NULL;
+
+    bxi_bts_resize(bts, bts->size + sizeof(value));
+    bxi_write_u8(value, bts->data + bts->size - sizeof(value));
+
+    return bts;
+}
+
+bxi_bts * bxi_bts_append_i8(bxi_bts * bts, i8 value)
+{
+    if (!bts)
+        return NULL;
+
+    bxi_bts_resize(bts, bts->size + sizeof(value));
+    bxi_write_i8(value, bts->data + bts->size - sizeof(value));
+
+    return bts;
+}
+
+bxi_bts * bxi_bts_append_u16(bxi_bts * bts, u16 value)
+{
+    if (!bts)
+        return NULL;
+
+    bxi_bts_resize(bts, bts->size + sizeof(value));
+    bxi_write_u16(value, bts->data + bts->size - sizeof(value));
+
+    return bts;
+}
+
+bxi_bts * bxi_bts_append_i16(bxi_bts * bts, i16 value)
+{
+    if (!bts)
+        return NULL;
+
+    bxi_bts_resize(bts, bts->size + sizeof(value));
+    bxi_write_i16(value, bts->data + bts->size - sizeof(value));
+
+    return bts;
+}
+
+bxi_bts * bxi_bts_append_u32(bxi_bts * bts, u32 value)
+{
+    if (!bts)
+        return NULL;
+
+    bxi_bts_resize(bts, bts->size + sizeof(value));
+    bxi_write_u32(value, bts->data + bts->size - sizeof(value));
+
+    return bts;
+}
+
+bxi_bts * bxi_bts_append_i32(bxi_bts * bts, i32 value)
+{
+    if (!bts)
+        return NULL;
+
+    bxi_bts_resize(bts, bts->size + sizeof(value));
+    bxi_write_i32(value, bts->data + bts->size - sizeof(value));
+
+    return bts;
+}
+
+bxi_bts * bxi_bts_append_u16_le(bxi_bts * bts, u16_le value)
+{
+    if (!bts)
+        return NULL;
+
+    bxi_bts_resize(bts, bts->size + sizeof(value));
+    bxi_write_u16_le(value, bts->data + bts->size - sizeof(value));
+
+    return bts;
+}
+
+bxi_bts * bxi_bts_append_i16_le(bxi_bts * bts, i16_le value)
+{
+    if (!bts)
+        return NULL;
+
+    bxi_bts_resize(bts, bts->size + sizeof(value));
+    bxi_write_i16_le(value, bts->data + bts->size - sizeof(value));
+
+    return bts;
+}
+
+bxi_bts * bxi_bts_append_u16_be(bxi_bts * bts, u16_be value)
+{
+    if (!bts)
+        return NULL;
+
+    bxi_bts_resize(bts, bts->size + sizeof(value));
+    bxi_write_u16_be(value, bts->data + bts->size - sizeof(value));
+
+    return bts;
+}
+
+bxi_bts * bxi_bts_append_i16_be(bxi_bts * bts, i16_be value)
+{
+    if (!bts)
+        return NULL;
+
+    bxi_bts_resize(bts, bts->size + sizeof(value));
+    bxi_write_i16_le(value, bts->data + bts->size - sizeof(value));
+
+    return bts;
+}
+
+bxi_bts * bxi_bts_append_u32_le(bxi_bts * bts, u32_le value)
+{
+    if (!bts)
+        return NULL;
+
+    bxi_bts_resize(bts, bts->size + sizeof(value));
+    bxi_write_u32_le(value, bts->data + bts->size - sizeof(value));
+
+    return bts;
+}
+
+bxi_bts * bxi_bts_append_i32_le(bxi_bts * bts, i32_le value)
+{
+    if (!bts)
+        return NULL;
+
+    bxi_bts_resize(bts, bts->size + sizeof(value));
+    bxi_write_i32_le(value, bts->data + bts->size - sizeof(value));
+
+    return bts;
+}
+
+bxi_bts * bxi_bts_append_u32_be(bxi_bts * bts, u32_be value)
+{
+    if (!bts)
+        return NULL;
+
+    bxi_bts_resize(bts, bts->size + sizeof(value));
+    bxi_write_u32_be(value, bts->data + bts->size - sizeof(value));
+
+    return bts;
+}
+
+bxi_bts * bxi_bts_append_i32_be(bxi_bts * bts, i32_be value)
+{
+    if (!bts)
+        return NULL;
+
+    bxi_bts_resize(bts, bts->size + sizeof(value));
+    bxi_write_i32_be(value, bts->data + bts->size - sizeof(value));
+
+    return bts;
+}
+
+bxi_bts * bxi_bts_append_string(bxi_bts * bts, const char * value)
+{
+    u32 len = bxi_strlen(value);
+
+    if (!bts)
+        return NULL;
+
+    bxi_bts_resize(bts, bts->size + len);
+    bxi_memcpy(bts->data + bts->size - len, value, len);
+
+    return bts;
+}
+
+bxi_bts * bxi_bts_append_uuid(bxi_bts * bts, uuid_t value)
+{
+    if (!bts)
+        return NULL;
+
+    bxi_bts_resize(bts, bts->size + UUID_SIZE);
+    bxi_memcpy(bts->data + bts->size - UUID_SIZE, value, UUID_SIZE);
+
+    return bts;
 }
