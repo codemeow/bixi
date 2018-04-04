@@ -42,14 +42,21 @@ EXPORT typedef enum
 } uuid_format;
 
 EXPORT_FROM
+#define UUID_STRLEN_PLAIN  (32)
+#define UUID_STRLEN_HYPHEN (36)
+#define UUID_STRLEN_URN    (45)
+#define UUID_STRLEN_CURLY  (38)
 
+#define UUID_URN_PREFIX    ("urn:uuid:")
 EXPORT_TO
 
 EXPORT void uuidv3(uuid_t out, uuid_t ns, const char * data);
 EXPORT void uuidv4(uuid_t out);
 
 EXPORT void uuid2str(uuid_t uuid, char * out, uuid_format format);
-EXPORT i32 uuidscmp(uuid_t u1, uuid_t u2);
+EXPORT i32  uuidscmp(uuid_t u1, uuid_t u2);
+
+EXPORT bool str2uuid(const char * str, uuid_t res);
 
 #endif /* BXIUUID_H */
 

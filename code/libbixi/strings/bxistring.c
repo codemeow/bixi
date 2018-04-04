@@ -75,8 +75,8 @@ i32 bxi_strcmp(const char * str1, const char * str2)
     u8 c1, c2;
 
     if (!str1 && !str2) return 0;
-    if (!str1 &&  str2) return -(*str2);
-    if ( str1 && !str2) return +(*str1);
+    if (!str1) return -(*str2);
+    if (!str2) return +(*str1);
 
     do
     {
@@ -102,8 +102,8 @@ i32 bxi_strncmp(const char * str1, const char * str2, u32 n)
 
     if (!n)             return 0;
     if (!str1 && !str2) return 0;
-    if (!str1 &&  str2) return -(*str2);
-    if ( str1 && !str2) return +(*str1);
+    if (!str1) return -(*str2);
+    if (!str2) return +(*str1);
 
     do
     {
@@ -116,9 +116,6 @@ i32 bxi_strncmp(const char * str1, const char * str2, u32 n)
         n--;
         if (!n)
             break;
-
-        if (!c1)
-            return c1 - c2;
 
         str1++;
         str2++;
@@ -404,6 +401,7 @@ void bxi_str2lower(char * str)
  * output[4] = eee'
  */
 /* @todo remove *count, only return */
+/* @todo selectable separator       */
 u32 bxi_strprs(char * str, u32 * count, char ** output)
 {
     u32 i = 0;

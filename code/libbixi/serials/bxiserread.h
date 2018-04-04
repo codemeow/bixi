@@ -24,6 +24,7 @@
 
 #include "../definitions/bxiexport.h"
 #include "../types/bxiboints.h"
+#include "../hashes/bxiuuid.h"
 
 EXPORT i8     bxi_read_i8    (const u8 * src);
 EXPORT u8     bxi_read_u8    (const u8 * src);
@@ -41,6 +42,8 @@ EXPORT i16_le bxi_read_i16_le(const u8 * src);
 EXPORT u16_le bxi_read_u16_le(const u8 * src);
 EXPORT i32_le bxi_read_i32_le(const u8 * src);
 EXPORT u32_le bxi_read_u32_le(const u8 * src);
+
+EXPORT void   bxi_read_uuid  (const u8 * src, uuid_t uuid);
 
 #endif /* BXISERREAD_H */
 

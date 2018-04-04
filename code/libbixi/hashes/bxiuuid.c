@@ -23,6 +23,7 @@
 #include "../hashes/bximd5.h"
 #include "../random/bxirand.h"
 #include "../utils/bximemutils.h"
+#include "../strings/bxistring.h"
 
 typedef enum
 {
@@ -123,4 +124,134 @@ void uuid2str(uuid_t uuid, char * out, uuid_format format)
 i32 uuidscmp(uuid_t u1, uuid_t u2)
 {
     return bxi_memcmp(u1, u2, sizeof(uuid_t));
+}
+
+static bool ascii2u8(const char * str, u8 * res)
+{
+    *res = 0;
+
+    if ((*str >= '0') && (*str <= '9'))
+        *res = (*str - '0') << 4;
+    else if ((*str >= 'a') && (*str <= 'f'))
+        *res = (*str - 'a' + 10) << 4;
+    else if ((*str >= 'A') && (*str <= 'F'))
+        *res = (*str - 'A' + 10) << 4;
+    else
+        return false;
+
+    str++;
+
+    if ((*str >= '0') && (*str <= '9'))
+        *res += (*str - '0');
+    else if ((*str >= 'a') && (*str <= 'f'))
+        *res += (*str - 'a' + 10);
+    else if ((*str >= 'A') && (*str <= 'F'))
+        *res += (*str - 'A' + 10);
+    else
+        return false;
+
+    return true;
+}
+
+static bool ascii2u8s(const char * str, uuid_t res, u8 count, u8 shift)
+{
+    u32 i;
+    for (i = 0; i < count; i++)
+    {
+        if (!ascii2u8(str, res + i + shift))
+            return false;
+        str += 2;
+    }
+
+    return true;
+}
+
+static bool hyphen2uuid(const char * str, uuid_t res)
+{
+    /* 00000000...*/
+    if (!ascii2u8s(str, res, 4, 0))
+        return false;
+    str += 8;
+
+    /* ...-... */
+    if (*str != '-')
+        return false;
+    str++;
+
+    /* ...0000... */
+    if (!ascii2u8s(str, res, 2, 4))
+        return false;
+    str += 4;
+
+    /* ...-... */
+    if (*str != '-')
+        return false;
+    str++;
+
+    /* ...0000... */
+    if (!ascii2u8s(str, res, 2, 6))
+        return false;
+    str += 4;
+
+    /* ...-... */
+    if (*str != '-')
+        return false;
+    str++;
+
+    /* ...0000... */
+    if (!ascii2u8s(str, res, 2, 8))
+        return false;
+    str += 4;
+
+    /* ...-... */
+    if (*str != '-')
+        return false;
+    str++;
+
+    /* ...000000000000 */
+    if (!ascii2u8s(str, res, 6, 10))
+        return false;
+
+    return true;
+}
+
+bool str2uuid(const char * str, uuid_t res)
+{
+    if (!str)
+        return false;
+
+    if (bxi_strlen(str) == UUID_STRLEN_PLAIN)
+    {
+        if (!ascii2u8s(str, res, sizeof(uuid_t), 0))
+            return false;
+    }
+    else if (bxi_strlen(str) == UUID_STRLEN_HYPHEN)
+    {
+        if (!hyphen2uuid(str, res))
+            return false;
+    }
+    else if (bxi_strlen(str) == UUID_STRLEN_URN)
+    {
+        if (bxi_strstr(str, UUID_URN_PREFIX) != str)
+            return false;
+
+        str += bxi_strlen(UUID_URN_PREFIX);
+
+        if (!hyphen2uuid(str, res))
+            return false;
+    }
+    else if (bxi_strlen(str) == UUID_STRLEN_CURLY)
+    {
+        if ((str[0] != '{') || (str[UUID_STRLEN_CURLY - 1] != '}'))
+            return false;
+
+        str++;
+
+        if (!hyphen2uuid(str, res))
+            return false;
+    }
+    else
+        return false;
+
+    return true;
 }

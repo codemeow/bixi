@@ -24,6 +24,7 @@
 #include "../definitions/bximacros.h"
 #include "../serials/bxiserwrite.h"
 #include "../strings/bxistring.h"
+#include "../math/bximath.h"
 
 bxi_bts * bxi_bts_create(u32 size)
 {
@@ -313,6 +314,20 @@ bxi_bts * bxi_bts_append_string(bxi_bts * bts, const char * value)
 
     bxi_bts_resize(bts, bts->size + len);
     bxi_memcpy(bts->data + bts->size - len, value, len);
+
+    return bts;
+}
+
+bxi_bts * bxi_bts_append_string_fixed(bxi_bts * bts, const char * value, u32 size, char filler)
+{
+    u32 len = bxi_strlen(value);
+
+    if (!bts)
+        return NULL;
+
+    bxi_bts_resize(bts, bts->size + size);
+    bxi_memset(bts->data + bts->size - size, filler, size);
+    bxi_memcpy(bts->data + bts->size - size, value, BXI_MIN(len, size));
 
     return bts;
 }

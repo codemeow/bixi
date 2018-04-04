@@ -119,6 +119,7 @@ void * bxi_memmove(void * dst, const void * src, u32 cnt)
     const  u8 * src_u8 = src;
           pu_t * dst_pt;
     const pu_t * src_pt;
+    const u32  presh = sizeof(pu_t) - 1;
 
     if (!dst)
         return NULL;
@@ -143,8 +144,8 @@ void * bxi_memmove(void * dst, const void * src, u32 cnt)
 
         if (cen)
         {
-            dst_pt = (      pu_t *)(dst_u8 - 3);
-            src_pt = (const pu_t *)(src_u8 - 3);
+            dst_pt = (      pu_t *)(dst_u8 - presh);
+            src_pt = (const pu_t *)(src_u8 - presh);
             for (i = 0; i < cen; i++, dst_pt--, src_pt--)
             {
                 /* I'm not sure if we can directly copy
@@ -157,8 +158,8 @@ void * bxi_memmove(void * dst, const void * src, u32 cnt)
                 *dst_pt = pp;
             }
 
-            dst_u8 = (      u8 *)dst_pt + 3;
-            src_u8 = (const u8 *)src_pt + 3;
+            dst_u8 = (      u8 *)dst_pt + presh;
+            src_u8 = (const u8 *)src_pt + presh;
         }
 
         for (i = 0; i < pre; i++, dst_u8--, src_u8--)

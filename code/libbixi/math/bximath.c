@@ -276,6 +276,7 @@ f64 bxi_fsin(f64 x)
     return y * (0.225 * bxi_fabs(y) + 0.775);
 }
 
+/* -Pi/2..+1.5Pi */
 f64 bxi_fcos(f64 x)
 {
     return bxi_fsin(x + BXI_PI_DIV_2);

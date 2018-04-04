@@ -124,3 +124,8 @@ u32_le bxi_read_u32_le(const u8 * src)
     read_generic(&res, src, sizeof(u32));
     return bxi_u322u32_le(res);
 }
+
+void bxi_read_uuid(const u8 * src, uuid_t uuid)
+{
+    bxi_memcpy(uuid, src, sizeof(uuid_t));
+}
