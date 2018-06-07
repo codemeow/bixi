@@ -97,3 +97,19 @@ bool bxi_ipv42str(bxi_ipv4 * ip, char * str)
 
     return true;
 }
+
+u32 bxi_ipv42u32(bxi_ipv4 ip)
+{
+    return (ip[0] << 24) |
+           (ip[1] << 16) |
+           (ip[2] <<  8) |
+           (ip[3]      );
+}
+
+void bxi_u322ipv4(u32 pack, bxi_ipv4 ip)
+{
+    ip[0] = (pack >> 24) & 0xf;
+    ip[1] = (pack >> 16) & 0xf;
+    ip[2] = (pack >>  8) & 0xf;
+    ip[3] = (pack      ) & 0xf;
+}

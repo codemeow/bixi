@@ -283,6 +283,32 @@ char * bxi_strshiftl(char * str, u32 count)
     return str;
 }
 
+char * bxi_strrep(char * str, const char * what, const char * by)
+{
+    char * pos = NULL;
+    u32    lw  = bxi_strlen(what);
+    u32    lb  = bxi_strlen(by);
+
+    if (!str)
+        return NULL;
+    if (!what)
+        return str;
+    if (!by)
+        by = "";
+
+    while ((pos = bxi_strstr(str, what)))
+    {
+        u32 ls  = bxi_strlen(str);
+
+        bxi_memmove(pos + lb, pos + lw, ls - (pos - str) - lw + 1);
+        bxi_memcpy(pos, by, lb);
+
+        pos += lb;
+    }
+
+    return str;
+}
+
 static bool isasciigeneric(u32 c, bxi_isasciifuncs type)
 {
     return bxi_getbit(bxi_isasciitable[type][c / BITS_IN_U32] , c % BITS_IN_U32);

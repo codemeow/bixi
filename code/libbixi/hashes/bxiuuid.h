@@ -48,6 +48,7 @@ EXPORT_FROM
 #define UUID_STRLEN_CURLY  (38)
 
 #define UUID_URN_PREFIX    ("urn:uuid:")
+#define UUID_EMPTY         "00000000-0000-0000-0000-000000000000"
 EXPORT_TO
 
 EXPORT void uuidv3(uuid_t out, uuid_t ns, const char * data);
