@@ -157,7 +157,7 @@ Operation systems:
  BXI_OS_AND - for Android
  BXI_OS_AMG - for Amiga
  BXI_OS_BOS - for BeOS
- BXI_OS_FBS - for FreeBSD (tested on x64)
+ BXI_OS_FBS - for FreeBSD           (tested on x64)
  BXI_OS_NBS - for NetBSD
  BXI_OS_OBS - for OpenBSD
  BXI_OS_BSD - for BSD/OS
@@ -168,7 +168,7 @@ Operation systems:
  BXI_OS_UNX - for UNIX
  BXI_OS_MNX - for Minix (tested)
  BXI_OS_GHR - for GNU/Herd
- BXI_OS_GLX - for GNU/Linux (tested on x86 and x64)
+ BXI_OS_GLX - for GNU/Linux        (tested on ARM32, x86 and x64)
  BXI_OS_MAC - for MacOS
  BXI_OS_OS2 - for OS/2
  BXI_OS_WIN - for Windows
@@ -190,14 +190,14 @@ Architecture:
  BXI_ARCH_S32 - for Sparc-32
  BXI_ARCH_S64 - for Sparc-64
  BXI_ARCH_ALP - for Alpha
- BXI_ARCH_A32 - for ARM-32
+ BXI_ARCH_A32 - for ARM-32          (tested)
  BXI_ARCH_A64 - for ARM-64
  BXI_ARCH_M32 - for MIPS-32
  BXI_ARCH_M64 - for MIPS-64
  BXI_ARCH_Z32 - for System-370/390
  BXI_ARCH_Z64 - for z/Architecture
- BXI_ARCH_X32 - for x86
- BXI_ARCH_X64 - for x86_64
+ BXI_ARCH_X32 - for x86             (tested)
+ BXI_ARCH_X64 - for x86_64          (tested)
  BXI_ARCH_I64 - for Intel Itanium
 ```
 # Random
