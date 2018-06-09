@@ -24,7 +24,7 @@
 #include "../test.h"
 #include "../thread/tst_bxithread.h"
 
-#if !defined(BXI_OS_MNX)
+#if !defined(BXI_OS_MNX) && !defined(BXI_ARCH_A32) && !defined(BXI_ARCH_A64)
 #include <pthread.h>
 #include <stdlib.h>
 #include <inttypes.h>

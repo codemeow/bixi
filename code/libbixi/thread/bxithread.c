@@ -21,16 +21,26 @@
 
 #include "../thread/bxithread.h"
 #include "../time/bxisleep.h"
+#include "../definitions/bximacros.h"
+#include "../definitions/bxienv.h"
 
 static bxi_mutex atomic_xchg(volatile bxi_mutex * ptr, bxi_mutex val)
 {
-    bxi_mutex tmp = val;
-    __asm__ __volatile__ (
-        "xchgl %0, %1;\n"
-        : "=r"(tmp), "+m"(*ptr)
-        : "0"(tmp)
-        :"memory");
-    return tmp;
+#   if !defined(BXI_ARCH_A32) && !defined(BXI_ARCH_A64)
+        bxi_mutex tmp = val;
+        __asm__ __volatile__ (
+            "xchgl %0, %1;\n"
+            : "=r"(tmp), "+m"(*ptr)
+            : "0"(tmp)
+            :"memory");
+        return tmp;
+#   else
+        /* @todo as there is no xchgl command on ARM
+         *       we need to rewrite it */
+        UNUSED(ptr);
+        UNUSED(val);
+        return BXI_MUTEX_UNDEFINED;
+#   endif
 }
 
 static bxi_mutex bxi_test_and_set(volatile bxi_mutex * val)

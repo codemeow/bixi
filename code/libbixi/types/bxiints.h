@@ -34,13 +34,13 @@ EXPORT typedef   signed       int i32;
 EXPORT typedef unsigned       int u32;
 
 EXPORT_FROM
-#   if   defined(BXI_ARCH_X64)
+#   if   defined(BXI_BITS_64)
        typedef unsigned  long int pu_t;
        typedef   signed  long int pd_t;
-#   elif defined(BXI_ARCH_X32)
+#   elif defined(BXI_BITS_32)
        typedef unsigned       int pu_t;
        typedef   signed       int pd_t;
-#   elif defined(BXI_ARCH_X16)
+#   elif defined(BXI_BITS_16)
        typedef unsigned short int pu_t;
        typedef   signed short int pd_t;
 #   endif
