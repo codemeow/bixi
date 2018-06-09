@@ -147,7 +147,9 @@ Found 3 params
 ```
 
 # Arch supports
-The library has been completely tested only under GNU/Linux, FreeBSD and Minix at the moment, but it has a list of archs that could be detected (theoretically)
+The library has been completely tested only under GNU/Linux, FreeBSD and Minix at the moment, but it has a list of archs that could be detected (theoretically).\
+The tested archs are x86, x86_64 and ARM32.
+
 ```C
 Operation systems:
  BXI_OS as "XXXX" for OS-name
