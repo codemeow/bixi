@@ -19,19 +19,14 @@
  *  along with Project "Bixi". If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef BXIIPV4_H
-#define BXIIPV4_H
+#ifndef BXICRYPT_H
+#define BXICRYPT_H
 
 #include "../definitions/bxiexport.h"
 #include "../types/bxiints.h"
-#include "../types/bxibools.h"
 
-EXPORT typedef u8 bxi_ipv4[4];
+EXPORT BXI_USES_MEM void bxi_crypt  (const char *    string, const char * salt, const char * key, char *out); /* @test */
+EXPORT BXI_USES_MEM void bxi_decrypt(const char * hexstring, const char * salt, const char * key, char *out); /* @test */
 
-EXPORT bool bxi_str2ipv4(const char * str, bxi_ipv4 *  ip);
-EXPORT bool bxi_ipv42str(bxi_ipv4   * ip,      char * str);
-EXPORT u32  bxi_ipv42u32(bxi_ipv4     ip);
-EXPORT void bxi_u322ipv4(u32 pack,         bxi_ipv4    ip);
-
-#endif /* BXIIPV4_H */
+#endif /* BXICRYPT_H */
 

@@ -140,3 +140,7 @@ code/test/net/tst_bxiipv4.h
 code/test/net/tst_bxiipv4.c
 code/libbixi/net/bxiipv4.c
 code/libbixi/net/bxiipv4.h
+code/libbixi/hashes/bxicrypt.c
+code/libbixi/hashes/bxicrypt.h
+code/test/hashes/tst_bxicrypt.h
+code/test/hashes/tst_bxicrypt.c

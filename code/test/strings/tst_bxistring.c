@@ -409,6 +409,22 @@ static void test_strings_test_bxi_strcspn(void)
         test_failed();
 }
 
+static void test_strings_test_bxi_strrep(void)
+{
+    char str[100] = "abc def ghi abc:abc def ghi";
+    const char rep[]    = "abc";
+    const char bys[]    = "--=--";
+
+    const char eth[]    = "--=-- def ghi --=--:--=-- def ghi";
+
+    printf("        checking: bxi_strrep\n");
+
+    bxi_strrep(str, rep, bys);
+
+    if (bxi_strcmp(str, eth))
+        test_failed();
+}
+
 static void test_strings_functions(void)
 {
     printf("    functions:\n");
@@ -438,6 +454,7 @@ static void test_strings_functions(void)
     test_strings_test_bxi_strpbrk();
     test_strings_test_bxi_strspn();
     test_strings_test_bxi_strcspn();
+    test_strings_test_bxi_strrep();
 }
 
 static void test_strings_defines(void)

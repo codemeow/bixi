@@ -42,6 +42,8 @@ i32 main(i32 argc, char * argv[])
     test_graph_bxicolour();
     if (stop) getchar();
 
+    test_hashes_bxicrypt();
+    if (stop) getchar();
     test_hashes_bxihash();
     if (stop) getchar();
     test_hashes_bximd5();

@@ -108,8 +108,8 @@ u32 bxi_ipv42u32(bxi_ipv4 ip)
 
 void bxi_u322ipv4(u32 pack, bxi_ipv4 ip)
 {
-    ip[0] = (pack >> 24) & 0xf;
-    ip[1] = (pack >> 16) & 0xf;
-    ip[2] = (pack >>  8) & 0xf;
-    ip[3] = (pack      ) & 0xf;
+    ip[0] = (pack >> 24) & 0xff;
+    ip[1] = (pack >> 16) & 0xff;
+    ip[2] = (pack >>  8) & 0xff;
+    ip[3] = (pack      ) & 0xff;
 }

@@ -19,19 +19,26 @@
  *  along with Project "Bixi". If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef BXIIPV4_H
-#define BXIIPV4_H
+#include <stdio.h>
+#include "../test.h"
+#include "../hashes/tst_bxicrypt.h"
 
-#include "../definitions/bxiexport.h"
-#include "../types/bxiints.h"
-#include "../types/bxibools.h"
+void test_hashes_test_bxicrypt(void)
+{
 
-EXPORT typedef u8 bxi_ipv4[4];
+}
 
-EXPORT bool bxi_str2ipv4(const char * str, bxi_ipv4 *  ip);
-EXPORT bool bxi_ipv42str(bxi_ipv4   * ip,      char * str);
-EXPORT u32  bxi_ipv42u32(bxi_ipv4     ip);
-EXPORT void bxi_u322ipv4(u32 pack,         bxi_ipv4    ip);
+void test_hashes_test_bxidecrypt(void)
+{
 
-#endif /* BXIIPV4_H */
+}
 
+void test_hashes_bxicrypt(void)
+{
+    print_info;
+
+    test_hashes_test_bxicrypt();
+    test_hashes_test_bxidecrypt();
+
+    print_passed();
+}

@@ -30,6 +30,7 @@
 #include "./definitions/tst_bxiassert.h"
 #include "./definitions/tst_bximacros.h"
 #include "./graph/tst_bxicolour.h"
+#include "./hashes/tst_bxicrypt.h"
 #include "./hashes/tst_bxihash.h"
 #include "./hashes/tst_bximd5.h"
 #include "./hashes/tst_bxiuuid.h"
