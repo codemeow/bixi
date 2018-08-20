@@ -112,8 +112,8 @@ EXPORT u16_le    bxi_u162u16_le(u16    value);
 
 EXPORT u32    bxi_u32_le2u32   (u32_le value);
 EXPORT u32    bxi_u32_be2u32   (u32_be value);
-EXPORT i32_be bxi_u32_le2u32_be(u32_le value);
-EXPORT i32_le bxi_u32_be2u32_le(u32_be value);
+EXPORT u32_be bxi_u32_le2u32_be(u32_le value);
+EXPORT u32_le bxi_u32_be2u32_le(u32_be value);
 EXPORT u32_be    bxi_u322u32_be(u32    value);
 EXPORT u32_le    bxi_u322u32_le(u32    value);
 

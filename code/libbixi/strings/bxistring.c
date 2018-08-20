@@ -426,30 +426,25 @@ void bxi_str2lower(char * str)
  * output[3] = 'ddd
  * output[4] = eee'
  */
-/* @todo remove *count, only return */
 /* @todo selectable separator       */
-u32 bxi_strprs(char * str, u32 * count, char ** output)
+u32 bxi_strprs(char * str, char ** output)
 {
     u32 i = 0;
     u32 l = bxi_strlen(str);
     u32 escaped = 0;
     u32 quoted  = 0;
     char quote = ' ';
+    u32 count;
 
     if (!str)
-        return 0;
-    if (!count)
         return 0;
 
     while (bxi_isspace(str[i]))
         i++;
     if (i == l)
-    {
-        *count = 0;
         return 0;
-    }
 
-    *count = 1;
+    count = 1;
     if (output) output[0] = str + i;
 
     for (; i < l; i++)
@@ -476,6 +471,9 @@ u32 bxi_strprs(char * str, u32 * count, char ** output)
                 escaped = 0;
             break;
         case ' ':
+        case '\n':
+        case '\r':
+        case '\t':
             if (!escaped)
             {
                 if (!quoted)
@@ -483,8 +481,8 @@ u32 bxi_strprs(char * str, u32 * count, char ** output)
                     str[i] = '\0';
                     if ((!bxi_isspace(str[i + 1])) && (str[i + 1] != '\0'))
                     {
-                        if (output) output[*count] = str + i + 1;
-                        *count = *count + 1;
+                        if (output) output[count] = str + i + 1;
+                        count++;
                     }
                 }
             }
@@ -496,7 +494,55 @@ u32 bxi_strprs(char * str, u32 * count, char ** output)
         }
     }
 
-    return *count;
+    return count;
+}
+
+u32 bxi_strprsnq(char * str, char ** output)
+{
+    /* Same as bxi_strprs but has no quote/escape rules
+            (useful for ls -l FTP output)           */
+
+    u32 i = 0;
+    u32 l = bxi_strlen(str);
+    u32 count;
+    bool set = false;
+
+    if (!str)
+        return 0;
+
+    while (bxi_isspace(str[i]))
+        i++;
+    if (i == l)
+        return 0;
+
+    count = 1;
+    if (output) output[0] = str + i;
+
+    for (; i < l; i++)
+    {
+        switch (str[i])
+        {
+        case ' ':
+        case '\n':
+        case '\r':
+        case '\t':
+            if (!set)
+            {
+                set = true;
+                str[i] = '\0';
+            }
+            if ((!bxi_isspace(str[i + 1])) && (str[i + 1] != '\0'))
+            {
+                if (output) output[count] = str + i + 1;
+                count++;
+            }
+            break;
+        default:
+            set = false;
+        }
+    }
+
+    return count;
 }
 
 char * bxi_strstr(const char * str, const char * sub)
@@ -593,13 +639,13 @@ u32 bxi_strspn(const char * str, const char * lst)
 
     while (*lst)
     {
-        map[BXI_FAST_DIV_8(*lst)] |= 1 << (*lst % 8);
+        map[BXI_FAST_DIV_8(*lst)] |= 1 << (*lst % BITS_IN_BYTE);
         lst++;
     }
 
     while (*str)
     {
-        if (!((map[BXI_FAST_DIV_8(*str)] >> (*str % 8)) & 1))
+        if (!((map[BXI_FAST_DIV_8(*str)] >> (*str % BITS_IN_BYTE)) & 1))
             break;
         res++;
         str++;
@@ -615,13 +661,13 @@ u32 bxi_strcspn(const char * str, const char * lst)
 
     while (*lst)
     {
-        map[BXI_FAST_DIV_8(*lst)] |= 1 << (*lst % 8);
+        map[BXI_FAST_DIV_8(*lst)] |= 1 << (*lst % BITS_IN_BYTE);
         lst++;
     }
 
     while (*str)
     {
-        if ((map[BXI_FAST_DIV_8(*str)] >> (*str % 8)) & 1)
+        if ((map[BXI_FAST_DIV_8(*str)] >> (*str % BITS_IN_BYTE)) & 1)
             break;
         res++;
         str++;
@@ -636,13 +682,13 @@ char * bxi_strpbrk(const char * str, const char * lst)
 
     while (*lst)
     {
-        map[BXI_FAST_DIV_8(*lst)] |= 1 << (*lst % 8);
+        map[BXI_FAST_DIV_8(*lst)] |= 1 << (*lst % BITS_IN_BYTE);
         lst++;
     }
 
     while (*str)
     {
-        if ((map[BXI_FAST_DIV_8(*str)] >> (*str % 8)) & 1)
+        if ((map[BXI_FAST_DIV_8(*str)] >> (*str % BITS_IN_BYTE)) & 1)
             return (char * )str;
         str++;
     }

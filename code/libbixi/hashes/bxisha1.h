@@ -19,21 +19,41 @@
  *  along with Project "Bixi". If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef BXIHASH_H
-#define BXIHASH_H
+#ifndef BXISHA1_H
+#define BXISHA1_H
 
 #include "../definitions/bxiexport.h"
 #include "../types/bxiints.h"
+#include "../hashes/bxihash.h"
 
-EXPORT typedef u8 hash_4[4];
-EXPORT typedef u8 hash_8[8];
-EXPORT typedef u8 hash_16[16];
-EXPORT typedef u8 hash_20[20];
-EXPORT typedef u8 hash_32[32];
-EXPORT typedef u8 hash_64[64];
-EXPORT typedef u8 hash_128[128];
-EXPORT typedef u8 hash_256[256];
-EXPORT typedef u8 hash_512[512];
+EXPORT_FROM
+#define SHA1_SIZE (20)
 
-#endif /* BXIHASH_H */
+#define SHA1_STEP_COUNT (5)
+EXPORT_TO
+
+EXPORT typedef struct
+{
+    u32     leng;
+    u32     totl[2];
+
+    u32     h[SHA1_STEP_COUNT];
+    u32     w[16];
+    hash_20 hash;
+} sha1_t;
+
+EXPORT void sha1_init     (sha1_t * sha1);
+EXPORT void sha1_append   (sha1_t * sha1, const u8 * data, u32 len);
+EXPORT void sha1_appendstr(sha1_t * sha1, const char * str);
+EXPORT void sha1_appendi8 (sha1_t * sha1, i8 num);
+EXPORT void sha1_appendu8 (sha1_t * sha1, u8 num);
+EXPORT void sha1_appendi16(sha1_t * sha1, i16 num);
+EXPORT void sha1_appendu16(sha1_t * sha1, u16 num);
+EXPORT void sha1_appendi32(sha1_t * sha1, i32 num);
+EXPORT void sha1_appendu32(sha1_t * sha1, u32 num);
+EXPORT void sha1_final    (sha1_t * sha1);
+
+EXPORT void sha12str      (sha1_t * sha1, char * out);
+
+#endif /* BXISHA1_H */
 

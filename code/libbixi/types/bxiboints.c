@@ -19,6 +19,7 @@
  *  along with Project "Bixi". If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "../definitions/bxienv.h"
 #include "../types/bxiboints.h"
 
 u16 bxi_chgend16(u16 val)
@@ -139,12 +140,12 @@ u32 bxi_u32_be2u32(u32_be value)
     return IS_BE ? value : bxi_chgend32(value);
 }
 
-i32_be bxi_u32_le2u32_be(u32_le value)
+u32_be bxi_u32_le2u32_be(u32_le value)
 {
     return bxi_chgend32(value);
 }
 
-i32_le bxi_u32_be2u32_le(u32_be value)
+u32_le bxi_u32_be2u32_le(u32_be value)
 {
     return bxi_chgend32(value);
 }

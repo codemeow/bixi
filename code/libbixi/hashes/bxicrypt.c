@@ -24,7 +24,7 @@
 #include "../strings/bxistring.h"
 #include "../utils/bximemutils.h"
 
-static void bxi_salt  (u32 len, u8 * data, const char * salt)
+static void bxi_salt(u32 len, u8 * data, const char * salt)
 {
     const char * sptr = salt;
     while (len--)

@@ -51,6 +51,8 @@ EXPORT_FROM
 #define UUID_EMPTY         "00000000-0000-0000-0000-000000000000"
 EXPORT_TO
 
+void uuid_appendhex(u8 value, char * out);
+
 EXPORT void uuidv3(uuid_t out, uuid_t ns, const char * data);
 EXPORT void uuidv4(uuid_t out);
 

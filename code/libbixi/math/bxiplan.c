@@ -23,6 +23,65 @@
 #include "../math/bximath.h"
 #include "../definitions/bximacros.h"
 
+bxi_size bxi_size_c(u32 x, u32 y)
+{
+    bxi_size res;
+    res.x = x;
+    res.y = y;
+    return res;
+}
+
+bxi_point bxi_point_c(i32 x, i32 y)
+{
+    bxi_point res;
+    res.x = x;
+    res.y = y;
+    return res;
+}
+
+bxi_line bxi_line_c(bxi_point p1, bxi_point p2)
+{
+    bxi_line res;
+    res.p1 = p1;
+    res.p2 = p2;
+    return res;
+}
+
+bxi_rect bxi_rect_c(bxi_point p1, bxi_point p2)
+{
+    bxi_rect res;
+    res.p1 = p1;
+    res.p2 = p2;
+    return res;
+}
+
+bxi_circle bxi_circle_c(bxi_point c, i32 r)
+{
+    bxi_circle res;
+    res.c = c;
+    res.r = r;
+    return res;
+}
+
+bxi_triangle bxi_triangle_c(bxi_point p1, bxi_point p2, bxi_point p3)
+{
+    bxi_triangle res;
+    res.p1 = p1;
+    res.p2 = p2;
+    res.p3 = p3;
+    return res;
+}
+
+bxi_tetragon bxi_tetragon_c(bxi_point p1, bxi_point p2, bxi_point p3, bxi_point p4)
+{
+    bxi_tetragon res;
+    res.p1 = p1;
+    res.p2 = p2;
+    res.p3 = p3;
+    res.p4 = p4;
+    return res;
+}
+
 bool bxi_segment_cross(bxi_line * l1, bxi_line * l2, bxi_point * c)
 {
     bxi_point crs;

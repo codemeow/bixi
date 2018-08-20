@@ -100,16 +100,16 @@ bool bxi_ipv42str(bxi_ipv4 * ip, char * str)
 
 u32 bxi_ipv42u32(bxi_ipv4 ip)
 {
-    return (ip[0] << 24) |
-           (ip[1] << 16) |
-           (ip[2] <<  8) |
-           (ip[3]      );
+    return (ip[0] << (BITS_IN_BYTE * 3)) |
+           (ip[1] << (BITS_IN_BYTE * 2)) |
+           (ip[2] << (BITS_IN_BYTE * 1)) |
+           (ip[3]                      );
 }
 
 void bxi_u322ipv4(u32 pack, bxi_ipv4 ip)
 {
-    ip[0] = (pack >> 24) & 0xff;
-    ip[1] = (pack >> 16) & 0xff;
-    ip[2] = (pack >>  8) & 0xff;
-    ip[3] = (pack      ) & 0xff;
+    ip[0] = (pack >> (BITS_IN_BYTE * 3)) & 0xff;
+    ip[1] = (pack >> (BITS_IN_BYTE * 2)) & 0xff;
+    ip[2] = (pack >> (BITS_IN_BYTE * 1)) & 0xff;
+    ip[3] = (pack                      ) & 0xff;
 }

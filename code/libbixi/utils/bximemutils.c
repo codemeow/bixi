@@ -547,18 +547,21 @@ void * bxi_memrchr(const void * ptr, u8 val, u32 cnt)
 
 void * bxi_mempcpy(void * dst, const void * src, u32 cnt)
 {
-    if (!dst)
-        return NULL;
+    u8 * mres;
+
     if (!src)
         return dst;
 
-    return (u8 *)bxi_memcpy(dst, src, cnt) + cnt;
+    mres = (u8 *)bxi_memcpy(dst, src, cnt);
+
+    return mres ? mres + cnt : NULL;
 }
 
 void * bxi_memccpy(void * dst, const void * src, i32 c, u32 cnt)
 {
     const u8 * src_u8  = src;
          u32   src_cnt = cnt;
+          u8 * mres;
 
     if (!dst)
         return NULL;
@@ -575,5 +578,7 @@ void * bxi_memccpy(void * dst, const void * src, i32 c, u32 cnt)
         src_cnt--;
     }
 
-    return (u8 *)bxi_memcpy(dst, src, src_cnt) + (cnt - src_cnt + 1);
+    mres = (u8 *)bxi_memcpy(dst, src, src_cnt);
+
+    return mres ? mres + (cnt - src_cnt + 1) : NULL;
 }

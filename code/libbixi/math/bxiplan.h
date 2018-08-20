@@ -137,11 +137,19 @@ EXPORT typedef struct
 EXPORT typedef bxi_pointi    bxi_point;
 EXPORT typedef bxi_linei     bxi_line;
 EXPORT typedef bxi_recti     bxi_rect;
+EXPORT typedef bxi_circlei   bxi_circle;
 EXPORT typedef bxi_trianglei bxi_triangle;
 EXPORT typedef bxi_tetragoni bxi_tetragon;
-EXPORT typedef bxi_circlei   bxi_circle;
 
 EXPORT typedef bxi_pointu    bxi_size;
+
+EXPORT bxi_size     bxi_size_c    (u32 x,  u32 y);
+EXPORT bxi_point    bxi_point_c   (i32 x,  i32 y);
+EXPORT bxi_line     bxi_line_c    (bxi_point p1, bxi_point p2);
+EXPORT bxi_rect     bxi_rect_c    (bxi_point p1, bxi_point p2);
+EXPORT bxi_circle   bxi_circle_c  (bxi_point c,  i32 r);
+EXPORT bxi_triangle bxi_triangle_c(bxi_point p1, bxi_point p2, bxi_point p3);
+EXPORT bxi_tetragon bxi_tetragon_c(bxi_point p1, bxi_point p2, bxi_point p3, bxi_point p4);
 
 EXPORT bool bxi_segment_cross(bxi_line * l1, bxi_line * l2, bxi_point * c);
 

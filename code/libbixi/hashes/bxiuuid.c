@@ -66,7 +66,7 @@ void uuidv4(uuid_t out)
     uuidversionset(out, UUID_V4);
 }
 
-static void uuid_appendhex(u8 value, char * out)
+void uuid_appendhex(u8 value, char * out)
 {
     out[0] = (value >> 4) > 9 ? 'a' + (value >> 4) - 10 : '0' + (value >> 4);
     out[1] = (value & 15) > 9 ? 'a' + (value & 15) - 10 : '0' + (value & 15);

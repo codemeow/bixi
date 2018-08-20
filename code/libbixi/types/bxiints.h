@@ -37,14 +37,26 @@ EXPORT_FROM
 #   if   defined(BXI_BITS_64)
        typedef unsigned  long int pu_t;
        typedef   signed  long int pd_t;
+
+COMPILE_ASSERT(sizeof(pu_t) == 8);
+COMPILE_ASSERT(sizeof(pd_t) == 8);
 #   elif defined(BXI_BITS_32)
        typedef unsigned       int pu_t;
        typedef   signed       int pd_t;
+
+COMPILE_ASSERT(sizeof(pu_t) == 4);
+COMPILE_ASSERT(sizeof(pd_t) == 4);
 #   elif defined(BXI_BITS_16)
        typedef unsigned short int pu_t;
        typedef   signed short int pd_t;
+
+COMPILE_ASSERT(sizeof(pu_t) == 2);
+COMPILE_ASSERT(sizeof(pd_t) == 2);
 #   endif
 EXPORT_TO
+
+EXPORT typedef pu_t umax;
+EXPORT typedef pd_t imax;
 
 EXPORT_FROM
 #define BITS_IN_BYTE ( 8)

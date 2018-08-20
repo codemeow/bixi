@@ -28,14 +28,16 @@
 
 EXPORT_FROM
 #define MD5_SIZE (16)
+
+#define MD5_STEP_COUNT (4)
 EXPORT_TO
 
 EXPORT typedef struct
 {
-    u32     abcd[MD5_SIZE / sizeof(u32)];
+    u32     abcd[MD5_STEP_COUNT];
     u32     leng;
     u32     totl[2];
-    u8      data[MD5_SIZE * 4];
+    u8      data[MD5_SIZE * sizeof(u32)];
     hash_16 hash;
 } md5_t;
 

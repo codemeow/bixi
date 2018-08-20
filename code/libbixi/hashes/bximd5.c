@@ -26,14 +26,17 @@
 
 #define STEP_COUNT (4)
 
-static const u8 md5_shifts[MD5_SIZE * STEP_COUNT] = {
+#define MD5_BLOCK_SIZE (512)
+#define MD5_BLOCK_PSIZE (MD5_BLOCK_SIZE - 64)
+
+static const u8 md5_shifts[MD5_SIZE * MD5_STEP_COUNT] = {
     7, 12, 17, 22,  7, 12, 17, 22,  7, 12, 17, 22,  7, 12, 17, 22,
     5,  9, 14, 20,  5,  9, 14, 20,  5,  9, 14, 20,  5,  9, 14, 20,
     4, 11, 16, 23,  4, 11, 16, 23,  4, 11, 16, 23,  4, 11, 16, 23,
     6, 10, 15, 21,  6, 10, 15, 21,  6, 10, 15, 21,  6, 10, 15, 21
 };
 
-static const u32 md5_sins[MD5_SIZE * STEP_COUNT] = {
+static const u32 md5_sins[MD5_SIZE * MD5_STEP_COUNT] = {
     0xd76aa478u, 0xe8c7b756u, 0x242070dbu, 0xc1bdceeeu,
     0xf57c0fafu, 0x4787c62au, 0xa8304613u, 0xfd469501u,
     0x698098d8u, 0x8b44f7afu, 0xffff5bb1u, 0x895cd7beu,
@@ -52,7 +55,7 @@ static const u32 md5_sins[MD5_SIZE * STEP_COUNT] = {
     0xf7537e82u, 0xbd3af235u, 0x2ad7d2bbu, 0xeb86d391u
 };
 
-static const u32 md5_inits[STEP_COUNT] = {
+static const u32 md5_inits[MD5_STEP_COUNT] = {
     0x67452301u, 0xefcdab89u, 0x98badcfeu, 0x10325476u
 };
 
@@ -69,8 +72,8 @@ static u32 md5_2(u32 i) { return (5 * i + 1) % MD5_SIZE; }
 static u32 md5_3(u32 i) { return (3 * i + 5) % MD5_SIZE; }
 static u32 md5_4(u32 i) { return (7 * i    ) % MD5_SIZE; }
 
-static const md5_func_fghi md5_fghi[STEP_COUNT] = { md5_F, md5_G, md5_H, md5_I };
-static const md5_func_1234 md5_1234[STEP_COUNT] = { md5_1, md5_2, md5_3, md5_4 };
+static const md5_func_fghi md5_fghi[MD5_STEP_COUNT] = { md5_F, md5_G, md5_H, md5_I };
+static const md5_func_1234 md5_1234[MD5_STEP_COUNT] = { md5_1, md5_2, md5_3, md5_4 };
 
 static void md5_enlarge(md5_t * md5, u32 len)
 {
@@ -151,7 +154,7 @@ void md5_append(md5_t * md5, const u8 * data, u32 length)
     for (i = 0; i < length; i++)
     {
         md5->data[md5->leng++] = data[i];
-        if (md5->leng == (MD5_SIZE * sizeof(u32)))
+        if (md5->leng == (MD5_BLOCK_SIZE / BITS_IN_U8))
         {
             md5_process(md5);
             md5_enlarge(md5, 0x200);
