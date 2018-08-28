@@ -26,6 +26,7 @@ GLOBAL_COMPILER_OPTIONS="$2"
 GLOBAL_CORE_COUNT=$(grep -c ^processor /proc/cpuinfo)
 
 # @todo support of +--- instead of ┌───
+# @todo support of non-standart bash location or replace bashisms
 
 # Error holder
 ERROR_HOLDER="/tmp/build-holder.log"
@@ -61,8 +62,14 @@ CompilerValid()
 
 Md5Calc()
 {
-    #          Linux                                 || Minix
-    ( command -v md5sum > /dev/null && md5sum "$1" ) || md5 -n "$1"
+    # Linux		     #          Linux                                 || Minix
+    # Minix		     ( command -v md5sum > /dev/null && md5sum "$1" ) || md5 -n "$1"
+    # BSD		
+		
+    ( command -v md5sum > /dev/null && md5sum "$1"                                 ) || \		
+    ( command -v md5    > /dev/null && md5 -n "$1" > /dev/null 2>&1 && md5 -n "$1" ) || \		
+    ( command -v md5    > /dev/null && md5 -r "$1" > /dev/null 2>&1 && md5 -r "$1" ) || \		
+    ( Die "Can't find appropriate md5-hasher "                                     )
 }
 
 Initialise()
