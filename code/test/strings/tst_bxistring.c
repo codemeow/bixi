@@ -94,13 +94,9 @@ static void test_strings_test_bxi_strprs(void)
 {
     char   parsed[] = "  param1 param2 \"param 3\" \'param \"\\\' 4 \'";
     char * output[5];
-    u32    count = 0;
 
     printf("        checking: bxi_strprs\n");
-    if (bxi_strprs(parsed, &count, output) != 4)
-        test_failed();
-
-    if (count != 4)
+    if (bxi_strprs(parsed, output) != 4)
         test_failed();
 
     if ((bxi_strcmp(output[0], "param1")) ||

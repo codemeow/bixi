@@ -23,9 +23,9 @@ set -e
 
 GLOBAL_DEBUG_MODE="$1"
 GLOBAL_COMPILER_OPTIONS="$2"
+GLOBAL_CORE_COUNT=$(grep -c ^processor /proc/cpuinfo)
 
 # @todo support of +--- instead of ┌───
-# @todo support of non-standart bash location or replace bashisms
 
 # Error holder
 ERROR_HOLDER="/tmp/build-holder.log"
@@ -61,14 +61,8 @@ CompilerValid()
 
 Md5Calc()
 {
-    # Linux
-    # Minix
-    # BSD
-
-    ( command -v md5sum > /dev/null && md5sum "$1"                                 ) || \
-    ( command -v md5    > /dev/null && md5 -n "$1" > /dev/null 2>&1 && md5 -n "$1" ) || \
-    ( command -v md5    > /dev/null && md5 -r "$1" > /dev/null 2>&1 && md5 -r "$1" ) || \
-    ( Die "Can't find appropriate md5-hasher "                                     )
+    #          Linux                                 || Minix
+    ( command -v md5sum > /dev/null && md5sum "$1" ) || md5 -n "$1"
 }
 
 Initialise()
@@ -78,7 +72,7 @@ Initialise()
         COMPILER_DEBUG="-g"
     elif [ "$GLOBAL_DEBUG_MODE" == "release" ]
     then
-        COMPILER_DEBUG="-O2"
+        COMPILER_DEBUG="-O3"
     else
         Die "Wrong debug type, give 'debug' or 'release'"
     fi
@@ -237,7 +231,6 @@ IncrementBuild()
         ((BUILD_NUMBER_NEXT++))
         SED_BEFORE="PROJECT_VERSION_BUILD=$BUILD_NUMBER_CURRENT"
         SED_AFTER="PROJECT_VERSION_BUILD=$BUILD_NUMBER_NEXT"
-
         # I'm aware of -i option. Unfortunately it is not
         # supported on some systems like Minix or Mac OS
         sed "s/^$SED_BEFORE/$SED_AFTER/" \
@@ -261,10 +254,18 @@ Compile()
     then
         COMPILER_STD="-std=$COMPILER_STD"
     fi
-    find $DIRECTORY_PROJECT -name "*.c" -o -name "*.cpp" | while read -r file_c ;
-    do
-        echo "├ $file_c"
 
+    compilables_array=()
+    while IFS=  read -r -d $'\0'; do
+        compilables_array+=("$REPLY")
+    done < <(find $DIRECTORY_PROJECT -name "*.c" -print0 -o -name "*.cpp" -print0)
+
+    compilables_len=${#compilables_array[@]}
+
+    for (( i=0; i<${compilables_len}; i++ ));
+    do
+        file_c=${compilables_array[$i]}
+        echo "├ $file_c"
         file_o=$(Md5Calc "$file_c" | awk '{ printf "%s%s", $1, ".o"; }')
 
         $COMPILER_NAME \
@@ -276,15 +277,16 @@ Compile()
             -DPROJECT_VERSION_BUILD="$PROJECT_VERSION_BUILD" \
             -I"$DIRECTORY_INCLUDES" \
             -c "$file_c" \
-            -o "./$DIRECTORY_BUILD/$file_o" >>"$ERROR_HOLDER" 2>&1
+            -o "./$DIRECTORY_BUILD/$file_o" >>"$ERROR_HOLDER" 2>&1 &
 
-        if [ $? -ne 0 ]
+        if [[ $(( i % ($GLOBAL_CORE_COUNT + 1) )) == 0 ]]
         then
-            echo "├ $COMPILER_NAME has failed, aborting"
-            echo "└───"
-            Die "Error occured"
+            wait
         fi
     done
+
+    wait
+
     echo "└───"
 
     if [ ! -z "$RUN_AFTER_COMPILE" ]
@@ -396,4 +398,3 @@ do
     Symlink
     Export
 done
-

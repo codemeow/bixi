@@ -62,3 +62,26 @@ The name Bixi was selected to symbolise the basis of any solid and reliable libr
 ## Utils
 * [bxibitutils.h](/docs/manual/utils/bxibitutils.md)
 * [bximemutils.h](/docs/manual/utils/bximemutils.md)
+
+# External dependencies
+
+Bixi library has no external dependencies. Headers of the standart library are
+not included anywhere in the project.
+
+# Compiling
+
+Debug mode:
+```sh
+./scripts/build.sh debug
+```
+Release mode:
+```sh
+./scripts/build.sh release
+```
+All the binaries will be put into `./bin` directory.\
+All the includes wiil be put into `./includes` directory.
+
+Additional compiler options could be transferred as additional arguments:
+```sh
+./scripts/build.sh release -DBXI_NO_SQRTI
+```
