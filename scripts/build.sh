@@ -66,9 +66,9 @@ Md5Calc()
     # Minix		     ( command -v md5sum > /dev/null && md5sum "$1" ) || md5 -n "$1"
     # BSD		
 		
-    ( command -v md5sum > /dev/null && md5sum "$1"                                 ) || \		
-    ( command -v md5    > /dev/null && md5 -n "$1" > /dev/null 2>&1 && md5 -n "$1" ) || \		
-    ( command -v md5    > /dev/null && md5 -r "$1" > /dev/null 2>&1 && md5 -r "$1" ) || \		
+    ( command -v md5sum > /dev/null && md5sum "$1"                                 ) || \
+    ( command -v md5    > /dev/null && md5 -n "$1" > /dev/null 2>&1 && md5 -n "$1" ) || \
+    ( command -v md5    > /dev/null && md5 -r "$1" > /dev/null 2>&1 && md5 -r "$1" ) || \
     ( Die "Can't find appropriate md5-hasher "                                     )
 }
 

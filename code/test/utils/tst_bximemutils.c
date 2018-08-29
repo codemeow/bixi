@@ -590,8 +590,8 @@ static void test_utils_test_bxi_mempcpy(void)
     u8 p1[100];
     u8 p2[100];
 
-    u8 * org = NULL;
-    u8 * new = NULL;
+    u8 * org;
+    u8 * new;
 
     printf("        checking: bxi_mempcpy\n");
 
@@ -612,8 +612,8 @@ static void test_utils_test_bxi_memccpy(void)
     u8 p1[100];
     u8 p2[100];
 
-    u8 * org = NULL;
-    u8 * new = NULL;
+    u8 * org;
+    u8 * new;
 
     printf("        checking: bxi_memccpy\n");
 

@@ -537,6 +537,7 @@ static void test_math_bxi_isnan(void)
         test_failed();
     if (bxi_isnan(0.0) != false)
         test_failed();
+    /* cppcheck-suppress duplicateExpression */
     if (bxi_isnan(0.0 / 0.0) != true)
         test_failed();
     if (bxi_isnan(NAN) != true)

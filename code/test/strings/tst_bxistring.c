@@ -237,8 +237,8 @@ static void test_strings_test_bxi_strcat(void)
     char org[100] = "abc";
     char new[100] = "abc";
 
-    char * p1 = NULL;
-    char * p2 = NULL;
+    char * p1;
+    char * p2;
 
     printf("        checking: bxi_strcat\n");
     p1 =     strcat(org, "def");
@@ -253,8 +253,8 @@ static void test_strings_test_bxi_strncpy(void)
     char org[100] = { 0 };
     char new[100] = { 0 };
 
-    char * p1 = NULL;
-    char * p2 = NULL;
+    char * p1;
+    char * p2;
 
     printf("        checking: bxi_strncpy\n");
     p1 =     strncpy(org, "abcdef", 3);
@@ -284,8 +284,8 @@ static void test_strings_test_bxi_strncmp(void)
 static void test_strings_test_bxi_strchrnul(void)
 {
     const char s1[] = "abcdefghi";
-    char * org = NULL;
-    char * new = NULL;
+    char * org;
+    char * new;
 
     printf("        checking: bxi_strchrnul\n");
 
@@ -305,8 +305,8 @@ static void test_strings_test_bxi_strncat(void)
     char s1[100] = "abc";
     char s2[100] = "abc";
 
-    char * org = NULL;
-    char * new = NULL;
+    char * org;
+    char * new;
 
     printf("        checking: bxi_strncat\n");
 
@@ -319,8 +319,8 @@ static void test_strings_test_bxi_strncat(void)
 
 static void test_strings_test_bxi_strapp(void)
 {
-    char * buf = NULL;
-    char * res = NULL;
+    char * buf;
+    char * res;
 
     printf("        checking: bxi_strapp\n");
 
@@ -343,8 +343,8 @@ static void test_strings_test_bxi_strpbrk(void)
 {
     const char str[] = "abcdefghijklmnopqrstuvwxyz";
 
-    char * org = NULL;
-    char * new = NULL;
+    char * org;
+    char * new;
 
     printf("        checking: bxi_strpbrk\n");
 

@@ -34,6 +34,7 @@ static void test_utils_test_bxi_swap(void)
 #   endif
 
     BXI_SWAP(a, b);
+    /* cppcheck-suppress knownConditionTrueFalse */
     if ((a != 4) || (b != 3))
         test_failed();
 

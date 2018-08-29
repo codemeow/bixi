@@ -66,8 +66,8 @@ static void sha1_enlarge(sha1_t * sha1, u32 len)
 
 #define sha1_process_org(SHA1, I, ARRAY, F, K, A, B, C, D, E)  \
 {                                                              \
-    temp = bxi_chgend32(SHA1->w[I]);                           \
-    ARRAY[I] = temp;                                           \
+    temp = bxi_chgend32(SHA1->w[(I) % 16]);                    \
+    ARRAY[(I) % 16] = temp;                                    \
                                                                \
     E += temp + bxi_rotl32(A, 5) + F(B, C, D) + K;             \
     B = bxi_rotl32(B, 30);                                     \
