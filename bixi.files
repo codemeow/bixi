@@ -169,3 +169,4 @@ code/braxel-demo/graph/brxpic.c
 code/braxel-demo/engine/brxparams.h
 code/braxel-demo/engine/brxengine.h
 code/braxel-demo/engine/brxengine.c
+includes/braxel/libbraxel.h

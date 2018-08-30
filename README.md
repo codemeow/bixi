@@ -70,6 +70,8 @@ not included anywhere in the project.
 
 # Compiling
 
+## From terminal
+
 Debug mode:
 ```sh
 ./scripts/build.sh debug
@@ -85,3 +87,7 @@ Additional compiler options could be transferred as additional arguments:
 ```sh
 ./scripts/build.sh release -DBXI_NO_SQRTI
 ```
+
+## From QtCreator
+
+* [How to set QtCreator](/docs/manual/qtcreator.md)
