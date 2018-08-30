@@ -85,3 +85,51 @@ Additional compiler options could be transferred as additional arguments:
 ```sh
 ./scripts/build.sh release -DBXI_NO_SQRTI
 ```
+
+# Examples and demos
+
+The library packed with examples of use and demos the following programs are available:
+
+## Braxel
+
+Braxel library provides a few functions to be able to draw by Braille characters in `stdout` or `FILE *`. The following functions are present:
+
+```c
+typedef struct
+{
+    bxi_size size;
+    bxi_bts  data;
+} brx_pic_t;
+
+typedef enum
+{
+    BRX_MODE_BACK,
+    BRX_MODE_FRONT,
+    BRX_MODE_NOT_BACK,
+    BRX_MODE_NOT_FRONT,
+
+    BRX_MODE_OR,
+    BRX_MODE_AND,
+    BRX_MODE_XOR,
+    BRX_MODE_NOR,
+    BRX_MODE_NAND,
+
+    BRX_MODE_COUNT
+} brx_mode;
+```
+```c
+brx_pic_t * brx_pic_create   (bxi_size   size);
+void        brx_pic_free     (brx_pic_t * pic);
+void        brx_pic_draw     (brx_pic_t * pic, FILE * file);
+void        brx_pic_pixel_set(brx_pic_t * pic, bxi_point pt, u8 value);
+u8          brx_pic_pixel_get(brx_pic_t * pic, bxi_point pt);
+void        brx_pic_map(brx_pic_t * back, brx_pic_t * front, bxi_point pt, brx_mode mode);
+```
+
+The examples of use are present in the next example:
+
+## Braxel-demo
+
+This example shows use of Bixi library and Braxel library to simulate "Tetris" demo. The code demonstrates use of integer names and size/position related structions (like `bxi_size`) and functions (like `bxi_point_c`).
+
+*NOTE*: To run this demo you also need to add `./bin/braxel` path to your LD_LIBRARY_PATH.
