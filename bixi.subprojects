@@ -23,7 +23,7 @@
 libbixi
 
 ## Bixi tests
-test
+bixi-test
 
 # Examples
 
@@ -32,3 +32,6 @@ libbraxel
 
 ## Braxel - examples
 braxel-demo
+
+## Net demo: server
+net-server-demo

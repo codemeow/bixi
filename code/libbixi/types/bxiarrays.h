@@ -33,6 +33,11 @@ EXPORT typedef struct
     u32  size;
 } bxi_bts;
 
+EXPORT_FROM
+/* for bxi_bts bts = BXI_BTS_INIT */
+#define BXI_BTS_INIT { NULL, 0 }
+EXPORT_TO
+
 EXPORT typedef void (*bxi_bts_trav_t)(bxi_bts * bts, u32 pos, u8 * val);
 
 EXPORT BXI_USES_MEM bxi_bts * bxi_bts_create(               u32 size);
