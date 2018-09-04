@@ -132,10 +132,26 @@ u8          brx_pic_pixel_get(brx_pic_t * pic, bxi_point pt);
 void        brx_pic_map(brx_pic_t * back, brx_pic_t * front, bxi_point pt, brx_mode mode);
 ```
 
-The examples of use are present in the next example:
+The examples of use are present in the next demo:
 
 ## Braxel-demo
 
 This example shows use of Bixi library and Braxel library to simulate "Tetris" demo. The code demonstrates use of integer names and size/position related structions (like `bxi_size`) and functions (like `bxi_point_c`).
 
 *NOTE*: To run this demo you also need to add `./bin/braxel` path to your LD_LIBRARY_PATH.
+
+## Net-server-demo
+
+This example shows use of Bixi library for creation of pseudo-NTP server (the server which will send connected user current time). The code demostrate use of byte-order conversion functions, functions for `bxi_bts` byte arrays, to hex and to base64 converters (`bxi_raw2hex`, `bxi_bin2base64`). Also this demo provides example for memory allocation logging:
+```
+[I] Ready. Connect to 127.0.0.1:20622
+[I] Client connected
+[M] ./code/libbixi/types/bxiarrays.c:48 > [(nil)] realloc 45 bytes to [0x13eb420]
+[M] ./code/libbixi/types/bxiarrays.c:48 > [(nil)] realloc 45 bytes to [0x13eb460]
+[M] ./code/libbixi/types/bxiarrays.c:48 > [0x13eb460] realloc 47 bytes to [0x13eb460]
+[M] ./code/libbixi/types/bxiarrays.c:48 > [(nil)] realloc 92 bytes to [0x13eb4a0]
+[M] ./code/libbixi/types/bxiarrays.c:48 > [0x13eb460] realloc 139 bytes to [0x13eb510]
+[M] ./code/net-server-demo/main.c:125 > [0x13eb4a0] freed
+[M] ./code/net-server-demo/main.c:167 > [0x13eb420] freed
+[M] ./code/net-server-demo/main.c:168 > [0x13eb510] freed
+```
