@@ -17,7 +17,7 @@ Open file `bixi.creator` in QtCreator via "File -> Open" or via terminal:
 
 Run in terminal:
 ```sh
-qtcreator /tmpotest/bixi.creator
+qtcreator /tmp/test/bixi.creator
 ```
 
 ### Setup QtCreator
