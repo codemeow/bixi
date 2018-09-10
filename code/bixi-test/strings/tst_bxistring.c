@@ -27,6 +27,15 @@
 #include "../test.h"
 #include "../strings/tst_bxistring.h"
 
+#if defined(BXI_OS_MNX)
+/* As minix does not provide strchrnul
+ * we need to define it manually */
+char * strchrnul(const char *s, int c)
+{
+    return bxi_strchrnul(s, c);
+}
+#endif
+
 static void test_strings_test_bxi_strhash(void)
 {
     printf("        checking: bxi_strhash\n");
@@ -196,6 +205,13 @@ static void * my_malloc(u32 size, const char * file, u32 line)
     return calloc(size, 1);
 }
 
+static void * my_realloc(void * ptr, u32 size, const char * file, u32 line)
+{
+    UNUSED(file);
+    UNUSED(line);
+    return realloc(ptr, size);
+}
+
 static void my_free(void * ptr, const char * file, u32 line)
 {
     UNUSED(file);
@@ -206,6 +222,7 @@ static void my_free(void * ptr, const char * file, u32 line)
 static void test_strings_test_bxi_strdup(void)
 {
     bxi_malloc_set(my_malloc);
+    bxi_realloc_set(my_realloc);
     bxi_free_set(my_free);
 
     printf("        checking: bxi_strdup\n");
@@ -276,7 +293,7 @@ static void test_strings_test_bxi_strncmp(void)
     {
         i32 ro =     strncmp(s1, s2, i);
         i32 rn = bxi_strncmp(s1, s2, i);
-        if (ro != rn)
+        if (bxi_sign(ro) != bxi_sign(rn))
             test_failed();
     }
 }
@@ -291,11 +308,13 @@ static void test_strings_test_bxi_strchrnul(void)
 
     new = bxi_strchrnul(s1, 'c');
     org =     strchrnul(s1, 'c');
+
     if (new != org)
         test_failed();
 
     new = bxi_strchrnul(s1, 'z');
     org =     strchrnul(s1, 'z');
+
     if (new != org)
         test_failed();
 }
@@ -319,24 +338,23 @@ static void test_strings_test_bxi_strncat(void)
 
 static void test_strings_test_bxi_strapp(void)
 {
-    char * buf;
-    char * res;
+    char * buf = NULL;
 
     printf("        checking: bxi_strapp\n");
 
-    res = bxi_strapp(&buf, "abc");
-    if (bxi_strcmp(res, "abc"))
+    buf = bxi_strapp(buf, "abc");
+    if (bxi_strcmp(buf, "abc"))
         test_failed();
 
-    res = bxi_strapp(&buf, "def");
-    if (bxi_strcmp(res, "abcdef"))
+    buf = bxi_strapp(buf, "def");
+    if (bxi_strcmp(buf, "abcdef"))
         test_failed();
 
-    res = bxi_strapp(&buf, "ghi");
-    if (bxi_strcmp(res, "abcdefghi"))
+    buf = bxi_strapp(buf, "ghi");
+    if (bxi_strcmp(buf, "abcdefghi"))
         test_failed();
 
-    bxi_free(res);
+    bxi_free(buf);
 }
 
 static void test_strings_test_bxi_strpbrk(void)

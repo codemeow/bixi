@@ -23,7 +23,7 @@ set -e
 
 GLOBAL_DEBUG_MODE="$1"
 GLOBAL_COMPILER_OPTIONS="$2"
-GLOBAL_CORE_COUNT=$(grep -c ^processor /proc/cpuinfo)
+GLOBAL_CORE_COUNT=$(grep -c processor /proc/cpuinfo)
 
 # @todo support of +--- instead of ┌───
 # @todo support of non-standart bash location or replace bashisms
@@ -76,7 +76,7 @@ Initialise()
 {
     if [ "$GLOBAL_DEBUG_MODE" == "debug" ]
     then
-        COMPILER_DEBUG="-g"
+        COMPILER_DEBUG="-g -O0"
     elif [ "$GLOBAL_DEBUG_MODE" == "release" ]
     then
         COMPILER_DEBUG="-O3"

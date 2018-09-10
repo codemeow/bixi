@@ -571,28 +571,23 @@ char * bxi_strstr(const char * str, const char * sub)
     return NULL;
 }
 
-char * bxi_strapp(char ** dst, const char * src)
+char * bxi_strapp(char * dst, const char * src)
 {
     u32 dst_len = 0;
     u32 src_len = 0;
 
-    if (!dst)
-        return NULL;
     if (!src)
-        return *dst;
-    if (!(*dst))
-    {
-        *dst = bxi_strdup(src);
-        return *dst;
-    }
+        return dst;
+    if (!dst)
+        return bxi_strdup(src);
 
-    dst_len = bxi_strlen(*dst);
-    src_len = bxi_strlen( src);
+    dst_len = bxi_strlen(dst);
+    src_len = bxi_strlen(src);
 
-    *dst = bxi_realloc(*dst, dst_len + src_len + 1);
-    bxi_memcpy(*dst + dst_len, src, src_len + 1);
+    dst = bxi_realloc(dst, dst_len + src_len + 1);
+    bxi_memcpy(dst + dst_len, src, src_len + 1);
 
-    return *dst;
+    return dst;
 }
 
 char * bxi_strcat(char * dst, const char * src)

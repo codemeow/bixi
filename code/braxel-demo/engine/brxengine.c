@@ -24,8 +24,8 @@
 
 #define FIGURES_NUMBER (7)
 
-u8 field [GLASS_HEIGHT ][GLASS_WIDTH ] = { 0 };
-u8 figure[FIGURE_HEIGHT][FIGURE_WIDTH] = { 0 };
+u8 field [GLASS_HEIGHT ][GLASS_WIDTH ];
+u8 figure[FIGURE_HEIGHT][FIGURE_WIDTH];
 
 static const u8 figures[FIGURES_NUMBER][FIGURE_HEIGHT][FIGURE_WIDTH] = {
     {{1, 0, 0, 0}, {1, 0, 0, 0}, {1, 0, 0, 0}, {1, 0, 0, 0}},
@@ -120,6 +120,8 @@ static bool field_is_full(void)
 
 void game_loop(void)
 {
+    bxi_memset(field, 0, BXI_ARRAY_SIZE(field));
+
     forever
     {
         figure_spawn();

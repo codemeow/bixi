@@ -28,14 +28,15 @@
 #include "../test.h"
 #include "../math/tst_bximath.h"
 
-#define TEST_SPEED_SQRTI_LOOPS (U32_MAX >> 5)
-#define TEST_SPEED_FABS_LOOBS  (U32_MAX >> 3)
+/*  `+ bxi_randu8()` added to prevent extreme constant optimisation by clang */
+#define TEST_SPEED_SQRTI_LOOPS ((U32_MAX >> 5) + bxi_randu8())
+#define TEST_SPEED_FABS_LOOPS  ((U32_MAX >> 3) + bxi_randu8())
 
 static void test_math_bxi_sqrti(void)
 {
     u32 i;
-    double sum_org = 0;
-    double sum_new = 0;
+    f64 sum_org = 0;
+    f64 sum_new = 0;
 
     printf("        checking: bxi_sqrti\n");
 
@@ -64,8 +65,8 @@ static void test_math_bxi_sqrti(void)
 static void check_fabs_advanced(void)
 {
     u32 i;
-    double iterator = 1.1;
-    double value    = 0.0;
+    f64 iterator = 1.1;
+    f64 value    = 0.0;
     for (i = 0; i < 1000; i++)
     {
         iterator *= -1.5;
@@ -78,18 +79,23 @@ static void check_fabs_advanced(void)
 static void check_fabs_speed(void)
 {
     u32 i;
-    double iterator = 1.1;
-    double value    = 0.0;
-    double sum_org   = 0;
-    double sum_new   = 0;
+    f64 iterator = 1.1;
+    f64 value    = 0.0;
+    f64 sum_org   = 0;
+    f64 sum_new   = 0;
+    u32 loops = TEST_SPEED_FABS_LOOPS;
 
     test_time_start();
     {
-        for (i = 0; i < TEST_SPEED_FABS_LOOBS; i++)
+        for (i = 0; i < loops; i++)
         {
             iterator *= -1.5;
             value    += iterator;
-            sum_org  += fabs(i - 50.0);
+            sum_org  += fabs(value);
+            if (value > 1e8)
+                value = 0.0;
+            if (iterator > 1e8)
+                iterator = 1.1;
         }
     }
     test_time_finish();
@@ -99,18 +105,21 @@ static void check_fabs_speed(void)
     value    = 0.0;
     test_time_start();
     {
-        for (i = 0; i < TEST_SPEED_FABS_LOOBS; i++)
+        for (i = 0; i < loops; i++)
         {
             iterator *= -1.5;
             value    += iterator;
-            sum_new  += bxi_fabs(i - 50.0);
+            sum_new  += bxi_fabs(value);
+            if (value > 1e8)
+                value = 0.0;
+            if (iterator > 1e8)
+                iterator = 1.1;
         }
     }
     test_time_finish();
     test_time_print("bxi_fabs");
 
-    if (sum_org != sum_new)
-        test_failed();
+    printf("            comp     : %10.2f vs %10.2f\n", sum_org, sum_new);
 }
 
 static void test_math_bxi_fabs(void)
@@ -122,20 +131,20 @@ static void test_math_bxi_fabs(void)
 
 static void check_sin_advanced(void)
 {
-    double increment = 0.000001;
-    double valx      = -BXI_PI;
-    double maxerr    = 0.0;
-    double maxdiff   = 0.0;
-    double avgerr    = 0.0;
-    double avgdiff   = 0.0;
+    f64 increment = 0.000001;
+    f64 valx      = -BXI_PI;
+    f64 maxerr    = 0.0;
+    f64 maxdiff   = 0.0;
+    f64 avgerr    = 0.0;
+    f64 avgdiff   = 0.0;
     u32    i         = 0;
 
     while (valx < 1)
     {
-        double sin_sys =      sin(valx);
-        double sin_bxi = bxi_fsin(valx);
-        double diff    = bxi_fabs(sin_sys - sin_bxi);
-        double cerr    = sin_sys ? diff * 100.0 / sin_sys : 0;
+        f64 sin_sys =      sin(valx);
+        f64 sin_bxi = bxi_fsin(valx);
+        f64 diff    = bxi_fabs(sin_sys - sin_bxi);
+        f64 cerr    = sin_sys ? diff * 100.0 / sin_sys : 0;
 
         if (cerr > maxerr)
         {
@@ -163,20 +172,20 @@ static void check_sin_advanced(void)
 
 static void check_cos_advanced(void)
 {
-    double increment = 0.000001;
-    double valx      = -BXI_PI;
-    double maxerr    = 0.0;
-    double maxdiff   = 0.0;
-    double avgerr    = 0.0;
-    double avgdiff   = 0.0;
+    f64 increment = 0.000001;
+    f64 valx      = -BXI_PI;
+    f64 maxerr    = 0.0;
+    f64 maxdiff   = 0.0;
+    f64 avgerr    = 0.0;
+    f64 avgdiff   = 0.0;
     u32    i         = 0;
 
     while (valx < 1)
     {
-        double cos_sys =      cos(valx);
-        double cos_bxi = bxi_fcos(valx);
-        double diff    = bxi_fabs(cos_sys - cos_bxi);
-        double cerr    = cos_sys ? diff * 100.0 / cos_sys : 0;
+        f64 cos_sys =      cos(valx);
+        f64 cos_bxi = bxi_fcos(valx);
+        f64 diff    = bxi_fabs(cos_sys - cos_bxi);
+        f64 cerr    = cos_sys ? diff * 100.0 / cos_sys : 0;
 
         if (cerr > maxerr)
         {
@@ -208,10 +217,10 @@ static void check_cos_advanced(void)
 
 static void check_sin_speed(void)
 {
-    double sum_org   = 0;
-    double sum_new   = 0;
-    double increment = TEST_SIN_INCREMENT;
-    double valx      = TEST_SIN_START;
+    f64 sum_org   = 0;
+    f64 sum_new   = 0;
+    f64 increment = TEST_SIN_INCREMENT;
+    f64 valx      = TEST_SIN_START;
 
     test_time_start();
     {
@@ -246,10 +255,10 @@ static void check_sin_speed(void)
 #define TEST_COS_STOP      (1.0)
 static void check_cos_speed(void)
 {
-    double increment = TEST_COS_INCREMENT;
-    double valx      = TEST_COS_START;
-    double sum_org   = 0;
-    double sum_new   = 0;
+    f64 increment = TEST_COS_INCREMENT;
+    f64 valx      = TEST_COS_START;
+    f64 sum_org   = 0;
+    f64 sum_new   = 0;
 
     test_time_start();
     {
@@ -608,6 +617,8 @@ static void test_math_bxi_modf(void)
 
 static void test_math_bxi_fmod(void)
 {
+    /* @todo fix fmod */
+
     /*u32 i;
     u32 m;
     f64 start = -10.0;

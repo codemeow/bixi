@@ -55,4 +55,10 @@ void * bxi_mempcpy (      void * dst, const void * src,        u32 cnt);
 void * bxi_memccpy (      void * dst, const void * src, i32 c, u32 cnt);
 ```
 *NOTE*: the `bxi_memfrob` function in difference with usual version additionally
-has `val` parameter.
+has `val` parameter.   
+*NOTE*: if your current compiler or architecture can't detect memory copying
+and translate it into xmms registers you also can pass
+```c
+-DBXI_NO_MEMCPY_OPTIMISE
+```
+to unlock manually written memcpy instead of compiler-dependent version.

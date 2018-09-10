@@ -63,20 +63,23 @@ static void my_memerr(u32 req, const char * file, u32 line)
 
 static void * my_malloc(u32 size, const char * file, u32 line)
 {
-    UNUSED(file); UNUSED(line);
-    return calloc(size, 1);
+    pu_t * ptr = calloc(size, 1);
+    fprintf(stdout, "[M] %s:%u > [%p] alloc %u bytes\n", file, line, (void *)ptr, size);
+    return ptr;
 }
 
 static void my_free(void * ptr, const char * file, u32 line)
 {
-    UNUSED(file); UNUSED(line);
+    fprintf(stdout, "[M] %s:%u > [%p] freed\n", file, line, (void *)ptr);
     free(ptr);
 }
 
 static void * my_realloc(void * ptr, u32 size, const char * file, u32 line)
 {
-    UNUSED(file); UNUSED(line);
-    return realloc(ptr, size);
+    pu_t * ptrold = ptr;
+    pu_t * ptrnew = realloc(ptr, size);
+    fprintf(stdout, "[M] %s:%u > [%p] realloc %u bytes to [%p]\n", file, line, (void *)ptrold, size, (void *)ptrnew);
+    return ptrnew;
 }
 
 static void nsleep(u32 sec, u32 nsec)
@@ -107,7 +110,6 @@ void net_bixi_init(void)
     net_init_sleep();
 }
 
-
 static void _form_header(bxi_bts * out, demo_proto_type type)
 {
     char buffer[1024];
@@ -120,6 +122,8 @@ static void _form_header(bxi_bts * out, demo_proto_type type)
 
     bxi_bts_append_string(&bts, buffer);
     bxi_bts_insert(out, &bts, 0);
+
+    bxi_free(bts.data);
 }
 
 static void _form_package(bxi_bts * in, bxi_bts * out, demo_proto_type type)
@@ -159,7 +163,11 @@ static void send_time(i32 client)
 
     _form_package(&bts, &out, bxi_randu8() % DEMO_PROTO_COUNT);
 
-    send(client, out.data, out.size, MSG_NOSIGNAL);
+#   if !defined(MSG_NOSIGNAL)
+        send(client, out.data, out.size, 0);
+#   else
+        send(client, out.data, out.size, MSG_NOSIGNAL);
+#   endif
 
     bxi_free(bts.data);
     bxi_free(out.data);

@@ -55,7 +55,7 @@
 
 extern struct timespec time_s;
 extern struct timespec time_f;
-extern double time_diff;
+extern f64 time_diff;
 
 #define TEST_BXI_TYPE_SIZE(type, size)           \
     do                                           \

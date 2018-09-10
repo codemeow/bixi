@@ -28,7 +28,7 @@
 
 struct timespec time_s = { 0, 0 };
 struct timespec time_f = { 0, 0 };
-double time_diff = 0.0;
+f64 time_diff = 0.0;
 
 void print_macro_failed(const char * file, i32 line)
 {
@@ -95,8 +95,8 @@ void test_time_start(void)
 
 void test_time_finish(void)
 {
-    double time_n_s;
-    double time_n_f;
+    f64 time_n_s;
+    f64 time_n_f;
 
     clock_gettime(CLOCK_MONOTONIC, &time_f);
     time_n_s = time_s.tv_nsec + time_s.tv_sec * (f64)1e9;

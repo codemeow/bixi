@@ -171,10 +171,10 @@ f64 bxi_fmod(f64 x, f64 y)
     if ((bxi_isinfpos(x)) || (bxi_isinfneg(x)))
         return BXI_NAN;
 
-    if ((y == 0.0))
+    if (y == 0.0)
         return BXI_NAN;
 
-    if ((x == 0.0))
+    if (x == 0.0)
         return x;
 
     /* @todo bxi_fmod does not work */
@@ -272,7 +272,7 @@ f64 bxi_fsin(f64 x)
 {
     /* Slightly optimised algo from Nick
      * http://forum.devmaster.net/t/9648 */
-    double y = BXI_4_DIV_PI * x + (-BXI_4_DIV_SQR_PI) * x * bxi_fabs(x);
+    f64 y = BXI_4_DIV_PI * x + (-BXI_4_DIV_SQR_PI) * x * bxi_fabs(x);
     return y * (0.225 * bxi_fabs(y) + 0.775);
 }
 

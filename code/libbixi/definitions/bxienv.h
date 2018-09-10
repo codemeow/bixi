@@ -357,4 +357,22 @@ EXPORT_FROM
 #define BXI_WORD_SIZE ((BXI_BITS) >> 3)
 EXPORT_TO
 
+EXPORT_FROM
+#if   defined(__BIG_ENDIAN__) || defined(__ARMEB__) || defined(__THUMBEB__) || \
+      defined(__AARCH64EB__)  || defined(_MIPSEB)   || defined(__MIPSEB)    || \
+      defined(__MIPSEB__)     || \
+     (defined(__BYTE_ORDER__) && (__BYTE_ORDER__ == __ORDER_BIG_ENDIAN__)) || \
+     (defined(__FLOAT_WORD_ORDER__) && (__FLOAT_WORD_ORDER__ == __ORDER_BIG_ENDIAN__))
+#define BXI_ENDIAN_BE
+#elif defined(__LITTLE_ENDIAN__) || defined(__ARMEL__) || defined(__THUMBEL__) || \
+      defined(__AARCH64EL__)     || defined(_MIPSEL)   || defined(__MIPSEL)    || \
+      defined(__MIPSEL__)        || \
+     (defined(__BYTE_ORDER__) && (__BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__)) || \
+     (defined(__FLOAT_WORD_ORDER__) && (__ORDER_LITTLE_ENDIAN__ == __ORDER_LITTLE_ENDIAN__))
+#define BXI_ENDIAN_LE
+#else
+#error "BXI: Cannot detect endianness"
+#endif
+EXPORT_TO
+
 #endif /* BXIENV_H */

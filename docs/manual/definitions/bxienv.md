@@ -56,3 +56,9 @@ values are:
  BXI_BITS_32 - for 32-bit OS - Tested on real OS
  BXI_BITS_64 - for 64-bit OS - Tested on real OS
 ```
+The following macro defines current endianness:
+```c
+#define BXI_ENDIAN_BE
+or
+#define BXI_ENDIAN_LE
+```
