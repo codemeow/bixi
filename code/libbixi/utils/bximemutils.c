@@ -111,84 +111,27 @@ void * bxi_realloc_call(void * ptr, u32 size, const char * file, u32 line)
 
 void * bxi_memmove(void * dst, const void * src, u32 cnt)
 {
-          u32 i;
-          u32 pre;
-          u32 cen;
-          u32 end;
-           u8 * dst_u8 = dst;
-    const  u8 * src_u8 = src;
-          pu_t * dst_pt;
-    const pu_t * src_pt;
-    const u32  presh = sizeof(pu_t) - 1;
+          u8 * dst_u8 = dst;
+    const u8 * src_u8 = src;
 
-    if (!dst)
-        return NULL;
-    if (!src)
-        return dst;
-    if (dst == src)
-        return dst;
-    if (!cnt)
-        return dst;
+#   if defined(BXI_NO_MEMMOVE_OPTIMISE)
 
-    pre = BXI_MIN((BXI_WORD_SIZE - ((pu_t)dst & (BXI_WORD_SIZE - 1)))
-                  & (BXI_WORD_SIZE - 1), cnt);
-    cen = (cnt - pre) / BXI_WORD_SIZE;
-    end =  cnt - pre - (cen * BXI_WORD_SIZE);
+/* @todo bxi_memmove with BXI_NO_MEMMOVE_OPTIMISE */
 
-    if (dst > src)
-    {
-        dst_u8 += cnt - 1;
-        src_u8 += cnt - 1;
-        for (i = 0; i < end; i++, dst_u8--, src_u8--)
-            *dst_u8 = *src_u8;
+#   else
 
-        if (cen)
+        if (src > dst)
+            while (cnt--)
+                *dst_u8++ = *src_u8++;
+        else
         {
-            dst_pt = (      pu_t *)(dst_u8 - presh);
-            src_pt = (const pu_t *)(src_u8 - presh);
-            for (i = 0; i < cen; i++, dst_pt--, src_pt--)
-            {
-                /* I'm not sure if we can directly copy
-             * overlapping areas like this, therefore
-             * I'm having a buffer                 */
-                /* [ ][ ][ ][ ][ ][ ][ ][ ]
-             *    [   dst    ]
-             *          [    src   ]               */
-                pu_t pp = *src_pt;
-                *dst_pt = pp;
-            }
-
-            dst_u8 = (      u8 *)dst_pt + presh;
-            src_u8 = (const u8 *)src_pt + presh;
+            dst_u8 += cnt - 1;
+            src_u8 += cnt - 1;
+            while (cnt--)
+                *dst_u8-- = *src_u8--;
         }
 
-        for (i = 0; i < pre; i++, dst_u8--, src_u8--)
-            *dst_u8 = *src_u8;
-    }
-    else
-    {
-        for (i = 0; i < pre; i++, dst_u8++, src_u8++)
-            *dst_u8 = *src_u8;
-
-        dst_pt = (      pu_t *)dst_u8;
-        src_pt = (const pu_t *)src_u8;
-        for (i = 0; i < cen; i++, dst_pt++, src_pt++)
-        {
-            /* I'm not sure if we can directly copy
-             * overlapping areas like this, therefore
-             * I'm having a buffer                 */
-            /* [ ][ ][ ][ ][ ][ ][ ][ ]
-             *    [   dst    ]
-             *          [    src   ]               */
-            pu_t pp = *src_pt;
-            *dst_pt = pp;
-        }
-
-        dst_u8 = (      u8 *)dst_pt;
-        src_u8 = (const u8 *)src_pt;
-        for (i = 0; i < end; i++, dst_u8++, src_u8++)
-            *dst_u8 = *src_u8;
-    }
+#   endif
 
     return dst;
 }
@@ -347,29 +290,52 @@ void * bxi_memset32(void * ptr, u32 val, u32 cnt)
 }
 
 #   if defined(BXI_NO_MEMCPY_OPTIMISE)
-static const u8 pre_sh1[8][8] = {
-  /* sm\dm =  0,  1,  2,  3,  4,  5,  6,  7 */
-  /*  0  */{  0, 56, 48, 40, 32, 24, 16,  8, },
-  /*  1  */{  8,  0, 56, 48, 40, 32, 24, 16, },
-  /*  2  */{ 16,  8,  0, 56, 48, 40, 32, 24, },
-  /*  3  */{ 24, 16,  8,  0, 56, 48, 40, 32, },
-  /*  4  */{ 32, 24, 16,  8,  0, 56, 48, 40, },
-  /*  5  */{ 40, 32, 24, 16,  8,  0, 56, 48, },
-  /*  6  */{ 48, 40, 32, 24, 16,  8,  0, 56, },
-  /*  7  */{ 56, 48, 40, 32, 24, 16,  8,  0, },
-};
+#       if defined(BXI_BITS_64)
+        static const u8 pre_sh1[8][8] = {
+          /* sm\dm =  0,  1,  2,  3,  4,  5,  6,  7 */
+          /*  0  */{  0, 56, 48, 40, 32, 24, 16,  8, },
+          /*  1  */{  8,  0, 56, 48, 40, 32, 24, 16, },
+          /*  2  */{ 16,  8,  0, 56, 48, 40, 32, 24, },
+          /*  3  */{ 24, 16,  8,  0, 56, 48, 40, 32, },
+          /*  4  */{ 32, 24, 16,  8,  0, 56, 48, 40, },
+          /*  5  */{ 40, 32, 24, 16,  8,  0, 56, 48, },
+          /*  6  */{ 48, 40, 32, 24, 16,  8,  0, 56, },
+          /*  7  */{ 56, 48, 40, 32, 24, 16,  8,  0, },
+        };
 
-static const u8 pre_sh2[8][8] = {
-  /* sm\dm =  0,  1,  2,  3,  4,  5,  6,  7 */
-  /*  0  */{ 64,  8, 16, 24, 32, 40, 48, 56, },
-  /*  1  */{ 56, 64,  8, 16, 24, 32, 40, 48, },
-  /*  2  */{ 48, 56, 64,  8, 16, 24, 32, 40, },
-  /*  3  */{ 40, 48, 56, 64,  8, 16, 24, 32, },
-  /*  4  */{ 32, 40, 48, 56, 64,  8, 16, 24, },
-  /*  5  */{ 24, 32, 40, 48, 56, 64,  8, 16, },
-  /*  6  */{ 16, 24, 32, 40, 48, 56, 64,  8, },
-  /*  7  */{  8, 16, 24, 32, 40, 48, 56, 64, },
-};
+        static const u8 pre_sh2[8][8] = {
+          /* sm\dm =  0,  1,  2,  3,  4,  5,  6,  7 */
+          /*  0  */{ 64,  8, 16, 24, 32, 40, 48, 56, },
+          /*  1  */{ 56, 64,  8, 16, 24, 32, 40, 48, },
+          /*  2  */{ 48, 56, 64,  8, 16, 24, 32, 40, },
+          /*  3  */{ 40, 48, 56, 64,  8, 16, 24, 32, },
+          /*  4  */{ 32, 40, 48, 56, 64,  8, 16, 24, },
+          /*  5  */{ 24, 32, 40, 48, 56, 64,  8, 16, },
+          /*  6  */{ 16, 24, 32, 40, 48, 56, 64,  8, },
+          /*  7  */{  8, 16, 24, 32, 40, 48, 56, 64, },
+        };
+
+#    elif defined(BXI_BITS_32)
+
+        static const u8 pre_sh1[4][4] = {
+          /* sm\dm =  0,  1,  2,  3 */
+          /*  0  */{  0, 24, 16,  8, },
+          /*  1  */{  8,  0, 24, 16, },
+          /*  2  */{ 16,  8,  0, 24, },
+          /*  3  */{ 24, 16,  8,  0, },
+        };
+
+        static const u8 pre_sh2[4][4] = {
+           /* sm\dm =  0,  1,  2,  3 */
+           /*  0  */{ 32,  8, 16, 24, },
+           /*  1  */{ 24, 32,  8, 16, },
+           /*  2  */{ 16, 24, 32,  8, },
+           /*  3  */{  8, 16, 24, 32, },
+        };
+
+#    else
+        #error Unsupported with current definitions set/platform.
+#    endif
 #endif
 
 void * bxi_memcpy(void * dst, const void * src, u32 cnt)

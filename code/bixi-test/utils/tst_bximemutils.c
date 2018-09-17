@@ -209,11 +209,11 @@ static void check_memmove_advance()
     u8 eth2[10] = { 0x40, 0x50, 0x60, 0x40, 0x50, 0x60, 0x70, 0x80, 0x90, 0xa0 };
 
     bxi_memmove(data, data + 3, 6);
-    if (memcmp(data, eth1, 10))
+    if (bxi_memcmp(data, eth1, 10))
         test_failed();
 
     bxi_memmove(data + 3, data, 6);
-    if (memcmp(data, eth2, 10))
+    if (bxi_memcmp(data, eth2, 10))
         test_failed();
 }
 
@@ -648,29 +648,16 @@ static void test_utils_test_bxi_memset(void)
 
 static void test_utils_test_bxi_memcpy(void)
 {
-   /* u32  i;*/
-
     printf("        checking: bxi_memcpy\n");
- /*   bxi_memcpy(data, test, 10);
-    for (i = 0; i < 10; i++)
-    {
-        if (data[i] != test[i])
-            test_failed();
-    }*/
+
     check_memcpy_advance();
     check_memcpy_speed();
 }
 
 static void test_utils_test_bxi_memmove(void)
 {
-    u32  i;
     printf("        checking: bxi_memmove\n");
-    bxi_memmove(data, data + 5, 5);
-    for (i = 0; i < 5; i++)
-    {
-        if (data[i] != test[i + 5])
-            test_failed();
-    }
+
     check_memmove_advance();
     check_memmove_speed();
 }
@@ -678,8 +665,7 @@ static void test_utils_test_bxi_memmove(void)
 static void test_utils_test_bxi_memcmp(void)
 {
     printf("        checking: bxi_memcmp\n");
-    if (bxi_memcmp(data, test + 5, 5))
-        test_failed();
+
     check_memcmp_advance();
     check_memcmp_speed();
 }
@@ -729,27 +715,25 @@ static void test_utils_test_bxi_memccpy(void)
 static void test_utils_test_bxi_memfrob(void)
 {
     printf("        checking: bxi_memfrob\n");
-    bxi_memfrob(data, 0x42, 5);
-    if ((data[0] != 0x55) ||
-        (data[1] != 0x5a) ||
-        (data[2] != 0x5b) ||
-        (data[3] != 0x58) ||
-        (data[4] != 0x59))
-        test_failed();
+
     check_memfrob_speed();
 }
 
 static void test_utils_test_bxi_memchr(void)
 {
+    u8 data[10] = { 0x00, 0x10, 0x20, 0x30, 0x40, 0x50, 0x60, 0x70, 0x80, 0x90 };
+
     printf("        checking: bxi_memchr\n");
-    if (bxi_memchr(data, 0x58, 10) != data + 3)
+    if (bxi_memchr(data, 0x40, 10) != data + 4)
         test_failed();
 }
 
 static void test_utils_test_bxi_memrchr(void)
 {
+    u8 data[10] = { 0x00, 0x10, 0x20, 0x30, 0x40, 0x50, 0x60, 0x70, 0x80, 0x90 };
+
     printf("        checking: bxi_memrchr\n");
-    if (bxi_memrchr(data, 0x58, 10) != data + 3)
+    if (bxi_memrchr(data, 0x30, 10) != data + 3)
         test_failed();
 }
 
@@ -776,18 +760,18 @@ static void test_utils_functions(void)
     test_utils_test_bxi_malloc_set();
     test_utils_test_bxi_realloc_set();
     test_utils_test_bxi_free_set();
-/*
-//    test_utils_test_bxi_memset();*/
+
+    test_utils_test_bxi_memset();
     test_utils_test_bxi_memcpy();
-/*    test_utils_test_bxi_memccpy();
-//    test_utils_test_bxi_memmove();
-//    test_utils_test_bxi_memcmp();
-//    test_utils_test_bxi_mempcpy();
-//    test_utils_test_bxi_memfrob();
-//    test_utils_test_bxi_memchr();
-//    test_utils_test_bxi_memrchr();
-//    test_utils_test_bxi_memset16();
-//    test_utils_test_bxi_memset32();*/
+    test_utils_test_bxi_memccpy();
+    test_utils_test_bxi_memmove();
+    test_utils_test_bxi_memcmp();
+    test_utils_test_bxi_mempcpy();
+    test_utils_test_bxi_memfrob();
+    test_utils_test_bxi_memchr();
+    test_utils_test_bxi_memrchr();
+    test_utils_test_bxi_memset16();
+    test_utils_test_bxi_memset32();
 }
 
 void test_utils_bximemutils(void)
