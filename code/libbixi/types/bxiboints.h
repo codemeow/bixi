@@ -25,8 +25,7 @@
 #include "../definitions/bxiexport.h"
 #include "../types/bxiints.h"
 
-EXPORT typedef enum
-{
+EXPORT typedef enum {
     BXI_END_BE,
     BXI_END_LE
 } bxi_ends;
@@ -39,6 +38,11 @@ EXPORT typedef i32 i32_le;
 EXPORT typedef i32 i32_be;
 EXPORT typedef u32 u32_le;
 EXPORT typedef u32 u32_be;
+
+EXPORT typedef u16 u16_net;
+EXPORT typedef i16 i16_net;
+EXPORT typedef u32 u32_net;
+EXPORT typedef i32 i32_net;
 
 EXPORT_FROM
 #define BITS_IN_U16_LE  (16)
@@ -116,6 +120,11 @@ EXPORT u32_be bxi_u32_le2u32_be(u32_le value);
 EXPORT u32_le bxi_u32_be2u32_le(u32_be value);
 EXPORT u32_be    bxi_u322u32_be(u32    value);
 EXPORT u32_le    bxi_u322u32_le(u32    value);
+
+EXPORT u16_net bxi_u162u16_net   (u16   value);
+EXPORT i16_net bxi_i162i16_net   (u16   value);
+EXPORT u32_net bxi_u322u32_net   (u32   value);
+EXPORT i32_net bxi_i322i32_net   (u32   value);
 
 #endif /* BXIBOINT_H */
 

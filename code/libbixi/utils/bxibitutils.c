@@ -57,63 +57,51 @@
  *     or      eax, esi               ─┘
  */
 
-u8 bxi_rotl8(u8 val, u32 n)
-{
+u8 bxi_rotl8(u8 val, u32 n) {
     return val << n | val >> (8 - n);
 }
 
-u8 bxi_rotr8(u8 val, u32 n)
-{
+u8 bxi_rotr8(u8 val, u32 n) {
     return val >> n | val << (8 - n);
 }
 
-u16 bxi_rotl16(u16 val, u32 n)
-{
+u16 bxi_rotl16(u16 val, u32 n) {
     return val << n | val >> (16 - n);
 }
 
-u16 bxi_rotr16(u16 val, u32 n)
-{
+u16 bxi_rotr16(u16 val, u32 n) {
     return val >> n | val << (16 - n);
 }
 
-u32 bxi_rotl32(u32 val, u32 n)
-{
+u32 bxi_rotl32(u32 val, u32 n) {
     return val << n | val >> (32 - n);
 }
 
-u32 bxi_rotr32(u32 val, u32 n)
-{
+u32 bxi_rotr32(u32 val, u32 n) {
     return val >> n | val << (32 - n);
 }
 
-u8 bxi_getbit(u32 val, u8 n)
-{
+u8 bxi_getbit(u32 val, u8 n) {
     return (val >> n) & 1;
 }
 
-u32 bxi_setbit(u32 val, u8 n)
-{
+u32 bxi_setbit(u32 val, u8 n) {
     return (val | (1 << n));
 }
 
-u32 bxi_tglbit(u32 val, u8 n)
-{
+u32 bxi_tglbit(u32 val, u8 n) {
     return (val ^ (1 << n));
 }
 
-u32 bxi_clrbit(u32 val, u8 n)
-{
+u32 bxi_clrbit(u32 val, u8 n) {
     return (val & ~(1 << n));
 }
 
-u32 bxi_chgbit(u32 val, u8 n, u8 bit)
-{
+u32 bxi_chgbit(u32 val, u8 n, u8 bit) {
     return ((val & ~(1 << n)) | ((bit & 1) << n));
 }
 
-u8 bxi_cntbit(u32 val)
-{
+u8 bxi_cntbit(u32 val) {
     val =     val               - ((val >> 1)  & 0x55555555);
     val =    (val & 0x33333333) + ((val >> 2)  & 0x33333333);
     return (((val               +  (val >> 4)) & 0xF0F0F0F) * 0x1010101) >> 24;

@@ -25,8 +25,10 @@
 #include "../definitions/bxiexport.h"
 #include "../types/bxiints.h"
 
-EXPORT BXI_USES_MEM void bxi_crypt  (const char *    string, const char * salt, const char * key, char * out); /* @test */
-EXPORT BXI_USES_MEM void bxi_decrypt(const char * hexstring, const char * salt, const char * key, char * out); /* @test */
+EXPORT BXI_USES_MEM void bxi_crypt  (const char *    string, const char * salt,
+                                     const char * key, char * out); /* @test */
+EXPORT BXI_USES_MEM void bxi_decrypt(const char * hexstring, const char * salt,
+                                     const char * key, char * out); /* @test */
 
 #endif /* BXICRYPT_H */
 

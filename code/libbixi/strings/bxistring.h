@@ -30,8 +30,7 @@ EXPORT_FROM
 #define BXI_IS_ASCII_MAX (127)
 EXPORT_TO
 
-EXPORT enum bxi_ascii_characters
-{
+EXPORT enum bxi_ascii_characters {
     BXI_CHAR_NUL, BXI_CHAR_SOH, BXI_CHAR_STX, BXI_CHAR_ETX,
     BXI_CHAR_EOT, BXI_CHAR_ENQ, BXI_CHAR_ACK, BXI_CHAR_BEL,
     BXI_CHAR_BS , BXI_CHAR_TAB, BXI_CHAR_LF , BXI_CHAR_VT ,
@@ -48,8 +47,7 @@ EXPORT_FROM
 #define BXI_ASCII_COUNT (BXI_ASCII_MAX + 1)
 EXPORT_TO
 
-EXPORT enum bxi_strerror
-{
+EXPORT enum bxi_strerror {
     BXI_STRERROR_SUCCESS      = ( 0),
     BXI_STRERROR_NOSTRING     = (-1),
     BXI_STRERROR_NOEND        = (-2),

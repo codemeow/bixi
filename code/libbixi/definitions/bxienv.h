@@ -362,16 +362,20 @@ EXPORT_FROM
       defined(__AARCH64EB__)  || defined(_MIPSEB)   || defined(__MIPSEB)    || \
       defined(__MIPSEB__)     || \
      (defined(__BYTE_ORDER__) && (__BYTE_ORDER__ == __ORDER_BIG_ENDIAN__)) || \
-     (defined(__FLOAT_WORD_ORDER__) && (__FLOAT_WORD_ORDER__ == __ORDER_BIG_ENDIAN__))
+     (defined(__FLOAT_WORD_ORDER__) && (__FLOAT_WORD_ORDER__ == __ORDER_BIG_ENDIAN__)) || \
+      defined(BXI_ARCH_P32) || defined(BXI_ARCH_P64) || \
+      defined(BIG_ENDIAN)
 #define BXI_ENDIAN_BE
 #elif defined(__LITTLE_ENDIAN__) || defined(__ARMEL__) || defined(__THUMBEL__) || \
       defined(__AARCH64EL__)     || defined(_MIPSEL)   || defined(__MIPSEL)    || \
       defined(__MIPSEL__)        || \
      (defined(__BYTE_ORDER__) && (__BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__)) || \
-     (defined(__FLOAT_WORD_ORDER__) && (__ORDER_LITTLE_ENDIAN__ == __ORDER_LITTLE_ENDIAN__))
+     (defined(__FLOAT_WORD_ORDER__) && (__ORDER_LITTLE_ENDIAN__ == __ORDER_LITTLE_ENDIAN__)) || \
+      defined(LITTLE_ENDIAN)
 #define BXI_ENDIAN_LE
 #else
-#error "BXI: Cannot detect endianness"
+/* Fallback */
+#define BXI_ENDIAN_LE
 #endif
 EXPORT_TO
 

@@ -21,10 +21,13 @@
 
 #include "../hashes/bxibase64.h"
 #include "../math/bximath.h"
+#include "../definitions/bximacros.h"
+#include "../utils/bximemutils.h"
+#include "../strings/bxistring.h"
 
 #define BASE64_PAD (64)
 
-static const char rfc_map[BXI_BASE64_COUNT][65] = {
+static const u8 rfc_map[BXI_BASE64_COUNT][BASE64_PAD + 1] = {
     /* BXI_BASE64_RFC1421  */ "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
     /* BXI_BASE64_RFC2045  */ "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
     /* BXI_BASE64_RFC3548  */ "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
@@ -41,8 +44,6 @@ static const char rfc_map[BXI_BASE64_COUNT][65] = {
 
 void bxi_bin2base64(u8 * in, u32 len, char * out, bxi_base64_rfc rfc)
 {
-    (void)rfc;
-
     if (!out)
         return;
 
@@ -65,4 +66,70 @@ void bxi_bin2base64(u8 * in, u32 len, char * out, bxi_base64_rfc rfc)
     }
 
     *out = '\0';
+}
+
+bxi_bts * bxi_base642bin(const char * in, bxi_base64_rfc rfc) {
+    bxi_bts * res;
+    char decoder[BXI_ASCII_MAX + 1];
+    u32 i;
+    u32 count = 0;
+    u32 pad = 0;
+    u8  quad[4];
+    const char * buff = in;
+
+    if (!in)
+        return NULL;
+
+    bxi_memset(decoder, -1, BXI_ASCII_MAX + 1);
+    for (i = 0; i < BASE64_PAD + 1; i++)
+        decoder[rfc_map[rfc][i]] = (char)i;
+    decoder[rfc_map[rfc][BASE64_PAD]] = 0;
+
+    while (*buff)
+        if (decoder[(u8)*buff++] != -1)
+            count++;
+
+    if ((count == 0) || (count % 4))
+        return NULL;
+
+    res = bxi_bts_create(count / BXI_BASE64_ENC_SIZE * BXI_BASE64_DEC_SIZE);
+    res->size = 0;
+
+    count = 0;
+    while (*in) {
+        if (decoder[(u8)*in] == -1)
+            continue;
+
+        if (*in == rfc_map[rfc][BASE64_PAD])
+            pad++;
+
+        quad[count] = decoder[(u8)*in];
+        count++;
+
+        if (count == 4) {
+            res->data[res->size++] = (quad[0] << 2) | (quad[1] >> 4);
+            res->data[res->size++] = (quad[1] << 4) | (quad[2] >> 2);
+            res->data[res->size++] = (quad[2] << 6) | (quad[3]);
+
+            count = 0;
+
+            if (pad) {
+                if (pad == 1)
+                    res->size--;
+                else if (pad == 2)
+                    res->size -= 2;
+                else {
+                    bxi_bts_free(res);
+                    return NULL;
+                }
+                break;
+            }
+        }
+
+        in++;
+    }
+
+    /* Append \0, to be able to process res.data as string */
+    bxi_bts_append_u8(res, 0);
+    return res;
 }

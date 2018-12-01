@@ -51,6 +51,7 @@ EXPORT_FROM
 EXPORT_TO
 
 EXPORT_FROM
+/* Be aware that these macro use double calculation */
 #define BXI_MAX(a, b) ((a) > (b) ? (a) : (b))
 #define BXI_MIN(a, b) ((a) > (b) ? (b) : (a))
 EXPORT_TO

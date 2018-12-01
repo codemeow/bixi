@@ -30,8 +30,7 @@
 
 #define ASCII_UPPERLOWER_DIFF ('a' - 'A')
 
-typedef enum
-{
+typedef enum {
     BXI_IS_ASCII_CNTRL, BXI_IS_ASCII_PRINT, BXI_IS_ASCII_SPACE,
     BXI_IS_ASCII_BLANK, BXI_IS_ASCII_GRAPH, BXI_IS_ASCII_PUNCT,
     BXI_IS_ASCII_ALNUM, BXI_IS_ASCII_ALPHA, BXI_IS_ASCII_UPPER,
@@ -57,8 +56,7 @@ static const u32 bxi_isasciitable
     {0x00000000u, 0x03ff0000u, 0x0000007eu, 0x0000007eu}, /* XDIGIT */
 };
 
-u32 bxi_strlen(const char * str)
-{
+u32 bxi_strlen(const char * str) {
     u32 res = 0;
 
     if (!str)
@@ -70,16 +68,14 @@ u32 bxi_strlen(const char * str)
     return res;
 }
 
-i32 bxi_strcmp(const char * str1, const char * str2)
-{
+i32 bxi_strcmp(const char * str1, const char * str2) {
     u8 c1, c2;
 
     if (!str1 && !str2) return 0;
     if (!str1) return -(*str2);
     if (!str2) return +(*str1);
 
-    do
-    {
+    do {
         c1 = (u8)*str1;
         c2 = (u8)*str2;
 
@@ -96,8 +92,7 @@ i32 bxi_strcmp(const char * str1, const char * str2)
     return c1 - c2;
 }
 
-i32 bxi_strncmp(const char * str1, const char * str2, u32 n)
-{
+i32 bxi_strncmp(const char * str1, const char * str2, u32 n) {
     u8 c1, c2;
 
     if (!n)             return 0;
@@ -105,8 +100,7 @@ i32 bxi_strncmp(const char * str1, const char * str2, u32 n)
     if (!str1) return -(*str2);
     if (!str2) return +(*str1);
 
-    do
-    {
+    do {
         c1 = (u8)*str1;
         c2 = (u8)*str2;
 
@@ -125,15 +119,13 @@ i32 bxi_strncmp(const char * str1, const char * str2, u32 n)
     return c1 - c2;
 }
 
-char * bxi_strcpy(char * dst, const char * src)
-{
+char * bxi_strcpy(char * dst, const char * src) {
     if (!dst)
         return NULL;
     if (!src)
         return dst;
 
-    while (*src)
-    {
+    while (*src) {
         *dst = *src;
         src++;
         dst++;
@@ -143,8 +135,7 @@ char * bxi_strcpy(char * dst, const char * src)
     return dst;
 }
 
-char * bxi_strncpy(char * dst, const char * src, u32 n)
-{
+char * bxi_strncpy(char * dst, const char * src, u32 n) {
     u32 i;
 
     for (i = 0; (i < n) && (src[i] != '\0'); i++)
@@ -156,8 +147,7 @@ char * bxi_strncpy(char * dst, const char * src, u32 n)
     return dst;
 }
 
-char * bxi_strdup(const char * str)
-{
+char * bxi_strdup(const char * str) {
     char * res;
 
     if (!str)
@@ -169,13 +159,11 @@ char * bxi_strdup(const char * str)
     return res;
 }
 
-char * bxi_strchr(const char * str, i32 c)
-{
+char * bxi_strchr(const char * str, i32 c) {
     if (!str)
         return NULL;
 
-    while (*str)
-    {
+    while (*str) {
         if (*str == c)
             return (char *)str;
 
@@ -185,15 +173,13 @@ char * bxi_strchr(const char * str, i32 c)
     return NULL;
 }
 
-char * bxi_strrchr(const char * str, i32 c)
-{
+char * bxi_strrchr(const char * str, i32 c) {
     char * res = NULL;
 
     if (!str)
         return NULL;
 
-    while (*str)
-    {
+    while (*str) {
         if (*str == c)
             res = (char *)str;
 
@@ -203,13 +189,11 @@ char * bxi_strrchr(const char * str, i32 c)
     return res;
 }
 
-char * bxi_strchrnul(const char * str, i32 c)
-{
+char * bxi_strchrnul(const char * str, i32 c) {
     if (!str)
         return NULL;
 
-    while (*str)
-    {
+    while (*str) {
         if (*str == c)
             return (char *)str;
 
@@ -219,16 +203,14 @@ char * bxi_strchrnul(const char * str, i32 c)
     return (char *)str;
 }
 
-bxi_hash bxi_strhash(const char * str)
-{
+bxi_hash bxi_strhash(const char * str) {
     /* FNV */
     bxi_hash hash = FNV_VALUE_START;
 
     if (!str)
         return hash;
 
-    while (*str)
-    {
+    while (*str) {
         hash ^= (bxi_hash)*str++;
         hash *= (bxi_hash)FNV_VALUE_STEP;
     }
@@ -236,8 +218,7 @@ bxi_hash bxi_strhash(const char * str)
     return hash;
 }
 
-char * bxi_strtriml(char * str)
-{
+char * bxi_strtriml(char * str) {
     u32 first = 0;
 
     if (!str)
@@ -250,8 +231,7 @@ char * bxi_strtriml(char * str)
     return str;
 }
 
-char * bxi_strtrimr(char * str)
-{
+char * bxi_strtrimr(char * str) {
     u32 len = bxi_strlen(str);
 
     if (!len)
@@ -264,16 +244,14 @@ char * bxi_strtrimr(char * str)
     return str;
 }
 
-char * bxi_strtrim(char * str)
-{
+char * bxi_strtrim(char * str) {
     bxi_strtriml(str);
     bxi_strtrimr(str);
 
     return str;
 }
 
-char * bxi_strshiftl(char * str, u32 count)
-{
+char * bxi_strshiftl(char * str, u32 count) {
     if (!str)
         return str;
     if (!count)
@@ -283,8 +261,7 @@ char * bxi_strshiftl(char * str, u32 count)
     return str;
 }
 
-char * bxi_strrep(char * str, const char * what, const char * by)
-{
+char * bxi_strrep(char * str, const char * what, const char * by) {
     char * pos = NULL;
     u32    lw  = bxi_strlen(what);
     u32    lb  = bxi_strlen(by);
@@ -296,8 +273,7 @@ char * bxi_strrep(char * str, const char * what, const char * by)
     if (!by)
         by = "";
 
-    while ((pos = bxi_strstr(str, what)))
-    {
+    while ((pos = bxi_strstr(str, what))) {
         u32 ls  = bxi_strlen(str);
 
         bxi_memmove(pos + lb, pos + lw, ls - (pos - str) - lw + 1);
@@ -309,104 +285,85 @@ char * bxi_strrep(char * str, const char * what, const char * by)
     return str;
 }
 
-static bool isasciigeneric(u32 c, bxi_isasciifuncs type)
-{
+static bool isasciigeneric(u32 c, bxi_isasciifuncs type) {
     return bxi_getbit(bxi_isasciitable[type][c / BITS_IN_U32] , c % BITS_IN_U32);
 }
 
-bool bxi_iscntrl(u32 c)
-{
+bool bxi_iscntrl(u32 c) {
     return c <= BXI_IS_ASCII_MAX ? isasciigeneric(c, BXI_IS_ASCII_CNTRL) : 0;
 }
 
-bool bxi_isprint(u32 c)
-{
+bool bxi_isprint(u32 c) {
     return c <= BXI_IS_ASCII_MAX ? isasciigeneric(c, BXI_IS_ASCII_PRINT) : 0;
 }
 
-bool bxi_isspace(u32 c)
-{
+bool bxi_isspace(u32 c) {
     return c <= BXI_IS_ASCII_MAX ? isasciigeneric(c, BXI_IS_ASCII_SPACE) : 0;
 }
 
-bool bxi_isblank(u32 c)
-{
+bool bxi_isblank(u32 c) {
     return c <= BXI_IS_ASCII_MAX ? isasciigeneric(c, BXI_IS_ASCII_BLANK) : 0;
 }
 
-bool bxi_isgraph(u32 c)
-{
+bool bxi_isgraph(u32 c) {
     return c <= BXI_IS_ASCII_MAX ? isasciigeneric(c, BXI_IS_ASCII_GRAPH) : 0;
 }
 
-bool bxi_ispunct(u32 c)
-{
+bool bxi_ispunct(u32 c) {
     return c <= BXI_IS_ASCII_MAX ? isasciigeneric(c, BXI_IS_ASCII_PUNCT) : 0;
 }
 
-bool bxi_isalnum(u32 c)
-{
+bool bxi_isalnum(u32 c) {
     return c <= BXI_IS_ASCII_MAX ? isasciigeneric(c, BXI_IS_ASCII_ALNUM) : 0;
 }
 
-bool bxi_isalpha(u32 c)
-{
+bool bxi_isalpha(u32 c) {
     return c <= BXI_IS_ASCII_MAX ? isasciigeneric(c, BXI_IS_ASCII_ALPHA) : 0;
 }
 
-bool bxi_isupper(u32 c)
-{
+bool bxi_isupper(u32 c) {
     return c <= BXI_IS_ASCII_MAX ? isasciigeneric(c, BXI_IS_ASCII_UPPER) : 0;
 }
 
-bool bxi_islower(u32 c)
-{
+bool bxi_islower(u32 c) {
     return c <= BXI_IS_ASCII_MAX ? isasciigeneric(c, BXI_IS_ASCII_LOWER) : 0;
 }
 
-bool bxi_isdigit(u32 c)
-{
+bool bxi_isdigit(u32 c) {
     return c <= BXI_IS_ASCII_MAX ? isasciigeneric(c, BXI_IS_ASCII_DIGIT) : 0;
 }
 
-bool bxi_isxdigit(u32 c)
-{
+bool bxi_isxdigit(u32 c) {
     return c <= BXI_IS_ASCII_MAX ? isasciigeneric(c, BXI_IS_ASCII_XDIGIT) : 0;
 }
 
-u32 bxi_2upper(u32 c)
-{
+u32 bxi_2upper(u32 c) {
     if (bxi_islower(c))
          return c - ASCII_UPPERLOWER_DIFF;
     else return c;
 }
 
-u32 bxi_2lower(u32 c)
-{
+u32 bxi_2lower(u32 c) {
     if (bxi_isupper(c))
          return c + ASCII_UPPERLOWER_DIFF;
     else return c;
 }
 
-void bxi_str2upper(char * str)
-{
+void bxi_str2upper(char * str) {
     if (!str)
         return;
 
-    while (*str)
-    {
+    while (*str) {
         *str = (char)bxi_2upper(*str);
         str++;
     }
 }
 
-void bxi_str2lower(char * str)
-{
+void bxi_str2lower(char * str) {
     if (!str)
         return;
 
-    while (*str)
-    {
+    while (*str) {
         *str = (char)bxi_2lower(*str);
         str++;
     }
@@ -427,8 +384,7 @@ void bxi_str2lower(char * str)
  * output[4] = eee'
  */
 /* @todo selectable separator       */
-u32 bxi_strprs(char * str, char ** output)
-{
+u32 bxi_strprs(char * str, char ** output) {
     u32 i = 0;
     u32 l = bxi_strlen(str);
     u32 escaped = 0;
@@ -447,46 +403,36 @@ u32 bxi_strprs(char * str, char ** output)
     count = 1;
     if (output) output[0] = str + i;
 
-    for (; i < l; i++)
-    {
-        switch (str[i])
-        {
+    for (; i < l; i++) {
+        switch (str[i]) {
         case '\\':
             if (!escaped) escaped = 1;
                      else escaped = 0;
             break;
         case '\'':
         case '\"':
-            if (!escaped)
-            {
-                if (!quoted)
-                {
+            if (!escaped) {
+                if (!quoted) {
                     quoted = 1;
                     quote  = str[i];
-                }
-                else if (quote == str[i])
+                } else if (quote == str[i])
                     quoted = 0;
-            }
-            else
+            } else
                 escaped = 0;
             break;
         case ' ':
         case '\n':
         case '\r':
         case '\t':
-            if (!escaped)
-            {
-                if (!quoted)
-                {
+            if (!escaped) {
+                if (!quoted) {
                     str[i] = '\0';
-                    if ((!bxi_isspace(str[i + 1])) && (str[i + 1] != '\0'))
-                    {
+                    if ((!bxi_isspace(str[i + 1])) && (str[i + 1] != '\0')) {
                         if (output) output[count] = str + i + 1;
                         count++;
                     }
                 }
-            }
-            else
+            } else
                 escaped = 0;
             break;
         default:
@@ -497,8 +443,7 @@ u32 bxi_strprs(char * str, char ** output)
     return count;
 }
 
-u32 bxi_strprsnq(char * str, char ** output)
-{
+u32 bxi_strprsnq(char * str, char ** output) {
     /* Same as bxi_strprs but has no quote/escape rules
             (useful for ls -l FTP output)           */
 
@@ -518,21 +463,17 @@ u32 bxi_strprsnq(char * str, char ** output)
     count = 1;
     if (output) output[0] = str + i;
 
-    for (; i < l; i++)
-    {
-        switch (str[i])
-        {
+    for (; i < l; i++) {
+        switch (str[i]) {
         case ' ':
         case '\n':
         case '\r':
         case '\t':
-            if (!set)
-            {
+            if (!set) {
                 set = true;
                 str[i] = '\0';
             }
-            if ((!bxi_isspace(str[i + 1])) && (str[i + 1] != '\0'))
-            {
+            if ((!bxi_isspace(str[i + 1])) && (str[i + 1] != '\0')) {
                 if (output) output[count] = str + i + 1;
                 count++;
             }
@@ -545,20 +486,17 @@ u32 bxi_strprsnq(char * str, char ** output)
     return count;
 }
 
-char * bxi_strstr(const char * str, const char * sub)
-{
+char * bxi_strstr(const char * str, const char * sub) {
     if (!str)
         return NULL;
     if (!sub)
         return NULL;
 
-    while (*str)
-    {
+    while (*str) {
         const char * beg = str;
         const char * pat = sub;
 
-        while (*str && *pat && *str == *pat)
-        {
+        while (*str && *pat && *str == *pat) {
             str++;
             pat++;
         }
@@ -571,8 +509,7 @@ char * bxi_strstr(const char * str, const char * sub)
     return NULL;
 }
 
-char * bxi_strapp(char * dst, const char * src)
-{
+char * bxi_strapp(char * dst, const char * src) {
     u32 dst_len = 0;
     u32 src_len = 0;
 
@@ -590,8 +527,7 @@ char * bxi_strapp(char * dst, const char * src)
     return dst;
 }
 
-char * bxi_strcat(char * dst, const char * src)
-{
+char * bxi_strcat(char * dst, const char * src) {
     u32 dst_l = 0;
 
     if (!dst)
@@ -604,8 +540,7 @@ char * bxi_strcat(char * dst, const char * src)
     return (char *)bxi_memcpy(dst + dst_l, src, bxi_strlen(src) + 1) - dst_l;
 }
 
-char * bxi_strncat(char * dst, const char * src, u32 n)
-{
+char * bxi_strncat(char * dst, const char * src, u32 n) {
     u32 src_len;
     u32 dst_len;
 
@@ -617,29 +552,24 @@ char * bxi_strncat(char * dst, const char * src, u32 n)
     src_len = bxi_strlen(src);
     dst_len = bxi_strlen(dst);
 
-    if (src_len > n)
-    {
+    if (src_len > n) {
         bxi_memcpy(dst + dst_len, src, n);
         dst[n + dst_len] = '\0';
         return dst;
-    }
-    else
+    } else
         return bxi_memcpy(dst + dst_len, src, src_len + 1);
 }
 
-u32 bxi_strspn(const char * str, const char * lst)
-{
+u32 bxi_strspn(const char * str, const char * lst) {
     u32 res = 1;
     char map[BXI_FAST_DIV_8(BXI_ASCII_COUNT)] = { 0 };
 
-    while (*lst)
-    {
+    while (*lst) {
         map[BXI_FAST_DIV_8(*lst)] |= 1 << (*lst % BITS_IN_BYTE);
         lst++;
     }
 
-    while (*str)
-    {
+    while (*str) {
         if (!((map[BXI_FAST_DIV_8(*str)] >> (*str % BITS_IN_BYTE)) & 1))
             break;
         res++;
@@ -649,19 +579,16 @@ u32 bxi_strspn(const char * str, const char * lst)
     return res - 1;
 }
 
-u32 bxi_strcspn(const char * str, const char * lst)
-{
+u32 bxi_strcspn(const char * str, const char * lst) {
     u32 res = 1;
     char map[BXI_FAST_DIV_8(BXI_ASCII_COUNT)] = { 0 };
 
-    while (*lst)
-    {
+    while (*lst) {
         map[BXI_FAST_DIV_8(*lst)] |= 1 << (*lst % BITS_IN_BYTE);
         lst++;
     }
 
-    while (*str)
-    {
+    while (*str) {
         if ((map[BXI_FAST_DIV_8(*str)] >> (*str % BITS_IN_BYTE)) & 1)
             break;
         res++;
@@ -671,18 +598,15 @@ u32 bxi_strcspn(const char * str, const char * lst)
     return res - 1;
 }
 
-char * bxi_strpbrk(const char * str, const char * lst)
-{
+char * bxi_strpbrk(const char * str, const char * lst) {
     char map[BXI_FAST_DIV_8(BXI_ASCII_COUNT)] = { 0 };
 
-    while (*lst)
-    {
+    while (*lst) {
         map[BXI_FAST_DIV_8(*lst)] |= 1 << (*lst % BITS_IN_BYTE);
         lst++;
     }
 
-    while (*str)
-    {
+    while (*str) {
         if ((map[BXI_FAST_DIV_8(*str)] >> (*str % BITS_IN_BYTE)) & 1)
             return (char * )str;
         str++;

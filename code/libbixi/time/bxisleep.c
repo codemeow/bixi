@@ -24,40 +24,34 @@
 
 bxi_sleep_int_func bxi_nsleep_val = NULL;
 
-void bxi_nsleep_set(bxi_sleep_int_func func)
-{
+void bxi_nsleep_set(bxi_sleep_int_func func) {
     bxi_nsleep_val = func;
 }
 
-void bxi_fsleep(f64 sec)
-{
+void bxi_fsleep(f64 sec) {
     if (bxi_nsleep_val)
         bxi_nsleep_val(sec, (sec - (u32)sec) * BXI_NSEC_IN_SEC);
 }
 
-void bxi_nsleep(u32 nsec)
-{
+void bxi_nsleep(u32 nsec) {
     if (bxi_nsleep_val)
         bxi_nsleep_val(nsec / BXI_NSEC_IN_SEC,
                        nsec % BXI_NSEC_IN_SEC);
 }
 
-void bxi_usleep(u32 usec)
-{
+void bxi_usleep(u32 usec) {
     if (bxi_nsleep_val)
         bxi_nsleep_val(usec / BXI_USEC_IN_SEC,
                       (usec % BXI_USEC_IN_SEC) * BXI_NSEC_IN_USEC);
 }
 
-void bxi_msleep(u32 msec)
-{
+void bxi_msleep(u32 msec) {
     if (bxi_nsleep_val)
         bxi_nsleep_val(msec / BXI_MSEC_IN_SEC,
                       (msec % BXI_MSEC_IN_SEC) * BXI_NSEC_IN_MSEC);
 }
 
-void bxi_sleep(u32 sec)
-{
+void bxi_sleep(u32 sec) {
     if (bxi_nsleep_val)
         bxi_nsleep_val(sec, 0);
 }

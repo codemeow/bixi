@@ -26,8 +26,7 @@
 #include "../types/bxiints.h"
 #include "../random/bxirand.h"
 
-EXPORT enum bxi_colours_ansi8
-{
+EXPORT enum bxi_colours_ansi8 {
     BXI_COLOUR_A8_BLACK   = (0),
     BXI_COLOUR_A8_RED     = (1),
     BXI_COLOUR_A8_GREEN   = (2),
@@ -38,8 +37,7 @@ EXPORT enum bxi_colours_ansi8
     BXI_COLOUR_A8_WHITE   = (7)
 };
 
-EXPORT enum bxi_colours_ansi256
-{
+EXPORT enum bxi_colours_ansi256 {
     /* Widely supported */
     BXI_COLOUR_A256_BLACK          = (  0),
     BXI_COLOUR_A256_RED            = (  1),
@@ -300,14 +298,12 @@ EXPORT enum bxi_colours_ansi256
     BXI_COLOUR_A256_EEEEEE = (255)  /* Whisper              */
 };
 
-EXPORT enum bxi_colours_controls
-{
+EXPORT enum bxi_colours_controls {
     BXI_COLOUR_ANSI_FOREGROUND = (30),
     BXI_COLOUR_ANSI_BACKGROUND = (40)
 };
 
-EXPORT enum bxi_colours_vga16
-{
+EXPORT enum bxi_colours_vga16 {
     BXI_COLOUR_VGA16_WHITE   = (0xffffffu),
     BXI_COLOUR_VGA16_SILVER  = (0xc0c0c0u),
     BXI_COLOUR_VGA16_GRAY    = (0x808080u),
@@ -326,8 +322,7 @@ EXPORT enum bxi_colours_vga16
     BXI_COLOUR_VGA16_PURPLE  = (0x800080u)
 };
 
-EXPORT enum bxi_colours_webx11
-{
+EXPORT enum bxi_colours_webx11 {
     BXI_COLOUR_WEBX11_ALICEBLUE            = (0xf0f8ffu),
     BXI_COLOUR_WEBX11_ANTIQUEWHITE         = (0xfaebd7u),
     BXI_COLOUR_WEBX11_AQUA                 = (0x00ffffu),
@@ -477,15 +472,13 @@ EXPORT enum bxi_colours_webx11
     BXI_COLOUR_WEBX11_YELLOWGREEN          = (0x9acd32u)
 };
 
-EXPORT typedef struct
-{
+EXPORT typedef struct {
     u8 r;
     u8 g;
     u8 b;
 } bxi_rgb;
 
-EXPORT typedef struct
-{
+EXPORT typedef struct {
     u8 a;
     u8 r;
     u8 g;
@@ -493,8 +486,7 @@ EXPORT typedef struct
 } bxi_argb;
 
 /* @todo test bxi_argb_u */
-EXPORT typedef union
-{
+EXPORT typedef union {
     u8       raw[4];
     u32      quad;
     bxi_argb argb;

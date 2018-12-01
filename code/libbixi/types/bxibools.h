@@ -37,8 +37,7 @@ EXPORT_TO
 
 EXPORT_FROM
 #if !defined(__cplusplus) && !defined(__bool_true_false_are_defined) && !defined(bool)
-typedef enum
-{
+typedef enum {
     false,
     true
 } bool;

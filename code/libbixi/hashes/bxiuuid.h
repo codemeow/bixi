@@ -33,8 +33,7 @@ EXPORT_FROM
 EXPORT_TO
 EXPORT typedef hash_16 uuid_t;
 
-EXPORT typedef enum
-{
+EXPORT typedef enum {
     UUID_PLAIN,  /* "00000000000000000000000000000000"              */
     UUID_HYPHEN, /* "00000000-0000-0000-0000-000000000000"          */
     UUID_URN,    /* "urn:uuid:00000000-0000-0000-0000-000000000000" */
@@ -47,8 +46,8 @@ EXPORT_FROM
 #define UUID_STRLEN_URN    (45)
 #define UUID_STRLEN_CURLY  (38)
 
-#define UUID_URN_PREFIX    ("urn:uuid:")
-#define UUID_EMPTY         "00000000-0000-0000-0000-000000000000"
+#define UUID_URN_PREFIX     "urn:uuid:"
+#define UUID_EMPTY          "00000000-0000-0000-0000-000000000000"
 EXPORT_TO
 
 void uuid_appendhex(u8 value, char * out);
@@ -60,6 +59,8 @@ EXPORT void uuid2str(uuid_t uuid, char * out, uuid_format format);
 EXPORT i32  uuidscmp(uuid_t u1, uuid_t u2);
 
 EXPORT bool str2uuid(const char * str, uuid_t res);
+
+EXPORT char * uuidremurn(char * uuid);
 
 #endif /* BXIUUID_H */
 

@@ -23,6 +23,7 @@
 #define BXIBASE64_H
 
 #include "../types/bxiints.h"
+#include "../types/bxiarrays.h"
 
 EXPORT typedef enum
 {
@@ -65,7 +66,7 @@ EXPORT_FROM
 EXPORT_TO
 
 EXPORT void bxi_bin2base64(u8 * in, u32 len, char * out, bxi_base64_rfc rfc);
-/* @todo bxi_bas642bin */
+EXPORT bxi_bts * bxi_base642bin(const char * in, bxi_base64_rfc rfc);
 
 #endif /* BXIBASE64_H */
 

@@ -23,93 +23,54 @@
 #include "../strings/bxistrconv.h"
 #include "../strings/bxistring.h"
 
-bool bxi_str2ipv4(const char * str, bxi_ipv4 * ip)
-{
+u32 bxi_str2ipv4(const char * str) {
+    u32  pos = 0;
+    u32 data = 0;
+    u32  blk = 0;
     bool alos = false;
-    u8 str_ind = 0;
-    u8 res_ind = 0;
-    u32 data   = 0;
+    bxi_ipv4 res = BXI_IPV4_ZERO;
+    const u32 len = bxi_strlen(str);
 
-    if ((!ip) || (!str))
-        return false;
+    if (!str)
+        return BXI_IPV4_ZERO;
 
-    while (str_ind < bxi_strlen(str))
-    {
-        u8 sym = str[str_ind];
+    while (pos < len) {
+        char sym = str[pos++];
 
-        if (bxi_isdigit(sym))
-        {
-            sym -= '0';
-            data = data * 10 + sym;
+        if (bxi_isdigit(sym)) {
+            data = data * 10 + sym - '0';
             if (data > U8_MAX)
-                return false; /* 127.0.0.256, OVERFLOW */
+                return BXI_IPV4_ZERO; /* 127.0.0.256 */
             alos = true;
-        }
-        else if (sym == '.')
-        {
-            if (res_ind < 3)
-            {
-                if (alos)
-                {
-                    (*ip)[res_ind] = (data & 0xff);
+        } else if (sym == '.') {
+            if (blk < 3) {
+                if (alos) {
+                    res += (data << (BITS_IN_U8 * blk++));
                     data = 0;
-                    res_ind++;
                     alos = false;
-                }
-                else
-                    return false; /* 127.0..1 NOSYMBOL */
-            }
-            else
-                return false; /* 127.0.0.1.2 TOOMANY */
-        }
-        else
-            return false; /* 127.* INVALID */
-
-        str_ind++;
+                } else
+                    return BXI_IPV4_ZERO; /* 127.0..1 */
+            } else
+                return BXI_IPV4_ZERO; /* 127.0.0.1.8 */
+        } else
+            return BXI_IPV4_ZERO; /* 127.0.0.G */
     }
 
-    if (res_ind == 3)
-    {
-        if (alos)
-        {
-            (*ip)[res_ind] = (data & 0xff);
-            return true;
-        }
-        else
-            return false; /* 127.0.0. NOSYMBOL */
-    }
-    else
-        return false; /* 127.0 NOSYMBOL */
+    if (blk == 3)
+         return res + (data << (BITS_IN_U8 * blk)); /* 127.0.0.1 */
+    else return BXI_IPV4_ZERO; /* 127.0 */
 }
 
-bool bxi_ipv42str(bxi_ipv4 * ip, char * str)
-{
-    if ((!ip) || (!str))
-        return false;
+char * bxi_ipv42str(bxi_ipv4 ip, char * str) {
+    char * ptr = str;
 
-    str += bxi_u82str(str, (*ip)[0]);
-    *str++ = '.';
-    str += bxi_u82str(str, (*ip)[1]);
-    *str++ = '.';
-    str += bxi_u82str(str, (*ip)[2]);
-    *str++ = '.';
-           bxi_u82str(str, (*ip)[3]);
+    if (!str)
+        return str;
 
-    return true;
-}
+    str += bxi_u82str(str, (ip >> (BITS_IN_U8 * 0)) & 0xff); *str++ = '.';
+    str += bxi_u82str(str, (ip >> (BITS_IN_U8 * 1)) & 0xff); *str++ = '.';
+    str += bxi_u82str(str, (ip >> (BITS_IN_U8 * 2)) & 0xff); *str++ = '.';
+    str += bxi_u82str(str, (ip >> (BITS_IN_U8 * 3)) & 0xff); *str++ = '\0';
 
-u32 bxi_ipv42u32(bxi_ipv4 ip)
-{
-    return (ip[0] << (BITS_IN_BYTE * 3)) |
-           (ip[1] << (BITS_IN_BYTE * 2)) |
-           (ip[2] << (BITS_IN_BYTE * 1)) |
-           (ip[3]                      );
-}
-
-void bxi_u322ipv4(u32 pack, bxi_ipv4 ip)
-{
-    ip[0] = (pack >> (BITS_IN_BYTE * 3)) & 0xff;
-    ip[1] = (pack >> (BITS_IN_BYTE * 2)) & 0xff;
-    ip[2] = (pack >> (BITS_IN_BYTE * 1)) & 0xff;
-    ip[3] = (pack                      ) & 0xff;
+    return ptr;
 }

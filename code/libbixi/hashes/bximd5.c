@@ -75,14 +75,12 @@ static u32 md5_4(u32 i) { return (7 * i    ) % MD5_SIZE; }
 static const md5_func_fghi md5_fghi[MD5_STEP_COUNT] = { md5_F, md5_G, md5_H, md5_I };
 static const md5_func_1234 md5_1234[MD5_STEP_COUNT] = { md5_1, md5_2, md5_3, md5_4 };
 
-static void md5_enlarge(md5_t * md5, u32 len)
-{
+static void md5_enlarge(md5_t * md5, u32 len) {
     if (md5->totl[0] > (0xffffffffu - len)) md5->totl[1]++;
     md5->totl[0] += len;
 }
 
-static void md5_process(md5_t * md5)
-{
+static void md5_process(md5_t * md5) {
     u32 abcd[4];
     u32 block[16];
     u32 i;
@@ -90,8 +88,7 @@ static void md5_process(md5_t * md5)
     bxi_memcpy(block, md5->data, MD5_SIZE * sizeof(u32));
     bxi_memcpy( abcd, md5->abcd, MD5_SIZE);
 
-    for (i = 0; i < MD5_SIZE * STEP_COUNT; i++)
-    {
+    for (i = 0; i < MD5_SIZE * STEP_COUNT; i++) {
         u32 dt, F;
         F = md5_fghi[i / MD5_SIZE](abcd[1], abcd[2], abcd[3]);
 
@@ -107,55 +104,44 @@ static void md5_process(md5_t * md5)
         md5->abcd[i] += abcd[i];
 }
 
-void md5_init(md5_t * md5)
-{
+void md5_init(md5_t * md5) {
     bxi_memset(md5, 0, sizeof(md5_t));
     bxi_memcpy(md5->abcd, md5_inits, STEP_COUNT * sizeof(u32));
 }
 
-void md5_appendstr(md5_t * md5, const char * str)
-{
+void md5_appendstr(md5_t * md5, const char * str) {
     md5_append(md5, (const u8 *)str, bxi_strlen(str));
 }
 
-void md5_appendi8(md5_t * md5, i8 num)
-{
+void md5_appendi8(md5_t * md5, i8 num) {
     md5_append(md5, (const u8 *)&num, sizeof(num));
 }
 
-void md5_appendu8(md5_t * md5, u8 num)
-{
+void md5_appendu8(md5_t * md5, u8 num) {
     md5_append(md5, (const u8 *)&num, sizeof(num));
 }
 
-void md5_appendi16(md5_t * md5, i16 num)
-{
+void md5_appendi16(md5_t * md5, i16 num) {
     md5_append(md5, (const u8 *)&num, sizeof(num));
 }
 
-void md5_appendu16(md5_t * md5, u16 num)
-{
+void md5_appendu16(md5_t * md5, u16 num) {
     md5_append(md5, (const u8 *)&num, sizeof(num));
 }
 
-void md5_appendi32(md5_t * md5, i32 num)
-{
+void md5_appendi32(md5_t * md5, i32 num) {
     md5_append(md5, (const u8 *)&num, sizeof(num));
 }
 
-void md5_appendu32(md5_t * md5, u32 num)
-{
+void md5_appendu32(md5_t * md5, u32 num) {
     md5_append(md5, (const u8 *)&num, sizeof(num));
 }
 
-void md5_append(md5_t * md5, const u8 * data, u32 length)
-{
+void md5_append(md5_t * md5, const u8 * data, u32 length) {
     u32 i;
-    for (i = 0; i < length; i++)
-    {
+    for (i = 0; i < length; i++) {
         md5->data[md5->leng++] = data[i];
-        if (md5->leng == (MD5_BLOCK_SIZE / BITS_IN_U8))
-        {
+        if (md5->leng == (MD5_BLOCK_SIZE / BITS_IN_U8)) {
             md5_process(md5);
             md5_enlarge(md5, 0x200);
             md5->leng = 0;
@@ -163,8 +149,7 @@ void md5_append(md5_t * md5, const u8 * data, u32 length)
     }
 }
 
-void md5_final(md5_t * md5)
-{
+void md5_final(md5_t * md5) {
     u32 i = md5->leng;
     md5->data[i++] = 0x80;
 
@@ -173,8 +158,7 @@ void md5_final(md5_t * md5)
                             (MD5_SIZE * 4 - sizeof(u32) * 2) :
                             (MD5_SIZE * 4)) - i);
 
-    if (md5->leng >= (MD5_SIZE * STEP_COUNT - sizeof(u32) * 2))
-    {
+    if (md5->leng >= (MD5_SIZE * STEP_COUNT - sizeof(u32) * 2)) {
         md5_process(md5);
         bxi_memset(md5->data, 0, (MD5_SIZE * STEP_COUNT - sizeof(u32) * 2));
     }
@@ -186,8 +170,7 @@ void md5_final(md5_t * md5)
     bxi_memcpy(md5->hash, md5->abcd, STEP_COUNT * sizeof(u32));
 }
 
-void md5_copy(md5_t * md5, u8 * out)
-{
+void md5_copy(md5_t * md5, u8 * out) {
     if ((!md5) || (!out))
         return;
 

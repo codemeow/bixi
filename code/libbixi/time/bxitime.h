@@ -23,6 +23,7 @@
 #define BXITIME_H
 
 #include "../definitions/bxiexport.h"
+#include "../types/bxiints.h"
 
 EXPORT_FROM
 #define SEC_PER_MIN (60L)
@@ -36,11 +37,10 @@ EXPORT_FROM
 #define MIN_PER_DAY (MIN_PER_HRS * HRS_PER_DAY)
 EXPORT_TO
 
-EXPORT typedef enum
+EXPORT typedef enum {
 /* days are numbered by the order
  * they've appeared in unixtime
  * to simplify unixtime date math */
-{
     BXI_MONDAY    = (4),
     BXI_TUESDAY   = (5),
     BXI_WEDNESDAY = (6),
@@ -49,6 +49,9 @@ EXPORT typedef enum
     BXI_SATURDAY  = (2),
     BXI_SUNDAY    = (3)
 } bxi_weekdays;
+
+EXPORT bxi_weekdays bxi_time2weekday(u32 unixtime);
+EXPORT u32          bxi_time2daystart(u32 unixtime);
 
 #endif /* BXITIME_H */
 

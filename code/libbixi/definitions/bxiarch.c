@@ -21,17 +21,14 @@
 
 #include "../definitions/bxiarch.h"
 
-const char * bxi_arch(void)
-{
+const char * bxi_arch(void) {
     return BXI_ARCH;
 }
 
-u8 bxi_bits(void)
-{
+u8 bxi_bits(void) {
     return BXI_BITS;
 }
 
-const char * bxi_os(void)
-{
+const char * bxi_os(void) {
     return BXI_OS;
 }

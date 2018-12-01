@@ -32,8 +32,7 @@ EXPORT_FROM
 #define MD5_STEP_COUNT (4)
 EXPORT_TO
 
-EXPORT typedef struct
-{
+EXPORT typedef struct {
     u32     abcd[MD5_STEP_COUNT];
     u32     leng;
     u32     totl[2];

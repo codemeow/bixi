@@ -31,38 +31,32 @@ EXPORT_FROM
 #define MM_PER_INCH (25.4)
 EXPORT_TO
 
-EXPORT typedef struct
-{
+EXPORT typedef struct {
     f32 x;
     f32 y;
 } bxi_pointf;
 
-EXPORT typedef struct
-{
+EXPORT typedef struct {
     i32 x;
     i32 y;
 } bxi_pointi;
 
-EXPORT typedef struct
-{
+EXPORT typedef struct {
     u32 x;
     u32 y;
 } bxi_pointu;
 
-EXPORT typedef struct
-{
+EXPORT typedef struct {
     bxi_pointu p1;
     bxi_pointu p2;
 } bxi_lineu;
 
-EXPORT typedef struct
-{
+EXPORT typedef struct {
     bxi_pointi p1;
     bxi_pointi p2;
 } bxi_linei;
 
-EXPORT typedef struct
-{
+EXPORT typedef struct {
     bxi_pointf p1;
     bxi_pointf p2;
 } bxi_linef;
@@ -71,65 +65,56 @@ EXPORT typedef bxi_linei bxi_recti;
 EXPORT typedef bxi_lineu bxi_rectu;
 EXPORT typedef bxi_linef bxi_rectf;
 
-EXPORT typedef struct
-{
+EXPORT typedef struct {
     bxi_pointu p1;
     bxi_pointu p2;
     bxi_pointu p3;
 } bxi_triangleu;
 
-EXPORT typedef struct
-{
+EXPORT typedef struct {
     bxi_pointi p1;
     bxi_pointi p2;
     bxi_pointi p3;
 } bxi_trianglei;
 
-EXPORT typedef struct
-{
+EXPORT typedef struct {
     bxi_pointf p1;
     bxi_pointf p2;
     bxi_pointf p3;
 } bxi_trianglef;
 
-EXPORT typedef struct
-{
+EXPORT typedef struct {
     bxi_pointu p1;
     bxi_pointu p2;
     bxi_pointu p3;
     bxi_pointu p4;
 } bxi_tetragonu;
 
-EXPORT typedef struct
-{
+EXPORT typedef struct {
     bxi_pointi p1;
     bxi_pointi p2;
     bxi_pointi p3;
     bxi_pointi p4;
 } bxi_tetragoni;
 
-EXPORT typedef struct
-{
+EXPORT typedef struct {
     bxi_pointf p1;
     bxi_pointf p2;
     bxi_pointf p3;
     bxi_pointf p4;
 } bxi_tetragonf;
 
-EXPORT typedef struct
-{
+EXPORT typedef struct {
     bxi_pointi c;
     i32        r;
 } bxi_circlei;
 
-EXPORT typedef struct
-{
+EXPORT typedef struct {
     bxi_pointu c;
     u32        r;
 } bxi_circleu;
 
-EXPORT typedef struct
-{
+EXPORT typedef struct {
     bxi_pointf c;
     f32        r;
 } bxi_circlef;

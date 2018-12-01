@@ -41,23 +41,20 @@ bxi_free_t    bxi_free_func    = bxi_free_dummy;
 bxi_realloc_t bxi_realloc_func = bxi_realloc_dummy;
 bxi_memerr_t  bxi_memerr_func  = bxi_memerr_dummy;
 
-static void * bxi_malloc_dummy(u32 size, const char * file, u32 line)
-{
+static void * bxi_malloc_dummy(u32 size, const char * file, u32 line) {
     UNUSED(size);
     UNUSED(file);
     UNUSED(line);
     return NULL;
 }
 
-static void bxi_free_dummy(void * ptr, const char * file, u32 line)
-{
+static void bxi_free_dummy(void * ptr, const char * file, u32 line) {
     UNUSED(ptr);
     UNUSED(file);
     UNUSED(line);
 }
 
-static void * bxi_realloc_dummy(void * ptr, u32 size, const char * file, u32 line)
-{
+static void * bxi_realloc_dummy(void * ptr, u32 size, const char * file, u32 line) {
     UNUSED(ptr);
     UNUSED(size);
     UNUSED(file);
@@ -65,8 +62,7 @@ static void * bxi_realloc_dummy(void * ptr, u32 size, const char * file, u32 lin
     return NULL;
 }
 
-static void bxi_memerr_dummy(u32 size, const char * file, u32 line)
-{
+static void bxi_memerr_dummy(u32 size, const char * file, u32 line) {
     UNUSED(size);
     UNUSED(file);
     UNUSED(line);
@@ -78,12 +74,10 @@ void bxi_realloc_set(bxi_realloc_t  func) { bxi_realloc_func = func;   }
 void bxi_memerr_set (bxi_memerr_t   func) { bxi_memerr_func  = func;   }
 void bxi_memopt_set (bxi_memopt_t memopt) { bxi_memopt_val   = memopt; }
 
-void * bxi_malloc_call(u32 size, const char * file, u32 line)
-{
+void * bxi_malloc_call(u32 size, const char * file, u32 line) {
     void * mem = bxi_malloc_func(size, file, line);
 
-    if (!mem)
-    {
+    if (!mem) {
         bxi_memerr_func(size, file, line);
         return NULL;
     }
@@ -94,13 +88,11 @@ void * bxi_malloc_call(u32 size, const char * file, u32 line)
     return mem;
 }
 
-void bxi_free_call(void * ptr, const char * file, u32 line)
-{
+void bxi_free_call(void * ptr, const char * file, u32 line) {
     bxi_free_func(ptr, file, line);
 }
 
-void * bxi_realloc_call(void * ptr, u32 size, const char * file, u32 line)
-{
+void * bxi_realloc_call(void * ptr, u32 size, const char * file, u32 line) {
     void * mem = bxi_realloc_func(ptr, size, file, line);
     if (!mem && size)
         bxi_memerr_func(size, file, line);
@@ -109,22 +101,20 @@ void * bxi_realloc_call(void * ptr, u32 size, const char * file, u32 line)
     return ptr;
 }
 
-void * bxi_memmove(void * dst, const void * src, u32 cnt)
-{
-          u8 * dst_u8 = dst;
-    const u8 * src_u8 = src;
+void * bxi_memmove(void * dst, const void * src, u32 cnt) {
 
 #   if defined(BXI_NO_MEMMOVE_OPTIMISE)
 
 /* @todo bxi_memmove with BXI_NO_MEMMOVE_OPTIMISE */
 
 #   else
+          u8 * dst_u8 = dst;
+    const u8 * src_u8 = src;
 
         if (src > dst)
             while (cnt--)
                 *dst_u8++ = *src_u8++;
-        else
-        {
+        else {
             dst_u8 += cnt - 1;
             src_u8 += cnt - 1;
             while (cnt--)
@@ -136,8 +126,7 @@ void * bxi_memmove(void * dst, const void * src, u32 cnt)
     return dst;
 }
 
-void * bxi_memset(void * ptr, i32 val, u32 cnt)
-{
+void * bxi_memset(void * ptr, i32 val, u32 cnt) {
     pu_t f = 0;
     u32 i;
     u32 pre;
@@ -176,8 +165,7 @@ void * bxi_memset(void * ptr, i32 val, u32 cnt)
     return ptr;
 }
 
-void * bxi_memset16(void * ptr, u32 val, u32 cnt)
-{
+void * bxi_memset16(void * ptr, u32 val, u32 cnt) {
     pu_t   fll    = val & 0xffff;
     pu_t   shf    = (BXI_WORD_SIZE - ((pu_t)ptr & (BXI_WORD_SIZE - 1))) &
                     (BXI_WORD_SIZE - 1);
@@ -199,8 +187,7 @@ void * bxi_memset16(void * ptr, u32 val, u32 cnt)
     if (shf % 2)
         fll = fll >> 8 | fll << ((sizeof(pu_t) << 3) - 8);
 
-    while (cnt && shf)
-    {
+    while (cnt && shf) {
         if (cnt % 2) *ptr_u8++ = (val >> 8) & 0xff;
                 else *ptr_u8++ = (val     ) & 0xff;
         cnt--;
@@ -208,15 +195,13 @@ void * bxi_memset16(void * ptr, u32 val, u32 cnt)
     }
 
     ptr_pt = (pu_t *)ptr_u8;
-    while (cnt > BXI_WORD_SIZE)
-    {
+    while (cnt > BXI_WORD_SIZE) {
         *ptr_pt++ = fll;
         cnt -= BXI_WORD_SIZE;
     }
 
     ptr_u8 = (u8 *)ptr_pt;
-    while (cnt)
-    {
+    while (cnt) {
         if (cnt % 2) *ptr_u8++ = (val >> 8) & 0xff;
                 else *ptr_u8++ = (val     ) & 0xff;
         cnt--;
@@ -226,8 +211,7 @@ void * bxi_memset16(void * ptr, u32 val, u32 cnt)
 }
 
 
-void * bxi_memset32(void * ptr, u32 val, u32 cnt)
-{
+void * bxi_memset32(void * ptr, u32 val, u32 cnt) {
     pu_t   fll    = val;
     pu_t   shf    = (BXI_WORD_SIZE - ((pu_t)ptr & (BXI_WORD_SIZE - 1))) &
                     (BXI_WORD_SIZE - 1);
@@ -245,18 +229,15 @@ void * bxi_memset32(void * ptr, u32 val, u32 cnt)
 
     cnt <<= 2;
 
-    switch (shf % 4)
-    {
+    switch (shf % 4) {
     case  1: fll = fll >> 0x08 | fll << ((sizeof(pu_t) << 3) - 0x08); break;
     case  2: fll = fll >> 0x10 | fll << ((sizeof(pu_t) << 3) - 0x10); break;
     case  3: fll = fll >> 0x18 | fll << ((sizeof(pu_t) << 3) - 0x18); break;
     default: break;
     }
 
-    while (cnt && shf)
-    {
-        switch (cnt % 4)
-        {
+    while (cnt && shf) {
+        switch (cnt % 4) {
         case  0: *ptr_u8++ = (val         ) & 0xff; break;
         case  1: *ptr_u8++ = (val >> 0x18 ) & 0xff; break;
         case  2: *ptr_u8++ = (val >> 0x10 ) & 0xff; break;
@@ -267,17 +248,14 @@ void * bxi_memset32(void * ptr, u32 val, u32 cnt)
     }
 
     ptr_pt = (pu_t *)ptr_u8;
-    while (cnt > BXI_WORD_SIZE)
-    {
+    while (cnt > BXI_WORD_SIZE) {
         *ptr_pt++ = fll;
         cnt -= BXI_WORD_SIZE;
     }
 
     ptr_u8 = (u8 *)ptr_pt;
-    while (cnt)
-    {
-        switch (cnt % 4)
-        {
+    while (cnt) {
+        switch (cnt % 4) {
         case  0: *ptr_u8++ = (val         ) & 0xff; break;
         case  1: *ptr_u8++ = (val >> 0x18 ) & 0xff; break;
         case  2: *ptr_u8++ = (val >> 0x10 ) & 0xff; break;
@@ -338,8 +316,7 @@ void * bxi_memset32(void * ptr, u32 val, u32 cnt)
 #    endif
 #endif
 
-void * bxi_memcpy(void * dst, const void * src, u32 cnt)
-{
+void * bxi_memcpy(void * dst, const void * src, u32 cnt) {
           u8 * dst_u8 = dst;
     const u8 * src_u8 = src;
 
@@ -348,11 +325,6 @@ void * bxi_memcpy(void * dst, const void * src, u32 cnt)
 
         const i8   dm = (pu_t)dst & (BXI_WORD_SIZE - 1);
         const i8   sm = (pu_t)src & (BXI_WORD_SIZE - 1);
-
-        if (!dst)
-            return NULL;
-        if ((!src) || (!cnt))
-            return dst;
 
         if ((((u8 *)src < ((u8 *)dst) + cnt) && ((u8 *)src > (u8 *)dst)) ||
             (((u8 *)dst < ((u8 *)src) + cnt) && ((u8 *)dst > (u8 *)src)))
@@ -365,13 +337,11 @@ void * bxi_memcpy(void * dst, const void * src, u32 cnt)
         while (c1--)
             *dst_u8++ = *src_u8++;
 
-        if (c2)
-        {
+        if (c2) {
                   pu_t * dst_pt;
             const pu_t * src_pt;
 
-            if (dm == sm)
-            {
+            if (dm == sm) {
                 dst_pt = (      pu_t *)dst_u8;
                 src_pt = (const pu_t *)src_u8;
 
@@ -380,9 +350,7 @@ void * bxi_memcpy(void * dst, const void * src, u32 cnt)
 
                 dst_u8 = (      u8 *)dst_pt;
                 src_u8 = (const u8 *)src_pt;
-            }
-            else
-            {
+            } else {
                 u32 i;
 
                 /*sh1 = (sm - dm + BXI_WORD_SIZE) % BXI_WORD_SIZE * BITS_IN_U8;*/
@@ -393,8 +361,7 @@ void * bxi_memcpy(void * dst, const void * src, u32 cnt)
                 dst_pt = (      pu_t *) dst_u8;
                 src_pt = (const pu_t *)(src_u8 - ((pu_t)src_u8 & (BXI_WORD_SIZE - 1)));
 
-                for (i = 0; i < c2; i++, src_pt++, dst_pt++)
-                {
+                for (i = 0; i < c2; i++, src_pt++, dst_pt++) {
 #                   if defined(BXI_ENDIAN_LE)
                         *dst_pt = *(src_pt) >> sh1 | *(src_pt + 1) << sh2;
 #                   else
@@ -412,14 +379,18 @@ void * bxi_memcpy(void * dst, const void * src, u32 cnt)
         while (c3--)
             *dst_u8++ = *src_u8++;
 #   else
+        if (!dst)
+            return NULL;
+        if ((!src) || (!cnt))
+            return dst;
+
         while (cnt--)
             *dst_u8++ = *src_u8++;
 #   endif
     return dst;
 }
 
-i32 bxi_memcmp(const void * p1, const void * p2, u32 cnt)
-{
+i32 bxi_memcmp(const void * p1, const void * p2, u32 cnt) {
     const u8   * p1_u8 = p1;
     const u8   * p2_u8 = p2;
     const pu_t * p1_pt = p1;
@@ -435,15 +406,12 @@ i32 bxi_memcmp(const void * p1, const void * p2, u32 cnt)
         return 0;
 
     if (((pu_t)p1_pt & (BXI_WORD_SIZE - 1)) ==
-        ((pu_t)p2_pt & (BXI_WORD_SIZE - 1)))
-    {
+        ((pu_t)p2_pt & (BXI_WORD_SIZE - 1))) {
         u32 skip = BXI_MIN((BXI_WORD_SIZE - ((pu_t)p1_pt
                            & (BXI_WORD_SIZE - 1)))
                            & (BXI_WORD_SIZE - 1), cnt);
-        if (skip)
-        {
-            while ((skip--) && (cnt--))
-            {
+        if (skip) {
+            while ((skip--) && (cnt--)) {
                 if      (*p1_u8 < *p2_u8)
                     return -(*p2_u8 - *p1_u8);
                 else if (*p1_u8 > *p2_u8)
@@ -455,25 +423,19 @@ i32 bxi_memcmp(const void * p1, const void * p2, u32 cnt)
             p2_pt = (const pu_t *)p2_u8;
         }
 
-        while (cnt >= BXI_WORD_SIZE)
-        {
-            if (*p1_pt < *p2_pt)
-            {
+        while (cnt >= BXI_WORD_SIZE) {
+            if (*p1_pt < *p2_pt) {
                 p1_u8 = (const u8 *)p1_pt;
                 p2_u8 = (const u8 *)p2_pt;
-                while (*p1_u8 == *p2_u8)
-                {
+                while (*p1_u8 == *p2_u8) {
                     p1_u8++;
                     p2_u8++;
                 }
                 return -(*p2_u8 - *p1_u8);
-            }
-            else if (*p1_pt > *p2_pt)
-            {
+            } else if (*p1_pt > *p2_pt) {
                 p1_u8 = (const u8 *)p1_pt;
                 p2_u8 = (const u8 *)p2_pt;
-                while (*p1_u8 == *p2_u8)
-                {
+                while (*p1_u8 == *p2_u8) {
                     p1_u8++;
                     p2_u8++;
                 }
@@ -487,8 +449,7 @@ i32 bxi_memcmp(const void * p1, const void * p2, u32 cnt)
         p2_u8 = (const u8 *)p2_pt;
     }
 
-    while (cnt--)
-    {
+    while (cnt--) {
         if      (*p1_u8 < *p2_u8)
             return -(*p2_u8 - *p1_u8);
         else if (*p1_u8 > *p2_u8)
@@ -500,8 +461,7 @@ i32 bxi_memcmp(const void * p1, const void * p2, u32 cnt)
     return 0;
 }
 
-void * bxi_memfrob(void * ptr, u8 val, u32 cnt)
-{
+void * bxi_memfrob(void * ptr, u8 val, u32 cnt) {
     pu_t f = 0;
     u32 i;
     u32 pre;
@@ -539,8 +499,7 @@ void * bxi_memfrob(void * ptr, u8 val, u32 cnt)
     return ptr;
 }
 
-void * bxi_memchr (const void * ptr, u8 val, u32 cnt)
-{
+void * bxi_memchr (const void * ptr, u8 val, u32 cnt) {
     u32 i;
     const u8 * ptru8 = (const u8 *)ptr;
     if (!ptr)
@@ -554,8 +513,7 @@ void * bxi_memchr (const void * ptr, u8 val, u32 cnt)
     return NULL;
 }
 /*@todo make it via long mask */
-void * bxi_memrchr(const void * ptr, u8 val, u32 cnt)
-{
+void * bxi_memrchr(const void * ptr, u8 val, u32 cnt) {
     const u8 * ptru8 = (const u8 *)ptr;
     if (!ptr)
         return NULL;
@@ -573,8 +531,7 @@ void * bxi_memrchr(const void * ptr, u8 val, u32 cnt)
     return NULL;
 }
 
-void * bxi_mempcpy(void * dst, const void * src, u32 cnt)
-{
+void * bxi_mempcpy(void * dst, const void * src, u32 cnt) {
     u8 * mres;
 
     if (!src)
@@ -585,8 +542,7 @@ void * bxi_mempcpy(void * dst, const void * src, u32 cnt)
     return mres ? mres + cnt : NULL;
 }
 
-void * bxi_memccpy(void * dst, const void * src, i32 c, u32 cnt)
-{
+void * bxi_memccpy(void * dst, const void * src, i32 c, u32 cnt) {
     const u8 * src_u8  = src;
          u32   src_cnt = cnt;
           u8 * mres;
@@ -598,8 +554,7 @@ void * bxi_memccpy(void * dst, const void * src, i32 c, u32 cnt)
 
     c &= 0xff;
 
-    while (src_cnt)
-    {
+    while (src_cnt) {
         if (*src_u8++ == c)
             break;
 

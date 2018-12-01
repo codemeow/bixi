@@ -24,8 +24,7 @@
 #include "../definitions/bximacros.h"
 #include "../definitions/bxienv.h"
 
-static bxi_mutex atomic_xchg(volatile bxi_mutex * ptr, bxi_mutex val)
-{
+static bxi_mutex atomic_xchg(volatile bxi_mutex * ptr, bxi_mutex val) {
 #   if !defined(BXI_ARCH_A32) && !defined(BXI_ARCH_A64)
         bxi_mutex tmp = val;
         __asm__ __volatile__ (
@@ -43,21 +42,18 @@ static bxi_mutex atomic_xchg(volatile bxi_mutex * ptr, bxi_mutex val)
 #   endif
 }
 
-static bxi_mutex bxi_test_and_set(volatile bxi_mutex * val)
-{
+static bxi_mutex bxi_test_and_set(volatile bxi_mutex * val) {
     return atomic_xchg(val, BXI_MUTEX_LOCKED);
 }
 
-void bxi_mutex_init(volatile bxi_mutex * mutex)
-{
+void bxi_mutex_init(volatile bxi_mutex * mutex) {
     if (!mutex)
         return;
 
     *mutex = BXI_MUTEX_INITIALIZER;
 }
 
-void bxi_mutex_lock(volatile bxi_mutex * mutex)
-{
+void bxi_mutex_lock(volatile bxi_mutex * mutex) {
     if (!mutex)
         return;
 
@@ -65,16 +61,14 @@ void bxi_mutex_lock(volatile bxi_mutex * mutex)
         bxi_usleep(BXI_MUTEX_PERIOD);
 }
 
-void bxi_mutex_unlock(volatile bxi_mutex * mutex)
-{
+void bxi_mutex_unlock(volatile bxi_mutex * mutex) {
     if (!mutex)
         return;
 
     *mutex = BXI_MUTEX_UNLOCKED;
 }
 
-bxi_mutex_st bxi_mutex_test(volatile bxi_mutex * mutex)
-{
+bxi_mutex_st bxi_mutex_test(volatile bxi_mutex * mutex) {
     bxi_mutex_st state;
     if (!mutex)
         return BXI_MUTEX_UNDEFINED;

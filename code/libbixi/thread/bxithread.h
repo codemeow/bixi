@@ -30,8 +30,7 @@ EXPORT_FROM
 EXPORT_TO
 
 EXPORT typedef u32 bxi_mutex;
-EXPORT typedef enum
-{
+EXPORT typedef enum {
     BXI_MUTEX_UNLOCKED,
     BXI_MUTEX_LOCKED,
     BXI_MUTEX_UNDEFINED

@@ -24,11 +24,9 @@
 #include "../strings/bxistring.h"
 #include "../utils/bximemutils.h"
 
-static void bxi_salt(u32 len, u8 * data, const char * salt)
-{
+static void bxi_salt(u32 len, u8 * data, const char * salt) {
     const char * sptr = salt;
-    while (len--)
-    {
+    while (len--) {
         *data += (u8)(*sptr);
         data++;
         sptr++;
@@ -37,11 +35,9 @@ static void bxi_salt(u32 len, u8 * data, const char * salt)
     }
 }
 
-static void bxi_desalt(u32 len, u8 * data, const char * salt)
-{
+static void bxi_desalt(u32 len, u8 * data, const char * salt) {
     const char * sptr = salt;
-    while (len--)
-    {
+    while (len--) {
         *data -= (u8)(*sptr);
         data++;
         sptr++;
@@ -50,11 +46,9 @@ static void bxi_desalt(u32 len, u8 * data, const char * salt)
     }
 }
 
-static void bxi_xor(u32 len, u8 * data, const char * key)
-{
+static void bxi_xor(u32 len, u8 * data, const char * key) {
     const char * kptr = key;
-    while (len--)
-    {
+    while (len--) {
         *data ^= (u8)(*kptr);
         data++;
         kptr++;
@@ -63,8 +57,7 @@ static void bxi_xor(u32 len, u8 * data, const char * key)
     }
 }
 
-void bxi_crypt(const char * string, const char * salt, const char * key, char * out)
-{
+void bxi_crypt(const char * string, const char * salt, const char * key, char * out) {
     /* @todo might be rewritten with static buffer
      * appending  to final string to avoid dynamic
      * memory allocation */
@@ -82,8 +75,7 @@ void bxi_crypt(const char * string, const char * salt, const char * key, char * 
     bxi_free(raw);
 }
 
-void bxi_decrypt(const char * hexstring, const char * salt, const char * key, char * out)
-{
+void bxi_decrypt(const char * hexstring, const char * salt, const char * key, char * out) {
     /* Same for this one */
     u32 len = bxi_strlen(hexstring) / 2;
     u8 * raw = bxi_malloc(len + 1);
