@@ -485,21 +485,10 @@ EXPORT typedef struct {
     u8 b;
 } bxi_argb;
 
-/* @todo test bxi_argb_u */
-EXPORT typedef union {
-    u8       raw[4];
-    u32      quad;
-    bxi_argb argb;
-} bxi_argb_u;
-
 EXPORT typedef u32 bxi_colour;
 
 EXPORT bxi_argb   bxi_colour2argb(bxi_colour col);
 EXPORT bxi_colour bxi_argb2colour(bxi_argb  argb);
-
-EXPORT bxi_argb_u bxi_chan2u(u8 a, u8 r, u8 g, u8 b);
-EXPORT bxi_argb_u bxi_argb2u(bxi_argb argb);
-EXPORT bxi_argb_u bxi_quad2u(u32 quad);
 
 EXPORT_FROM
 #define BXI_COLOUR_A(col) ((u8)(((col) >> (BITS_IN_BYTE * 3)) & 0xff))
@@ -512,15 +501,15 @@ EXPORT_FROM
      ((u8)(r) << (BITS_IN_BYTE * 2)) | \
      ((u8)(g) << (BITS_IN_BYTE * 1)) | \
      ((u8)(b))))
-#define BXI_COLOUR_MIX(c1, c2, a) \
-    (bxi_colour)(((BXI_FAST_U16DIV255(BXI_COLOUR_A(c1) * (0xff - (a)) + \
-                                      BXI_COLOUR_A(c2) * (a))) << (BITS_IN_BYTE * 3)) | \
-                 ((BXI_FAST_U16DIV255(BXI_COLOUR_R(c1) * (0xff - (a)) + \
-                                      BXI_COLOUR_R(c2) * (a))) << (BITS_IN_BYTE * 2)) | \
-                 ((BXI_FAST_U16DIV255(BXI_COLOUR_G(c1) * (0xff - (a)) + \
-                                      BXI_COLOUR_G(c2) * (a))) << (BITS_IN_BYTE * 1)) | \
-                 ((BXI_FAST_U16DIV255(BXI_COLOUR_B(c1) * (0xff - (a)) + \
-                                      BXI_COLOUR_B(c2) * (a)))      ))
+#define BXI_COLOUR_MIX(c1, c2, a) (bxi_colour)                              \
+    (((BXI_FAST_U16DIV255(BXI_COLOUR_A(c1) * (0xff - (a)) +                 \
+                          BXI_COLOUR_A(c2) * (a))) << (BITS_IN_BYTE * 3)) | \
+     ((BXI_FAST_U16DIV255(BXI_COLOUR_R(c1) * (0xff - (a)) +                 \
+                          BXI_COLOUR_R(c2) * (a))) << (BITS_IN_BYTE * 2)) | \
+     ((BXI_FAST_U16DIV255(BXI_COLOUR_G(c1) * (0xff - (a)) +                 \
+                          BXI_COLOUR_G(c2) * (a))) << (BITS_IN_BYTE * 1)) | \
+     ((BXI_FAST_U16DIV255(BXI_COLOUR_B(c1) * (0xff - (a)) +                 \
+                          BXI_COLOUR_B(c2) * (a)))     ))
 #define BXI_COLOUR_RANDOM ((bxi_colour)bxi_randu32())
 EXPORT_TO
 

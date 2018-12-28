@@ -2,4 +2,5 @@ bixi.creator.user
 bin
 build
 includes/*
+_*
 *.bak

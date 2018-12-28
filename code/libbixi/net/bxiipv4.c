@@ -56,7 +56,7 @@ u32 bxi_str2ipv4(const char * str) {
             return BXI_IPV4_ZERO; /* 127.0.0.G */
     }
 
-    if (blk == 3)
+    if (blk == 3 && alos)
          return res + (data << (BITS_IN_U8 * blk)); /* 127.0.0.1 */
     else return BXI_IPV4_ZERO; /* 127.0 */
 }

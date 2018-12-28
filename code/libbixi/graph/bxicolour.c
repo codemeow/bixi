@@ -1,26 +1,5 @@
 #include "../graph/bxicolour.h"
 
-bxi_argb_u bxi_chan2u(u8 a, u8 r, u8 g, u8 b) {
-    bxi_argb_u res;
-    res.argb.a = a;
-    res.argb.r = r;
-    res.argb.g = g;
-    res.argb.b = b;
-    return res;
-}
-
-bxi_argb_u bxi_argb2u(bxi_argb argb) {
-    bxi_argb_u res;
-    res.argb = argb;
-    return res;
-}
-
-bxi_argb_u bxi_quad2u(u32 quad) {
-    bxi_argb_u res;
-    res.quad = quad;
-    return res;
-}
-
 bxi_argb bxi_colour2argb(bxi_colour col) {
     bxi_argb res;
     res.a = (col >> (BITS_IN_BYTE * 3)) & 0xff;
