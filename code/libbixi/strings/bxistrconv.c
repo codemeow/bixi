@@ -290,6 +290,7 @@ u32 bxi_hex2u32(const char * str, i32 * len) {
 u16 bxi_hex2u16(const char * str, i32 * len) {
     i32 llen = 0;
     u32 result = bxi_hex2u32end(str, &llen, IS_BE ? BXI_END_BE : BXI_END_LE);
+    (void)str;
     if (llen < BXI_STRERROR_SUCCESS) {
         if (len) *len = llen;
         return 0;

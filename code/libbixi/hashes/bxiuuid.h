@@ -31,7 +31,7 @@ EXPORT_FROM
 #define UUID_SIZE     (16)
 #define UUID_STR_SIZE (45 + 1)
 EXPORT_TO
-EXPORT typedef hash_16 uuid_t;
+EXPORT typedef hash_16 bxi_uuid_t;
 
 EXPORT typedef enum {
     UUID_PLAIN,  /* "00000000000000000000000000000000"              */
@@ -52,15 +52,16 @@ EXPORT_TO
 
 void uuid_appendhex(u8 value, char * out);
 
-EXPORT void uuidv3(uuid_t out, uuid_t ns, const char * data);
-EXPORT void uuidv4(uuid_t out);
+EXPORT void uuidv3(bxi_uuid_t out, bxi_uuid_t ns, const char * data);
+EXPORT void uuidv4(bxi_uuid_t out);
 
-EXPORT void uuid2str(uuid_t uuid, char * out, uuid_format format);
-EXPORT i32  uuidscmp(uuid_t u1, uuid_t u2);
+EXPORT void uuid2str(bxi_uuid_t uuid, char * out, uuid_format format);
+EXPORT i32  uuidscmp(bxi_uuid_t u1, bxi_uuid_t u2);
 
-EXPORT bool str2uuid(const char * str, uuid_t res);
+EXPORT bool str2uuid(const char * str, bxi_uuid_t res);
 
 EXPORT char * uuidremurn(char * uuid);
 
 #endif /* BXIUUID_H */
+
 

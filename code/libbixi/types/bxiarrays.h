@@ -68,9 +68,10 @@ EXPORT bxi_bts * bxi_bts_append_u32_be      (bxi_bts * bts, u32_be value);
 EXPORT bxi_bts * bxi_bts_append_i32_be      (bxi_bts * bts, i32_be value);
 EXPORT bxi_bts * bxi_bts_append_string      (bxi_bts * bts, const char * value);
 EXPORT bxi_bts * bxi_bts_append_string_fixed(bxi_bts * bts, const char * value, u32 size, char filler);
-EXPORT bxi_bts * bxi_bts_append_uuid        (bxi_bts * bts, uuid_t value);
+EXPORT bxi_bts * bxi_bts_append_uuid        (bxi_bts * bts, bxi_uuid_t value);
 
-EXPORT bxi_bts * bxi_uuid2bts(uuid_t uuid);
+EXPORT bxi_bts * bxi_uuid2bts(bxi_uuid_t uuid);
 
 #endif /* BXIARRAYS_H */
+
 

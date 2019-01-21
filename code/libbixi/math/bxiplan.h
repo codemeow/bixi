@@ -47,6 +47,12 @@ EXPORT typedef struct {
 } bxi_pointu;
 
 EXPORT typedef struct {
+    u32 x;
+    u32 y;
+    u32 z;
+} bxi_pointu3;
+
+EXPORT typedef struct {
     bxi_pointu p1;
     bxi_pointu p2;
 } bxi_lineu;
@@ -127,6 +133,7 @@ EXPORT typedef bxi_trianglei bxi_triangle;
 EXPORT typedef bxi_tetragoni bxi_tetragon;
 
 EXPORT typedef bxi_pointu    bxi_size;
+EXPORT typedef bxi_pointu3   bxi_size3;
 
 EXPORT bxi_size     bxi_size_c    (u32 x,  u32 y);
 EXPORT bxi_point    bxi_point_c   (i32 x,  i32 y);

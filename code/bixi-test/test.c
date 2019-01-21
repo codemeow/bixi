@@ -88,6 +88,8 @@ void test_failed_call(const char * file, i32 line)
     exit(1);
 }
 
+#include <limits.h>
+
 void test_time_start(void)
 {
     clock_gettime(CLOCK_MONOTONIC, &time_s);

@@ -43,7 +43,8 @@ EXPORT u16_le bxi_read_u16_le(const u8 * src);
 EXPORT i32_le bxi_read_i32_le(const u8 * src);
 EXPORT u32_le bxi_read_u32_le(const u8 * src);
 
-EXPORT void   bxi_read_uuid  (const u8 * src, uuid_t uuid);
+EXPORT void   bxi_read_uuid  (const u8 * src, bxi_uuid_t uuid);
 
 #endif /* BXISERREAD_H */
+
 

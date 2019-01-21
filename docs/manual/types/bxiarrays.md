@@ -31,5 +31,5 @@ bxi_bts * bxi_bts_append_u32_be      (bxi_bts * bts, u32_be value);
 bxi_bts * bxi_bts_append_i32_be      (bxi_bts * bts, i32_be value);
 bxi_bts * bxi_bts_append_string      (bxi_bts * bts, const char * value);
 bxi_bts * bxi_bts_append_string_fixed(bxi_bts * bts, const char * value, u32 size, char filler);
-bxi_bts * bxi_bts_append_uuid        (bxi_bts * bts, uuid_t value);
+bxi_bts * bxi_bts_append_uuid        (bxi_bts * bts, bxi_uuid_t value);
 ```

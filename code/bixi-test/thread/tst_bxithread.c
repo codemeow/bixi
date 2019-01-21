@@ -34,7 +34,7 @@ volatile bxi_mutex rainbow_mutex  [7];
 volatile bxi_mutex rainbow_opener [7];
                u32 rainbow_results    = 0;
                u32 rainbow_counter    = 0;
-        const char rainbow_string [ ] = "        printing: %" PRIuPTR " [\x1b[48;5;%dm             \x1b[0m]\n";
+        const char rainbow_string [ ] = "        printing: %u [\x1b[48;5;%dm             \x1b[0m]\n";
 const          u32 rainbow_colours[7] =
 {
     BXI_COLOUR_A256_RED,
@@ -54,7 +54,7 @@ static void * thread_job(void * arg)
 
     bxi_mutex_lock(&rainbow_mutex[index]);
 
-    printf(rainbow_string, index, rainbow_colours[index]);
+    printf(rainbow_string, (u32)index, rainbow_colours[index]);
 
     rainbow_results += rainbow_counter << index;
     rainbow_counter++;

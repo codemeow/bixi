@@ -15,3 +15,4 @@ bxi_colour bxi_argb2colour(bxi_argb  argb) {
            (argb.g << (BITS_IN_BYTE * 1)) |
            (argb.b << (BITS_IN_BYTE * 0));
 }
+

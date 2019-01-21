@@ -6,7 +6,7 @@ The following functions and definitions provide uuids generating and formatting:
 #define UUID_STR_SIZE
 ```
 ```c
-typedef hash_16 uuid_t;
+typedef hash_16 bxi_uuid_t;
 typedef enum
 {
     UUID_PLAIN,  /* "00000000000000000000000000000000"              */
@@ -25,9 +25,9 @@ typedef enum
 #define UUID_EMPTY
 ```
 ```c
-void uuidv3(uuid_t out, uuid_t ns, const char * data);
+void uuidv3(uuid_t out, bxi_uuid_t ns, const char * data);
 void uuidv4(uuid_t out);
 void uuid2str(uuid_t uuid, char * out, uuid_format format);
-i32  uuidscmp(uuid_t u1, uuid_t u2);
-bool str2uuid(const char * str, uuid_t res);
+i32  uuidscmp(uuid_t u1, bxi_uuid_t u2);
+bool str2uuid(const char * str, bxi_uuid_t res);
 ```

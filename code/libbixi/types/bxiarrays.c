@@ -305,7 +305,7 @@ bxi_bts * bxi_bts_append_string_fixed(bxi_bts * bts, const char * value, u32 siz
     return bts;
 }
 
-bxi_bts * bxi_bts_append_uuid(bxi_bts * bts, uuid_t value) {
+bxi_bts * bxi_bts_append_uuid(bxi_bts * bts, bxi_uuid_t value) {
     if (!bts)
         return NULL;
 
@@ -315,13 +315,14 @@ bxi_bts * bxi_bts_append_uuid(bxi_bts * bts, uuid_t value) {
     return bts;
 }
 
-bxi_bts * bxi_uuid2bts(uuid_t uuid) {
-    bxi_bts * result = bxi_bts_create(sizeof(uuid_t));
+bxi_bts * bxi_uuid2bts(bxi_uuid_t uuid) {
+    bxi_bts * result = bxi_bts_create(sizeof(bxi_uuid_t));
     u32 i;
     if (!result)
         return NULL;
 
-    for (i = 0; i < sizeof(uuid_t); i++)
+    for (i = 0; i < sizeof(bxi_uuid_t); i++)
         result->data[i] = uuid[i];
     return result;
 }
+

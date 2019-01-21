@@ -16,5 +16,5 @@ i16_le bxi_read_i16_le(const u8 * src);
 u16_le bxi_read_u16_le(const u8 * src);
 i32_le bxi_read_i32_le(const u8 * src);
 u32_le bxi_read_u32_le(const u8 * src);
-void   bxi_read_uuid  (const u8 * src, uuid_t uuid);
+void   bxi_read_uuid  (const u8 * src, bxi_uuid_t uuid);
 ```

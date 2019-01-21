@@ -33,12 +33,12 @@ typedef enum {
     UUID_V5
 } uuid_version;
 
-static void uuidversionset(uuid_t out, uuid_version ver) {
+static void uuidversionset(bxi_uuid_t out, uuid_version ver) {
     out[6] = ((out[6] & 0x0F) | (ver << 4));
     out[8] = ((out[8] & 0x3F) | 0x80);
 }
 
-void uuidv3(uuid_t out, uuid_t ns, const char * data) {
+void uuidv3(bxi_uuid_t out, bxi_uuid_t ns, const char * data) {
  /*   u32 i;*/
     md5_t md5;
     md5_init     (&md5);
@@ -51,7 +51,7 @@ void uuidv3(uuid_t out, uuid_t ns, const char * data) {
     uuidversionset(out, UUID_V3);
 }
 
-void uuidv4(uuid_t out) {
+void uuidv4(bxi_uuid_t out) {
     u32 i;
     for (i = 0; i < UUID_SIZE; i += sizeof(u32))     {
         u32 r = bxi_randu32();
@@ -66,7 +66,7 @@ void uuid_appendhex(u8 value, char * out) {
     out[1] = (value & 15) > 9 ? 'a' + (value & 15) - 10 : '0' + (value & 15);
 }
 
-void uuid2str(uuid_t uuid, char * out, uuid_format format) {
+void uuid2str(bxi_uuid_t uuid, char * out, uuid_format format) {
     u32 strpos = 0;
     u32 i = 0;
 
@@ -110,8 +110,8 @@ void uuid2str(uuid_t uuid, char * out, uuid_format format) {
     out[strpos] = '\0';
 }
 
-i32 uuidscmp(uuid_t u1, uuid_t u2) {
-    return bxi_memcmp(u1, u2, sizeof(uuid_t));
+i32 uuidscmp(bxi_uuid_t u1, bxi_uuid_t u2) {
+    return bxi_memcmp(u1, u2, sizeof(bxi_uuid_t));
 }
 
 static bool ascii2u8(const char * str, u8 * res) {
@@ -140,7 +140,7 @@ static bool ascii2u8(const char * str, u8 * res) {
     return true;
 }
 
-static bool ascii2u8s(const char * str, uuid_t res, u8 count, u8 shift) {
+static bool ascii2u8s(const char * str, bxi_uuid_t res, u8 count, u8 shift) {
     u32 i;
     for (i = 0; i < count; i++) {
         if (!ascii2u8(str, res + i + shift))
@@ -151,7 +151,7 @@ static bool ascii2u8s(const char * str, uuid_t res, u8 count, u8 shift) {
     return true;
 }
 
-static bool hyphen2uuid(const char * str, uuid_t res) {
+static bool hyphen2uuid(const char * str, bxi_uuid_t res) {
     /* 00000000...*/
     if (!ascii2u8s(str, res, 4, 0))
         return false;
@@ -199,12 +199,12 @@ static bool hyphen2uuid(const char * str, uuid_t res) {
     return true;
 }
 
-bool str2uuid(const char * str, uuid_t res) {
+bool str2uuid(const char * str, bxi_uuid_t res) {
     if (!str)
         return false;
 
     if (bxi_strlen(str) == UUID_STRLEN_PLAIN) {
-        if (!ascii2u8s(str, res, sizeof(uuid_t), 0))
+        if (!ascii2u8s(str, res, sizeof(bxi_uuid_t), 0))
             return false;
     }
     else if (bxi_strlen(str) == UUID_STRLEN_HYPHEN) {
@@ -247,3 +247,4 @@ char * uuidremurn(char * uuid) {
 
     return uuid;
 }
+
