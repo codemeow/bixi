@@ -265,17 +265,41 @@ static void test_strings_test_bxi_strcat(void)
         test_failed();
 }
 
+static char random_char(void) {
+    const char symbls[] = "0123456789" \
+                          "abcdefghijklmnopqrstuvwxyz" \
+                          "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    return symbls[bxi_randu8() % ('9' - '0' + 'z' - 'a' + 'Z' - 'A')];
+}
+
+static char * random_string(u32 * len) {
+    char * buffer;
+
+    *len = bxi_randu8();
+    buffer = bxi_malloc(*len + 1);
+
+    for (u32 i = 0; i < *len; ++i)
+        buffer[i] = random_char();
+    buffer[*len] = '\0';
+
+    return buffer;
+}
+
 static void test_strings_test_bxi_strncpy(void)
 {
-    char org[100] = { 0 };
-    char new[100] = { 0 };
+    char org[256] = { 0 };
+    char new[256] = { 0 };
 
     char * p1;
     char * p2;
 
+    u32 len;
+    char * src = random_string(&len);
+    u32 ncpy = bxi_randu8() % len;
+
     printf("        checking: bxi_strncpy\n");
-    p1 =     strncpy(org, "abcdef", 3);
-    p2 = bxi_strncpy(new, "abcdef", 3);
+    p1 =     strncpy(org, src, ncpy);
+    p2 = bxi_strncpy(new, src, ncpy);
 
     if (bxi_strcmp(p1, p2))
         test_failed();
@@ -321,16 +345,20 @@ static void test_strings_test_bxi_strchrnul(void)
 
 static void test_strings_test_bxi_strncat(void)
 {
-    char s1[100] = "abc";
-    char s2[100] = "abc";
+    char s1[256] = "abc";
+    char s2[256] = "abc";
 
     char * org;
     char * new;
 
+    u32 len;
+    char * src = random_string(&len);
+    u32 ncpy = bxi_randu8() % len;
+
     printf("        checking: bxi_strncat\n");
 
-    org =     strncat(s1, "defghijkl", 5);
-    new = bxi_strncat(s2, "defghijkl", 5);
+    org =     strncat(s1, src, ncpy);
+    new = bxi_strncat(s2, src, ncpy);
 
     if (bxi_strcmp(org, new))
         test_failed();
