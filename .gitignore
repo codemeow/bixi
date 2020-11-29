@@ -1,4 +1,6 @@
 bixi.creator.user
+bixi.cflags
+bixi.cxxflags
 bin
 build
 includes/*
